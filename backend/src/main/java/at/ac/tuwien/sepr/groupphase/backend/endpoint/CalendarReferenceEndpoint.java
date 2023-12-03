@@ -5,12 +5,15 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMap
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,20 +35,20 @@ public class CalendarReferenceEndpoint {
     }
 
     @Secured("ROLE_USER")
-    @PutMapping("/import/url")
-    @Operation(summary = "Import a CalendarReference from a URL", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto importCalendar(CalendarReferenceDto calendarReferenceDto) throws MalformedURLException {
-        LOGGER.info("Put /api/v1/calendar/import/url body:{}", calendarReferenceDto);
+    @PutMapping
+    @Operation(summary = "Import a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public CalendarReferenceDto importCalendarReference(@Valid @RequestBody CalendarReferenceDto calendarReferenceDto) {
+        LOGGER.info("Put /api/v1/calendar/ body:{}", calendarReferenceDto);
         return calendarReferenceMapper.calendarReferenceToDto(
             calendarReferenceService.add(
                 calendarReferenceMapper.dtoToCalendarReference(calendarReferenceDto)));
     }
 
     @Secured("ROLE_USER")
-    @GetMapping("/import/url")
-    @Operation(summary = "Import a CalendarReference from a URL", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto exportCalendar(Long id) {
-        LOGGER.info("Get /api/v1/calendar/import/url id:{}", id);
+    @GetMapping("/{id}")
+    @Operation(summary = "Get a stored CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public CalendarReferenceDto getCalendarReference(@PathVariable Long id) {
+        LOGGER.info("Get /api/v1/calendar/get/{}", id);
         return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.getFromId(id));
     }
 }

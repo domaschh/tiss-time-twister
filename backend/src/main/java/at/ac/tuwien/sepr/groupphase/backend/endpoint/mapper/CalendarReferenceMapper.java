@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface CalendarReferenceMapper {
 
-    @Mapping(target = "someFieldInDto", source = "someFieldInEntity")
+    @Mapping(target = "id", source = "id")
     CalendarReferenceDto calendarReferenceToDto(CalendarReference calendarReference);
 
     CalendarReference dtoToCalendarReference(CalendarReferenceDto calendarReferenceDto);

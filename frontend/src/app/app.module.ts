@@ -14,6 +14,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {httpInterceptorProviders} from './interceptors';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ImportComponent } from './components/import/import.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     HomeComponent,
     LoginComponent,
     MessageComponent,
+    ImportComponent,
   ],
   imports: [
     BrowserModule,

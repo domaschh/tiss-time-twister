@@ -1,8 +1,13 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
+
 public class CalendarReferenceDto {
     private Long id;
+    @NotNull
     private String name;
+    @URL
     private String link;
 
     public Long getId() {
@@ -38,19 +43,22 @@ public class CalendarReferenceDto {
             //
         }
 
-        public CalendarReferenceBuilder id(Long id){
+        public CalendarReferenceBuilder id(Long id) {
             this.id = id;
             return this;
         }
-        public CalendarReferenceBuilder name(String name){
+
+        public CalendarReferenceBuilder name(String name) {
             this.name = name;
             return this;
         }
-        public CalendarReferenceBuilder link(String link){
+
+        public CalendarReferenceBuilder link(String link) {
             this.link = link;
             return this;
         }
-        public CalendarReferenceDto build(){
+
+        public CalendarReferenceDto build() {
             CalendarReferenceDto calendarReferenceDto = new CalendarReferenceDto();
             calendarReferenceDto.setId(id);
             calendarReferenceDto.setName(name);
