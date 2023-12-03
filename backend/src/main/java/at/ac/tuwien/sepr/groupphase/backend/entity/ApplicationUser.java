@@ -28,7 +28,7 @@ public class ApplicationUser {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Calendar> calendars = new ArrayList<>();
+    private List<CalendarReference> calendarReferences = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Session> sessions = new ArrayList<>();

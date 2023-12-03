@@ -4,10 +4,12 @@ import {HomeComponent} from './components/home/home.component';
 import {LoginComponent} from './components/login/login.component';
 import {AuthGuard} from './guards/auth.guard';
 import {MessageComponent} from './components/message/message.component';
+import {ImportComponent} from "./components/import/import.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'import', component: ImportComponent},
   {path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent}
 ];
 

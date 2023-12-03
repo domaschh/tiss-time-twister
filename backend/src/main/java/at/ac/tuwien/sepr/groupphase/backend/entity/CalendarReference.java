@@ -9,9 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "Calendars")
-public class Calendar {
+public class CalendarReference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
