@@ -62,6 +62,7 @@ public class CalendarReferenceEndpoint {
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>
      * <br>
      * <p> unsecured to provide calendar synchronisation</p>
+     *
      * @param token the user/tag specific token
      * @return ics file containing the adjusted calendar
      */
