@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImportComponent } from './import.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('ImportComponent', () => {
   let component: ImportComponent;
@@ -8,6 +9,7 @@ describe('ImportComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [ImportComponent]
     });
     fixture = TestBed.createComponent(ImportComponent);
