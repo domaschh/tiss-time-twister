@@ -5,6 +5,7 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMap
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,10 +60,12 @@ public class CalendarReferenceEndpoint {
     /**
      * <p> Exports the Calendar associated with the given token.</p>
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>
-
+     * <br>
+     * <p> unsecured to provide calendar synchronisation</p>
      * @param token the user/tag specific token
      * @return ics file containing the adjusted calendar
      */
+    @PermitAll
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
     public ResponseEntity<Resource> exportCalendarFile(@PathVariable String token) {
