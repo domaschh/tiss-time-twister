@@ -10,20 +10,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
     @Override
-    public Calendar fetchCalendarByUrl(String url) throws ParserException, IOException {
+    public Calendar fetchCalendarByUrl(String url) throws ParserException, IOException, URISyntaxException {
         return new CalendarBuilder().build(new StringReader(fetchIcalData(url)));
     }
 
-    private String fetchIcalData(String urlString) throws IOException {
+    private String fetchIcalData(String urlString) throws IOException, URISyntaxException {
         StringBuilder data = new StringBuilder();
 
-        URL url = new URL(urlString);
+        URL url = new URI(urlString).toURL();
         URLConnection connection = url.openConnection();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {

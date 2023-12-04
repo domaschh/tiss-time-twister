@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +29,7 @@ public class CalendarServiceTests {
     private CalendarService calendarService;
 
     @Test
-    public void fetchCalendarByUrl() throws ParserException, IOException {
+    public void fetchCalendarByUrl() throws ParserException, IOException, URISyntaxException {
         Calendar calendar = calendarService.fetchCalendarByUrl(TISS_URL);
 
         var list = calendar.getComponentList();
