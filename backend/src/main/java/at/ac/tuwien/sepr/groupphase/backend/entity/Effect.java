@@ -11,5 +11,5 @@ public abstract class Effect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public abstract Optional<VEvent> apply(VEvent toModify);
+    public abstract VEvent apply(VEvent toModify);
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 @Entity
 public class DeleteEffect extends Effect {
     @Override
-    public Optional<VEvent> apply(VEvent toModify) {
-        return Optional.empty();
+    public VEvent apply(VEvent toModify) {
+        return null;
     }
 }

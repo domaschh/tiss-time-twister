@@ -5,8 +5,6 @@ import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
 
-import java.util.Optional;
-
 @Entity
 public class ModifyEffect extends Effect {
     private String changedTitle;
@@ -23,7 +21,7 @@ public class ModifyEffect extends Effect {
     }
 
     @Override
-    public Optional<VEvent> apply(VEvent toModify) {
+    public VEvent apply(VEvent toModify) {
         if (changedTitle != null) {
             toModify.setSummary(changedTitle);
         }
@@ -42,6 +40,6 @@ public class ModifyEffect extends Effect {
             }
         }
 
-        return Optional.of(toModify);
+        return toModify;
     }
 }
