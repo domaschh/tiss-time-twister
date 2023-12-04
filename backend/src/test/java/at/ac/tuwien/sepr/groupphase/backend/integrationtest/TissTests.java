@@ -1,7 +1,7 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
 import at.ac.tuwien.sepr.groupphase.backend.TissRoom;
-import at.ac.tuwien.sepr.groupphase.backend.service.TissRoomLocationServiceInter;
+import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class TissLocationServiceTests {
+public class TissTests {
+
     @Autowired
-    private TissRoomLocationServiceInter locationService;
+    private TissService tissService;
 
     @Test
     void validRoomReturnsAddress() {
         String roomName = "HS 17 Friedrich Hartmann - ARCH";
-
-        TissRoom room = locationService.fetchCorrectLocation(roomName);
+        TissRoom room = tissService.fetchCorrectLocation(roomName);
         assertEquals(room.address(), "Karlsplatz 13, Stiege 7, 3. Stock");
+    }
+
+    @Test
+    void validateRoomShortHand() {
+        String roomName = "Propädeutikum für Informatik";
+        String shortHand = tissService.mapLVANameShorthand(roomName);
+        assertEquals(shortHand, "prolog");
     }
 }
