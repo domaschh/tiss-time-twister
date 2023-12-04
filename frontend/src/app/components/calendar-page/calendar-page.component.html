@@ -1,0 +1,66 @@
+<div class="mt-6 mb-6">
+  <div class="flex flex-row">
+    <!--Importierte Kalender-->
+    <div class="basis-1/6">
+      <p>Meine Kalender:</p>
+      <div *ngFor="let calendar of calendars">
+        <input class="form-check-input" type="checkbox" value="" id="{{calendar.id}}"
+          (change)="onCheckboxChange(calendar.id, $event)"
+          [style.background-color]="isCalendarActive(calendar.id) ? calendar.color : '#ffffff'"
+          [style.border-color]="calendar.color">
+        <label class="form-check-label" for="{{calendar.name}}">
+          {{calendar.name}}
+        </label>
+      </div>
+    </div>
+    <!--Importierte Kalender-->
+    <div class="basis-4/6">
+      <div class="row text-left">
+        <!--Navigation-->
+        <div class="col-md-5">
+            <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()">
+              <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
+          </div>
+            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+            <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+              (viewDateChange)="closeOpenMonthViewDay()">
+                <i class="bi bi-arrow-right-short"  style="font-size: 2rem;"></i>
+            </div>
+        </div>
+        <!--Navigation-->
+        <!--Datum Anzeige-->
+        <div class="col-md-4">
+          <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+        </div>
+        <!--Datum Anzeige-->
+        <!--Zeitfenster Auswahl-->
+        <div class="col-md-3 text-right">
+          <select class ="form-select" (change)="onSelectChange($event.target.value)">
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+          </select>
+        </div>
+        <!--Zeitfenster Auswahl-->
+      </div>
+      <br />
+      <div [ngSwitch]="view">
+        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+          [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+          (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-month-view>
+        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+          [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-week-view>
+        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+          [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-day-view>
+      </div>
+
+    </div>
+    <div class="basis-1/6">03</div>
+  </div>
+</div>
