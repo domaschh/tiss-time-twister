@@ -1,7 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
 
-import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
@@ -39,8 +38,9 @@ class CalendarServiceTests {
 
     @Test
     void fetchCalendarByUrl_InvalidUrl_Fails() {
-        assertThrows(IOException.class, () -> {
-            var calendar = calendarService.fetchCalendarByUrl("https://url.com");
-        });
+        assertAll(
+            ()-> assertThrows(IOException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
+            ()-> assertThrows(URISyntaxException.class, () -> calendarService.fetchCalendarByUrl("not correct URI syntax"))
+        );
     }
 }
