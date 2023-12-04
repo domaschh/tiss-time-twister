@@ -32,7 +32,7 @@ class CalendarServiceTests {
         Calendar calendar = calendarService.fetchCalendarByUrl(TISS_URL);
 
         var list = calendar.getComponentList();
-        list.getAll().forEach(System.out::println);
+        list.getAll().forEach(event -> System.out.println(event + "" + event.getClass()));
         assertNotNull(calendar);
     }
 
