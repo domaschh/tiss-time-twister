@@ -17,10 +17,10 @@ import java.net.URLConnection;
 public class CalendarServiceImpl implements CalendarService {
     @Override
     public Calendar fetchCalendarByUrl(String url) throws ParserException, IOException {
-        return new CalendarBuilder().build(new StringReader(fetchICalData(url)));
+        return new CalendarBuilder().build(new StringReader(fetchIcalData(url)));
     }
 
-    private String fetchICalData(String urlString) throws IOException {
+    private String fetchIcalData(String urlString) throws IOException {
         StringBuilder data = new StringBuilder();
 
         URL url = new URL(urlString);
