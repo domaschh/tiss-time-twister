@@ -1,7 +1,7 @@
 package at.ac.tuwien.sepr.groupphase.backend.service;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.Tcalendar;
+import net.fortuna.ical4j.model.Calendar;
 
 public interface PipelineService {
-    Tcalendar pipeCalendar(String calendarUrl);
+    Calendar pipeCalendar(String calendarUrl);
 }
