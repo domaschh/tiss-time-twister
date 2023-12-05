@@ -11,11 +11,12 @@ import java.util.Map;
 
 @Configuration
 public class ShorthandConfig {
-    private static final String filePath = "shorthands.txt"; // replace with your file path
+    private static final String FILE_PATH = "shorthands.txt"; // replace with your file path
+
     @Bean
     public Map<String, String> shorthandMap() {
         Map<String, String> map = new HashMap<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");

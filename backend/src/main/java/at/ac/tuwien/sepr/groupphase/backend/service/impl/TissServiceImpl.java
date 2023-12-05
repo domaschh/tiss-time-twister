@@ -13,12 +13,12 @@ public class TissServiceImpl implements TissService {
     private Map<String, String> shorthandMap;
 
     @Autowired
-    public void TissRoomConfig(Map<String, TissRoom> tissRoomMap) {
+    public void tissRoomConfig(Map<String, TissRoom> tissRoomMap) {
         this.tissRoomMap = tissRoomMap;
     }
 
     @Autowired
-    public void ShorthandConfig(Map<String, String> shorthandMap) {
+    public void shorthandConfig(Map<String, String> shorthandMap) {
         this.shorthandMap = shorthandMap;
     }
 

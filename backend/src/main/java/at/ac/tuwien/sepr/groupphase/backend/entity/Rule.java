@@ -1,6 +1,14 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Rules")
@@ -9,7 +17,7 @@ public class Rule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column()
-    private String rule;
+    private String value;
 
     @ManyToOne()
     @JoinColumn(name = "config_id")
@@ -29,12 +37,12 @@ public class Rule {
         this.id = id;
     }
 
-    public String getRule() {
-        return rule;
+    public String getValue() {
+        return value;
     }
 
-    public void setRule(String rule) {
-        this.rule = rule;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Configuration getConfiguration() {

@@ -15,7 +15,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 public class Match {
     @Id
     @GeneratedValue
-    private long Id;
+    private long id;
 
     private String summary;
     private String description;
@@ -23,27 +23,37 @@ public class Match {
     private String uid;
 
 
-    public Match() {}
+    public Match() {//
+    }
 
     public boolean matches(VEvent tevent) {
         if (tevent == null) {
             return false;
         }
 
-        boolean summaryMatches = (summary == null) || (tevent.getSummary().isPresent() && tevent.getSummary().get().getValue().equals(summary));
-        boolean descriptionMatches = (description == null) || (tevent.getDescription().isPresent() && tevent.getDescription().get().getValue().equals(description));
-        boolean locationMatches = (location == null) || (tevent.getLocation().isPresent() && tevent.getLocation().get().getValue().equals(location));
+        boolean summaryMatches = (summary == null) || (tevent.getSummary().isPresent() && tevent.getSummary()
+                                                                                                .get()
+                                                                                                .getValue()
+                                                                                                .equals(summary));
+        boolean descriptionMatches = (description == null) || (tevent.getDescription().isPresent() && tevent.getDescription()
+                                                                                                            .get()
+                                                                                                            .getValue()
+                                                                                                            .equals(description));
+        boolean locationMatches = (location == null) || (tevent.getLocation().isPresent() && tevent.getLocation()
+                                                                                                   .get()
+                                                                                                   .getValue()
+                                                                                                   .equals(location));
         boolean uidMatches = (uid == null) || (tevent.getUid().isPresent() && tevent.getUid().get().getValue().equals(uid));
 
         return summaryMatches && descriptionMatches && locationMatches && uidMatches;
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getSummary() {
