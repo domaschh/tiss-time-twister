@@ -25,6 +25,8 @@ import {
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
 import { Calendar } from 'src/app/dtos/Calendar';
+import { Configuration } from 'src/app/dtos/Configuration';
+import { MyCalendarEvent } from 'src/app/dtos/Calendar';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -43,13 +45,14 @@ const colors: Record<string, EventColor> = {
 
 @Component({
   selector: 'app-calendar-page',
-  //changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.scss']
 })
-export class CalendarPageComponent implements OnInit{
+export class CalendarPageComponent implements OnInit {
 
-  calendars : Calendar[];
+  calendars: Calendar[];
+  configurations: Configuration[];
 
 
 
@@ -70,14 +73,14 @@ export class CalendarPageComponent implements OnInit{
 
   actions: CalendarEventAction[] = [
     {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      label: '<i class="bi bi-pencil"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       },
     },
     {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      label: '<i class="bi bi-trash"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
@@ -88,52 +91,23 @@ export class CalendarPageComponent implements OnInit{
 
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: { ...colors.red },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors.yellow },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors.blue },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors.yellow },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
-
+  events: CalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(private modal: NgbModal) { }
   ngOnInit(): void {
     this.calendars = this.getCalendars();
+    this.configurations = this.getConfigurations();
+
+    if(this.calendars.length != 0){
+      this.calendars.forEach(cal => {
+        if(cal.events != null) {
+          cal.events.forEach(event => {
+            this.addEvent(event, cal);
+          });
+        }
+      });
+    }
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -173,21 +147,21 @@ export class CalendarPageComponent implements OnInit{
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
+  addEvent(event: MyCalendarEvent, calendar: Calendar): void {
+    const e: CalendarEvent = {
+      title: event.title,
+      start: event.start,
+      end: event.end,
+      color: colors.blue,
+      draggable: false,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false
       },
-    ];
+      calendar: calendar
+    }
+
+    this.events.push(e);
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -202,42 +176,63 @@ export class CalendarPageComponent implements OnInit{
     this.activeDayIsOpen = false;
   }
 
-  getCalendars(): Calendar[]{
+  getCalendars(): Calendar[] {
     //TODO: get calendars from calendar service
+    //No way to store recurring events curently
     return [
-      {name: "Calendar 1", id: 1, color: "#fcd303", isActive: false},
-      {name: "Calendar 2", id: 2, color: "#166624", isActive: false},
-      {name: "Calendar 3", id: 3, color: "#1f0a8a", isActive: false},
+      { name: "Calendar 1", id: 1, color: "#fcd303", isActive: false, events: [
+        {
+          title: "JF",
+          start: new Date(2023, 11, 8, 12, 0, 0, 0),
+          end: new Date(2023, 11, 8, 13, 0, 0, 0),
+          id: 1
+        },
+        {
+          title: "JF",
+          start: new Date(2023, 11, 15, 12, 0, 0, 0),
+          end: new Date(2023, 11, 15, 13, 0, 0, 0),
+          id: 2
+        }
+      ] },
+      { name: "Calendar 2", id: 2, color: "#166624", isActive: false, events: [
+        {
+          title: "IR1",
+          start: new Date(2023, 11, 6, 15, 0, 0, 0),
+          end: new Date(2023, 11, 6, 16, 0, 0, 0),
+          id: 1 
+        }
+      ] },
+      { name: "Calendar 3", id: 3, color: "#1f0a8a", isActive: false },
     ]
   }
 
-  onCheckboxChange(calendarId: number, event: any){
-    const isChecked = event.target.checked;
-
-    this.calendars = this.calendars.map(c =>{
-      if(c.id === calendarId){
-        c.isActive = isChecked;
-      }
-      return c;
-    })
-    //TODO: show/hide events
+  getConfigurations(): Configuration[] {
+    //TODO: get calendars from configuration service
+    return [
+      { name: "Konfiguration 1", id: 1, color: "#fcd303", isActive: true },
+      { name: "Konfiguration 2", id: 2, color: "#166624", isActive: false },
+      { name: "Konfiguration 3", id: 3, color: "#1f0a8a", isActive: false },
+    ]
   }
 
-  isCalendarActive(calendarId: number): boolean{
+  isCalendarActive(calendarId: number): boolean {
     return this.calendars.filter(c => c.id === calendarId)[0].isActive;
   }
+  isConfigurationActive(configurationId: number): boolean {
+    return this.configurations.filter(c => c.id === configurationId)[0].isActive;
+  }
 
-  onSelectChange(value: string): void{
+  onSelectChange(value: string): void {
     switch (value) {
       case "day":
         this.setView(CalendarView.Day)
         break;
-        case "week":
-          this.setView(CalendarView.Week)
-          break;
-          case "month":
-            this.setView(CalendarView.Month)
-            break;
+      case "week":
+        this.setView(CalendarView.Week)
+        break;
+      case "month":
+        this.setView(CalendarView.Month)
+        break;
       default:
         console.error("Invalid value for timespan");
         break;
