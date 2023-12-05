@@ -54,10 +54,6 @@ export class CalendarPageComponent implements OnInit {
   calendars: Calendar[];
   configurations: Configuration[];
 
-
-
-
-
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -143,6 +139,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
+    console.log(event);
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
@@ -158,7 +155,8 @@ export class CalendarPageComponent implements OnInit {
         beforeStart: false,
         afterEnd: false
       },
-      calendar: calendar
+      calendar: calendar,
+      actions: this.actions
     }
 
     this.events.push(e);
@@ -207,7 +205,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   getConfigurations(): Configuration[] {
-    //TODO: get calendars from configuration service
+    //TODO: get configurations from configuration service
     return [
       { name: "Konfiguration 1", id: 1, color: "#fcd303", isActive: true },
       { name: "Konfiguration 2", id: 2, color: "#166624", isActive: false },
@@ -237,5 +235,9 @@ export class CalendarPageComponent implements OnInit {
         console.error("Invalid value for timespan");
         break;
     }
+  }
+
+  openModal(modalName: string){
+    //open the corresponding modal window
   }
 }
