@@ -38,7 +38,7 @@ public class PipelineServiceImpl implements PipelineService {
 
     @Override
     public Calendar pipeCalendar(String calendarUrl) throws ParserException, IOException, URISyntaxException {
-        //This is just mock pls remove alter and quer yall the configurations the user has
+        //This is just mock pls remove alter and query all the configurations the user has
         Configuration c = new Configuration();
         Rule r = new Rule();
         Match m = new Match();
@@ -54,16 +54,16 @@ public class PipelineServiceImpl implements PipelineService {
 
         for (var event : calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).toList()) {
             var vEvent = (VEvent) event;
-            for (Rule ruleTOApply : c.getRules()) {
-                if (ruleTOApply.getMatch().matches(vEvent)) {
-                    vEvent = ruleTOApply.getEffect().apply(vEvent);
+            for (Rule ruleToApply : c.getRules()) {
+                if (ruleToApply.getMatch().matches(vEvent)) {
+                    vEvent = ruleToApply.getEffect().apply(vEvent);
                 }
             }
             if (vEvent != null) {
                 newComponents.add(vEvent);
             }
         }
-        var componentList = new ComponentList<CalendarComponent>(newComponents);
+        var componentList = new ComponentList<>(newComponents);
         calendar.setComponentList(componentList);
         return calendar;
     }

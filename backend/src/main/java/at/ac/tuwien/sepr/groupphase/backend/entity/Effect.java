@@ -1,9 +1,13 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import net.fortuna.ical4j.model.component.VEvent;
 
-import java.util.Optional;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Effect {

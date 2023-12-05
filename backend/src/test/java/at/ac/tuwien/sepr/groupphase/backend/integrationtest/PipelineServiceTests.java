@@ -13,7 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,12 +30,12 @@ public class PipelineServiceTests {
     void removesAllFunktionaleProgrammierungEvents() throws ParserException, IOException, URISyntaxException {
         var returnedCalendar = calendarService.pipeCalendar(TISS_URL);
         var numberOfFProgEvents = returnedCalendar
-            .getComponentList()
-            .getAll()
-            .stream()
-            .filter(VEvent.class::isInstance)
-            .filter(c -> ((VEvent) c).getSummary().get().getValue().equals("194.026 VU Funktionale Programmierung")).collect(
-                Collectors.toList()).size();
+                .getComponentList()
+                .getAll()
+                .stream()
+                .filter(VEvent.class::isInstance)
+                .filter(c -> ((VEvent) c).getSummary().get().getValue().equals("194.026 VU Funktionale Programmierung")).toList()
+                .size();
         assertEquals(0, numberOfFProgEvents);
         assertEquals(264, returnedCalendar
             .getComponentList()
