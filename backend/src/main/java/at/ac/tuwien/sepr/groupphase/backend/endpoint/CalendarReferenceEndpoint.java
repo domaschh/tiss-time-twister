@@ -3,6 +3,7 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
+import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
@@ -32,11 +33,14 @@ public class CalendarReferenceEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final CalendarReferenceService calendarReferenceService;
     private final CalendarReferenceMapper calendarReferenceMapper;
+    private final PipelineService pipelineService;
 
     @Autowired
-    public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper) {
+    public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper,
+                                     PipelineService pipelineService) {
         this.calendarReferenceService = calendarReferenceService;
         this.calendarReferenceMapper = calendarReferenceMapper;
+        this.pipelineService = pipelineService;
     }
 
     @Secured("ROLE_USER")
