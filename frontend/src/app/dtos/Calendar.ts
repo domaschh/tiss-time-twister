@@ -12,5 +12,6 @@ export interface MyCalendarEvent{
    title: string,
    id?: number,
    start: Date,
-   end?: Date
+   end?: Date,
+   color?: string
 }
