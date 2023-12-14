@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class MatchTests {
+class MatchTests {
 
     @Test
-    public void matchBySummary() {
+    void matchBySummary() {
         VEvent vevent = new VEvent();
         vevent.add(new PropertyBuilder().name("BEGIN").value("VEVENT").build());
         vevent.add(new Summary("194.026 Funktionale Programmierung"));
@@ -36,7 +36,7 @@ public class MatchTests {
     }
 
     @Test
-    public void matchBySummaryAndDescription() {
+    void matchBySummaryAndDescription() {
         VEvent vevent = new VEvent();
         vevent.add(new PropertyBuilder().name("BEGIN").value("VEVENT").build());
         vevent.add(new Summary("194.026 Funktionale Programmierung"));
@@ -52,7 +52,7 @@ public class MatchTests {
     }
 
     @Test
-    public void matchBySummaryAndDescriptionAndLocation() {
+    void matchBySummaryAndDescriptionAndLocation() {
         VEvent vevent = new VEvent();
         vevent.add(new PropertyBuilder().name("BEGIN").value("VEVENT").build());
         vevent.add(new Summary("194.026 Funktionale Programmierung"));
@@ -68,8 +68,9 @@ public class MatchTests {
 
         assertTrue(m.matches(vevent));
     }
+
     @Test
-    public void matchBySummaryAndDescriptionAndLocationDoesNotMatch() {
+    void matchBySummaryAndDescriptionAndLocationDoesNotMatch() {
         VEvent vevent = new VEvent();
         vevent.add(new PropertyBuilder().name("BEGIN").value("VEVENT").build());
         vevent.add(new Summary("194.026 Funktionale Programmierung"));
