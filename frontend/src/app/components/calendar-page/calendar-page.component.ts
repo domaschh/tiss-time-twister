@@ -27,6 +27,8 @@ import { EventColor } from 'calendar-utils';
 import { Calendar } from 'src/app/dtos/Calendar';
 import { Configuration } from 'src/app/dtos/Configuration';
 import { MyCalendarEvent } from 'src/app/dtos/Calendar';
+import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
+import { ConfigurationService } from 'src/app/services/configuration.service';
 
 @Component({
   selector: 'app-calendar-page',
@@ -75,12 +77,13 @@ export class CalendarPageComponent implements OnInit {
   events: CalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) { }
+  constructor(private modal: NgbModal, private calenderReferenceServie: CalendarReferenceService, private configurationService: ConfigurationService) { }
+
   ngOnInit(): void {
     this.calendars = this.getCalendars();
     this.configurations = this.getConfigurations();
 
-    if(this.calendars.length != 0){
+    if(this.calendars != null && this.calendars.length != 0){
       this.calendars.forEach(cal => {
         if(cal.events != null) {
           cal.events.forEach(event => {
@@ -159,42 +162,13 @@ export class CalendarPageComponent implements OnInit {
   }
 
   getCalendars(): Calendar[] {
-    //TODO: get calendars from calendar service
     //No way to store recurring events curently
-    return [
-      { name: "Calendar 1", id: 1, color: "#fcd303", isActive: false, events: [
-        {
-          title: "JF",
-          start: new Date(2023, 11, 8, 12, 0, 0, 0),
-          end: new Date(2023, 11, 8, 13, 0, 0, 0),
-          id: 1
-        },
-        {
-          title: "JF",
-          start: new Date(2023, 11, 15, 12, 0, 0, 0),
-          end: new Date(2023, 11, 15, 13, 0, 0, 0),
-          id: 2
-        }
-      ] },
-      { name: "Calendar 2", id: 2, color: "#166624", isActive: false, events: [
-        {
-          title: "IR1",
-          start: new Date(2023, 11, 6, 15, 0, 0, 0),
-          end: new Date(2023, 11, 6, 16, 0, 0, 0),
-          id: 1 
-        }
-      ] },
-      { name: "Calendar 3", id: 3, color: "#1f0a8a", isActive: false },
-    ]
+     return this.calenderReferenceServie.getAll();
   }
 
   getConfigurations(): Configuration[] {
     //TODO: get configurations from configuration service
-    return [
-      { name: "Konfiguration 1", id: 1, color: "#fcd303", isActive: true },
-      { name: "Konfiguration 2", id: 2, color: "#166624", isActive: false },
-      { name: "Konfiguration 3", id: 3, color: "#1f0a8a", isActive: false },
-    ]
+    return this.configurationService.getAll();
   }
 
   openModal(modalName: string){
@@ -202,9 +176,11 @@ export class CalendarPageComponent implements OnInit {
   }
 
   get allCalEnabled(): boolean {
+    if(this.calendars != null)
     return this.calendars.map(c => c.isActive).every(x => x === true);
   }
   set allCalEnabled(value: boolean){
+    if(this.calendars != null)
     this.calendars.forEach(c => c.isActive = value);
   }
 }

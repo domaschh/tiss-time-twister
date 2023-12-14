@@ -22,4 +22,7 @@ export class CalendarReferenceService {
   getById(id: number) {
     return this.httpClient.get<CalendarReferenceDto>(this.messageBaseUri + '/' + id);
   }
+  getAll(){
+    return null;
+  }
 }

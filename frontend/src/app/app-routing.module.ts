@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent},
-  {path: 'calendar', component: CalendarPageComponent}
+  {path: 'calendar', component: CalendarPageComponent},
   {path: 'import', component: ImportComponent},
   {path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent}
 ];
