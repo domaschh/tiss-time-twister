@@ -33,7 +33,7 @@ public class UserDataGenerator {
     }
 
     @PostConstruct
-    private void generateUsers() {
+    public void generateUsers() {
         LOGGER.debug("Generating {} user entries", NUMBER_OF_USERS_TO_GENERATE + NUMBER_OF_ADMINS_TO_GENERATE);
         List<ApplicationUser> applicationUsers = new ArrayList<>();
         final String ENCRYPTED_PASSWORD = passwordEncoder.encode(USER_PASSWORD);
