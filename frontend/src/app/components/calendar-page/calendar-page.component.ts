@@ -28,21 +28,6 @@ import { Calendar } from 'src/app/dtos/Calendar';
 import { Configuration } from 'src/app/dtos/Configuration';
 import { MyCalendarEvent } from 'src/app/dtos/Calendar';
 
-const colors: Record<string, EventColor> = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
-
 @Component({
   selector: 'app-calendar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -149,7 +134,10 @@ export class CalendarPageComponent implements OnInit {
       title: event.title,
       start: event.start,
       end: event.end,
-      color: colors.blue,
+      color: {
+        primary: calendar.color,
+        secondary: '#ededeb'
+      },
       draggable: false,
       resizable: {
         beforeStart: false,
@@ -164,10 +152,6 @@ export class CalendarPageComponent implements OnInit {
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
   }
 
   closeOpenMonthViewDay() {
@@ -213,31 +197,14 @@ export class CalendarPageComponent implements OnInit {
     ]
   }
 
-  isCalendarActive(calendarId: number): boolean {
-    return this.calendars.filter(c => c.id === calendarId)[0].isActive;
-  }
-  isConfigurationActive(configurationId: number): boolean {
-    return this.configurations.filter(c => c.id === configurationId)[0].isActive;
-  }
-
-  onSelectChange(value: string): void {
-    switch (value) {
-      case "day":
-        this.setView(CalendarView.Day)
-        break;
-      case "week":
-        this.setView(CalendarView.Week)
-        break;
-      case "month":
-        this.setView(CalendarView.Month)
-        break;
-      default:
-        console.error("Invalid value for timespan");
-        break;
-    }
-  }
-
   openModal(modalName: string){
     //open the corresponding modal window
+  }
+
+  get allCalEnabled(): boolean {
+    return this.calendars.map(c => c.isActive).every(x => x === true);
+  }
+  set allCalEnabled(value: boolean){
+    this.calendars.forEach(c => c.isActive = value);
   }
 }
