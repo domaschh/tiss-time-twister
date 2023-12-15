@@ -74,7 +74,7 @@ export class CalendarPageComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [];
+  events: MyCalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
 
   constructor(private modal: NgbModal, private calenderReferenceServie: CalendarReferenceService, private configurationService: ConfigurationService) { }
@@ -133,7 +133,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   addEvent(event: MyCalendarEvent, calendar: Calendar): void {
-    const e: CalendarEvent = {
+    const e: MyCalendarEvent = {
       title: event.title,
       start: event.start,
       end: event.end,
@@ -146,8 +146,8 @@ export class CalendarPageComponent implements OnInit {
         beforeStart: false,
         afterEnd: false
       },
-      calendar: calendar,
-      actions: this.actions
+      actions: this.actions,
+      calendar: calendar
     }
 
     this.events.push(e);

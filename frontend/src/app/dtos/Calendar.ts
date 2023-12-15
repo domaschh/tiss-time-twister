@@ -1,3 +1,5 @@
+import { CalendarEvent } from "angular-calendar"
+
 export class Calendar{
   constructor(
     public name: string,
@@ -8,10 +10,6 @@ export class Calendar{
   ) {}
 }
 
-export interface MyCalendarEvent{
-   title: string,
-   id?: number,
-   start: Date,
-   end?: Date,
-   color?: string
+export interface MyCalendarEvent extends CalendarEvent{
+  calendar?: Calendar;
 }

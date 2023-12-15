@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
+import { MyCalendarEvent } from '../dtos/Calendar';
 
 @Pipe({
   name: 'eventPipe',
@@ -8,7 +9,7 @@ import { CalendarEvent } from 'angular-calendar';
 })
 export class EventPipePipe implements PipeTransform {
 
-  transform(allEvents: CalendarEvent[]): CalendarEvent[] {
+  transform(allEvents: MyCalendarEvent[]): CalendarEvent[] {
     //TODO: include Configurations in filtering or changing data?
     if(allEvents.length == 0)
     return allEvents;
