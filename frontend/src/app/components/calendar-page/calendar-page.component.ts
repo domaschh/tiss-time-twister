@@ -15,7 +15,7 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -29,6 +29,24 @@ import { Configuration } from 'src/app/dtos/Configuration';
 import { MyCalendarEvent } from 'src/app/dtos/Calendar';
 import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
 import { ConfigurationService } from 'src/app/services/configuration.service';
+import * as ICAL from 'ical.js';
+
+
+//preset colors since color should not be saved
+const colors: Record<number, EventColor> = {
+  0: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
+  1: {
+    primary: '#03ad2b',
+    secondary: '#32e65c',
+  },
+  2: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+};
 
 @Component({
   selector: 'app-calendar-page',
@@ -38,15 +56,14 @@ import { ConfigurationService } from 'src/app/services/configuration.service';
 })
 export class CalendarPageComponent implements OnInit {
 
+  myICAL: ICAL = ICAL;
   calendars: Calendar[];
   configurations: Configuration[];
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
 
   modalData: {
@@ -83,9 +100,9 @@ export class CalendarPageComponent implements OnInit {
     this.calendars = this.getCalendars();
     this.configurations = this.getConfigurations();
 
-    if(this.calendars != null && this.calendars.length != 0){
+    if (this.calendars != null && this.calendars.length != 0) {
       this.calendars.forEach(cal => {
-        if(cal.events != null) {
+        if (cal.events != null) {
           cal.events.forEach(event => {
             this.addEvent(event, cal);
           });
@@ -162,8 +179,39 @@ export class CalendarPageComponent implements OnInit {
   }
 
   getCalendars(): Calendar[] {
-    //No way to store recurring events curently
-     return this.calenderReferenceServie.getAll();
+    var importedcals: Calendar[] = [];
+    var id: number = 0;
+
+    const obs: Observable<String[]> = this.calenderReferenceServie.getAll();
+    obs.subscribe({
+      next: cals => {
+        cals.forEach(ical => {
+          var evs: MyCalendarEvent[] = [];
+
+          var parsedcal = this.myICAL.parse(ical);
+          var idk = new this.myICAL.Component(parsedcal);
+          var vevents = <any[]>idk.getAllSubcomponents("vevent");
+          vevents.forEach(event => {
+            evs.push({
+              start: new Date(event.getFirstPropertyValue("dtstart")),
+              end: new Date(event.getFirstPropertyValue("dtend")),
+              title: event.getFirstPropertyValue("summary"),
+            })
+          })
+          var newcal: Calendar = {
+            isActive: false,
+            name: idk.getFirstPropertyValue("prodid"),
+            color: colors[id].primary, //only n preset colors are stored
+            events: evs,
+            id: id //id needed for frontend
+          }
+          id++;
+          importedcals.push(newcal);
+        })
+      }
+    });
+
+    return importedcals;
   }
 
   getConfigurations(): Configuration[] {
@@ -171,16 +219,16 @@ export class CalendarPageComponent implements OnInit {
     return this.configurationService.getAll();
   }
 
-  openModal(modalName: string){
+  openModal(modalName: string) {
     //open the corresponding modal window
   }
 
   get allCalEnabled(): boolean {
-    if(this.calendars != null)
-    return this.calendars.map(c => c.isActive).every(x => x === true);
+    if (this.calendars != null)
+      return this.calendars.map(c => c.isActive).every(x => x === true);
   }
-  set allCalEnabled(value: boolean){
-    if(this.calendars != null)
-    this.calendars.forEach(c => c.isActive = value);
+  set allCalEnabled(value: boolean) {
+    if (this.calendars != null)
+      this.calendars.forEach(c => c.isActive = value);
   }
 }

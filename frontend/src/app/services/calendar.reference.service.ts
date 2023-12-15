@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Globals} from "../global/globals";
-import {CalendarReferenceDto} from "../dtos/calendar-reference-dto";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Globals } from "../global/globals";
+import { CalendarReferenceDto } from "../dtos/calendar-reference-dto";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class CalendarReferenceService {
   getById(id: number) {
     return this.httpClient.get<CalendarReferenceDto>(this.messageBaseUri + '/' + id);
   }
-  getAll(){
-    return null;
+  getAll(): Observable<String[]> {
+    return this.httpClient.get<String[]>(this.messageBaseUri + "/all");
   }
 }
