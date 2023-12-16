@@ -50,15 +50,15 @@ const colors: Record<number, EventColor> = {
 
 @Component({
   selector: 'app-calendar-page',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.scss']
 })
 export class CalendarPageComponent implements OnInit {
 
   myICAL: ICAL = ICAL;
-  calendars: Calendar[];
-  configurations: Configuration[];
+  calendars: Calendar[] = [];
+  configurations: Configuration[] = [];
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -97,18 +97,8 @@ export class CalendarPageComponent implements OnInit {
   constructor(private modal: NgbModal, private calenderReferenceServie: CalendarReferenceService, private configurationService: ConfigurationService) { }
 
   ngOnInit(): void {
-    this.calendars = this.getCalendars();
+    this.loadCalendars();
     this.configurations = this.getConfigurations();
-
-    if (this.calendars != null && this.calendars.length != 0) {
-      this.calendars.forEach(cal => {
-        if (cal.events != null) {
-          cal.events.forEach(event => {
-            this.addEvent(event, cal);
-          });
-        }
-      });
-    }
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -178,7 +168,7 @@ export class CalendarPageComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
-  getCalendars(): Calendar[] {
+  loadCalendars() {
     var importedcals: Calendar[] = [];
     var id: number = 0;
 
@@ -189,8 +179,8 @@ export class CalendarPageComponent implements OnInit {
           var evs: MyCalendarEvent[] = [];
 
           var parsedcal = this.myICAL.parse(ical);
-          var idk = new this.myICAL.Component(parsedcal);
-          var vevents = <any[]>idk.getAllSubcomponents("vevent");
+          var calAsComponent = new this.myICAL.Component(parsedcal);
+          var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
           vevents.forEach(event => {
             evs.push({
               start: new Date(event.getFirstPropertyValue("dtstart")),
@@ -200,18 +190,25 @@ export class CalendarPageComponent implements OnInit {
           })
           var newcal: Calendar = {
             isActive: false,
-            name: idk.getFirstPropertyValue("prodid"),
+            name: calAsComponent.getFirstPropertyValue("prodid"),
             color: colors[id].primary, //only n preset colors are stored
             events: evs,
             id: id //id needed for frontend
           }
           id++;
-          importedcals.push(newcal);
+          this.calendars.push(newcal);
         })
+        if (this.calendars != null && this.calendars.length != 0) {
+          this.calendars.forEach(cal => {
+            if (cal.events != null) {
+              cal.events.forEach(event => {
+                this.addEvent(event, cal);
+              });
+            }
+          });
+        }
       }
     });
-
-    return importedcals;
   }
 
   getConfigurations(): Configuration[] {
