@@ -15,7 +15,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -39,8 +41,7 @@ class CalendarServiceTests {
     @Test
     void fetchCalendarByUrl_InvalidUrl_Fails() {
         assertAll(
-            ()-> assertThrows(IOException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
-            ()-> assertThrows(URISyntaxException.class, () -> calendarService.fetchCalendarByUrl("not correct URI syntax"))
-        );
+            () -> assertThrows(IOException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
+            () -> assertThrows(URISyntaxException.class, () -> calendarService.fetchCalendarByUrl("not correct URI syntax")));
     }
 }

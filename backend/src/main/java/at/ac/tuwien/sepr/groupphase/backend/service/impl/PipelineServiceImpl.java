@@ -38,7 +38,7 @@ public class PipelineServiceImpl implements PipelineService {
 
     @Override
     public Calendar pipeCalendar(String calendarUrl) throws ParserException, IOException, URISyntaxException {
-        //This is just mock pls remove alter and query all the configurations the user has
+        //TODO: This is just mock pls remove alter and query all the configurations the user has
         Configuration c = new Configuration();
         Rule r = new Rule();
         Match m = new Match();

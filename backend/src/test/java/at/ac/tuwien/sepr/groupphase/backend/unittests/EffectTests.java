@@ -18,11 +18,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class EffectTests {
+class EffectTests {
 
     VEvent vEvent;
 
@@ -39,24 +42,24 @@ public class EffectTests {
     @Test
     void deleteEffect() {
         DeleteEffect e = new DeleteEffect();
-        assertEquals(null,e.apply(vEvent));
+        assertNull(e.apply(vEvent));
     }
 
     @Test
     void modifyingEffect1Proprty() {
         ModifyEffect m = new ModifyEffect("new Title", null, null);
         var result = m.apply(vEvent);
-        assertEquals(result != null, true);
-        assertEquals(result.getSummary().get().getValue(), "new Title");
-        assertEquals(result.getDescription().get().getValue(), "old");
-        assertEquals(result.getLocation().get().getValue(), "old");
+        assertNotNull(result);
+        assertEquals("new Title", result.getSummary().get().getValue());
+        assertEquals("old", result.getDescription().get().getValue());
+        assertEquals("old", result.getLocation().get().getValue());
     }
 
     @Test
     void modifyingEffect0Proprty() {
         ModifyEffect m = new ModifyEffect(null, null, null);
         var result = m.apply(vEvent);
-        assertEquals(result != null, true);
+        assertNotNull(result);
         assertEquals(result, vEvent);
     }
 
@@ -64,9 +67,9 @@ public class EffectTests {
     void modifyingEffectAllProperties() {
         ModifyEffect m = new ModifyEffect("new title", "new Description", "new Location");
         var result = m.apply(vEvent);
-        assertEquals(result != null, true);
-        assertEquals(result.getSummary().get().getValue(), "new title");
-        assertEquals(result.getDescription().get().getValue(), "new Description");
-        assertEquals(result.getLocation().get().getValue(), "new Location");
+        assertNotNull(result);
+        assertEquals("new title", result.getSummary().get().getValue());
+        assertEquals("new Description", result.getDescription().get().getValue());
+        assertEquals("new Location", result.getLocation().get().getValue());
     }
 }
