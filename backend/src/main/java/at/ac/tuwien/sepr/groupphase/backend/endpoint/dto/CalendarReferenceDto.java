@@ -12,6 +12,14 @@ public class CalendarReferenceDto {
     @URL
     private String link;
 
+    public UUID getToken() {
+        return token;
+    }
+
+    public void setToken(UUID token) {
+        this.token = token;
+    }
+
     public Long getId() {
         return id;
     }

@@ -6,9 +6,11 @@ import java.util.UUID;
 
 public interface CalendarReferenceService {
 
-    public CalendarReference getFromId(long id);
+    CalendarReference getFromId(long id);
 
-    public CalendarReference add(CalendarReference calendarReference);
+    CalendarReference add(CalendarReference calendarReference);
 
-    public UUID generateToken();
+    UUID generateToken();
+
+    CalendarReference getFromToken(UUID token);
 }

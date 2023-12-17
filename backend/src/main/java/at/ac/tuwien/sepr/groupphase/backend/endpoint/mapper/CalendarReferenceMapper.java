@@ -5,11 +5,15 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+import java.util.UUID;
+
 public interface CalendarReferenceMapper {
 
     @Mapping(target = "id", source = "id")
     CalendarReferenceDto calendarReferenceToDto(CalendarReference calendarReference);
 
     CalendarReference dtoToCalendarReference(CalendarReferenceDto calendarReferenceDto);
+    default UUID mapUUID(UUID value) {
+        return value;
+    }
 }

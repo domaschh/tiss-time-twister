@@ -1,14 +1,8 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -24,6 +18,17 @@ public class CalendarReference {
     private String name;
     @Column()
     private String link;
+
+    @ManyToMany(mappedBy = "calendarReferences")
+    private List<Configuration> configurations;
+
+    public List<Configuration> getConfigurations() {
+        return configurations;
+    }
+
+    public void setConfigurations(List<Configuration> configurations) {
+        this.configurations = configurations;
+    }
 
     @ManyToOne()
     @JoinColumn(name = "user_id")

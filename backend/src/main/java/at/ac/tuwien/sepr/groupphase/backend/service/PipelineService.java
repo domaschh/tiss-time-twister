@@ -5,7 +5,8 @@ import net.fortuna.ical4j.model.Calendar;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 public interface PipelineService {
-    Calendar pipeCalendar(String calendarUrl) throws ParserException, IOException, URISyntaxException;
+    Calendar pipeCalendar(UUID token) throws ParserException, IOException, URISyntaxException;
 }

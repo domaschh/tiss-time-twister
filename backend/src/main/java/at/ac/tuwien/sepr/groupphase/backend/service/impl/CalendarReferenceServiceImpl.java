@@ -38,4 +38,9 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     public UUID generateToken() {
         return UUID.randomUUID();
     }
+
+    @Override
+    public CalendarReference getFromToken(UUID token) {
+        return calendarReferenceRepository.findCalendarReferenceByToken(token);
+    }
 }
