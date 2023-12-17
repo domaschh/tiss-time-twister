@@ -36,7 +36,7 @@ class PipelineServiceTests {
     @Autowired
     private PipelineService pipelineService;
 
-    @Mock
+    @Spy
     private CalendarService calendarService;
     @Spy
     private CalendarReferenceRepository calendarReferenceRepository;

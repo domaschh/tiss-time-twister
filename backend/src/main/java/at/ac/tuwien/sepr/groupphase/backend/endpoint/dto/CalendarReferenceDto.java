@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.UUID;
 
+import java.util.List;
+
 public class CalendarReferenceDto {
     private Long id;
     private UUID token;
@@ -11,6 +13,15 @@ public class CalendarReferenceDto {
     private String name;
     @URL
     private String link;
+    private List<ConfigurationDto> configurations;
+
+    public List<ConfigurationDto> getConfigurations() {
+        return configurations;
+    }
+
+    public void setConfigurations(List<ConfigurationDto> configurations) {
+        this.configurations = configurations;
+    }
 
     public UUID getToken() {
         return token;
@@ -19,6 +30,8 @@ public class CalendarReferenceDto {
     public void setToken(UUID token) {
         this.token = token;
     }
+
+
 
     public Long getId() {
         return id;

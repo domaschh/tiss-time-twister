@@ -1,8 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,11 @@ public class Configuration {
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
 
-    @ManyToMany(mappedBy = "configurations")
+    @ManyToMany()
+    @JoinTable(
+        name = "calendar_refs",
+        joinColumns = @JoinColumn(name = "configuration_id"),
+        inverseJoinColumns = @JoinColumn(name = "calendar_reference_id"))
     private List<CalendarReference> calendarReferences;
 
     @OneToMany(mappedBy = "configuration", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
