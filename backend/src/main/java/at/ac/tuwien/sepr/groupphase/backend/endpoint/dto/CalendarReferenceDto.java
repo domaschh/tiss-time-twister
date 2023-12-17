@@ -2,9 +2,11 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
+import org.hibernate.validator.constraints.UUID;
 
 public class CalendarReferenceDto {
     private Long id;
+    private UUID token;
     @NotNull
     private String name;
     @URL

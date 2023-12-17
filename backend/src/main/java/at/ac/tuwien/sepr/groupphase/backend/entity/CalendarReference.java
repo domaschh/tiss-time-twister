@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 
 @Entity
@@ -18,6 +18,8 @@ public class CalendarReference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
+    private UUID token;
     @Column()
     private String name;
     @Column()
@@ -57,5 +59,13 @@ public class CalendarReference {
 
     public void setUser(ApplicationUser user) {
         this.user = user;
+    }
+
+    public UUID getToken() {
+        return token;
+    }
+
+    public void setToken(UUID token) {
+        this.token = token;
     }
 }
