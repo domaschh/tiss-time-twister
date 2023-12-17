@@ -1,9 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ElementRef, Renderer2  } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {AuthRequest} from '../../dtos/auth-request';
 
+import {
+  Validation,
+  Input,
+  Ripple,
+  initTE,
+} from "tw-elements";
 
 @Component({
   selector: 'app-login',
@@ -18,11 +24,24 @@ export class LoginComponent implements OnInit {
   // Error flag
   error = false;
   errorMessage = '';
+  isMobileView = window.innerWidth < 480;
 
-  constructor(private formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router, private renderer: Renderer2, private el: ElementRef) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+
+    // Listen for window resize events
+    window.addEventListener('resize', () => {
+      this.isMobileView = window.innerWidth > 480;
+
+      // Update button width based on the condition
+      if (this.isMobileView) {
+        this.renderer.addClass(this.el.nativeElement.querySelector('.login-button'), 'w-72');
+      } else {
+        this.renderer.removeClass(this.el.nativeElement.querySelector('.login-button'), 'w-72');
+      }
     });
   }
 
@@ -72,6 +91,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    initTE({Validation, Input, Ripple });
   }
 
 }

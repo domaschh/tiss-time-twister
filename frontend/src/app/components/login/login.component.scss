@@ -1,0 +1,21 @@
+.error-text {
+  color: #EB4463;
+}
+
+
+@media (max-width: 769px) {
+  .alert + .container .flex {
+    display: flex;
+    flex-direction: column-reverse; /* Reverse the order of columns */
+  }
+
+  .mb-12 {
+    display: none; /* Hide the image container */
+  }
+}
+
+.alert-warning {
+  background-color: #F9C8D1; /* Background color for warning alerts */
+  color: #810E23; /* Text color for warning alerts */
+  border-color: #EB4463; /* Border color for warning alerts */
+}

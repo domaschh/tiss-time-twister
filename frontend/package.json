@@ -30,6 +30,7 @@
     "lodash": "4.17.21",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
+    "tw-elements": "^1.1.0",
     "zone.js": "0.13.3"
   },
   "devDependencies": {
