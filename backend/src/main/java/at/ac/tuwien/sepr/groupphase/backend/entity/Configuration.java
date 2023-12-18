@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Configurations")
 public class Configuration {
 
     @Id
@@ -23,10 +22,10 @@ public class Configuration {
 
     @ManyToMany()
     @JoinTable(
-        name = "calendar_refs",
+        name = "calendar_ref_config",
         joinColumns = @JoinColumn(name = "configuration_id"),
-        inverseJoinColumns = @JoinColumn(name = "calendar_reference_id"))
-    private List<CalendarReference> calendarReferences;
+        inverseJoinColumns = @JoinColumn(name = "reference_id"))
+    List<CalendarReference> calendarReferences;
 
     @OneToMany(mappedBy = "configuration", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Rule> rules = new ArrayList<>();

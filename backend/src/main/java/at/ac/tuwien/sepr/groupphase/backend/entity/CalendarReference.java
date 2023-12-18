@@ -7,7 +7,6 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "Calendars")
 public class CalendarReference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +19,7 @@ public class CalendarReference {
     private String link;
 
     @ManyToMany(mappedBy = "calendarReferences")
-    private List<Configuration> configurations;
+    List<Configuration> configurations;
 
     public List<Configuration> getConfigurations() {
         return configurations;
