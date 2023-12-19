@@ -2,6 +2,18 @@
   <div class="flex flex-row">
 
     <div class="basis-3/12 mr-6 mt-20">
+      <!-- Dropdown button -->
+      <div class="dropdown">
+        <button class="btn btn-tertiary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person"></i>Profil
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          <li><a class="dropdown-item" href="#">Darkmode</a></li>
+          <li><a class="dropdown-item" href="#">Passwort ändern</a></li>
+        </ul>
+      </div>
+
       <!--Buttons-->
       <div class="flex flex-col">
         <button type="button" class="btn btn-primary mt-2 mb-2">

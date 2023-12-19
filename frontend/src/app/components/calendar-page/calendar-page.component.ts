@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -66,6 +67,8 @@ export class CalendarPageComponent implements OnInit {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
+  loggedInUsername: string | null = null;
+
   modalData: {
     action: string;
     event: CalendarEvent;
@@ -94,7 +97,12 @@ export class CalendarPageComponent implements OnInit {
   events: MyCalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private calenderReferenceServie: CalendarReferenceService, private configurationService: ConfigurationService) { }
+  constructor(
+    private modal: NgbModal,
+    private calenderReferenceServie: CalendarReferenceService,
+    private configurationService: ConfigurationService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.loadCalendars();
@@ -227,5 +235,18 @@ export class CalendarPageComponent implements OnInit {
   set allCalEnabled(value: boolean) {
     if (this.calendars != null)
       this.calendars.forEach(c => c.isActive = value);
+  }
+
+  logout(): void {
+    window.localStorage.removeItem('authToken');
+    this.router.navigate(['/'], {queryParams: {loggedOut: 'true'}});
+  }
+
+  toggleDarkMode(): void {
+    // Implement your dark mode toggling logic here
+  }
+
+  editPassword(): void {
+    // Implement the password editing functionality here
   }
 }

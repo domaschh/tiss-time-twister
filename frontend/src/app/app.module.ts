@@ -18,6 +18,7 @@ import { CalendarPageComponent } from './components/calendar-page/calendar-page.
 import { ImportComponent } from './components/import/import.component';
 import { EventPipePipe } from './pipes/event.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MessageComponent,
     CalendarPageComponent,
     ImportComponent,
+    LogoutSuccessModalComponent,
   ],
   imports: [
     BrowserModule,
