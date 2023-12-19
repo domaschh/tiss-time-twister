@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Events")
@@ -19,14 +19,15 @@ public class Event {
     private Long id;
     @Column()
     private String title;
+
     @Column()
     private String description;
 
     @Column()
-    private Date startTime;
+    private LocalDate startTime;
 
     @Column()
-    private Date endTime;
+    private LocalDate endTime;
 
     @Column()
     private String location;
@@ -59,19 +60,19 @@ public class Event {
         this.description = description;
     }
 
-    public Date getStartTime() {
+    public LocalDate getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDate startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalDate getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDate endTime) {
         this.endTime = endTime;
     }
 

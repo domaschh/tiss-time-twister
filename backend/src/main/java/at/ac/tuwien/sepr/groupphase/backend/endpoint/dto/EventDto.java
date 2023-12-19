@@ -1,13 +1,14 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record EventDto(
     Long id,
     String title,
     String description,
-    Date startTime,
-    Date endTime,
+    LocalDate startTime,
+    LocalDate endTime,
     String location
 ) {
 
@@ -27,12 +28,12 @@ public record EventDto(
     }
 
     @Override
-    public Date startTime() {
+    public LocalDate startTime() {
         return startTime;
     }
 
     @Override
-    public Date endTime() {
+    public LocalDate endTime() {
         return endTime;
     }
 

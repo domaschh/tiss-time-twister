@@ -11,5 +11,5 @@ public interface EventService {
 
     public Event add(Event event);
 
-    public List<Event> getEventByCalendar(CalendarReference calendar);
+    public List<Event> getEventsByCalendar(CalendarReference calendar);
 }

@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -23,12 +24,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PipelineServiceTests {
     private static final String TISS_URL = "https://tiss.tuwien.ac.at/events/rest/calendar/personal?locale=de&token=5c144bcb-eebb-46f6-8825-f111f796dabc";
 
+    private static final CalendarReference cal = new CalendarReference();
+
     @Autowired
     private PipelineService calendarService;
 
     @Test
     void removesAllFunktionaleProgrammierungEvents() throws ParserException, IOException, URISyntaxException {
-        var returnedCalendar = calendarService.pipeCalendar(TISS_URL);
+        cal.setId(0L);
+        cal.setName("Test_Calendar");
+        cal.setLink(TISS_URL);
+
+        var returnedCalendar = calendarService.pipeCalendar(cal);
         var numberOfFProgEvents = returnedCalendar
                 .getComponentList()
                 .getAll()

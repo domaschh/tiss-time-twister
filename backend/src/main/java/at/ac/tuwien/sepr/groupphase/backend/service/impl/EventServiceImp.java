@@ -33,7 +33,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<Event> getEventByCalendar(CalendarReference calendar) {
+    public List<Event> getEventsByCalendar(CalendarReference calendar) {
         LOGGER.debug("Get Event by calendar {}", calendar.getName());
         return eventRepository.findAllByCalendar(calendar);
     }
