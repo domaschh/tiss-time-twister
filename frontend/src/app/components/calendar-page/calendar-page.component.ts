@@ -146,8 +146,25 @@ export class CalendarPageComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
     console.log(action);
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    if(action === 'Clicked' || action === 'Edited'){
+      let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
+      console.log(myEvent);
+      if (!myEvent) {
+        console.error("Error while handling event", event);
+      } else if (!myEvent.categories.includes('customEvent')) {
+        //TODO: handle edit of calendar event
+      } else {
+        let calendars: EventCalendar[] = this.calendars.map(cal => {
+          return {id: cal.id, name: cal.name}
+        });
+        this.router.navigate(['event/edit', myEvent.id], {
+          state: {calendars: calendars}
+        });
+      }
+    } else {
+      this.modalData = {event, action};
+      this.modal.open(this.modalContent, {size: 'lg'});
+    }
   }
 
   addEvent(event: MyCalendarEvent, calendar: Calendar): void {
@@ -261,7 +278,6 @@ export class CalendarPageComponent implements OnInit {
     let calendars: EventCalendar[] = this.calendars.map(cal => {
       return {id: cal.id, name: cal.name}
     });
-    console.log(calendars);
     this.router.navigate(['event/create'], {
       state: {calendars: calendars}
     });

@@ -64,7 +64,7 @@ export class CreateEditCustomEventComponent implements OnInit{
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.calendars = this.router.getCurrentNavigation().extras.state.calendars;
+    this.calendars = this.router.getCurrentNavigation().extras.state?.calendars;
   }
 
   ngOnInit(): void {
@@ -87,6 +87,11 @@ export class CreateEditCustomEventComponent implements OnInit{
           this.router.navigate(['calendar']);
         }
       })
+    } else {
+      if (!this.calendars) {
+        console.log("Cannot create event without calendar!");
+        this.router.navigate(['calendar']);
+      }
     }
   }
 
