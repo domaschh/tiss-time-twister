@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const authUri = this.globals.backendUri + '/authentication';
 
     // Do not intercept authentication requests
-    if (req.url === authUri) {
+    if (req.url === authUri || !this.authService.getToken()) {
       return next.handle(req);
     }
 
