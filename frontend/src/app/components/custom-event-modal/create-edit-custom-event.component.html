@@ -1,0 +1,66 @@
+<div class="pt-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card rounded-0">
+        <div class="card-header">
+          <h3 class="mb-0">{{heading}}</h3>
+        </div>
+
+        <div class="card-body">
+          <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)">
+
+            <div class="form-group pb-3">
+              <label for="title">Title</label>
+              <input type="text"
+                     name="title"
+                     class="form-control"
+                     id="title"
+                     placeholder="Title"
+                     [(ngModel)]="event.title"
+                     required
+              >
+            </div>
+
+            <div class="form-group pb-3">
+              <label for="startTime">Start</label>
+              <input type="datetime-local"
+                     name="startTime"
+                     class="form-control"
+                     id="startTime"
+                     [(ngModel)]="startTime"
+                     required
+              >
+            </div>
+
+            <div class="form-group pb-3">
+              <label for="endTime">End</label>
+              <input type="datetime-local"
+                     name="endTime"
+                     class="form-control"
+                     id="endTime"
+                     [(ngModel)]="endTime"
+                     required
+              >
+            </div>
+
+            <div class="form-group pb-3">
+              <label for="location">Location</label>
+              <input type="text"
+                     name="location"
+                     class="form-control"
+                     id="location"
+                     placeholder="Location"
+                     [(ngModel)]="event.location"
+                     required
+              >
+            </div>
+            <button type="submit" [disabled]="!form.valid" class="btn btn-success float-right">Save</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-danger float-right mr-3">Cancel</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

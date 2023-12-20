@@ -78,7 +78,6 @@ public class PipelineServiceImpl implements PipelineService {
             VEvent vEvent = new VEvent(event.getStartTime(), event.getEndTime(), event.getTitle())
                 .withProperty(new Uid("customEvent_" + event.getId()))
                 .withProperty(new Location(event.getLocation()))
-                .withProperty(new Description(event.getDescription()))
                 .withProperty(new Categories("customEvent"))
                 .getFluentTarget();
 

@@ -15,6 +15,9 @@ import {httpInterceptorProviders} from './interceptors';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ImportComponent } from './components/import/import.component';
+import { CreateEditCustomEventComponent } from './components/custom-event-modal/create-edit-custom-event.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { ImportComponent } from './components/import/import.component';
     LoginComponent,
     MessageComponent,
     ImportComponent,
+    CreateEditCustomEventComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,9 @@ import { ImportComponent } from './components/import/import.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
