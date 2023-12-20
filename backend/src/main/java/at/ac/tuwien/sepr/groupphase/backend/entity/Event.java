@@ -82,6 +82,9 @@ public class Event {
     }
 
     public Long getCalendarId() {
-        return calendar.getId();
+        if (calendar != null) {
+            return calendar.getId();
+        }
+        return null;
     }
 }

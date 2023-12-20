@@ -25,7 +25,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
-import { Calendar } from 'src/app/dtos/Calendar';
+import {Calendar, EventCalendar} from 'src/app/dtos/Calendar';
 import { Configuration } from 'src/app/dtos/Configuration';
 import { MyCalendarEvent } from 'src/app/dtos/Calendar';
 import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
@@ -134,6 +134,8 @@ export class CalendarPageComponent implements OnInit {
           ...event,
           start: newStart,
           end: newEnd,
+          location: iEvent.location,
+          categories: iEvent.categories
         };
       }
       return iEvent;
@@ -143,6 +145,7 @@ export class CalendarPageComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
+    console.log(action);
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
@@ -162,6 +165,8 @@ export class CalendarPageComponent implements OnInit {
         afterEnd: false
       },
       actions: this.actions,
+      location: event.location,
+      categories: event.categories,
       calendar: calendar
     }
 
@@ -194,6 +199,8 @@ export class CalendarPageComponent implements OnInit {
               start: new Date(event.getFirstPropertyValue("dtstart")),
               end: new Date(event.getFirstPropertyValue("dtend")),
               title: event.getFirstPropertyValue("summary"),
+              location: event.getFirstPropertyValue("location"),
+              categories: event.getFirstPropertyValue("categories")
             })
           })
           var newcal: Calendar = {
@@ -248,5 +255,15 @@ export class CalendarPageComponent implements OnInit {
 
   editPassword(): void {
     // Implement the password editing functionality here
+  }
+
+  createCustomEvent() {
+    let calendars: EventCalendar[] = this.calendars.map(cal => {
+      return {id: cal.id, name: cal.name}
+    });
+    console.log(calendars);
+    this.router.navigate(['event/create'], {
+      state: {calendars: calendars}
+    });
   }
 }

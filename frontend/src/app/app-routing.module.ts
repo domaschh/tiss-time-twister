@@ -6,7 +6,7 @@ import { CalendarPageComponent } from './components/calendar-page/calendar-page.
 import {AuthGuard} from './guards/auth.guard';
 import {MessageComponent} from './components/message/message.component';
 import {ImportComponent} from "./components/import/import.component";
-import {CreateEditMode, CreateEditCustomEventComponent} from "./components/custom-event-modal/create-edit-custom-event.component";
+import {CreateEditMode, CreateEditCustomEventComponent} from "./components/create-edit-custom-event/create-edit-custom-event.component";
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
