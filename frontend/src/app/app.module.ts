@@ -20,6 +20,9 @@ import { EventPipePipe } from './pipes/event.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
 
+import { CreateEditCustomEventComponent } from './components/custom-event-modal/create-edit-custom-event.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { LogoutSuccessModalComponent } from './components/logout-success-modal/l
     CalendarPageComponent,
     ImportComponent,
     LogoutSuccessModalComponent,
+    CreateEditCustomEventComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,9 @@ import { LogoutSuccessModalComponent } from './components/logout-success-modal/l
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     EventPipePipe,
     BrowserAnimationsModule,
+    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
