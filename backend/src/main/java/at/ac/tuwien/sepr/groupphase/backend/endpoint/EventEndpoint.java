@@ -7,13 +7,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +60,14 @@ public class EventEndpoint {
     public EventDto updateEvent(@PathVariable Long id, @RequestBody EventDto event) {
         LOGGER.info("PUT /api/v1/event/{} body:{}", id, event);
         return eventMapper.eventToDto(eventService.updateEvent(id, eventMapper.dtoToEvent(event)));
+    }
+
+    @Secured("ROLE_USER")
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Delete an event by id", security = @SecurityRequirement(name = "apiKey"))
+    public void deleteEventById(@PathVariable Long id) {
+        LOGGER.info("DELETE /api/v1/event/{}", id);
+        eventService.delete(id);
     }
 }

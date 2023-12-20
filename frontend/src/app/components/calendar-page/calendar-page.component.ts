@@ -31,6 +31,7 @@ import { MyCalendarEvent } from 'src/app/dtos/Calendar';
 import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import * as ICAL from 'ical.js';
+import {EventService} from "../../services/event.service";
 
 
 //preset colors since color should not be saved
@@ -101,6 +102,7 @@ export class CalendarPageComponent implements OnInit {
     private modal: NgbModal,
     private calenderReferenceServie: CalendarReferenceService,
     private configurationService: ConfigurationService,
+    private eventService: EventService,
     private router: Router
     ) { }
 
@@ -146,8 +148,8 @@ export class CalendarPageComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
     console.log(action);
+    let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if(action === 'Clicked' || action === 'Edited'){
-      let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
       console.log(myEvent);
       if (!myEvent) {
         console.error("Error while handling event", event);
@@ -160,6 +162,22 @@ export class CalendarPageComponent implements OnInit {
         this.router.navigate(['event/edit', myEvent.id], {
           state: {calendars: calendars}
         });
+      }
+    } else if(action == 'Deleted') {
+      if (!myEvent) {
+        console.error("Error while handling event", event);
+      } else if (!myEvent.categories.includes('customEvent')) {
+        //TODO: handle edit of calendar event
+      } else {
+        this.eventService.deleteEvent(myEvent.id).subscribe({
+          next: _ => {
+            console.log("Deleted successfully");
+            this.loadCalendars();
+          },
+          error: error => {
+            console.error('error deleting event', error);
+          }
+        })
       }
     } else {
       this.modalData = {event, action};
@@ -199,6 +217,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   loadCalendars() {
+    this.events = [];
     var importedcals: Calendar[] = [];
     var id: number = 0;
 

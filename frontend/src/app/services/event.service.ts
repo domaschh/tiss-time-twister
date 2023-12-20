@@ -29,4 +29,8 @@ export class EventService {
     console.log('Get event ' + id);
     return this.httpClient.get<CustomEventDto>(this.messageBaseUri + '/' + id);
   }
+
+  deleteEvent(id: number | string): Observable<object> {
+    return this.httpClient.delete(this.messageBaseUri + '/' + id);
+  }
 }
