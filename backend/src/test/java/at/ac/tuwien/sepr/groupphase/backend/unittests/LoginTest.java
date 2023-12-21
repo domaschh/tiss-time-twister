@@ -17,12 +17,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles({"test", "generateData"})
-public class LoginTest implements TestData {
+class LoginTest implements TestData {
 
+    private final String SAMPLE_EMAIL = "user2@email.com";
+    private final String SAMPLE_PASSWORD = "password";
     @Autowired
     private LoginEndpoint loginEndpoint;
     @Autowired
@@ -32,34 +35,32 @@ public class LoginTest implements TestData {
     @Autowired
     private UserService userService;
     private UserLoginDto userLoginDto;
-    private final String sampleEmail = "user@example.com";
-    private final String samplePassword = "password";
 
     @BeforeEach
     public void setUp() {
         userDataGenerator.generateUsers();
         userLoginDto = new UserLoginDto();
-        userLoginDto.setEmail(sampleEmail);
-        userLoginDto.setPassword(samplePassword);
+        userLoginDto.setEmail(SAMPLE_EMAIL);
+        userLoginDto.setPassword(SAMPLE_PASSWORD);
     }
 
     @Test
-    public void whenLoginCalled_Successfull_Endpoint() {
-        String expectedResponse = "Success";
+    void whenLoginCalled_Successfull_Endpoint() {
+        String expectedResponse = "Bearer";
         String response = loginEndpoint.login(userLoginDto);
-        assertEquals(expectedResponse, response);
+        assertTrue(response.toString().contains(expectedResponse));
     }
 
     @Test
-    public void whenLoginCalled_Successfull_Service() {
-        String expectedResponse = "Success";
+    void whenLoginCalled_Successfull_Service() {
+        String expectedResponse = "Bearer";
         String response = userService.login(userLoginDto);
-        assertEquals(expectedResponse, response);
+        assertTrue(response.toString().contains(expectedResponse));
     }
 
     @Test
-    public void whenUserFoundByEmail_Successfull() {
-        String email = "user@email.com";
+    void whenUserFoundByEmail_Successfull() {
+        String email = "user2@email.com";
         ApplicationUser user = userRepository.findUserByEmail(email);
         assertNotNull(user);
         assertEquals(email, user.getEmail());
