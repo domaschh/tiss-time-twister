@@ -11,5 +11,12 @@ export class Calendar{
 }
 
 export interface MyCalendarEvent extends CalendarEvent{
+  location: string,
+  categories: string,
   calendar?: Calendar;
+}
+
+export interface EventCalendar {
+  id: number;
+  name: string;
 }

@@ -25,12 +25,13 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
-import { Calendar } from 'src/app/dtos/Calendar';
+import {Calendar, EventCalendar} from 'src/app/dtos/Calendar';
 import { Configuration } from 'src/app/dtos/Configuration';
 import { MyCalendarEvent } from 'src/app/dtos/Calendar';
 import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import * as ICAL from 'ical.js';
+import {EventService} from "../../services/event.service";
 
 
 //preset colors since color should not be saved
@@ -101,6 +102,7 @@ export class CalendarPageComponent implements OnInit {
     private modal: NgbModal,
     private calenderReferenceServie: CalendarReferenceService,
     private configurationService: ConfigurationService,
+    private eventService: EventService,
     private router: Router
     ) { }
 
@@ -134,6 +136,8 @@ export class CalendarPageComponent implements OnInit {
           ...event,
           start: newStart,
           end: newEnd,
+          location: iEvent.location,
+          categories: iEvent.categories
         };
       }
       return iEvent;
@@ -143,8 +147,42 @@ export class CalendarPageComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(event);
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    console.log(action);
+    let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
+    if(action === 'Clicked' || action === 'Edited'){
+      console.log(myEvent);
+      if (!myEvent) {
+        console.error("Error while handling event", event);
+      } else if (!myEvent.categories.includes('customEvent')) {
+        //TODO: handle edit of calendar event
+      } else {
+        let calendars: EventCalendar[] = this.calendars.map(cal => {
+          return {id: cal.id, name: cal.name}
+        });
+        this.router.navigate(['event/edit', myEvent.id], {
+          state: {calendars: calendars}
+        });
+      }
+    } else if(action == 'Deleted') {
+      if (!myEvent) {
+        console.error("Error while handling event", event);
+      } else if (!myEvent.categories.includes('customEvent')) {
+        //TODO: handle edit of calendar event
+      } else {
+        this.eventService.deleteEvent(myEvent.id).subscribe({
+          next: _ => {
+            console.log("Deleted successfully");
+            this.loadCalendars();
+          },
+          error: error => {
+            console.error('error deleting event', error);
+          }
+        })
+      }
+    } else {
+      this.modalData = {event, action};
+      this.modal.open(this.modalContent, {size: 'lg'});
+    }
   }
 
   addEvent(event: MyCalendarEvent, calendar: Calendar): void {
@@ -162,6 +200,8 @@ export class CalendarPageComponent implements OnInit {
         afterEnd: false
       },
       actions: this.actions,
+      location: event.location,
+      categories: event.categories,
       calendar: calendar
     }
 
@@ -177,6 +217,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   loadCalendars() {
+    this.events = [];
     var importedcals: Calendar[] = [];
     var id: number = 0;
 
@@ -194,6 +235,8 @@ export class CalendarPageComponent implements OnInit {
               start: new Date(event.getFirstPropertyValue("dtstart")),
               end: new Date(event.getFirstPropertyValue("dtend")),
               title: event.getFirstPropertyValue("summary"),
+              location: event.getFirstPropertyValue("location"),
+              categories: event.getFirstPropertyValue("categories")
             })
           })
           var newcal: Calendar = {
@@ -248,5 +291,14 @@ export class CalendarPageComponent implements OnInit {
 
   editPassword(): void {
     // Implement the password editing functionality here
+  }
+
+  createCustomEvent() {
+    let calendars: EventCalendar[] = this.calendars.map(cal => {
+      return {id: cal.id, name: cal.name}
+    });
+    this.router.navigate(['event/create'], {
+      state: {calendars: calendars}
+    });
   }
 }

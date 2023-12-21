@@ -20,7 +20,7 @@ import { EventPipePipe } from './pipes/event.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
 
-import { CreateEditCustomEventComponent } from './components/custom-event-modal/create-edit-custom-event.component';
+import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
 
 @NgModule({
   declarations: [

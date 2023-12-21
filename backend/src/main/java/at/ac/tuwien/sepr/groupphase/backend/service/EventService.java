@@ -15,4 +15,6 @@ public interface EventService {
     public List<Event> getEventsByCalendar(CalendarReference calendar);
 
     public Event updateEvent(Long id, Event event) throws NotFoundException;
+
+    void delete(Long id);
 }

@@ -36,16 +36,16 @@ public class UserDataGenerator {
     public void generateUsers() {
         LOGGER.debug("Generating {} user entries", NUMBER_OF_USERS_TO_GENERATE + NUMBER_OF_ADMINS_TO_GENERATE);
         List<ApplicationUser> applicationUsers = new ArrayList<>();
-        final String ENCRYPTED_PASSWORD = passwordEncoder.encode(USER_PASSWORD);
+        final String encryptedPassword = passwordEncoder.encode(USER_PASSWORD);
 
         // Generating admins
         for (int i = 1; i <= NUMBER_OF_ADMINS_TO_GENERATE; i++) {
-            applicationUsers.add(new ApplicationUser(String.format(ADMIN_EMAIL_PATTERN, i), ENCRYPTED_PASSWORD, true));
+            applicationUsers.add(new ApplicationUser(String.format(ADMIN_EMAIL_PATTERN, i), encryptedPassword, true));
         }
 
         // Generating users
         for (int i = 1; i <= NUMBER_OF_USERS_TO_GENERATE; i++) {
-            applicationUsers.add(new ApplicationUser(String.format(USER_EMAIL_PATTERN, i), ENCRYPTED_PASSWORD, false));
+            applicationUsers.add(new ApplicationUser(String.format(USER_EMAIL_PATTERN, i), encryptedPassword, false));
         }
 
         userRepository.saveAll(applicationUsers);

@@ -54,6 +54,19 @@
                      required
               >
             </div>
+
+            <div *ngIf="calendars" class="form-group pb-3">
+              <label for="calendar">Calendar</label>
+              <select name="calendar"
+                     class="form-control"
+                     id="calendar"
+                     placeholder="Calendar"
+                     [(ngModel)]="event.calendarId"
+                     required
+              >
+                <option *ngFor="let item of calendars" [value]="item.id">{{ item.name }}</option>
+              </select>
+            </div>
             <button type="submit" [disabled]="!form.valid" class="btn btn-success float-right">Save</button>
             <button type="button" (click)="onCancelClick()" class="btn btn-danger float-right mr-3">Cancel</button>
           </form>

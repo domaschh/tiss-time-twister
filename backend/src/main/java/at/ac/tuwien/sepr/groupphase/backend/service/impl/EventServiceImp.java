@@ -62,4 +62,10 @@ public class EventServiceImp implements EventService {
         }
 
     }
+
+    @Override
+    public void delete(Long id) {
+        LOGGER.debug("Delete event with id {}", id);
+        eventRepository.deleteById(id);
+    }
 }

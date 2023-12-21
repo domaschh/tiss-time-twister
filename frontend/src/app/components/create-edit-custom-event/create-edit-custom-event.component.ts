@@ -4,6 +4,7 @@ import {EventService} from "../../services/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {Observable} from "rxjs";
+import {EventCalendar} from "../../dtos/Calendar";
 
 export enum CreateEditMode{
   create,
@@ -22,8 +23,6 @@ export interface dialogData {
 })
 export class CreateEditCustomEventComponent implements OnInit{
 
-
-
   mode: CreateEditMode = CreateEditMode.create;
   event: CustomEventDto = {
     title: '',
@@ -33,9 +32,10 @@ export class CreateEditCustomEventComponent implements OnInit{
     calendarId: -1
   }
 
-
   private startSet: boolean = false;
   private endSet: boolean = false;
+
+  calendars: EventCalendar[];
 
   get startTime(): Date | null {
     return this.startSet
@@ -64,12 +64,14 @@ export class CreateEditCustomEventComponent implements OnInit{
     private router: Router,
     private route: ActivatedRoute
   ) {
+    this.calendars = this.router.getCurrentNavigation().extras.state?.calendars;
   }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.mode = data.mode;
     });
+
     if (this.mode === CreateEditMode.edit){
       let id = 0;
       this.route.params.subscribe(p => id = p.id);
@@ -82,9 +84,14 @@ export class CreateEditCustomEventComponent implements OnInit{
         },
         error: error => {
           console.error('error fetching event', error);
-          this.router.navigate(['']);
+          this.router.navigate(['calendar']);
         }
       })
+    } else {
+      if (!this.calendars) {
+        console.log("Cannot create event without calendar!");
+        this.router.navigate(['calendar']);
+      }
     }
   }
 
@@ -118,7 +125,7 @@ export class CreateEditCustomEventComponent implements OnInit{
       observable.subscribe({
         next: data => {
           console.log(`success ${data}`);
-          this.router.navigate(['']);
+          this.router.navigate(['calendar']);
         },
         error: error => {
           let action: string;
@@ -138,6 +145,6 @@ export class CreateEditCustomEventComponent implements OnInit{
 
   onCancelClick() {
     console.log("cancel");
-    this.router.navigate(['']);
+    this.router.navigate(['calendar']);
   }
 }
