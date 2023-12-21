@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles({"test", "generateData"})
 class LoginTest implements TestData {
 
-    private final String SAMPLE_EMAIL = "user2@email.com";
-    private final String SAMPLE_PASSWORD = "password";
+    private static  final String SAMPLE_EMAIL = "user2@email.com";
+    private static final String SAMPLE_PASSWORD = "password";
     @Autowired
     private LoginEndpoint loginEndpoint;
     @Autowired

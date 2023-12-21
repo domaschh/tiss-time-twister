@@ -36,11 +36,11 @@ public class UserDataGenerator {
     public void generateUsers() {
         LOGGER.debug("Generating {} user entries", NUMBER_OF_USERS_TO_GENERATE + NUMBER_OF_ADMINS_TO_GENERATE);
         List<ApplicationUser> applicationUsers = new ArrayList<>();
-        final String ENCRYPTED_PASSWORD = passwordEncoder.encode(USER_PASSWORD);
+        final String encryptedPassword = passwordEncoder.encode(USER_PASSWORD);
         int i = 1;
         // Generating admins
         for (; i <= NUMBER_OF_ADMINS_TO_GENERATE; i++) {
-            ApplicationUser e = new ApplicationUser(String.format(ADMIN_EMAIL_PATTERN, i), ENCRYPTED_PASSWORD, true);
+            ApplicationUser e = new ApplicationUser(String.format(ADMIN_EMAIL_PATTERN, i), encryptedPassword, true);
             e.setId((long) i);
             applicationUsers.add(e);
         }
@@ -48,7 +48,7 @@ public class UserDataGenerator {
         // Generating users
         int j = i;
         for (; i <= j + NUMBER_OF_USERS_TO_GENERATE; i++) {
-            ApplicationUser e = new ApplicationUser(String.format(USER_EMAIL_PATTERN, i), ENCRYPTED_PASSWORD, false);
+            ApplicationUser e = new ApplicationUser(String.format(USER_EMAIL_PATTERN, i), encryptedPassword, false);
             e.setId((long) i);
             applicationUsers.add(e);
         }
