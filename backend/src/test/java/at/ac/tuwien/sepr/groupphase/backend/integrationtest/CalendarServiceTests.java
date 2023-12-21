@@ -44,4 +44,5 @@ class CalendarServiceTests {
             () -> assertThrows(IOException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
             () -> assertThrows(URISyntaxException.class, () -> calendarService.fetchCalendarByUrl("not correct URI syntax")));
     }
+
 }

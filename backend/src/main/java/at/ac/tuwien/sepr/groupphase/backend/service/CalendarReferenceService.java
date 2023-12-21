@@ -4,8 +4,9 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 
 public interface CalendarReferenceService {
 
-    public CalendarReference getFromId(long id);
+    CalendarReference getFromId(long id);
 
-    public CalendarReference add(CalendarReference calendarReference);
+    CalendarReference add(CalendarReference calendarReference);
 
+    void deleteCalendar(Long id);
 }

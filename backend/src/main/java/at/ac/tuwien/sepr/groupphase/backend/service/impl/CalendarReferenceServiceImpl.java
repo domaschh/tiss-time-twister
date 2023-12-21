@@ -1,8 +1,10 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,18 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Override
     public CalendarReference getFromId(long id) {
         LOGGER.debug("Get CalendarReference from id {}", id);
-        return calendarReferenceRepository.getReferenceById(id);
+        return calendarReferenceRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
     public CalendarReference add(CalendarReference calendarReference) {
         LOGGER.debug("Adding CalendarReference {}", calendarReference);
         return calendarReferenceRepository.save(calendarReference);
+    }
+
+    @Override
+    public void deleteCalendar(Long id) {
+        LOGGER.debug("Deleting CalendarReference {}", id);
+        calendarReferenceRepository.deleteById(id);
     }
 }
