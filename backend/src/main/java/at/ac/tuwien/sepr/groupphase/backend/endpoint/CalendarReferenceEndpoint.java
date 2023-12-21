@@ -8,7 +8,6 @@ import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.invoke.MethodHandles;
 
@@ -65,11 +70,12 @@ public class CalendarReferenceEndpoint {
 
     @Secured("ROLE_USER")
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a Calendar Reference for the user", security = @SecurityRequirement(name="apiKey"))
+    @Operation(summary = "Delete a Calendar Reference for the user", security = @SecurityRequirement(name = "apiKey"))
     public void deleteCalendarReference(@PathVariable Long id) {
         LOGGER.info("Deleting Calendar with id: {}", id);
         calendarReferenceService.deleteCalendar(id);
     }
+
     /**
      * <p> Exports the Calendar associated with the given token.</p>
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>

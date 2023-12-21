@@ -2,8 +2,6 @@ package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
 
 import at.ac.tuwien.sepr.groupphase.backend.config.properties.SecurityProperties;
-import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
-import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.DetailedMessageDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.MessageMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
@@ -17,16 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Calendar;
-
-import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.*;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CALENDAR_REFERENCE_URL;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -37,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class CalendarReferenceIntegrationTests {
+class CalendarReferenceIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
@@ -84,25 +81,25 @@ public class CalendarReferenceIntegrationTests {
         calendarReferenceRepository.save(crf);
 
         MvcResult mvcResult1 = this.mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/{id}", 1L)
-                                                       .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-                                          .andDo(print())
-                                          .andReturn();
-        assertEquals(mvcResult1.getResponse().getStatus(), 200);
+                                                        .header(securityProperties.getAuthHeader(),
+                                                                jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                           .andDo(print())
+                                           .andReturn();
+        assertEquals(200, mvcResult1.getResponse().getStatus());
         MvcResult mvcResult2 = this.mockMvc.perform(delete(CALENDAR_REFERENCE_URL + "/{id}", 1L)
                                                         .header(securityProperties.getAuthHeader(),
                                                                 jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
                                            .andDo(print())
                                            .andReturn();
-        assertEquals(mvcResult2.getResponse().getStatus(), 200);
+        assertEquals(200, mvcResult2.getResponse().getStatus());
         MvcResult mvcResult3 = this.mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/{id}", 1L)
                                                         .header(securityProperties.getAuthHeader(),
                                                                 jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
                                            .andDo(print())
                                            .andReturn();
-        assertEquals(mvcResult3.getResponse().getStatus(), 404);
-//        CalendarReferenceDto calrefReturn = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
-//                                                                         CalendarReferenceDto.class);
-//        System.out.println(calrefReturn);
+        assertEquals(404, mvcResult3.getResponse().getStatus());
+        //        CalendarReferenceDto calrefReturn = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
+        //                                                                         CalendarReferenceDto.class);
+        //        System.out.println(calrefReturn);
     }
 }
