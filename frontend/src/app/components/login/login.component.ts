@@ -1,9 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ElementRef, Renderer2  } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {AuthRequest} from '../../dtos/auth-request';
 
+import {
+  Validation,
+  Input,
+  Ripple,
+  initTE,
+} from "tw-elements";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { th } from 'date-fns/locale';
+import { LogoutSuccessModalComponent } from '../logout-success-modal/logout-success-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -18,11 +27,32 @@ export class LoginComponent implements OnInit {
   // Error flag
   error = false;
   errorMessage = '';
+  isMobileView = window.innerWidth < 480;
 
-  constructor(private formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private modalService: NgbModal,
+    private activatedRoute: ActivatedRoute,
+    ) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+
+    // Listen for window resize events
+    window.addEventListener('resize', () => {
+      this.isMobileView = window.innerWidth > 480;
+
+      // Update button width based on the condition
+      if (this.isMobileView) {
+        this.renderer.addClass(this.el.nativeElement.querySelector('.login-button'), 'w-72');
+      } else {
+        this.renderer.removeClass(this.el.nativeElement.querySelector('.login-button'), 'w-72');
+      }
     });
   }
 
@@ -49,7 +79,7 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(authRequest).subscribe({
       next: () => {
         console.log('Successfully logged in user: ' + authRequest.email);
-        this.router.navigate(['/message']);
+        this.router.navigate(['/calendar']);
       },
       error: error => {
         console.log('Could not log in due to:');
@@ -72,6 +102,18 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    initTE({Validation, Input, Ripple });
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      if(params['loggedOut']){
+        this.showLogoutSuccessModal();
+      }
+    });
+  }
+
+  private showLogoutSuccessModal(){
+    const modalRef = this.modalService.open(LogoutSuccessModalComponent);
+    modalRef.componentInstance.message = 'Du wurdest erfolgreich ausgelogged.';
   }
 
 }

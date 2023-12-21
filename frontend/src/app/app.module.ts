@@ -12,6 +12,15 @@ import {LoginComponent} from './components/login/login.component';
 import {MessageComponent} from './components/message/message.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {httpInterceptorProviders} from './interceptors';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarPageComponent } from './components/calendar-page/calendar-page.component';
+import { ImportComponent } from './components/import/import.component';
+import { EventPipePipe } from './pipes/event.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
+
+import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +30,10 @@ import {httpInterceptorProviders} from './interceptors';
     HomeComponent,
     LoginComponent,
     MessageComponent,
+    CalendarPageComponent,
+    ImportComponent,
+    LogoutSuccessModalComponent,
+    CreateEditCustomEventComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +42,10 @@ import {httpInterceptorProviders} from './interceptors';
     HttpClientModule,
     NgbModule,
     FormsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    EventPipePipe,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

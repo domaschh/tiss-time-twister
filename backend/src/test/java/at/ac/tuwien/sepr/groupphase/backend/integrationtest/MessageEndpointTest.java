@@ -28,7 +28,10 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class MessageEndpointTest implements TestData {
+class MessageEndpointTest implements TestData {
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,56 +61,58 @@ public class MessageEndpointTest implements TestData {
     private SecurityProperties securityProperties;
 
     private Message message = Message.MessageBuilder.aMessage()
-        .withTitle(TEST_NEWS_TITLE)
-        .withSummary(TEST_NEWS_SUMMARY)
-        .withText(TEST_NEWS_TEXT)
-        .withPublishedAt(TEST_NEWS_PUBLISHED_AT)
-        .build();
+                                                    .withTitle(TEST_NEWS_TITLE)
+                                                    .withSummary(TEST_NEWS_SUMMARY)
+                                                    .withText(TEST_NEWS_TEXT)
+                                                    .withPublishedAt(TEST_NEWS_PUBLISHED_AT)
+                                                    .build();
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         messageRepository.deleteAll();
         message = Message.MessageBuilder.aMessage()
-            .withTitle(TEST_NEWS_TITLE)
-            .withSummary(TEST_NEWS_SUMMARY)
-            .withText(TEST_NEWS_TEXT)
-            .withPublishedAt(TEST_NEWS_PUBLISHED_AT)
-            .build();
+                                        .withTitle(TEST_NEWS_TITLE)
+                                        .withSummary(TEST_NEWS_SUMMARY)
+                                        .withText(TEST_NEWS_TEXT)
+                                        .withPublishedAt(TEST_NEWS_PUBLISHED_AT)
+                                        .build();
     }
 
     @Test
-    public void givenNothing_whenFindAll_thenEmptyList() throws Exception {
+    void givenNothing_whenFindAll_thenEmptyList() throws Exception {
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI)
-            .header(securityProperties.getAuthHeader(), jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-            .andDo(print())
-            .andReturn();
+                                                       .header(securityProperties.getAuthHeader(),
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                          .andDo(print())
+                                          .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType());
 
         List<SimpleMessageDto> simpleMessageDtos = Arrays.asList(objectMapper.readValue(response.getContentAsString(),
-            SimpleMessageDto[].class));
+                                                                                        SimpleMessageDto[].class));
 
         assertEquals(0, simpleMessageDtos.size());
     }
 
     @Test
-    public void givenOneMessage_whenFindAll_thenListWithSizeOneAndMessageWithAllPropertiesExceptSummary()
+    void givenOneMessage_whenFindAll_thenListWithSizeOneAndMessageWithAllPropertiesExceptSummary()
         throws Exception {
         messageRepository.save(message);
 
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI)
-            .header(securityProperties.getAuthHeader(), jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-            .andDo(print())
-            .andReturn();
+                                                       .header(securityProperties.getAuthHeader(),
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                          .andDo(print())
+                                          .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType());
 
         List<SimpleMessageDto> simpleMessageDtos = Arrays.asList(objectMapper.readValue(response.getContentAsString(),
-            SimpleMessageDto[].class));
+                                                                                        SimpleMessageDto[].class));
 
         assertEquals(1, simpleMessageDtos.size());
         SimpleMessageDto simpleMessageDto = simpleMessageDtos.get(0);
@@ -115,62 +120,63 @@ public class MessageEndpointTest implements TestData {
             () -> assertEquals(message.getId(), simpleMessageDto.getId()),
             () -> assertEquals(TEST_NEWS_TITLE, simpleMessageDto.getTitle()),
             () -> assertEquals(TEST_NEWS_SUMMARY, simpleMessageDto.getSummary()),
-            () -> assertEquals(TEST_NEWS_PUBLISHED_AT, simpleMessageDto.getPublishedAt())
-        );
+            () -> assertEquals(TEST_NEWS_PUBLISHED_AT, simpleMessageDto.getPublishedAt()));
     }
 
     @Test
-    public void givenOneMessage_whenFindById_thenMessageWithAllProperties() throws Exception {
+    void givenOneMessage_whenFindById_thenMessageWithAllProperties() throws Exception {
         messageRepository.save(message);
 
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI + "/{id}", message.getId())
-            .header(securityProperties.getAuthHeader(), jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-            .andDo(print())
-            .andReturn();
+                                                       .header(securityProperties.getAuthHeader(),
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                          .andDo(print())
+                                          .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
 
         assertAll(
             () -> assertEquals(HttpStatus.OK.value(), response.getStatus()),
-            () -> assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType())
-        );
+            () -> assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType()));
 
         DetailedMessageDto detailedMessageDto = objectMapper.readValue(response.getContentAsString(),
-            DetailedMessageDto.class);
+                                                                       DetailedMessageDto.class);
 
         assertEquals(message, messageMapper.detailedMessageDtoToMessage(detailedMessageDto));
     }
 
     @Test
-    public void givenOneMessage_whenFindByNonExistingId_then404() throws Exception {
+    void givenOneMessage_whenFindByNonExistingId_then404() throws Exception {
         messageRepository.save(message);
 
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI + "/{id}", -1)
-            .header(securityProperties.getAuthHeader(), jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-            .andDo(print())
-            .andReturn();
+                                                       .header(securityProperties.getAuthHeader(),
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                          .andDo(print())
+                                          .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
     }
 
     @Test
-    public void givenNothing_whenPost_thenMessageWithAllSetPropertiesPlusIdAndPublishedDate() throws Exception {
+    void givenNothing_whenPost_thenMessageWithAllSetPropertiesPlusIdAndPublishedDate() throws Exception {
         message.setPublishedAt(null);
         MessageInquiryDto messageInquiryDto = messageMapper.messageToMessageInquiryDto(message);
         String body = objectMapper.writeValueAsString(messageInquiryDto);
 
         MvcResult mvcResult = this.mockMvc.perform(post(MESSAGE_BASE_URI)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(body)
-            .header(securityProperties.getAuthHeader(), jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-            .andDo(print())
-            .andReturn();
+                                                       .contentType(MediaType.APPLICATION_JSON)
+                                                       .content(body)
+                                                       .header(securityProperties.getAuthHeader(),
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                          .andDo(print())
+                                          .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
         assertEquals(MediaType.APPLICATION_JSON_VALUE, response.getContentType());
 
         DetailedMessageDto messageResponse = objectMapper.readValue(response.getContentAsString(),
-            DetailedMessageDto.class);
+                                                                    DetailedMessageDto.class);
 
         assertNotNull(messageResponse.getId());
         assertNotNull(messageResponse.getPublishedAt());
@@ -182,7 +188,7 @@ public class MessageEndpointTest implements TestData {
     }
 
     @Test
-    public void givenNothing_whenPostInvalid_then400() throws Exception {
+    void givenNothing_whenPostInvalid_then400() throws Exception {
         message.setTitle(null);
         message.setSummary(null);
         message.setText(null);
@@ -190,11 +196,12 @@ public class MessageEndpointTest implements TestData {
         String body = objectMapper.writeValueAsString(messageInquiryDto);
 
         MvcResult mvcResult = this.mockMvc.perform(post(MESSAGE_BASE_URI)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(body)
-            .header(securityProperties.getAuthHeader(), jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-            .andDo(print())
-            .andReturn();
+                                                       .contentType(MediaType.APPLICATION_JSON)
+                                                       .content(body)
+                                                       .header(securityProperties.getAuthHeader(),
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                          .andDo(print())
+                                          .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
 
         assertAll(
@@ -205,14 +212,13 @@ public class MessageEndpointTest implements TestData {
                 content = content.substring(content.indexOf('[') + 1, content.indexOf(']'));
                 String[] errors = content.split(",");
                 assertEquals(3, errors.length);
-            }
-        );
+            });
     }
 
     private boolean isNow(LocalDateTime date) {
         LocalDateTime today = LocalDateTime.now();
-        return date.getYear() == today.getYear() && date.getDayOfYear() == today.getDayOfYear() &&
-            date.getHour() == today.getHour();
+        return date.getYear() == today.getYear() && date.getDayOfYear() == today.getDayOfYear()
+               && date.getHour() == today.getHour();
     }
 
 }

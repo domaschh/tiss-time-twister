@@ -1,11 +1,28 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-//TODO: replace this class with a correct ApplicationUser Entity implementation
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+@Entity
+@AllArgsConstructor
+@ToString
 public class ApplicationUser {
 
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
+    @ToString.Exclude
+    @Column(nullable = false, length = 100)
     private String password;
+    @Column(nullable = false)
     private Boolean admin;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     public ApplicationUser() {
     }
@@ -38,5 +55,13 @@ public class ApplicationUser {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
