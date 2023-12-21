@@ -32,33 +32,33 @@ public class LoginTest implements TestData {
     @Autowired
     private UserService userService;
     private UserLoginDto userLoginDto;
-    private final String SAMPLE_EMAIL = "user@example.com";
-    private final String SAMPLE_PASSWORD = "password";
+    private final String sampleEmail = "user@example.com";
+    private final String samplePassword = "password";
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         userDataGenerator.generateUsers();
         userLoginDto = new UserLoginDto();
-        userLoginDto.setEmail(SAMPLE_EMAIL);
-        userLoginDto.setPassword(SAMPLE_PASSWORD);
+        userLoginDto.setEmail(sampleEmail);
+        userLoginDto.setPassword(samplePassword);
     }
 
     @Test
-    public void whenLoginCalled_Successfull_Endpoint(){
+    public void whenLoginCalled_Successfull_Endpoint() {
         String expectedResponse = "Success";
         String response = loginEndpoint.login(userLoginDto);
         assertEquals(expectedResponse, response);
     }
 
     @Test
-    public void whenLoginCalled_Successfull_Service(){
+    public void whenLoginCalled_Successfull_Service() {
         String expectedResponse = "Success";
         String response = userService.login(userLoginDto);
         assertEquals(expectedResponse, response);
     }
 
     @Test
-    public void whenUserFoundByEmail_Successfull(){
+    public void whenUserFoundByEmail_Successfull() {
         String email = "user@email.com";
         ApplicationUser user = userRepository.findUserByEmail(email);
         assertNotNull(user);
