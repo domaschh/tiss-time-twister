@@ -1,6 +1,10 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.*;
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.DeleteEffect;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import at.ac.tuwien.sepr.groupphase.backend.service.EventService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
