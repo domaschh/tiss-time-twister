@@ -50,6 +50,6 @@ class PipelineServiceTests {
         cal.setName("Test_Calendar");
         cal.setLink(customMockUrl);
         var returnedCalendar = calendarService.pipeCalendar(cal);
-        assertEquals(returnedCalendar.getComponentList().getAll().size(),269);
+        assertEquals(269, returnedCalendar.getComponentList().getAll().size());
     }
 }
