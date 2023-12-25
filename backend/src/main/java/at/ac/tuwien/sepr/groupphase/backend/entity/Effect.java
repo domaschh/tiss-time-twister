@@ -2,12 +2,14 @@ package at.ac.tuwien.sepr.groupphase.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "Effects")
 public class Effect {
     @Id
@@ -23,16 +25,22 @@ public class Effect {
     @Column
     private EffectType effectType;
 
-    public Effect(String changedTitle, String changedDescription, String location) {
+    public Effect(String changedTitle, String changedDescription, String location, EffectType effectType) {
         this.changedTitle = changedTitle;
         this.changedDescription = changedDescription;
         this.location = location;
+        this.effectType = effectType;
     }
 
-    public Effect() {
+    public Effect(EffectType effectType) {
+        this.effectType = effectType;
     }
 
     public VEvent apply(VEvent toModify) {
+        if (effectType.equals(EffectType.DELETE)) {
+            return null;
+        }
+
         if (changedTitle != null) {
             toModify.setSummary(changedTitle);
         }

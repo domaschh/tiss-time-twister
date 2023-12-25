@@ -1,6 +1,5 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
-import at.ac.tuwien.sepr.groupphase.backend.TestUtility;
 import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
@@ -75,7 +74,8 @@ class PipelineServiceTests {
         Configuration configuration = new Configuration();
         Rule r = new Rule();
         Match m = new Match();
-        Effect e = new DeleteEffect();
+        Effect e = new Effect();
+        e.setEffectType(EffectType.DELETE);
         m.setSummary("194.026 VU Funktionale Programmierung");
         CalendarReference calendarReference = new CalendarReference();
         calendarReference.setLink(customMockUrl);
