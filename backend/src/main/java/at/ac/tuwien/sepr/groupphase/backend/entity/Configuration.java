@@ -26,6 +26,7 @@ public class Configuration {
         name = "calendar_ref_config",
         joinColumns = @JoinColumn(name = "configuration_id"),
         inverseJoinColumns = @JoinColumn(name = "reference_id"))
+
     List<CalendarReference> calendarReferences;
 
     @OneToMany(mappedBy = "configuration", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
