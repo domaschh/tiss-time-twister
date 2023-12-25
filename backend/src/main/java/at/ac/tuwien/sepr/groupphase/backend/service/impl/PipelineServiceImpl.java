@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
@@ -39,7 +40,7 @@ public class PipelineServiceImpl implements PipelineService {
 
     @Override
     public Calendar pipeCalendar(UUID token) throws ParserException, IOException, URISyntaxException {
-        var calendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
+        CalendarReference calendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
         var calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
         List<Configuration> configurations = calendarReference.getConfigurations();
         List<CalendarComponent> newComponents = new ArrayList<>();

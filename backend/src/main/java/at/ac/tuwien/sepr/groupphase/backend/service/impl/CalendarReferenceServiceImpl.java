@@ -30,9 +30,8 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Override
     public CalendarReference add(CalendarReference calendarReference) {
         LOGGER.debug("Adding CalendarReference {}", calendarReference);
-        var ref = calendarReferenceRepository.save(calendarReference);
-        ref.setToken(generateToken());
-        return ref;
+        calendarReference.setToken(generateToken());
+        return calendarReferenceRepository.save(calendarReference);
     }
 
     @Override
