@@ -1,29 +1,39 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Table;
 import net.fortuna.ical4j.model.component.VEvent;
 
-@Getter
-@Setter
-@AllArgsConstructor
 @Entity
+@Table(name = "Matches")
 public class Match {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
     private String summary;
+    @Column
     private String description;
+    @Column
     private String location;
+    @Column
     private String uid;
 
 
-    public Match() {//
+    public Match() {
+    }
+
+    public Match(long id, String summary, String description, String location, String uid) {
+        this.id = id;
+        this.summary = summary;
+        this.description = description;
+        this.location = location;
+        this.uid = uid;
     }
 
     public boolean matches(VEvent tevent) {

@@ -2,7 +2,7 @@ package at.ac.tuwien.sepr.groupphase.backend.unittests;
 
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.DeleteEffect;
-import at.ac.tuwien.sepr.groupphase.backend.entity.ModifyEffect;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Effect;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Description;
@@ -14,8 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -47,7 +45,7 @@ class EffectTests {
 
     @Test
     void modifyingEffect1Proprty() {
-        ModifyEffect m = new ModifyEffect("new Title", null, null);
+        Effect m = new Effect("new Title", null, null);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals("new Title", result.getSummary().get().getValue());
@@ -57,7 +55,7 @@ class EffectTests {
 
     @Test
     void modifyingEffect0Proprty() {
-        ModifyEffect m = new ModifyEffect(null, null, null);
+        Effect m = new Effect(null, null, null);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals(result, vEvent);
@@ -65,7 +63,7 @@ class EffectTests {
 
     @Test
     void modifyingEffectAllProperties() {
-        ModifyEffect m = new ModifyEffect("new title", "new Description", "new Location");
+        Effect m = new Effect("new title", "new Description", "new Location");
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals("new title", result.getSummary().get().getValue());
