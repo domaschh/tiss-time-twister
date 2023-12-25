@@ -139,4 +139,33 @@ class CalendarReferenceIntegrationTests {
         assertNotNull(calendar);
         assertEquals(310, calendar.getComponentList().getAll().size());
     }
+    @Test
+    @Order(4)
+    void reexportCalWithoutFprog() throws Exception {
+        CalendarReferenceDto calendarReferenceDto = new CalendarReferenceDto();
+        String customMockUrl = "http://localhost:" + port + "/test-cal";
+        calendarReferenceDto.setLink(customMockUrl);
+        calendarReferenceDto.setName("TISS Calendar");
+
+        MvcResult mvcResult = mockMvc.perform(put(CALENDAR_REFERENCE_URL) // Replace with your actual endpoint URL
+                                                                          .contentType("application/json")
+                                                                          .content(objectMapper.writeValueAsString(calendarReferenceDto))
+                                                                          .header(securityProperties.getAuthHeader(),
+                                                                                  jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                     .andExpect(status().isOk()).andReturn();
+        CalendarReferenceDto createdCalendarReference = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
+                                                                               CalendarReferenceDto.class);
+        assertNotNull(createdCalendarReference);
+
+        MvcResult mvcResult2 = mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/export/" + createdCalendarReference.getToken()) // Replace with your actual endpoint URL
+                                                                                                                              .contentType("application/json")
+                                                                                                                              .header(securityProperties.getAuthHeader(),
+                                                                                                                                      jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                      .andExpect(status().isOk()).andReturn();
+        var reexportedCal = mvcResult2.getResponse().getContentAsString();
+        Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
+        assertNotNull(reexportedCal);
+        assertNotNull(calendar);
+        assertEquals(310, calendar.getComponentList().getAll().size());
+    }
 }
