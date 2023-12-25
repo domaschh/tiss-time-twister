@@ -3,15 +3,17 @@ package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.model.component.VEvent;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -19,32 +21,35 @@ import java.net.URISyntaxException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class PipelineServiceTests {
-    private static final String TISS_URL = "https://tiss.tuwien.ac.at/events/rest/calendar/personal?locale=de&token=5c144bcb-eebb-46f6-8825-f111f796dabc";
-
     private static final CalendarReference cal = new CalendarReference();
 
     @Autowired
     private PipelineService calendarService;
 
-    @Test
-    void removesAllFunktionaleProgrammierungEvents() throws ParserException, IOException, URISyntaxException {
-        cal.setId(0L);
-        cal.setName("Test_Calendar");
-        cal.setLink(TISS_URL);
+    @Autowired
+    private MockMvc mockMvc;
 
+    @LocalServerPort
+    private int port;
+
+    @Test
+    void testIcsEndpoint() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/test-cal"))
+               .andExpect(MockMvcResultMatchers.status().isOk())
+               .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"));
+    }
+
+    @Test
+    void testCalendarWithCustomEndpoint() throws ParserException, IOException, URISyntaxException {
+        cal.setId(0L);
+        String customMockUrl = "http://localhost:" + port + "/test-cal";
+        cal.setName("Test_Calendar");
+        cal.setLink(customMockUrl);
         var returnedCalendar = calendarService.pipeCalendar(cal);
-        var numberOfFProgEvents = returnedCalendar
-            .getComponentList()
-            .getAll()
-            .stream()
-            .filter(VEvent.class::isInstance)
-            .filter(c -> ((VEvent) c).getSummary().get().getValue().equals("194.026 VU Funktionale Programmierung")).toList()
-            .size();
-        assertEquals(0, numberOfFProgEvents);
-        Assertions.assertThat(returnedCalendar.getComponentList().getAll()).isNotEmpty();
+        assertEquals(269, returnedCalendar.getComponentList().getAll().size());
     }
 }

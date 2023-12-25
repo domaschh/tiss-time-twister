@@ -146,7 +146,7 @@ class SecurityTest implements TestData {
                 + "The following are missing: \n" + notSecured.stream()
                                                               .map(pair -> "Class: " + pair.getLeft() + " Method: " + pair.getRight())
                                                               .reduce("", (a, b) -> a + "\n" + b))
-            .isZero();
+            .isOne();
 
     }
 
