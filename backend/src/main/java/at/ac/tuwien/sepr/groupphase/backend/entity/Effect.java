@@ -1,16 +1,15 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "Effects")
 public class Effect {
     @Id
@@ -26,16 +25,22 @@ public class Effect {
     @Column
     private EffectType effectType;
 
-    public Effect(String changedTitle, String changedDescription, String location) {
+    public Effect(String changedTitle, String changedDescription, String location, EffectType effectType) {
         this.changedTitle = changedTitle;
         this.changedDescription = changedDescription;
         this.location = location;
+        this.effectType = effectType;
     }
 
-    public Effect() {
+    public Effect(EffectType effectType) {
+        this.effectType = effectType;
     }
 
     public VEvent apply(VEvent toModify) {
+        if (effectType == null || effectType.equals(EffectType.DELETE)) {
+            return null;
+        }
+
         if (changedTitle != null) {
             toModify.setSummary(changedTitle);
         }
@@ -55,45 +60,5 @@ public class Effect {
         }
 
         return toModify;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getChangedTitle() {
-        return changedTitle;
-    }
-
-    public void setChangedTitle(String changedTitle) {
-        this.changedTitle = changedTitle;
-    }
-
-    public String getChangedDescription() {
-        return changedDescription;
-    }
-
-    public void setChangedDescription(String changedDescription) {
-        this.changedDescription = changedDescription;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public EffectType getEffectType() {
-        return effectType;
-    }
-
-    public void setEffectType(EffectType effectType) {
-        this.effectType = effectType;
     }
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.UUID;
 
 @Service
 public class CalendarReferenceServiceImpl implements CalendarReferenceService {
@@ -29,7 +30,18 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Override
     public CalendarReference add(CalendarReference calendarReference) {
         LOGGER.debug("Adding CalendarReference {}", calendarReference);
+        calendarReference.setToken(generateToken());
         return calendarReferenceRepository.save(calendarReference);
+    }
+
+    @Override
+    public UUID generateToken() {
+        return UUID.randomUUID();
+    }
+
+    @Override
+    public CalendarReference getFromToken(UUID token) {
+        return calendarReferenceRepository.findCalendarReferenceByToken(token);
     }
 
     @Override
