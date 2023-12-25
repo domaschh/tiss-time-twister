@@ -1,19 +1,21 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
+import at.ac.tuwien.sepr.groupphase.backend.TestUtility;
 import at.ac.tuwien.sepr.groupphase.backend.entity.*;
+import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
+import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.component.VEvent;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,8 +26,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
-import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,16 +34,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class PipelineServiceTests {
-    private static final CalendarReference cal = new CalendarReference();
+    private CalendarReference cal = new CalendarReference();
 
     @Autowired
     private PipelineService pipelineService;
 
-    @Spy
+    @Autowired
     private CalendarService calendarService;
-    @Spy
-    private CalendarReferenceRepository calendarReferenceRepository;
 
+    @MockBean
+    private CalendarReferenceRepository calendarReferenceRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -63,14 +63,14 @@ class PipelineServiceTests {
         cal.setId(0L);
         String customMockUrl = "http://localhost:" + port + "/test-cal";
         cal.setName("Test_Calendar");
-        cal.setLink(customMockUrl);
-        var returnedCalendar = calendarService.pipeCalendar(cal);
-        assertEquals(returnedCalendar.getComponentList().getAll().size(),269);
+        var returnedCalendar = calendarService.fetchCalendarByUrl(customMockUrl);
+        assertEquals(returnedCalendar.getComponentList().getAll().size(),310);
     }
 
     @Test
     void removesAllFunktionaleProgrammierungEvents() throws ParserException, IOException, URISyntaxException {
-        String fileContent = TestUtility.loadIcsFileAsString("domasch_fixed.ics");
+        String customMockUrl = "http://localhost:" + port + "/test-cal";
+
 
         Configuration configuration = new Configuration();
         Rule r = new Rule();
@@ -78,7 +78,7 @@ class PipelineServiceTests {
         Effect e = new DeleteEffect();
         m.setSummary("194.026 VU Funktionale Programmierung");
         CalendarReference calendarReference = new CalendarReference();
-        calendarReference.setLink(TISS_URL);
+        calendarReference.setLink(customMockUrl);
 
         configuration.setRules(List.of(r));
         r.setEffect(e);
@@ -89,8 +89,6 @@ class PipelineServiceTests {
         Mockito
             .when(calendarReferenceRepository.findCalendarReferenceByToken(calendarUUID))
             .thenReturn(calendarReference);
-
-        Mockito.when(calendarService.fetchCalendarByUrl(calendarReference.getLink())).thenReturn(TestUtility.loadCalendarForTests("domasch_fixed.ics"));
 
         var returnedCalendar = pipelineService.pipeCalendar(calendarUUID);
 
@@ -103,6 +101,7 @@ class PipelineServiceTests {
             .toList()
             .size();
         assertEquals(0, numberOfFProgEvents);
+        assertEquals(269, returnedCalendar.getComponentList().getAll().size());
         Assertions.assertThat(returnedCalendar.getComponentList().getAll()).isNotEmpty();
     }
 }

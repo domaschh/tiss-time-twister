@@ -58,9 +58,10 @@ public class PipelineServiceImpl implements PipelineService {
                                                       } else {
                                                           return currentVEvent;
                                                       }
-                                                  }, (vEvent1, vEvent2) -> vEvent2);
-
-            newComponents.add(modifiedVEvent);
+                                                  }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
+            if (modifiedVEvent != null) {
+                newComponents.add(modifiedVEvent);
+            }
         });
         var componentList = new ComponentList<>(newComponents);
         calendar.setComponentList(componentList);

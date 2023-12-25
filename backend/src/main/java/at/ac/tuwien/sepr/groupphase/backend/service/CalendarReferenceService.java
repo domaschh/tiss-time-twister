@@ -11,6 +11,7 @@ public interface CalendarReferenceService {
     CalendarReference add(CalendarReference calendarReference);
 
     void deleteCalendar(Long id);
+
     UUID generateToken();
 
     CalendarReference getFromToken(UUID token);
