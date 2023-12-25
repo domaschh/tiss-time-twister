@@ -1,4 +1,4 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 
-public record RuleDto(long id, String value, EffectDto effect, MatchDto match) {
+public record RuleDto(long id, EffectDto effect, MatchDto match) {
 }

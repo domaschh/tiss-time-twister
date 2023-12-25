@@ -8,12 +8,13 @@ public class Rule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column()
-    private String value;
 
     @ManyToOne()
     @JoinColumn(name = "config_id")
     private Configuration configuration;
+
+    public Rule() {
+    }
 
     @OneToOne
     private Effect effect;
@@ -27,14 +28,6 @@ public class Rule {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public Configuration getConfiguration() {

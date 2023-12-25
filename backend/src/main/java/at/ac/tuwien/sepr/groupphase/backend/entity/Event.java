@@ -22,6 +22,10 @@ public class Event {
     @Column()
     private String location;
 
+    public Event() {
+
+    }
+
     @ManyToOne()
     @JoinColumn(name = "calendar_id")
     private CalendarReference calendar;
