@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
+import at.ac.tuwien.sepr.groupphase.backend.LVADetail;
 import at.ac.tuwien.sepr.groupphase.backend.TissRoom;
 import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,15 @@ public class TissTests {
     @Test
     void validateRoomShortHand() {
         String roomName = "Propädeutikum für Informatik";
-        String shortHand = tissService.mapLVANameShorthand(roomName);
-        assertEquals(shortHand, "prolog");
+        LVADetail shortHand = tissService.mapLVANameShorthand(roomName);
+        assertEquals(shortHand.shorthand(), "prolog");
+    }
+
+    @Test
+    void validateRoomShortHand2() {
+        String roomName = "Funktionale Programmierung";
+        LVADetail shortHand = tissService.mapLVANameShorthand(roomName);
+        assertEquals(shortHand.shorthand(), "fp");
+        assertEquals(shortHand.examURl(), "https://tiss.tuwien.ac.at/education/course/examDateList.xhtml?courseNr=194026&semester=2023W");
     }
 }
