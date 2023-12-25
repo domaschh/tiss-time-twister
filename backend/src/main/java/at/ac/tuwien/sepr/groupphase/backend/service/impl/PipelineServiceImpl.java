@@ -1,11 +1,7 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
-import at.ac.tuwien.sepr.groupphase.backend.entity.DeleteEffect;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
-import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import net.fortuna.ical4j.data.ParserException;
