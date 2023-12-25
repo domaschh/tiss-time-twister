@@ -1,12 +1,14 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.UUID;
 
 
 @Entity
+@Data
 @Table(name = "Calendars")
 public class CalendarReference {
     @Id
@@ -33,44 +35,4 @@ public class CalendarReference {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public ApplicationUser getUser() {
-        return user;
-    }
-
-    public void setUser(ApplicationUser user) {
-        this.user = user;
-    }
-
-    public UUID getToken() {
-        return token;
-    }
-
-    public void setToken(UUID token) {
-        this.token = token;
-    }
 }

@@ -1,11 +1,13 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
 
 @Entity
+@Data
 @Table(name = "Effects")
 public class Effect {
     @Id
@@ -50,45 +52,5 @@ public class Effect {
         }
 
         return toModify;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getChangedTitle() {
-        return changedTitle;
-    }
-
-    public void setChangedTitle(String changedTitle) {
-        this.changedTitle = changedTitle;
-    }
-
-    public String getChangedDescription() {
-        return changedDescription;
-    }
-
-    public void setChangedDescription(String changedDescription) {
-        this.changedDescription = changedDescription;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public EffectType getEffectType() {
-        return effectType;
-    }
-
-    public void setEffectType(EffectType effectType) {
-        this.effectType = effectType;
     }
 }

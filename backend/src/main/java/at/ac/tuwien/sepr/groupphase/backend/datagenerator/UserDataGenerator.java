@@ -40,16 +40,14 @@ public class UserDataGenerator {
         int i = 1;
         // Generating admins
         for (; i <= NUMBER_OF_ADMINS_TO_GENERATE; i++) {
-            ApplicationUser e = new ApplicationUser(String.format(ADMIN_EMAIL_PATTERN, i), encryptedPassword, true);
-            e.setId((long) i);
+            ApplicationUser e = new ApplicationUser(String.format(ADMIN_EMAIL_PATTERN, i), encryptedPassword, true, (long) i);
             applicationUsers.add(e);
         }
 
         // Generating users
         int j = i;
         for (; i <= j + NUMBER_OF_USERS_TO_GENERATE; i++) {
-            ApplicationUser e = new ApplicationUser(String.format(USER_EMAIL_PATTERN, i), encryptedPassword, false);
-            e.setId((long) i);
+            ApplicationUser e = new ApplicationUser(String.format(USER_EMAIL_PATTERN, i), encryptedPassword, false, (long) i);
             applicationUsers.add(e);
         }
 

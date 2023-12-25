@@ -1,8 +1,10 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "Rules")
 public class Rule {
     @Id
@@ -13,44 +15,9 @@ public class Rule {
     @JoinColumn(name = "config_id")
     private Configuration configuration;
 
-    public Rule() {
-    }
-
     @OneToOne
     private Effect effect;
 
     @OneToOne
     private Match match;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Configuration getConfiguration() {
-        return configuration;
-    }
-
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
-    public Effect getEffect() {
-        return effect;
-    }
-
-    public void setEffect(Effect effect) {
-        this.effect = effect;
-    }
-
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
 }
