@@ -76,6 +76,7 @@ public class CalendarReferenceEndpoint {
         calendarReferenceService.deleteCalendar(id);
     }
 
+
     /**
      * <p> Exports the Calendar associated with the given token.</p>
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>

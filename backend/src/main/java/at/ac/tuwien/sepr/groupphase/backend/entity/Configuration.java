@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,6 +32,13 @@ public class Configuration {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
+
+    @ManyToMany()
+    @JoinTable(
+        name = "calendar_ref_config",
+        joinColumns = @JoinColumn(name = "configuration_id"),
+        inverseJoinColumns = @JoinColumn(name = "reference_id"))
+    List<CalendarReference> calendarReferences;
 
     @OneToMany(mappedBy = "configuration", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Rule> rules = new ArrayList<>();

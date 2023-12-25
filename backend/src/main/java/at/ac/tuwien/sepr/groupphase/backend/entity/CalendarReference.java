@@ -6,8 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -16,10 +20,23 @@ public class CalendarReference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
+    private UUID token;
     @Column()
     private String name;
     @Column()
     private String link;
+
+    @ManyToMany(mappedBy = "calendarReferences")
+    List<Configuration> configurations;
+
+    public List<Configuration> getConfigurations() {
+        return configurations;
+    }
+
+    public void setConfigurations(List<Configuration> configurations) {
+        this.configurations = configurations;
+    }
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -55,5 +72,13 @@ public class CalendarReference {
 
     public void setUser(ApplicationUser user) {
         this.user = user;
+    }
+
+    public UUID getToken() {
+        return token;
+    }
+
+    public void setToken(UUID token) {
+        this.token = token;
     }
 }
