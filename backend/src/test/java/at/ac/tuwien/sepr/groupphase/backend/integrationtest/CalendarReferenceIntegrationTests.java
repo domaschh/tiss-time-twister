@@ -28,11 +28,15 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.StringReader;
 
-import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CALENDAR_REFERENCE_URL;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -119,26 +123,31 @@ class CalendarReferenceIntegrationTests {
         calendarReferenceDto.setLink(customMockUrl);
         calendarReferenceDto.setName("TISS Calendar");
         MvcResult mvcResult = mockMvc.perform(put(CALENDAR_REFERENCE_URL) // Replace with your actual endpoint URL
-                                                  .contentType("application/json")
-                                                  .content(objectMapper.writeValueAsString(calendarReferenceDto))
-                                                  .header(securityProperties.getAuthHeader(),
-                                                            jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
-               .andExpect(status().isOk()).andReturn();
-        CalendarReferenceDto createdCalendarReference = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
-                                                                                           CalendarReferenceDto.class);
-        assertNotNull(createdCalendarReference);
-
-        MvcResult mvcResult2 = mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/export/" + createdCalendarReference.getToken()) // Replace with your actual endpoint URL
                                                                           .contentType("application/json")
+                                                                          .content(objectMapper.writeValueAsString(calendarReferenceDto))
                                                                           .header(securityProperties.getAuthHeader(),
                                                                                   jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
                                      .andExpect(status().isOk()).andReturn();
+        CalendarReferenceDto createdCalendarReference = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
+                                                                               CalendarReferenceDto.class);
+        assertNotNull(createdCalendarReference);
+
+        MvcResult mvcResult2 = mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/export/" + createdCalendarReference.getToken()) // Replace with your actual endpoint URL
+                                                                                                                              .contentType(
+                                                                                                                                  "application/json")
+                                                                                                                              .header(
+                                                                                                                                  securityProperties.getAuthHeader(),
+                                                                                                                                  jwtTokenizer.getAuthToken(
+                                                                                                                                      ADMIN_USER,
+                                                                                                                                      ADMIN_ROLES)))
+                                      .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
         assertNotNull(reexportedCal);
         assertNotNull(calendar);
         assertEquals(310, calendar.getComponentList().getAll().size());
     }
+
     @Test
     @Order(4)
     void reexportCalWithoutFprog() throws Exception {
@@ -158,9 +167,13 @@ class CalendarReferenceIntegrationTests {
         assertNotNull(createdCalendarReference);
 
         MvcResult mvcResult2 = mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/export/" + createdCalendarReference.getToken()) // Replace with your actual endpoint URL
-                                                                                                                              .contentType("application/json")
-                                                                                                                              .header(securityProperties.getAuthHeader(),
-                                                                                                                                      jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                                                                              .contentType(
+                                                                                                                                  "application/json")
+                                                                                                                              .header(
+                                                                                                                                  securityProperties.getAuthHeader(),
+                                                                                                                                  jwtTokenizer.getAuthToken(
+                                                                                                                                      ADMIN_USER,
+                                                                                                                                      ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
