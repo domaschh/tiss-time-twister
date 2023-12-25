@@ -24,14 +24,6 @@ public class CalendarReference {
     @ManyToMany(mappedBy = "calendarReferences")
     List<Configuration> configurations;
 
-    public List<Configuration> getConfigurations() {
-        return configurations;
-    }
-
-    public void setConfigurations(List<Configuration> configurations) {
-        this.configurations = configurations;
-    }
-
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private ApplicationUser user;

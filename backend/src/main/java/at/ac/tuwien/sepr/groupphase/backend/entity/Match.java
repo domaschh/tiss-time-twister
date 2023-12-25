@@ -29,16 +29,16 @@ public class Match {
         boolean summaryMatches = (summary == null) || (tevent.getSummary().isPresent() && tevent.getSummary()
                                                                                                 .get()
                                                                                                 .getValue()
-                                                                                                .equals(summary));
+                                                                                                .contains(summary));
         boolean descriptionMatches = (description == null) || (tevent.getDescription().isPresent() && tevent.getDescription()
                                                                                                             .get()
                                                                                                             .getValue()
-                                                                                                            .equals(description));
+                                                                                                            .contains(description));
         boolean locationMatches = (location == null) || (tevent.getLocation().isPresent() && tevent.getLocation()
                                                                                                    .get()
                                                                                                    .getValue()
-                                                                                                   .equals(location));
-        boolean uidMatches = (uid == null) || (tevent.getUid().isPresent() && tevent.getUid().get().getValue().equals(uid));
+                                                                                                   .contains(location));
+        boolean uidMatches = (uid == null) || (tevent.getUid().isPresent() && tevent.getUid().get().getValue().contains(uid));
 
         return summaryMatches && descriptionMatches && locationMatches && uidMatches;
     }
