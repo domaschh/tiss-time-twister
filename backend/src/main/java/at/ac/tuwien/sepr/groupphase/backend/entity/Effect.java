@@ -37,7 +37,7 @@ public class Effect {
     }
 
     public VEvent apply(VEvent toModify) {
-        if (effectType.equals(EffectType.DELETE)) {
+        if (effectType == null || effectType.equals(EffectType.DELETE)) {
             return null;
         }
 
