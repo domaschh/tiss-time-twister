@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
+import at.ac.tuwien.sepr.groupphase.backend.TestUtility;
 import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
@@ -63,7 +64,7 @@ class PipelineServiceTests {
         String customMockUrl = "http://localhost:" + port + "/test-cal";
         cal.setName("Test_Calendar");
         var returnedCalendar = calendarService.fetchCalendarByUrl(customMockUrl);
-        assertEquals(returnedCalendar.getComponentList().getAll().size(),310);
+        assertEquals(310, returnedCalendar.getComponentList().getAll().size());
     }
 
     @Test
