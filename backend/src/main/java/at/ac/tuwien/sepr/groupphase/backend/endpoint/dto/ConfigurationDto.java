@@ -8,4 +8,5 @@ public class ConfigurationDto {
     private String description;
     private List<CalendarReferenceDto> calendarRefences;
     private List<RuleDto> rules;
+    private boolean published;
 }
