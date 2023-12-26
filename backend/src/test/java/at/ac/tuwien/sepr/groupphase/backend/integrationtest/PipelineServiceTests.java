@@ -76,6 +76,7 @@ class PipelineServiceTests {
         Match m = new Match();
         Effect e = new Effect();
         e.setEffectType(EffectType.DELETE);
+        m.setSummaryMatchType(MatchType.EQUALS);
         m.setSummary("194.026 VU Funktionale Programmierung");
         CalendarReference calendarReference = new CalendarReference();
         calendarReference.setLink(customMockUrl);

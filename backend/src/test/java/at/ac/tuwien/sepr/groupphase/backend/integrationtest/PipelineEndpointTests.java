@@ -79,7 +79,7 @@ class PipelineEndpointTests {
         config.setId(1L);
         var rule = new Rule();
         Match match = new Match();
-        match.setSummary("Funktionale Programmierung");
+        match.setSummary(MatchType.CONTAINS, "Funktionale Programmierung");
         Effect effect = new Effect(EffectType.DELETE);
         rule.setMatch(match);
         rule.setEffect(effect);

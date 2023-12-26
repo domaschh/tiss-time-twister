@@ -2,6 +2,7 @@ package at.ac.tuwien.sepr.groupphase.backend.unittests;
 
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
+import at.ac.tuwien.sepr.groupphase.backend.entity.MatchType;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Description;
@@ -30,6 +31,7 @@ class MatchTests {
 
         Match m = new Match();
         m.setId(1);
+        m.setSummaryMatchType(MatchType.EQUALS);
         m.setSummary("194.026 Funktionale Programmierung");
 
         assertTrue(m.matches(vevent));
@@ -45,8 +47,10 @@ class MatchTests {
 
         Match m = new Match();
         m.setId(1);
-        m.setSummary("194.026 Funktionale Programmierung");
-        m.setDescription("Funktionale Programmierung");
+        m.setSummary("194.026");
+        m.setDescription("Programmierung");
+        m.setSummaryMatchType(MatchType.STARTS_WITH);
+        m.setDescriptionMatchType(MatchType.CONTAINS);
 
         assertTrue(m.matches(vevent));
     }
@@ -62,9 +66,9 @@ class MatchTests {
 
         Match m = new Match();
         m.setId(1);
-        m.setSummary("194.026 Funktionale Programmierung");
-        m.setDescription("Funktionale Programmierung");
-        m.setLocation("EI 3 Sahulka HS - UIW");
+        m.setSummary(MatchType.STARTS_WITH, "194.026");
+        m.setDescription(MatchType.EQUALS, "Funktionale Programmierung");
+        m.setLocation(MatchType.CONTAINS, "Sahulka");
 
         assertTrue(m.matches(vevent));
     }
@@ -80,9 +84,9 @@ class MatchTests {
 
         Match m = new Match();
         m.setId(1);
-        m.setSummary("194.026 Funktionale Programmierung");
-        m.setDescription("NotTheDescription");
-        m.setLocation("EI 3 Sahulka HS - UIW");
+        m.setSummary(MatchType.STARTS_WITH, "194.026 Funktionale Programmierung");
+        m.setDescription(MatchType.CONTAINS, "NotTheDescription");
+        m.setLocation(MatchType.CONTAINS, "Sahulka");
 
         assertFalse(m.matches(vevent));
     }
