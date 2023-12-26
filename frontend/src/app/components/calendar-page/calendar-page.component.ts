@@ -146,8 +146,6 @@ export class CalendarPageComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log(event);
-    console.log(action);
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if(action === 'Clicked' || action === 'Edited'){
       console.log(myEvent);
@@ -217,8 +215,6 @@ export class CalendarPageComponent implements OnInit {
   }
 
   loadCalendars() {
-    this.events = [];
-    var importedcals: Calendar[] = [];
     var id: number = 0;
 
     this.calenderReferenceServie.getAll().subscribe({
@@ -227,17 +223,17 @@ export class CalendarPageComponent implements OnInit {
           var evs: MyCalendarEvent[] = [];
           this.calenderReferenceServie.getIcalFromToken(calendarReferenceDto.token).subscribe((icalString) => {
             var parsedcal = this.myICAL.parse(icalString);
-            console.log(parsedcal)
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
             vevents.forEach(event => {
-              evs.push({
+              let parsed = {
                 start: new Date(event.getFirstPropertyValue("dtstart")),
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
                 location: event.getFirstPropertyValue("location"),
                 categories: event.getFirstPropertyValue("categories")
-              })
+              };
+              evs.push(parsed)
             })
             var newcal: Calendar = {
               isActive: false,
@@ -248,17 +244,22 @@ export class CalendarPageComponent implements OnInit {
             }
             id++;
             this.calendars.push(newcal);
-          })
-        })
-        if (this.calendars != null && this.calendars.length != 0) {
-          this.calendars.forEach(cal => {
-            if (cal.events != null) {
-              cal.events.forEach(event => {
-                this.addEvent(event, cal);
+
+            console.log(this.calendars)
+
+            if (this.calendars != null && this.calendars.length != 0) {
+              console.log("hello")
+
+              this.calendars.forEach(cal => {
+                if (cal.events != null) {
+                  cal.events.forEach(event => {
+                    this.addEvent(event, cal);
+                  });
+                }
               });
             }
-          });
-        }
+          })
+        })
       }
     });
   }
