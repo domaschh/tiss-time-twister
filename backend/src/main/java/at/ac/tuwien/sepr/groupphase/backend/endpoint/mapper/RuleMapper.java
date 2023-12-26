@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(uses = ConfigurationMapper.class)
 public interface RuleMapper {
-    Rule dtoToEvent(RuleDto ruleDto);
+    Rule dtoToRule(RuleDto ruleDto);
 
-    RuleDto eventToDto(Rule rule);
+    RuleDto ruleToDto(Rule rule);
 }
