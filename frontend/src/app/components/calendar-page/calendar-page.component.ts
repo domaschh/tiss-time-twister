@@ -221,33 +221,34 @@ export class CalendarPageComponent implements OnInit {
     var importedcals: Calendar[] = [];
     var id: number = 0;
 
-    const obs: Observable<String[]> = this.calenderReferenceServie.getAll();
-    obs.subscribe({
+    this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
-        cals.forEach(ical => {
+        cals.forEach((calendarReferenceDto) => {
           var evs: MyCalendarEvent[] = [];
-
-          var parsedcal = this.myICAL.parse(ical);
-          var calAsComponent = new this.myICAL.Component(parsedcal);
-          var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
-          vevents.forEach(event => {
-            evs.push({
-              start: new Date(event.getFirstPropertyValue("dtstart")),
-              end: new Date(event.getFirstPropertyValue("dtend")),
-              title: event.getFirstPropertyValue("summary"),
-              location: event.getFirstPropertyValue("location"),
-              categories: event.getFirstPropertyValue("categories")
+          this.calenderReferenceServie.getIcalFromToken(calendarReferenceDto.token).subscribe((icalString) => {
+            var parsedcal = this.myICAL.parse(icalString);
+            console.log(parsedcal)
+            var calAsComponent = new this.myICAL.Component(parsedcal);
+            var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
+            vevents.forEach(event => {
+              evs.push({
+                start: new Date(event.getFirstPropertyValue("dtstart")),
+                end: new Date(event.getFirstPropertyValue("dtend")),
+                title: event.getFirstPropertyValue("summary"),
+                location: event.getFirstPropertyValue("location"),
+                categories: event.getFirstPropertyValue("categories")
+              })
             })
+            var newcal: Calendar = {
+              isActive: false,
+              name: calendarReferenceDto.name,
+              color: colors[id].primary, //only n preset colors are stored
+              events: evs,
+              id: id //id needed for frontend
+            }
+            id++;
+            this.calendars.push(newcal);
           })
-          var newcal: Calendar = {
-            isActive: false,
-            name: calAsComponent.getFirstPropertyValue("prodid"),
-            color: colors[id].primary, //only n preset colors are stored
-            events: evs,
-            id: id //id needed for frontend
-          }
-          id++;
-          this.calendars.push(newcal);
         })
         if (this.calendars != null && this.calendars.length != 0) {
           this.calendars.forEach(cal => {
@@ -268,7 +269,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openModal(modalName: string) {
-    //open the corresponding modal window
+    this.router.navigate(['import'])
   }
 
   get allCalEnabled(): boolean {

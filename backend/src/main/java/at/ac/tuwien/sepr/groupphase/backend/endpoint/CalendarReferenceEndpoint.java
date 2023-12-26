@@ -1,13 +1,19 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepr.groupphase.backend.config.properties.SecurityProperties;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
+import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import org.slf4j.Logger;
@@ -24,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,24 +41,36 @@ public class CalendarReferenceEndpoint {
     private final CalendarReferenceService calendarReferenceService;
     private final CalendarReferenceMapper calendarReferenceMapper;
     private final PipelineService pipelineService;
-
+    private final ExtractUsernameService extractUsernameService;
 
     @Autowired
     public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper,
-                                     PipelineService pipelineService) {
+                                     PipelineService pipelineService, ExtractUsernameService extractUsernameService) {
         this.calendarReferenceService = calendarReferenceService;
         this.calendarReferenceMapper = calendarReferenceMapper;
         this.pipelineService = pipelineService;
+        this.extractUsernameService = extractUsernameService;
     }
 
     @Secured("ROLE_USER")
     @PutMapping
     @Operation(summary = "Import a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto importCalendarReference(@RequestBody CalendarReferenceDto calendarReferenceDto) {
+    public CalendarReferenceDto importCalendarReference(@RequestBody CalendarReferenceDto calendarReferenceDto, HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/calendar/body:{}", calendarReferenceDto);
         return calendarReferenceMapper.calendarReferenceToDto(
             calendarReferenceService.add(
-                calendarReferenceMapper.dtoToCalendarReference(calendarReferenceDto)));
+                calendarReferenceMapper.dtoToCalendarReference(calendarReferenceDto), username));
+    }
+
+
+    @Secured("ROLE_USER")
+    @GetMapping
+    @Operation(summary = "Get all stored CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public List<CalendarReferenceDto> getAllForUser(HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
+        LOGGER.info("Get /api/v1/calendar/{}", username);
+        return calendarReferenceService.getAllForUser(username).stream().map(calendarReferenceMapper::calendarReferenceToDto).toList();
     }
 
     @Secured("ROLE_USER")
