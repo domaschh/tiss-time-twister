@@ -15,6 +15,7 @@ public interface TestData {
 
     String BASE_URI = "/api/v1";
     String MESSAGE_BASE_URI = BASE_URI + "/messages";
+    String CONFIG_BASE_URI = BASE_URI + "/configuration";
     String CALENDAR_REFERENCE_URL = BASE_URI + "/calendar";
 
     String ADMIN_USER = "admin@email.com";

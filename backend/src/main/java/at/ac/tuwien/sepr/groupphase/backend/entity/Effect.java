@@ -14,7 +14,7 @@ import net.fortuna.ical4j.model.property.Categories;
 public class Effect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column
     private String changedTitle;

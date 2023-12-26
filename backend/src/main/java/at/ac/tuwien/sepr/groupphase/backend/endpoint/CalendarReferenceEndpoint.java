@@ -8,7 +8,6 @@ import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
-import jakarta.validation.Valid;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import org.slf4j.Logger;

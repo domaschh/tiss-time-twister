@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(uses = CalendarReferenceMapper.class)
 public interface ConfigurationMapper {
-    Configuration dtoToEvent(ConfigurationDto configurationDto);
+    Configuration toEntity(ConfigurationDto configurationDto);
 
-    ConfigurationDto eventToDto(Configuration effect);
+    ConfigurationDto toDto(Configuration config);
 }
