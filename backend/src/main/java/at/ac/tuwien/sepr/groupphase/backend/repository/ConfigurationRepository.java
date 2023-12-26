@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface ConfigurationRepository extends JpaRepository<Configuration, Long> {
     List<Configuration> findAllByUser(ApplicationUser user);
+
     List<Configuration> findAllByPublishedIsTrue();
 }

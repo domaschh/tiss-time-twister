@@ -1,12 +1,15 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -46,7 +49,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public Configuration getById(Long id) {
         LOGGER.debug("Get Configuration by id {}", id);
-        return configurationRepository.getReferenceById(id);
+        try {
+            return configurationRepository.getReferenceById(id);
+        } catch (JpaObjectRetrievalFailureException e) {
+            throw new NotFoundException();
+        }
     }
 
     @Override
