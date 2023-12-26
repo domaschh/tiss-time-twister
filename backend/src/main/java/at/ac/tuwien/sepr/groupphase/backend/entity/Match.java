@@ -7,7 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.VEvent;
+
+import java.util.Optional;
 
 @Entity
 @Data
@@ -53,36 +56,28 @@ public class Match {
             return false;
         }
 
-
-        boolean summaryMatches = (summary == null) || (tevent.getSummary().isPresent()
-                                                       && evaluate(tevent.getSummary()
-                                                                         .get()
-                                                                         .getValue(),
-                                                                   summaryMatchType,
-                                                                   summary));
-        boolean descriptionMatches = (description == null) || (tevent.getDescription().isPresent()
-                                                               && evaluate(tevent.getDescription()
-                                                                                 .get()
-                                                                                 .getValue(),
-                                                                           descriptionMatchType,
-                                                                           description));
-        boolean locationMatches = (location == null) || (tevent.getLocation().isPresent()
-                                                         && evaluate(tevent.getLocation()
-                                                                           .get()
-                                                                           .getValue(),
-                                                                     locationMatchType,
-                                                                     location));
+        boolean summaryMatches = evaluate(tevent.getSummary(), summaryMatchType, summary);
+        boolean descriptionMatches = evaluate(tevent.getDescription(), descriptionMatchType, description);
+        boolean locationMatches = evaluate(tevent.getLocation(), locationMatchType, location);
         boolean uidMatches = (uid == null) || (tevent.getUid().isPresent() && tevent.getUid().get().getValue().contains(uid));
 
         return summaryMatches && descriptionMatches && locationMatches && uidMatches;
     }
 
-    private boolean evaluate(String actual, MatchType matchType, String expected) {
+    private boolean evaluate(Optional<? extends Property> optional, MatchType matchType, String matchValue) {
+        if (matchValue == null) {
+            return true;
+        }
+        if (optional.isEmpty()) {
+            return false;
+        }
+        String propertyValue = optional.get().getValue();
+
         return switch (matchType) {
-            case CONTAINS -> actual.contains(expected);
-            case STARTS_WITH -> actual.startsWith(expected);
-            case EQUALS -> actual.equals(expected);
-            case REGEX -> actual.matches(expected);
+            case CONTAINS -> propertyValue.contains(matchValue);
+            case STARTS_WITH -> propertyValue.startsWith(matchValue);
+            case EQUALS -> propertyValue.equals(matchValue);
+            case REGEX -> propertyValue.matches(matchValue);
         };
 
     }
