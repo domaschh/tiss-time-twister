@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/rule")
@@ -44,7 +43,7 @@ public class RuleEndpoint {
     }
 
     @Secured("ROLE_USER")
-    @GetMapping
+    @GetMapping(value = "/{id}")
     @Operation(summary = "get a Rule by Id", security = @SecurityRequirement(name = "apiKey"))
     public RuleDto getById(@RequestBody Long id) {
         LOGGER.info("Get /api/v1/rule/id: {}", id);
@@ -52,10 +51,10 @@ public class RuleEndpoint {
     }
 
     @Secured("ROLE_USER")
-    @GetMapping
+    @GetMapping(value = "/{configuration}")
     @Operation(summary = "get all Rules within a Configuration", security = @SecurityRequirement(name = "apiKey"))
     public List<RuleDto> getAllByConfiguration(@RequestBody Configuration config) {
         LOGGER.info("Get /api/v1/rule/configuration: {}", config);
-        return ruleService.getAllByConfiguration(config).stream().map(ruleMapper::ruleToDto).collect(Collectors.toList());
+        return ruleService.getAllByConfiguration(config).stream().map(ruleMapper::ruleToDto).toList();
     }
 }
