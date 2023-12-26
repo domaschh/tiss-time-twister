@@ -95,7 +95,7 @@ class MatchTests {
     }
 
     @Test
-    void extensiveMatcherTest() {
+    void extensiveMatchTest() {
         VEvent vevent = new VEvent();
         vevent.add(new PropertyBuilder().name("BEGIN").value("VEVENT").build());
         vevent.add(new Summary("194.026 Funktionale Programmierung"));
