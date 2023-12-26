@@ -46,7 +46,7 @@ public class ConfigurationEndpoint {
     @Secured("ROLE_USER")
     @PutMapping("/changeVisibility/{configurationId}")
     @Operation(summary = "Create a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ConfigurationDto changeVisibility(@RequestBody Long configurationId) {
+    public ConfigurationDto changeVisibility(@PathVariable Long configurationId) {
         LOGGER.info("Put /api/v1/configuration/changeVisibility/{}", configurationId);
         return configurationMapper.toDto(
             configurationService.changeVisibility(configurationId));

@@ -20,6 +20,7 @@ public class Configuration {
     private String title;
     @Column()
     private String description;
+
     @Column()
     private boolean published;
 
