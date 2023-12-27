@@ -3,36 +3,12 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 
-import java.util.List;
-import java.util.UUID;
-
 public class CalendarReferenceDto {
     private Long id;
-    private UUID token;
-
     @NotNull
     private String name;
     @URL
     private String link;
-    private List<ConfigurationDto> configurations;
-
-    public List<ConfigurationDto> getConfigurations() {
-        return configurations;
-    }
-
-    public void setConfigurations(List<ConfigurationDto> configurations) {
-        this.configurations = configurations;
-    }
-
-    public UUID getToken() {
-        return token;
-    }
-
-    public void setToken(UUID token) {
-        this.token = token;
-    }
-
-
 
     public Long getId() {
         return id;

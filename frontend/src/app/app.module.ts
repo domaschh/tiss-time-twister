@@ -21,7 +21,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
 
 import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
-import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,6 @@ import { ToastrModule } from 'ngx-toastr';
     EventPipePipe,
     BrowserAnimationsModule,
     CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
-    ToastrModule.forRoot()
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

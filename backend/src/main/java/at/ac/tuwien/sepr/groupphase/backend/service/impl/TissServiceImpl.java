@@ -1,6 +1,5 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.LVADetail;
 import at.ac.tuwien.sepr.groupphase.backend.TissRoom;
 import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import java.util.Map;
 @Service
 public class TissServiceImpl implements TissService {
     private Map<String, TissRoom> tissRoomMap;
-    private Map<String, LVADetail> shorthandMap;
+    private Map<String, String> shorthandMap;
 
     @Autowired
     public void tissRoomConfig(Map<String, TissRoom> tissRoomMap) {
@@ -19,7 +18,7 @@ public class TissServiceImpl implements TissService {
     }
 
     @Autowired
-    public void shorthandConfig(Map<String, LVADetail> shorthandMap) {
+    public void shorthandConfig(Map<String, String> shorthandMap) {
         this.shorthandMap = shorthandMap;
     }
 
@@ -29,7 +28,7 @@ public class TissServiceImpl implements TissService {
     }
 
     @Override
-    public LVADetail mapLVANameShorthand(String longName) {
+    public String mapLVANameShorthand(String longName) {
         return shorthandMap.get(longName);
     }
 }

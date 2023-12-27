@@ -26,19 +26,14 @@ export class CalendarReferenceService {
   getById(id: number) {
     return this.httpClient.get<CalendarReferenceDto>(this.messageBaseUri + '/' + id);
   }
-
-  getIcalFromToken(token: string) {
-    return this.httpClient.get(this.messageBaseUri + "/export/" + token, { responseType: 'text' });
-  }
-
-  getAll(): Observable<CalendarReferenceDto[]> {
-    return this.httpClient.get<CalendarReferenceDto[]>(this.messageBaseUri)
+  getAll(): Observable<String[]> {
+    return this.httpClient.get<String[]>(this.messageBaseUri + "/all")
     .pipe(
       catchError(error => {
         //return dummy data because the backend is not working currently
         console.log("Request failed returning dummy data");
         console.log(error)
-        return of([]);
+        return of([this.cal1,this.cal2]);
       })
     );
   }

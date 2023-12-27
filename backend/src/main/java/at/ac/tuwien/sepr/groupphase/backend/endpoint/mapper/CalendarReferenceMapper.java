@@ -5,7 +5,7 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = ConfigurationMapper.class)
+@Mapper
 public interface CalendarReferenceMapper {
 
     @Mapping(target = "id", source = "id")
