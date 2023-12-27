@@ -39,6 +39,12 @@
               [style.border-color]="calendar.color">
             {{calendar.name}}
           </label>
+          <a class=" ml-2 btn" aria-label="Delete" (click)="openDeleteModal(calendar)">
+            <i class="bi bi-x-lg" style="font-size: 1rem"></i>
+          </a>
+          <a class="btn" aria-label="Edit">
+            <i class="bi bi-pencil" style="font-size: 1rem;"></i>
+          </a>
         </div>
         <!--Importierte Kalender-->
         <!--Neuen Kalender importieren-->
@@ -51,13 +57,14 @@
         <p>Meine Konfigurationen:</p>
         <div *ngFor="let conf of configurations">
           <label class="form-check-label" [for]="'conf' + conf.id">
-            <input class="form-check-input" type="checkbox" [id]="'conf' + conf.id" [(ngModel)]="conf.isActive"
+            <input type="checkbox" [id]="'conf' + conf.id" [(ngModel)]="conf.isActive"
               [style.background-color]="conf.isActive ? conf.color : '#ffffff'"
               [style.border-color]="conf.color">
             {{conf.name}}
+            <span>dasdas</span>
           </label>
           <a class="btn" aria-label="Delete">
-            <i class="bi bi-x-lg" style="font-size: 1rem;"></i>
+            <i class="bi bi-x-lg" style="font-size: 1rem"></i>
           </a>
           <a class="btn" aria-label="Edit">
             <i class="bi bi-pencil" style="font-size: 1rem;"></i>

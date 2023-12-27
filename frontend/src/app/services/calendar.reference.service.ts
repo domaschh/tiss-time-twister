@@ -23,6 +23,10 @@ export class CalendarReferenceService {
     return this.httpClient.put<CalendarReferenceDto>(this.messageBaseUri, dto);
   }
 
+  deleteCalendar(id: number) {
+    return this.httpClient.delete(this.messageBaseUri + "/" + id);
+  }
+
   getById(id: number) {
     return this.httpClient.get<CalendarReferenceDto>(this.messageBaseUri + '/' + id);
   }

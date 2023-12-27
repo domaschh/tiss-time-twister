@@ -27,6 +27,7 @@ import { RuleModalComponent } from './components/create-config/rule-modal/rule-m
 import { PublicConfigCardComponent } from './components/public-config-card/public-config-card.component';
 import { PublicPageComponent } from './components/public-page/public-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ConfirmationModal } from './components/delete-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     PublicConfigCardComponent,
     PublicPageComponent,
     NavbarComponent,
+    ConfirmationModal,
   ],
   imports: [
     BrowserModule,

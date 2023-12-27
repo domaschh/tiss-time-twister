@@ -32,6 +32,10 @@ import { CalendarReferenceService } from 'src/app/services/calendar.reference.se
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import * as ICAL from 'ical.js';
 import {EventService} from "../../services/event.service";
+import {LogoutSuccessModalComponent} from "../logout-success-modal/logout-success-modal.component";
+import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
+import {ca} from "date-fns/locale";
+import {ToastrService} from "ngx-toastr";
 
 
 //preset colors since color should not be saved
@@ -103,8 +107,10 @@ export class CalendarPageComponent implements OnInit {
     private calenderReferenceServie: CalendarReferenceService,
     private configurationService: ConfigurationService,
     private eventService: EventService,
-    private router: Router
-    ) { }
+    private router: Router,
+    private modalService: NgbModal,
+    private readonly toastrService: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadCalendars();
@@ -240,7 +246,7 @@ export class CalendarPageComponent implements OnInit {
               name: calendarReferenceDto.name,
               color: colors[id].primary, //only n preset colors are stored
               events: evs,
-              id: id //id needed for frontend
+              id: calendarReferenceDto.id //id needed for frontend
             }
             id++;
             this.calendars.push(newcal);
@@ -302,5 +308,24 @@ export class CalendarPageComponent implements OnInit {
     this.router.navigate(['event/create'], {
       state: {calendars: calendars}
     });
+  }
+
+  openDeleteModal(calendar: Calendar) {
+    const modalRef = this.modalService.open(ConfirmationModal);
+    modalRef.componentInstance.message = 'Do you really want to delete Calendar: ' + calendar.name;
+    modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
+        next: () => {
+          this.toastrService.success("Deleted Calendar");
+          this.calendars = this.calendars.filter(obj => obj.id !== calendar.id);
+
+          callback(true);
+        },
+        error: () => {
+          this.toastrService.error("Couldn't delete");
+          callback(false);
+        }
+      });
+    };
   }
 }
