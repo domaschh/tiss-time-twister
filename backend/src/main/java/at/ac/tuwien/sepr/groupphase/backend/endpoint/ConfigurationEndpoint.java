@@ -4,9 +4,11 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,14 @@ public class ConfigurationEndpoint {
 
     private final ConfigurationService configurationService;
     private final ConfigurationMapper configurationMapper;
+    private final ExtractUsernameService extractUsernameService;
 
     @Autowired
-    public ConfigurationEndpoint(ConfigurationService configurationService, ConfigurationMapper configurationMapper) {
+    public ConfigurationEndpoint(ConfigurationService configurationService, ConfigurationMapper configurationMapper,
+                                 ExtractUsernameService extractUsernameService) {
         this.configurationService = configurationService;
         this.configurationMapper = configurationMapper;
+        this.extractUsernameService = extractUsernameService;
     }
 
     @Secured("ROLE_USER")
@@ -83,10 +88,11 @@ public class ConfigurationEndpoint {
     }
 
     @Secured("ROLE_USER")
-    @GetMapping("/all/{userId}")
+    @GetMapping("/all")
     @Operation(summary = "Get all by user Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public List<ConfigurationDto> getAllForUser(@PathVariable Long userId) {
-        LOGGER.info("Get /api/v1/configuration/all/{}", userId);
-        return configurationService.getAllByUser(userId).stream().map(configurationMapper::toDto).toList();
+    public List<ConfigurationDto> getAllForUser(HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
+        LOGGER.info("Get /api/v1/configuration/all/{}", username);
+        return configurationService.getAllByUser(username).stream().map(configurationMapper::toDto).toList();
     }
 }

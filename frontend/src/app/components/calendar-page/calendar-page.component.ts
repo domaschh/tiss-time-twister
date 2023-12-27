@@ -270,7 +270,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openModal(modalName: string) {
-    this.router.navigate(['import'])
+    this.router.navigate([modalName])
   }
 
   get allCalEnabled(): boolean {
