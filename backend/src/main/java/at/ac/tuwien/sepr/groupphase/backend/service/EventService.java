@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.service;
 
+import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Event;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;

@@ -2,8 +2,7 @@ import {Component} from '@angular/core';
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 import {CalendarReferenceService} from "../../services/calendar.reference.service";
 import {Router} from "@angular/router";
-import {FormGroup, UntypedFormBuilder, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-import',
@@ -11,17 +10,18 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./import.component.scss']
 })
 export class ImportComponent {
-  importForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    link: ['', [Validators.required]]
-  });
+  importForm: UntypedFormGroup;
   submitted = false;
   // Error flag
   error = false;
   errorMessage = '';
 
 
-  constructor(private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
+  constructor(private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router) {
+    this.importForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      link: ['', [Validators.required]]
+    });
   }
 
 
@@ -40,18 +40,17 @@ export class ImportComponent {
   }
 
   importCalendar() {
-    const toImport: CalendarReferenceDto = {
+
+    const toImport:CalendarReferenceDto = {
       id: null,
       name: this.importForm.controls.name.value,
-      link: this.importForm.controls.link.value,
-      token: null
+      link: this.importForm.controls.link.value
     }
 
     this.calendarReferenceService.importCalendar(toImport).subscribe({
-      next: () => {
+      next: ()=> {
         console.log('Successfully imported calendar: ' + toImport.name);
-        this.router.navigate(['calendar']);
-        this.toastrService.success("Created Calendar")
+        this.router.navigate(['']);
       },
       error: err => {
         console.log('Could not import calendar due to:');

@@ -1,8 +1,8 @@
 package at.ac.tuwien.sepr.groupphase.backend.unittests;
 
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.Effect;
-import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
+import at.ac.tuwien.sepr.groupphase.backend.entity.DeleteEffect;
+import at.ac.tuwien.sepr.groupphase.backend.entity.ModifyEffect;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Description;
@@ -15,7 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -36,14 +41,13 @@ class EffectTests {
 
     @Test
     void deleteEffect() {
-        Effect e = new Effect();
-        e.setEffectType(EffectType.DELETE);
+        DeleteEffect e = new DeleteEffect();
         assertNull(e.apply(vEvent));
     }
 
     @Test
     void modifyingEffect1Proprty() {
-        Effect m = new Effect("new Title", null, null, EffectType.MODIFY);
+        ModifyEffect m = new ModifyEffect("new Title", null, null);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals("new Title", result.getSummary().get().getValue());
@@ -53,7 +57,7 @@ class EffectTests {
 
     @Test
     void modifyingEffect0Proprty() {
-        Effect m = new Effect(null, null, null, EffectType.MODIFY);
+        ModifyEffect m = new ModifyEffect(null, null, null);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals(result, vEvent);
@@ -61,7 +65,7 @@ class EffectTests {
 
     @Test
     void modifyingEffectAllProperties() {
-        Effect m = new Effect("new title", "new Description", "new Location", EffectType.MODIFY);
+        ModifyEffect m = new ModifyEffect("new title", "new Description", "new Location");
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals("new title", result.getSummary().get().getValue());
