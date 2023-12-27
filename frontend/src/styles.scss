@@ -3,8 +3,10 @@
 @import 'tailwindcss/utilities';
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
+@import 'ngx-toastr/toastr';
 
 /* You can add global styles to this file, and also import other style files */
 body {
   background-color: whitesmoke;
 }
+

@@ -146,8 +146,6 @@ export class CalendarPageComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log(event);
-    console.log(action);
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if(action === 'Clicked' || action === 'Edited'){
       console.log(myEvent);
@@ -217,47 +215,51 @@ export class CalendarPageComponent implements OnInit {
   }
 
   loadCalendars() {
-    this.events = [];
-    var importedcals: Calendar[] = [];
     var id: number = 0;
 
-    const obs: Observable<String[]> = this.calenderReferenceServie.getAll();
-    obs.subscribe({
+    this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
-        cals.forEach(ical => {
+        cals.forEach((calendarReferenceDto) => {
           var evs: MyCalendarEvent[] = [];
-
-          var parsedcal = this.myICAL.parse(ical);
-          var calAsComponent = new this.myICAL.Component(parsedcal);
-          var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
-          vevents.forEach(event => {
-            evs.push({
-              start: new Date(event.getFirstPropertyValue("dtstart")),
-              end: new Date(event.getFirstPropertyValue("dtend")),
-              title: event.getFirstPropertyValue("summary"),
-              location: event.getFirstPropertyValue("location"),
-              categories: event.getFirstPropertyValue("categories")
+          this.calenderReferenceServie.getIcalFromToken(calendarReferenceDto.token).subscribe((icalString) => {
+            var parsedcal = this.myICAL.parse(icalString);
+            var calAsComponent = new this.myICAL.Component(parsedcal);
+            var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
+            vevents.forEach(event => {
+              let parsed = {
+                start: new Date(event.getFirstPropertyValue("dtstart")),
+                end: new Date(event.getFirstPropertyValue("dtend")),
+                title: event.getFirstPropertyValue("summary"),
+                location: event.getFirstPropertyValue("location"),
+                categories: event.getFirstPropertyValue("categories")
+              };
+              evs.push(parsed)
             })
-          })
-          var newcal: Calendar = {
-            isActive: false,
-            name: calAsComponent.getFirstPropertyValue("prodid"),
-            color: colors[id].primary, //only n preset colors are stored
-            events: evs,
-            id: id //id needed for frontend
-          }
-          id++;
-          this.calendars.push(newcal);
-        })
-        if (this.calendars != null && this.calendars.length != 0) {
-          this.calendars.forEach(cal => {
-            if (cal.events != null) {
-              cal.events.forEach(event => {
-                this.addEvent(event, cal);
+            var newcal: Calendar = {
+              isActive: false,
+              name: calendarReferenceDto.name,
+              color: colors[id].primary, //only n preset colors are stored
+              events: evs,
+              id: id //id needed for frontend
+            }
+            id++;
+            this.calendars.push(newcal);
+
+            console.log(this.calendars)
+
+            if (this.calendars != null && this.calendars.length != 0) {
+              console.log("hello")
+
+              this.calendars.forEach(cal => {
+                if (cal.events != null) {
+                  cal.events.forEach(event => {
+                    this.addEvent(event, cal);
+                  });
+                }
               });
             }
-          });
-        }
+          })
+        })
       }
     });
   }
@@ -268,7 +270,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openModal(modalName: string) {
-    //open the corresponding modal window
+    this.router.navigate(['import'])
   }
 
   get allCalEnabled(): boolean {
