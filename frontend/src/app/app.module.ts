@@ -22,6 +22,11 @@ import { LogoutSuccessModalComponent } from './components/logout-success-modal/l
 
 import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
 import { ToastrModule } from 'ngx-toastr';
+import { CreateConfigComponent } from './components/create-config/create-config.component';
+import { RuleModalComponent } from './components/create-config/rule-modal/rule-modal.component';
+import { PublicConfigCardComponent } from './components/public-config-card/public-config-card.component';
+import { PublicPageComponent } from './components/public-page/public-page.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,11 @@ import { ToastrModule } from 'ngx-toastr';
     ImportComponent,
     LogoutSuccessModalComponent,
     CreateEditCustomEventComponent,
+    CreateConfigComponent,
+    RuleModalComponent,
+    PublicConfigCardComponent,
+    PublicPageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

@@ -56,11 +56,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public List<Configuration> getAllByUser(Long userId) {
-        LOGGER.debug("Get all Configurations for user {}", userId);
-        var user = applicationUserRepository.findById(userId);
-        if (user.isPresent()) {
-            return configurationRepository.findAllByUser(user.get());
+    public List<Configuration> getAllByUser(String username) {
+        LOGGER.debug("Get all Configurations for user {}", username);
+        var user = applicationUserRepository.getApplicationUserByEmail(username);
+        if (user != null) {
+            return configurationRepository.findAllByUser(user);
         } else {
             return List.of();
         }

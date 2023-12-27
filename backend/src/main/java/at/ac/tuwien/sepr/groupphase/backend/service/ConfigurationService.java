@@ -15,7 +15,7 @@ public interface ConfigurationService {
 
     Configuration getById(Long id);
 
-    List<Configuration> getAllByUser(Long userId);
+    List<Configuration> getAllByUser(String userId);
 
     List<Configuration> getAllPublicConfigurations();
 

@@ -7,12 +7,16 @@ import {AuthGuard} from './guards/auth.guard';
 import {MessageComponent} from './components/message/message.component';
 import {ImportComponent} from "./components/import/import.component";
 import {CreateEditMode, CreateEditCustomEventComponent} from "./components/create-edit-custom-event/create-edit-custom-event.component";
+import {CreateConfigComponent} from "./components/create-config/create-config.component";
+import {PublicPageComponent} from "./components/public-page/public-page.component";
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent},
   {path: 'calendar', component: CalendarPageComponent},
   {path: 'import', component: ImportComponent},
+  {path: 'createConfig', component: CreateConfigComponent},
+  {path: 'publicConfigs', component: PublicPageComponent},
   {path: 'event', children: [
       {path: '', redirectTo: 'create', pathMatch: 'full'},
       {path: 'create', component: CreateEditCustomEventComponent, data: {mode: CreateEditMode.create}},
