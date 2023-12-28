@@ -1,8 +1,9 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
@@ -45,14 +46,17 @@ public class CalendarReferenceEndpoint {
     private final CalendarReferenceMapper calendarReferenceMapper;
     private final PipelineService pipelineService;
     private final ExtractUsernameService extractUsernameService;
+    private final ConfigurationMapper configurationMapper;
 
     @Autowired
     public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper,
-                                     PipelineService pipelineService, ExtractUsernameService extractUsernameService) {
+                                     PipelineService pipelineService, ExtractUsernameService extractUsernameService,
+                                     ConfigurationMapper configurationMapper) {
         this.calendarReferenceService = calendarReferenceService;
         this.calendarReferenceMapper = calendarReferenceMapper;
         this.pipelineService = pipelineService;
         this.extractUsernameService = extractUsernameService;
+        this.configurationMapper = configurationMapper;
     }
 
     @Secured("ROLE_USER")
@@ -132,10 +136,11 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @GetMapping("/preview/{id}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable long id, @RequestBody List<Configuration> configurations) {
-        LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurations);
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable long id, @RequestBody List<ConfigurationDto> configurationDtos) {
+        LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurationDtos);
         try {
-            Calendar preview = pipelineService.previewConfiguration(id, configurations);
+            Calendar preview = pipelineService.previewConfiguration(id,
+                                                                    configurationDtos.stream().map(configurationMapper::toEntity).toList());
             byte[] fileContent = preview.toString().getBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= preview[" + id + "].ics");
@@ -147,7 +152,7 @@ public class CalendarReferenceEndpoint {
                                  .body(new ByteArrayResource(fileContent));
         } catch (ParserException | IOException | URISyntaxException e) {
             return ResponseEntity.internalServerError().build();
-        }  catch (NotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
