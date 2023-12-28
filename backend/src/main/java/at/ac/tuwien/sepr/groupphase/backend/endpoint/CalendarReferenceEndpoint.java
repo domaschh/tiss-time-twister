@@ -130,6 +130,8 @@ public class CalendarReferenceEndpoint {
                                  .body(new ByteArrayResource(fileContent));
         } catch (ParserException | IOException | URISyntaxException e) {
             return ResponseEntity.internalServerError().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 

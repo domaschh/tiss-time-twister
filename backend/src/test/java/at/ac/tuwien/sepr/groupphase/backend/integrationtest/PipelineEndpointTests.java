@@ -3,6 +3,7 @@ package at.ac.tuwien.sepr.groupphase.backend.integrationtest;
 
 import at.ac.tuwien.sepr.groupphase.backend.config.properties.SecurityProperties;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
@@ -17,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,9 +93,10 @@ class PipelineEndpointTests {
         config.setRules(List.of(rule));
         mockedCalReference.setConfigurations(List.of(config));
         when(calendarReferenceRepository.findCalendarReferenceByToken(any()))
-            .thenReturn(mockedCalReference);
+            .thenReturn(Optional.of(mockedCalReference));
 
-        MvcResult mvcResult2 = mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/export/" + customUUID) // Replace with your actual endpoint URL
+        String path = CALENDAR_REFERENCE_URL + "/export/" + customUUID;
+        MvcResult mvcResult2 = mockMvc.perform(get(path) // Replace with your actual endpoint URL
                                                                                                      .contentType(MediaType.APPLICATION_JSON)
                                                                                                      .header(securityProperties.getAuthHeader(),
                                                                                                              jwtTokenizer.getAuthToken(
@@ -135,18 +136,52 @@ class PipelineEndpointTests {
 
 
         String configDto = objectMapper.writeValueAsString(List.of(configurationMapper.toDto(config)));
-        MvcResult mvcResult2 = mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/preview/" + 1L) // Replace with your actual endpoint URL
-                                                                                              .contentType("application/json")
-                                                                                              .content(configDto)
-                                                                                              .header(securityProperties.getAuthHeader(),
-                                                                                                      jwtTokenizer.getAuthToken(ADMIN_USER,
-                                                                                                                                ADMIN_ROLES)))
+        String path = CALENDAR_REFERENCE_URL + "/preview/" + 1L; // Replace with your actual endpoint URL
+        MvcResult mvcResult2 = mockMvc.perform(get(path).contentType("application/json")
+                                                        .content(configDto)
+                                                        .header(securityProperties.getAuthHeader(),
+                                                                jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                                          ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
         assertNotNull(reexportedCal);
         assertNotNull(calendar);
         assertEquals(269, calendar.getComponentList().getAll().size());
+    }
+
+    @Test
+    void reexportWhenDoesNotExist() throws Exception {
+        when(calendarReferenceRepository.findById(any()))
+            .thenReturn(Optional.empty());
+
+
+        String configDto = objectMapper.writeValueAsString(List.of(new ConfigurationDto()));
+        String path = CALENDAR_REFERENCE_URL + "/export/" + UUID.randomUUID(); // Replace with your actual endpoint URL
+        MvcResult mvcResult2 = mockMvc.perform(get(path).contentType(MediaType.APPLICATION_JSON)
+                                                        .header(securityProperties.getAuthHeader(),
+                                                                jwtTokenizer.getAuthToken(
+                                                                    ADMIN_USER,
+                                                                    ADMIN_ROLES)))
+                                      .andExpect(status().isNotFound()).andReturn();
+
+    }
+
+    @Test
+    void previewWhenDoesNotExist() throws Exception {
+        when(calendarReferenceRepository.findById(any()))
+            .thenReturn(Optional.empty());
+
+
+        String configDto = objectMapper.writeValueAsString(List.of(new ConfigurationDto()));
+        String path = CALENDAR_REFERENCE_URL + "/preview/" + 1L; // Replace with your actual endpoint URL
+        MvcResult mvcResult2 = mockMvc.perform(get(path).contentType("application/json")
+                                                        .content(configDto)
+                                                        .header(securityProperties.getAuthHeader(),
+                                                                jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                                          ADMIN_ROLES)))
+                                      .andExpect(status().isNotFound()).andReturn();
+
     }
 
 }

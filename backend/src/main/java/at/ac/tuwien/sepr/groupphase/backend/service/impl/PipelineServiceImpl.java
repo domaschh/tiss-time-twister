@@ -15,7 +15,6 @@ import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.Categories;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -51,9 +50,12 @@ public class PipelineServiceImpl implements PipelineService {
 
     @Override
     public Calendar pipeCalendar(UUID token) throws ParserException, IOException, URISyntaxException {
-        CalendarReference calendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
-        var calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
-        List<Configuration> configurations = calendarReference.getConfigurations();
+        Optional<CalendarReference> optionalCalendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
+        if (optionalCalendarReference.isEmpty()) {
+            throw new NotFoundException("Calendar with token " + token + " does not exist");
+        }
+        var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
+        List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
