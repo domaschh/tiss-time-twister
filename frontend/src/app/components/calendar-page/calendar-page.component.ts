@@ -36,6 +36,7 @@ import {LogoutSuccessModalComponent} from "../logout-success-modal/logout-succes
 import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
 import {ca} from "date-fns/locale";
 import {ToastrService} from "ngx-toastr";
+import {data} from "autoprefixer";
 
 
 //preset colors since color should not be saved
@@ -327,5 +328,10 @@ export class CalendarPageComponent implements OnInit {
         }
       });
     };
+  }
+
+  openEditPage(calendar: Calendar) {
+    let extras = {state: {editMode: true, id: calendar.id}};
+    this.router.navigate(['import'], extras)
   }
 }

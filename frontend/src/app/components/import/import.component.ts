@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 import {CalendarReferenceService} from "../../services/calendar.reference.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormGroup, UntypedFormBuilder, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 
@@ -10,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss']
 })
-export class ImportComponent {
+export class ImportComponent implements OnInit {
   importForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
     link: ['', [Validators.required]]
@@ -19,9 +19,31 @@ export class ImportComponent {
   // Error flag
   error = false;
   errorMessage = '';
+  editMode = false;
+  optionalEditId: number | null;
+  optionalToken: string | null;
 
+  constructor(private formBuilder: UntypedFormBuilder,
+              private calendarReferenceService: CalendarReferenceService,
+              private router: Router,
+              private readonly toastrService: ToastrService) {
+    const data = router.getCurrentNavigation().extras.state;
+    this.editMode = data?.editMode ?? false;
+    this.optionalEditId = data?.id ?? null;
+  }
 
-  constructor(private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
+  ngOnInit(): void {
+    if (this.editMode) {
+      this.calendarReferenceService.getById(this.optionalEditId).subscribe({
+        next: (res) => {
+          this.importForm.controls.name.setValue(res.name)
+          this.importForm.controls.link.setValue(res.link)
+          this.optionalToken = res.token
+        }, error: () => {
+          this.toastrService.error("Couldn't fetch Calendar data")
+        }
+      })
+    }
   }
 
 
@@ -41,28 +63,29 @@ export class ImportComponent {
 
   importCalendar() {
     const toImport: CalendarReferenceDto = {
-      id: null,
+      id: this.optionalEditId,
       name: this.importForm.controls.name.value,
       link: this.importForm.controls.link.value,
-      token: null
+      token: this.optionalToken
     }
-
-    this.calendarReferenceService.importCalendar(toImport).subscribe({
-      next: () => {
-        console.log('Successfully imported calendar: ' + toImport.name);
-        this.router.navigate(['calendar']);
-        this.toastrService.success("Created Calendar")
-      },
-      error: err => {
-        console.log('Could not import calendar due to:');
-        console.log(err);
-        this.error = true;
-        if (typeof err.error === 'object') {
-          this.errorMessage = err.error.error;
-        } else {
-          this.errorMessage = err.error;
+      this.calendarReferenceService.upsertCalendar(toImport).subscribe({
+        next: () => {
+          this.router.navigate(['calendar']);
+          if(this.editMode) {
+            this.toastrService.success("Calendar edited")
+          } else {
+            this.toastrService.success("Created Calendar")
+          }
+        },
+        error: err => {
+          this.error = true;
+          if (typeof err.error === 'object') {
+            this.errorMessage = err.error.error;
+          } else {
+            this.errorMessage = err.error;
+          }
         }
-      }
-    })
-  }
+      })
+    }
 }
+
