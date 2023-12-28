@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import * as uuid from 'uuid';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -37,6 +38,7 @@ import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
 import {ca} from "date-fns/locale";
 import {ToastrService} from "ngx-toastr";
 import {data} from "autoprefixer";
+import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 
 
 //preset colors since color should not be saved
@@ -244,6 +246,8 @@ export class CalendarPageComponent implements OnInit {
             })
             var newcal: Calendar = {
               isActive: false,
+              token: calendarReferenceDto.token,
+              link: calendarReferenceDto.link,
               name: calendarReferenceDto.name,
               color: colors[id].primary, //only n preset colors are stored
               events: evs,
@@ -314,6 +318,7 @@ export class CalendarPageComponent implements OnInit {
   openDeleteModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
     modalRef.componentInstance.message = 'Do you really want to delete Calendar: ' + calendar.name;
+    modalRef.componentInstance.title = 'Confirm deletion' + calendar.name;
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
@@ -333,5 +338,30 @@ export class CalendarPageComponent implements OnInit {
   openEditPage(calendar: Calendar) {
     let extras = {state: {editMode: true, id: calendar.id}};
     this.router.navigate(['import'], extras)
+  }
+
+  openTokenModal(calendar: Calendar) {
+    const modalRef = this.modalService.open(ConfirmationModal);
+    modalRef.componentInstance.message = 'https://localhost:8080/' + calendar.token;
+    modalRef.componentInstance.title = 'Regenerate a token for calendar: ' + calendar.name;
+    const toImport: CalendarReferenceDto = {
+      id: calendar.id,
+      name: calendar.name,
+      link: calendar.link,
+      token: uuid.v4()
+    }
+    modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      this.calenderReferenceServie.upsertCalendar(toImport).subscribe({
+        next: (response) => {
+          this.toastrService.success("Regenerated Token");
+          var index = this.calendars.findIndex(obj => obj.id === response.id);
+          this.calendars[index].token = response.token;
+          modalRef.componentInstance.message = 'https://localhost:8080/' + response.token
+        },
+        error: () => {
+          this.toastrService.error("Couldn't generate token");
+        }
+      });
+    };
   }
 }
