@@ -56,27 +56,7 @@ public class PipelineServiceImpl implements PipelineService {
         }
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
         List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
-        List<CalendarComponent> newComponents = new ArrayList<>();
-        newComponents.add(calendar.getComponentList().getAll().get(0));
-        calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
-            VEvent vEvent = (VEvent) v;
-            VEvent modifiedVEvent = configurations.stream()
-                                                  .flatMap(configuration -> configuration.getRules().stream())
-                                                  .reduce(vEvent, (currentVEvent, rule) -> {
-                                                      if (rule.getMatch().matches(currentVEvent)) {
-                                                          return rule.getEffect().apply(currentVEvent);
-                                                      } else {
-                                                          return currentVEvent;
-                                                      }
-                                                  }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
-            if (modifiedVEvent != null) {
-                enhanceTissEvent(modifiedVEvent);
-                newComponents.add(modifiedVEvent);
-            }
-        });
-        var componentList = new ComponentList<>(newComponents);
-        calendar.setComponentList(componentList);
-        return calendar;
+        return applyConfigurations(calendar, configurations);
     }
 
     @Override
@@ -86,6 +66,10 @@ public class PipelineServiceImpl implements PipelineService {
             throw new NotFoundException("Calendar with id " + id + " does not exist");
         }
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
+        return applyConfigurations(calendar, configurations);
+    }
+
+    private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations) {
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
