@@ -12,6 +12,7 @@ import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
+import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
@@ -122,11 +123,11 @@ public class PipelineServiceImpl implements PipelineService {
         }
 
         if (detail != null) {
-            vEvent.getProperty(Categories.SUMMARY).ifPresent(a -> a.setValue(detail.shorthand()));
+            vEvent.getProperty(Property.SUMMARY).ifPresent(a -> a.setValue(detail.shorthand()));
         }
 
         if (tissRoom != null) {
-            vEvent.getProperty(Categories.LOCATION).ifPresent(a -> a.setValue(tissRoom.address()));
+            vEvent.getProperty(Property.LOCATION).ifPresent(a -> a.setValue(tissRoom.address()));
         }
     }
 
