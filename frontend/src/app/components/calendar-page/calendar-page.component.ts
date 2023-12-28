@@ -356,7 +356,7 @@ export class CalendarPageComponent implements OnInit {
           this.toastrService.success("Regenerated Token");
           var index = this.calendars.findIndex(obj => obj.id === response.id);
           this.calendars[index].token = response.token;
-          modalRef.componentInstance.message = 'https://localhost:8080/' + response.token
+          modalRef.componentInstance.message = 'https://localhost:8080/export/' + response.token
         },
         error: () => {
           this.toastrService.error("Couldn't generate token");
