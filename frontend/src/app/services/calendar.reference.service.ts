@@ -18,7 +18,7 @@ export class CalendarReferenceService {
   constructor(private httpClient: HttpClient, private globals: Globals) {
   }
 
-  importCalendar(dto: CalendarReferenceDto) {
+  upsertCalendar(dto: CalendarReferenceDto) {
     console.log(dto)
     return this.httpClient.put<CalendarReferenceDto>(this.messageBaseUri, dto);
   }

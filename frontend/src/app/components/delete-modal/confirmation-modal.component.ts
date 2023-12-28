@@ -12,6 +12,8 @@ export class ConfirmationModal {
   @Input() message: string = 'Do your really wanna delete?';
   @Input() confirmAction: confirmAction;
 
+  @Input() title: string = 'Confirmation Title';
+
   constructor(public activeModal: NgbActiveModal) {}
 
   doConfirmAction() {

@@ -3,6 +3,8 @@ import { CalendarEvent } from "angular-calendar"
 export class Calendar{
   constructor(
     public name: string,
+    public token: string,
+    public link: string,
     public id: number,
     public color: string,
     public isActive: boolean,
