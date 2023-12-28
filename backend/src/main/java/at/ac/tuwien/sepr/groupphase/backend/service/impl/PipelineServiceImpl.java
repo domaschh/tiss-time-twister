@@ -4,6 +4,7 @@ import at.ac.tuwien.sepr.groupphase.backend.LVADetail;
 import at.ac.tuwien.sepr.groupphase.backend.TissRoom;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
@@ -21,6 +22,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 //BEGIN:VEVENT
@@ -51,6 +53,36 @@ public class PipelineServiceImpl implements PipelineService {
         CalendarReference calendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
         var calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
         List<Configuration> configurations = calendarReference.getConfigurations();
+        List<CalendarComponent> newComponents = new ArrayList<>();
+        newComponents.add(calendar.getComponentList().getAll().get(0));
+        calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
+            VEvent vEvent = (VEvent) v;
+            VEvent modifiedVEvent = configurations.stream()
+                                                  .flatMap(configuration -> configuration.getRules().stream())
+                                                  .reduce(vEvent, (currentVEvent, rule) -> {
+                                                      if (rule.getMatch().matches(currentVEvent)) {
+                                                          return rule.getEffect().apply(currentVEvent);
+                                                      } else {
+                                                          return currentVEvent;
+                                                      }
+                                                  }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
+            if (modifiedVEvent != null) {
+                enhanceTissEvent(modifiedVEvent);
+                newComponents.add(modifiedVEvent);
+            }
+        });
+        var componentList = new ComponentList<>(newComponents);
+        calendar.setComponentList(componentList);
+        return calendar;
+    }
+
+    @Override
+    public Calendar previewConfiguration(long id, List<Configuration> configurations) throws ParserException, IOException, URISyntaxException {
+        Optional<CalendarReference> optionalCalendarReference = calendarReferenceRepository.findById(id);
+        if (optionalCalendarReference.isEmpty()) {
+            throw new NotFoundException("Calendar with id " + id + " does not exist");
+        }
+        var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
