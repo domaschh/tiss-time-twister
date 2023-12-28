@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {mapToCanActivate, RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './components/home/home.component';
 import {LoginComponent} from './components/login/login.component';
 import { CalendarPageComponent } from './components/calendar-page/calendar-page.component';
 import {AuthGuard} from './guards/auth.guard';
@@ -9,6 +8,7 @@ import {ImportComponent} from "./components/import/import.component";
 import {CreateEditMode, CreateEditCustomEventComponent} from "./components/create-edit-custom-event/create-edit-custom-event.component";
 import {CreateConfigComponent} from "./components/create-config/create-config.component";
 import {PublicPageComponent} from "./components/public-page/public-page.component";
+import { RegistrationComponent } from './components/registration/registration.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -22,7 +22,8 @@ const routes: Routes = [
       {path: 'create', component: CreateEditCustomEventComponent, data: {mode: CreateEditMode.create}},
       {path: 'edit/:id', component: CreateEditCustomEventComponent, data: {mode: CreateEditMode.edit}},
     ]},
-  {path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent}
+  {path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent},
+  {path: 'register', component: RegistrationComponent}
 ];
 
 @NgModule({

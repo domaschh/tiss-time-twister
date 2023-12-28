@@ -1,7 +1,11 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserLoginDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserRegistrationDto;
 import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
+import at.ac.tuwien.sepr.groupphase.backend.exception.EmailAlreadyExistsException;
+import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidEmailException;
+import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidPasswordException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
@@ -19,7 +23,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class CustomUserDetailService implements UserService {
@@ -81,5 +88,54 @@ public class CustomUserDetailService implements UserService {
             return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
         }
         throw new BadCredentialsException("Username or password is incorrect or account is locked");
+    }
+
+    @Override
+    public String registerUser(UserRegistrationDto userRegistrationDto) throws EmailAlreadyExistsException, InvalidEmailException, InvalidPasswordException{
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_USER");
+
+        if (userRepository.findUserByEmail(userRegistrationDto.getEmail()) != null){
+            throw new EmailAlreadyExistsException("An user already exists with this email.");
+        }
+
+        if (!isValidEmail(userRegistrationDto.getEmail())){
+            throw new InvalidEmailException("Email entered is not valid.");
+        }
+
+        if (!isValidPassword(userRegistrationDto.getPassword())){
+            throw new InvalidPasswordException("Password entered is not valid.");
+        }
+        ApplicationUser newUser = new ApplicationUser(
+            userRegistrationDto.getEmail(),
+            passwordEncoder.encode(userRegistrationDto.getPassword()),
+            false
+        );
+        userRepository.save(newUser);
+        return jwtTokenizer.getAuthToken(userRegistrationDto.getEmail(), roles);
+    }
+
+    private boolean isValidEmail(String email){
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+            "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        if (email == null) return false;
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean isValidPassword(String password){
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        Matcher matcher = pattern.matcher(password);
+
+        return matcher.matches();
     }
 }
