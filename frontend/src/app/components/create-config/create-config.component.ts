@@ -61,6 +61,16 @@ export class CreateConfigComponent {
 
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.calendars = params['cals'];
+
+      if(params['edit']) {
+        this.createEditLabel = 'Edit Configuration';
+      } else {
+        this.createEditLabel = 'Create Configuration';
+      }
+    });
+    this.setActiveNewRule();
   }
 
   private defaultServiceErrorHandling(error: any) {
