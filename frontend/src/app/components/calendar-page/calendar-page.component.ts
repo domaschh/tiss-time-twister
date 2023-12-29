@@ -365,4 +365,12 @@ export class CalendarPageComponent implements OnInit {
       });
     };
   }
+  openConfigurationPage(edit: boolean) {
+    const data = {
+      cals: this.calendars,
+      mode: edit
+    }
+
+    this.router.navigate(['createConfig', data]);
+  }
 }
