@@ -13,4 +13,10 @@ export class NavbarComponent {
   routeToPage(s: string) {
     this.router.navigate([s])
   }
+
+  showNavbar() {
+    let item = localStorage.getItem("authToken");
+    console.log(item)
+    return item
+  }
 }
