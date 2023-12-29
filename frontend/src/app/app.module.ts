@@ -19,6 +19,7 @@ import { ImportComponent } from './components/import/import.component';
 import { EventPipePipe } from './pipes/event.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -47,6 +48,7 @@ import { ConfirmationModal } from './components/delete-modal/confirmation-modal.
     PublicPageComponent,
     NavbarComponent,
     ConfirmationModal,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
