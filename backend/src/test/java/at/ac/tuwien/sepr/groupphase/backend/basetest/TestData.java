@@ -18,14 +18,14 @@ public interface TestData {
     String CONFIG_BASE_URI = BASE_URI + "/configuration";
     String CALENDAR_REFERENCE_URL = BASE_URI + "/calendar";
 
-    String ADMIN_USER = "admin@email.com";
+    String ADMIN_USER = "admin1@email.com";
     List<String> ADMIN_ROLES = new ArrayList<>() {
         {
             add("ROLE_ADMIN");
             add("ROLE_USER");
         }
     };
-    String DEFAULT_USER = "admin@email.com";
+    String DEFAULT_USER = "admin1@email.com";
     List<String> USER_ROLES = new ArrayList<>() {
         {
             add("ROLE_USER");

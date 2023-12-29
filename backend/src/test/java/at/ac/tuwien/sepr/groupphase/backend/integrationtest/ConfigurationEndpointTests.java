@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("test, generateData")
 @AutoConfigureMockMvc
 class ConfigurationEndpointTests {
     @Autowired
