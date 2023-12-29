@@ -21,9 +21,9 @@
         <!-- Logo and headline -->
         <div class="mb-8 w-128 mx-auto">
           <!--<img src="assets/TTT_Blau_Big.svg" alt="Logo" class="h-12 w-12 max-w-full">-->
-          <h1 class="text-2xl font-semibold">Anmeldung</h1>
+          <h1 class="text-2xl font-semibold">Create Account</h1>
           <h2 class="text-black">
-            Die einfache Art den Überblick zu behalten - mit TISS Time Twister
+            The easy way to keep track of time - with TISS Time Twister
           </h2>
         </div>
 
@@ -38,7 +38,7 @@
               class="alert alert-warning alert-dismissible fade show"
               role="alert"
             >
-              <strong>Authentifizierungsprobleme!</strong> {{ errorMessage }}
+              <strong>Authentification problems!</strong> {{ errorMessage }}
               <button
                 type="button"
                 (click)="vanishError()"
@@ -55,30 +55,30 @@
                 class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
                 formControlName="email"
                 id="inputEmail"
-                placeholder="E-Mail"
+                placeholder="Email"
                 aria-describedby="emailHelp"
               />
               <label
                 for="inputEmail"
                 class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
               >
-                E-Mail
+                Email
               </label>
               <div *ngIf="submitted && registrationForm.controls.email.errors">
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.email.errors.required"
-                  >E-Mail ist erforderlich!</small
+                  >Email is required!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.email.errors.email"
-                  >Es muss eine gültige E-Mail-Adresse eingegeben werden!</small
+                  >A valid email address must be entered!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.email.errors.exists"
-                  >E-Mail ist bereits registriert!</small
+                  >Email is already registered!</small
                 >
               </div>
             </div>
@@ -90,13 +90,13 @@
                 class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
                 formControlName="password"
                 id="password"
-                placeholder="Passwort"
+                placeholder="Password"
               />
               <label
                 for="password"
                 class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
               >
-                Passwort
+                Password
               </label>
               <div
                 *ngIf="submitted && registrationForm.controls.password.errors"
@@ -104,18 +104,55 @@
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.password.errors.minlength"
-                  >Passwort muss mindestens 8 Zeichen lang sein!</small
+                  >Password must be at least 8 characters long!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.password.errors.required"
-                  >Passwort ist erforderlich!</small
+                  >Password is required!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.password.errors.pattern"
-                  >Passwort muss Groß- und Kleinbuchstaben sowie eine Zahl
-                  enthalten!</small
+                  >Password must include uppercase and lowercase letters and a
+                  digit!</small
+                >
+              </div>
+            </div>
+
+            <!-- Password Confirmation input -->
+            <div class="from-group relative mx-auto w-128">
+              <input
+                type="password"
+                class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
+                formControlName="confirmPassword"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+              />
+              <label
+                for="confirmPassword"
+                class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
+              >
+                Confirm Password
+              </label>
+              <div
+                *ngIf="
+                  submitted && registrationForm.controls.confirmPassword.errors
+                "
+              >
+                <small
+                  class="form-text error-text"
+                  *ngIf="
+                    registrationForm.controls.confirmPassword.errors.required
+                  "
+                  >Confirmation password is required!</small
+                >
+                <small
+                  class="form-text error-text"
+                  *ngIf="
+                    registrationForm.controls.confirmPassword.errors.mustMatch
+                  "
+                  >Passwords must match!</small
                 >
               </div>
             </div>
@@ -130,7 +167,7 @@
                 data-te-ripple-init
                 data-te-ripple-color="light"
               >
-                Anmelden
+                Create Account
               </button>
             </div>
           </div>
