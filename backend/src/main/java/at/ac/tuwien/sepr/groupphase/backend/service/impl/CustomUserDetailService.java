@@ -134,7 +134,9 @@ public class CustomUserDetailService implements UserService {
             + "A-Z]{2,7}$";
 
         Pattern pattern = Pattern.compile(emailRegex);
-        if (email == null) { return false; }
+        if (email == null) {
+            return false;
+        }
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
