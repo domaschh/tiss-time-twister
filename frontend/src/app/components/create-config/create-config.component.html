@@ -12,7 +12,7 @@
 
       <div class="card rounded-0">
         <div class="card-header">
-          <h3 class="mb-0">Create a Configuration</h3>
+          <h3 class="mb-0">{{createEditLabel}}</h3>
         </div>
 
         <div class="card-body">
@@ -65,9 +65,9 @@
               <div class="card-body">
                 <div>
                   <div class="list-group">
-                    <button *ngFor="let rule of demoRules" (click)="setActiveRule(rule)" type="button"
+                    <button *ngFor="let rule of allRules; let i = index" (click)="setActiveRule(rule)" type="button"
                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      {{rule.match.summary}}
+                      Rule {{i + 1}}
                       <span class="badge rounded-pill" [class.bg-warning]="rule.effect.effectType === 'Modify'"
                         [class.bg-success]="rule.effect.effectType === 'Delete'">{{rule.effect.effectType}}</span>
                     </button>
@@ -79,27 +79,107 @@
                 </div>
                 <br>
                 <!--Display Current Rule-->
+                <h3 class="mb-0">{{currentRuleLabel}}</h3>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input type="text" id="inpuMatchSummary" class="form-control" placeholder=""
+                        [(ngModel)]="currentRule.match.summary" [ngModelOptions]="{standalone: true}">
+                      <label for="inputMatchSummary">Summary</label>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-floating">
+                      <select class="form-select" aria-label="MatchType" id="selectMatchTypeSummary"
+                        [(ngModel)]="currentRule.match.summaryMatchType" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                      </select>
+                      <label for="selectMatchTypeSummary">Match Type</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input type="text" id="inputMatchDescription" class="form-control" placeholder=""
+                        [(ngModel)]="currentRule.match.description" [ngModelOptions]="{standalone: true}">
+                      <label for="inputMatchDescription">Description</label>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-floating">
+                      <select class="form-select" aria-label="MatchType" id="selectMatchTypeDescription"
+                        [(ngModel)]="currentRule.match.descriptionMatchType" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                      </select>
+                      <label for="selectMatchTypeSummary">Match Type</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input type="text" id="inputMatchLocation" class="form-control" placeholder=""
+                        [(ngModel)]="currentRule.match.location" [ngModelOptions]="{standalone: true}">
+                      <label for="inputMatchLocation">Location</label>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-floating">
+                      <select class="form-select" aria-label="MatchType" id="selectMatchTypeLocation"
+                        [(ngModel)]="currentRule.match.locationMatchType" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                      </select>
+                      <label for="selectMatchTypeSummary">Match Type</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input type="text" id="inputEffectSummary" class="form-control" placeholder=""
+                        [(ngModel)]="currentRule.effect.changedTitle" [ngModelOptions]="{standalone: true}">
+                      <label for="inputEffectChangedTitle">New Title</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input type="text" id="inputEffectDescription" class="form-control" placeholder=""
+                        [(ngModel)]="currentRule.effect.changedDescription" [ngModelOptions]="{standalone: true}">
+                      <label for="inputEffectChangedDescription">New Description</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-floating">
+                      <input type="text" id="inputEffectLocation" class="form-control" placeholder=""
+                        [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
+                      <label for="inputEffectChangedLocation">New Location</label>
+                    </div>
+                  </div>
+                </div>
+                <br>
                 <div class="form-floating">
-                  <select class="form-select" id="selectEffectType" aria-label="selectRuleType"
+                  <select class="form-select" aria-label="MatchType" id="selectEffectType"
                     [(ngModel)]="currentRule.effect.effectType" [ngModelOptions]="{standalone: true}">
-                    <option value="Modify">Modify</option>
-                    <option value="Delete">Delete</option>
+                    <option *ngFor="let type of getEnumValues(EffectType)" [value]="type">{{ type }}</option>
                   </select>
                   <label for="selectEffectType">Effect Type</label>
                 </div>
                 <br>
-                <input type="text" id="matchSummary" class="form-control" placeholder=""
-                  [(ngModel)]="currentRule.match.summary" [ngModelOptions]="{standalone: true}">
-                <br>
-                <select class="form-select" aria-label="MatchType" [(ngModel)]="currentRule.match.summaryMatchType"
-                  [ngModelOptions]="{standalone: true}">
-                  <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
-                </select>
-                <br>
                 <div>
                   <button style="float: left;" type="button" class="btn btn-danger"
                     (click)="removeRule()">Remove</button>
-                  <button style="float: right;" type="button" class="btn btn-primary" (click)="addRule()">Add</button>
+                  <button style="float: right;" type="button" class="btn btn-primary"
+                    (click)="addRule()">{{addRuleLabel}}</button>
                 </div>
               </div>
             </div>
