@@ -1,7 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ConfigModalComponent} from "./config-modal/config-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
+import {ConfigurationService} from "../../services/configuration.service";
+import {ConfigurationDto} from "../../dtos/configuration-dto";
+import {th} from "date-fns/locale";
 
 @Component({
   selector: 'app-public-config-card',
@@ -9,24 +12,24 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./public-config-card.component.scss']
 })
 export class PublicConfigCardComponent {
-
-  @Input()
-  configTitle: string;
-  @Input()
-  configDescription: string
+  @Input() config: ConfigurationDto;
   addedAlready: boolean;
+
 
   constructor(
     private readonly modalService: NgbModal,
-    private readonly toastrService: ToastrService
+    private readonly toastrService: ToastrService,
+    private readonly configurationService: ConfigurationService
   ) {
   }
+
   openConfigModal() {
       const modalRef = this.modalService.open(ConfigModalComponent);
-      modalRef.componentInstance.message = 'Halli Hallo';
-      modalRef.componentInstance.title = 'Geile Configuration';
+      modalRef.componentInstance.config = this.config;
 
       modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       };
   }
+
+
 }

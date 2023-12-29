@@ -11,13 +11,13 @@ public class Rule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "config_id")
     private Configuration configuration;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Effect effect;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Match match;
 }

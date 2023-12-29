@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigurationService} from "../../services/configuration.service";
+import {ConfigurationDto} from "../../dtos/configuration-dto";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-public-page',
@@ -9,16 +11,22 @@ import {ConfigurationService} from "../../services/configuration.service";
 export class PublicPageComponent implements OnInit {
   a = [...Array(12).keys()]
 
+  publicConfigs: ConfigurationDto[] = []
 
-  constructor(private readonly configurationService: ConfigurationService) {
-    this.loadPublicConfigs();
+  constructor(private readonly configurationService: ConfigurationService, private readonly toastrService: ToastrService) {
   }
 
   ngOnInit() {
-
+    this.loadConfigurations();
   }
 
-  loadPublicConfigs() {
-    this.configurationService.getAllPublic();
+  private loadConfigurations() {
+    this.configurationService.getAllPublic().subscribe({
+      next: (loadedConfigs) => {
+        this.publicConfigs = loadedConfigs
+      },error:() => {
+        this.toastrService.error("Error")
+      }
+    })
   }
 }

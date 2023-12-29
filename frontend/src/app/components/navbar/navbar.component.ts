@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -15,8 +15,6 @@ export class NavbarComponent {
   }
 
   showNavbar() {
-    let item = localStorage.getItem("authToken");
-    console.log(item)
-    return item
+    return localStorage.getItem("authToken")
   }
 }
