@@ -100,6 +100,14 @@ public class CalendarReferenceEndpoint {
         return calendarReferenceService.addConfig(configId, calendarId);
     }
 
+    @Secured("ROLE_USER")
+    @DeleteMapping("/{calendarId}")
+    @Operation(summary = "Remove a public config from a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public CalendarReference removeConfig(@PathVariable Long calendarId, @RequestBody Long configId) {
+        LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
+        return calendarReferenceService.removeConfig(configId, calendarId);
+    }
+
 
     /**
      * <p> Exports the Calendar associated with the given token.</p>

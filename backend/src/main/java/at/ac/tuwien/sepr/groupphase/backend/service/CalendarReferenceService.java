@@ -20,4 +20,6 @@ public interface CalendarReferenceService {
     List<CalendarReference> getAllForUser(String email);
 
     CalendarReference addConfig(Long configId, Long calendarId);
+
+    CalendarReference removeConfig(Long configId, Long calendarId);
 }

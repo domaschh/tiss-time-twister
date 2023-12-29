@@ -80,6 +80,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
+    public CalendarReference removeConfig(Long configId, Long calendarId) {
+        Configuration configuration = configurationRepository.getReferenceById(configId);
+        CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
+        calendarReference.getConfigurations().remove(configuration);
+        return calendarReferenceRepository.save(calendarReference);
+    }
+
+    @Override
     public void deleteCalendar(Long id) {
         LOGGER.debug("Deleting CalendarReference {}", id);
         calendarReferenceRepository.deleteById(id);
