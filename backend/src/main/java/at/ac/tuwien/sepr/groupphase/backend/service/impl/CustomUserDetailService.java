@@ -7,6 +7,7 @@ import at.ac.tuwien.sepr.groupphase.backend.exception.EmailAlreadyExistsExceptio
 import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidEmailException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidPasswordException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepr.groupphase.backend.exception.PasswordDoesNotMatchEmailException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
@@ -74,20 +75,31 @@ public class CustomUserDetailService implements UserService {
 
     @Override
     public String login(UserLoginDto userLoginDto) {
-        UserDetails userDetails = loadUserByUsername(userLoginDto.getEmail());
-        if (userDetails != null
-            && userDetails.isAccountNonExpired()
-            && userDetails.isAccountNonLocked()
-            && userDetails.isCredentialsNonExpired()
-            && passwordEncoder.matches(userLoginDto.getPassword(), userDetails.getPassword())
-        ) {
-            List<String> roles = userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-            return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
+        try {
+            UserDetails userDetails = loadUserByUsername(userLoginDto.getEmail());
+            if (userDetails == null
+                || !userDetails.isAccountNonExpired()
+                || !userDetails.isAccountNonLocked()
+                || !userDetails.isCredentialsNonExpired()) {
+                throw new NotFoundException("User not found with email: " + userLoginDto.getEmail());
+            }
+
+            if (!isValidPassword(userLoginDto.getPassword())) {
+                throw new InvalidPasswordException("Password format is invalid");
+            }
+            if (passwordEncoder.matches(userLoginDto.getPassword(), userDetails.getPassword())) {
+                List<String> roles = userDetails.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
+                return jwtTokenizer.getAuthToken(userDetails.getUsername(), roles);
+            } else {
+                throw new PasswordDoesNotMatchEmailException("Invalid password");
+            }
+        } catch (UsernameNotFoundException e) {
+            LOGGER.error("Authentication failed for user: " + userLoginDto.getEmail(), e);
+            throw new NotFoundException("User not found with email: " + userLoginDto.getEmail());
         }
-        throw new BadCredentialsException("Username or password is incorrect or account is locked");
     }
 
     @Override
@@ -115,7 +127,7 @@ public class CustomUserDetailService implements UserService {
         return jwtTokenizer.getAuthToken(userRegistrationDto.getEmail(), roles);
     }
 
-    private boolean isValidEmail(String email){
+    public boolean isValidEmail(String email){
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -127,7 +139,7 @@ public class CustomUserDetailService implements UserService {
         return matcher.matches();
     }
 
-    private boolean isValidPassword(String password){
+    public boolean isValidPassword(String password){
         if (password == null || password.length() < 8) {
             return false;
         }

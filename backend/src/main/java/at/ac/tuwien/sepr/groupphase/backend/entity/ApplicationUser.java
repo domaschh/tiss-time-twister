@@ -23,4 +23,11 @@ public class ApplicationUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public ApplicationUser(String email, String password, Boolean admin) {
+        this.email = email;
+        this.password = password;
+        this.admin = admin;
+        // 'id' will be set automatically
+    }
 }

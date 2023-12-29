@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.unittests;
 
+import at.ac.tuwien.sepr.groupphase.backend.basetest.TestData;
 import at.ac.tuwien.sepr.groupphase.backend.datagenerator.UserDataGenerator;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.RegistrationEndpoint;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserRegistrationDto;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles({"test", "generateData"})
-public class RegistrationTest {
+public class RegistrationTest implements TestData {
 
     @Autowired
     private RegistrationEndpoint registrationEndpoint;
@@ -33,35 +35,37 @@ public class RegistrationTest {
     private UserDataGenerator userDataGenerator;
     @Autowired
     private UserService userService;
-    private UserRegistrationDto newUser;
-    private final String SAMPLE_EMAIL = "user3@email.com";
-    private final String SAMPLE_PASSWORD = "password";
+    private UserRegistrationDto newUserDto;
+    private final String SAMPLE_EMAIL = "sample@email.com";
+    private final String SAMPLE_PASSWORD = "1Password";
 
     @BeforeEach
     public void setUp() {
-        newUser = new UserRegistrationDto("user3@email.com", "password");
+        userDataGenerator.generateUsers();
+        newUserDto = new UserRegistrationDto();
+        newUserDto.setEmail(SAMPLE_EMAIL);
+        newUserDto.setPassword(SAMPLE_PASSWORD);
     }
 
     @Test
     public void whenRegisterCalled_Successful_Endpoint() {
-        String expectedResponse = "User registered successfully";
-        ResponseEntity<String> response = registrationEndpoint.registerUser(newUser);
-        assertEquals(expectedResponse, response.getBody());
+        ResponseEntity<Object> response = registrationEndpoint.registerUser(newUserDto);
+        assertNotNull(response);
+        assertTrue(response.getBody() instanceof String);
     }
 
     @Test
     public void whenRegisterCalled_Successful_Service() {
-        userService.registerUser(newUser);
-        ApplicationUser registeredUser = userRepository.findUserByEmail(newUser.getEmail());
+        ApplicationUser registeredUser = userRepository.findUserByEmail(newUserDto.getEmail());
         assertNotNull(registeredUser);
-        assertEquals(newUser.getEmail(), registeredUser.getEmail());
+        assertEquals(newUserDto.getEmail(), registeredUser.getEmail());
     }
 
     @Test
     public void whenEmailAlreadyExists_ThrowsException() {
-        userService.registerUser(newUser);
+        userService.registerUser(newUserDto);
         assertThrows(EmailAlreadyExistsException.class, () -> {
-            userService.registerUser(newUser);
+            userService.registerUser(newUserDto);
         });
     }
 

@@ -4,6 +4,7 @@ import at.ac.tuwien.sepr.groupphase.backend.exception.EmailAlreadyExistsExceptio
 import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidEmailException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidPasswordException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepr.groupphase.backend.exception.PasswordDoesNotMatchEmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -79,6 +80,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public String handleInvalidPasswordException(InvalidPasswordException ex){
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(PasswordDoesNotMatchEmailException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public String handleCustomAuthenticationException(PasswordDoesNotMatchEmailException ex) {
         return ex.getMessage();
     }
 }

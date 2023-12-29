@@ -22,7 +22,7 @@ public class UserDataGenerator {
     private static final int NUMBER_OF_ADMINS_TO_GENERATE = 1;
     private static final String USER_EMAIL_PATTERN = "user%d@email.com";
     private static final String ADMIN_EMAIL_PATTERN = "admin%d@email.com";
-    private static final String USER_PASSWORD = "password";
+    private static final String USER_PASSWORD = "Password1";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
