@@ -27,6 +27,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -104,17 +105,17 @@ public class CalendarReferenceEndpoint {
     }
 
     @Secured("ROLE_USER")
-    @PostMapping("/{calendarId}")
+    @PostMapping("/{calendarId}/{configId}")
     @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReference addConfig(@PathVariable Long calendarId, @RequestBody Long configId) {
+    public CalendarReference addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
         return calendarReferenceService.addConfig(configId, calendarId);
     }
 
     @Secured("ROLE_USER")
-    @DeleteMapping("/{calendarId}")
+    @DeleteMapping("/{calendarId}/{configId}")
     @Operation(summary = "Remove a public config from a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReference removeConfig(@PathVariable Long calendarId, @RequestBody Long configId) {
+    public CalendarReference removeConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
         return calendarReferenceService.removeConfig(configId, calendarId);
     }
