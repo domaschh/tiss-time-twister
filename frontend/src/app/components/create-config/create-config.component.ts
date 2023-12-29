@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { CalendarReferenceService } from "../../services/calendar.reference.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { Calendar } from 'src/app/dtos/Calendar';
 import { ConfigurationDto, EffectType, RuleDto, MatchType } from 'src/app/dtos/configuration-dto';
@@ -15,6 +15,14 @@ import { Rule } from 'eslint';
 export class CreateConfigComponent {
 
   MatchType = MatchType;
+  EffectType = EffectType;
+
+  createEditLabel: String = '';
+  currentRuleLabel: String = 'New Rule';
+
+
+  addRuleLabel: String = 'Add';
+  ruleAddMode: boolean = true; //true -> add new Rule/ false -> replace existing rule
 
   selectedCal: Calendar = {
     id: 1,
@@ -22,24 +30,19 @@ export class CreateConfigComponent {
     name: '',
     color: "ababa",
     link: '',
-    token:''
+    token: ''
   };
 
-  currentRule: RuleDto = { id: 0, match: { summary: "Test", summaryMatchType: MatchType.CONTAINS}, effect: { effectType: EffectType.MODIFY } };
-  lastSelectedRule: RuleDto;
+  currentRule: RuleDto;
 
-  demoRules: RuleDto[] = [
-    { id: 1, match: { summary: "Rule 1", summaryMatchType: MatchType.CONTAINS }, effect: { effectType: EffectType.MODIFY } },
-    { id: 2, match: { summary: "Rule 2", summaryMatchType: MatchType.REGEX }, effect: { effectType: EffectType.MODIFY } },
-    { id: 3, match: { summary: "Rule 3", summaryMatchType: MatchType.STARTS_WITH }, effect: { effectType: EffectType.DELETE } }
-  ];
+  allRules: RuleDto[] = []
 
   configurationForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
     description: ['', [Validators.required]],
     public: [false, [Validators.required]],
     calendar: [Calendar, [Validators.required]],
-    rules: [this.demoRules, [Validators.required]]
+    rules: [this.allRules, [Validators.required]]
   });
   submitted = false;
   // Error flag
@@ -47,17 +50,27 @@ export class CreateConfigComponent {
   errorMessage = '';
 
   calendars: Calendar[] = [
-    { name: "TISS", id: 999, color: "abab", isActive: true, link:'', token:''},
-    { name: "TUWEL", id: 998, color: "abab", isActive: true, link:'', token:''}
+    { name: "TISS", id: 999, color: "abab", isActive: true, link: '', token: '' },
+    { name: "TUWEL", id: 998, color: "abab", isActive: true, link: '', token: '' }
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
+  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
 
     this.configurationForm.patchValue({ calendar: null });
   }
 
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.calendars = params['cals'];
+
+      if(params['edit']) {
+        this.createEditLabel = 'Edit Configuration';
+      } else {
+        this.createEditLabel = 'Create Configuration';
+      }
+    });
+    this.setActiveNewRule();
   }
 
   private defaultServiceErrorHandling(error: any) {
@@ -78,37 +91,46 @@ export class CreateConfigComponent {
     console.log(this.configurationForm.value);
   }
 
-  setActiveNewRule(){
+  setActiveNewRule() {
     let newRule: RuleDto = {
-      id: 999,
+      id: this.allRules.length,
       match: {
-        summary:''
+        summary: '',
+        description: '',
+        location: '',
       },
       effect: {
+        changedDescription: '',
+        changedTitle: '',
+        location: '',
         effectType: EffectType.MODIFY
       }
     }
     this.setActiveRule(newRule);
   }
   setActiveRule(rule: RuleDto) {
-    //set current rule for editing
-    //TODO morgen config creation page fertig machen
-    //und dann preview page anfangen
-    console.log(rule);
-    this.currentRule = {id: rule.id, match: {...rule.match}, effect: {...rule.effect}};
-    this.lastSelectedRule = rule;
+    if (rule.id === this.allRules.length) {
+      this.addRuleLabel = 'Add';
+      this.currentRuleLabel = 'New Rule';
+    } else {
+      this.currentRuleLabel = 'Rule ' + (this.allRules.indexOf(rule) + 1);
+      this.addRuleLabel = 'Save';
+    }
+    this.currentRule = rule;
   }
   addRule() {
-    this.demoRules = this.demoRules.filter(rule => rule != this.lastSelectedRule);
-    this.demoRules.push(this.currentRule);
+    if (this.ruleAddMode) {
+      this.allRules.push(this.currentRule);
+    }
     this.setActiveNewRule();
   }
   removeRule() {
-    this.demoRules = this.demoRules.filter(rule => rule != this.lastSelectedRule);
+    this.allRules = this.allRules.filter(rule => rule != this.currentRule);
     this.setActiveNewRule();
   }
 
   public getEnumValues(enumObject: any): string[] {
     return Object.values(enumObject) as string[];
   }
+
 }
