@@ -4,12 +4,18 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 @import 'ngx-toastr/toastr';
 
+@import 'angular-calendar/scss/angular-calendar.scss';
+
+
+
 /* You can add global styles to this file, and also import other style files */
 
 .dark .container-fluid {
   background-color: rgb(36, 41, 46);
 }
-
+.cal-day-view .cal-drag-over .cal-hour-segment, .cal-day-view .cal-hour-segment:hover {
+  background-color: green;
+}
 .dark {
   .modal-content {
     background-color: rgb(36, 41, 46) !important;
@@ -18,6 +24,27 @@
   }
 }
 .dark .container-fluid > * {
+  $bg-dark-primary: #1f262d;
+  $bg-dark-secondary: #394046;
+  $bg-active: #2c343a;
+  $text-color: #d5d6d7;
+  $border-color: rgba(0, 0, 0, 0.6);
+
+  // Call the calendar mixin with a sass color map of your theme. Every property is optional.
+  // For a list of all variables and how they are used,
+  // see https://github.com/mattlewis92/angular-calendar/tree/master/projects/angular-calendar/src/variables.scss
+  @include cal-theme(
+      (
+        bg-primary: $bg-dark-primary,
+        bg-secondary: $bg-dark-secondary,
+        weekend-color: indianred,
+        bg-active: $bg-active,
+        border-color: $border-color,
+        gray: $bg-dark-secondary,
+        today-bg: $bg-dark-secondary,
+        event-color-primary: $bg-dark-secondary
+      )
+  );
   color: rgb(250, 251, 252);
 
   button {
@@ -133,7 +160,12 @@
 
 html, body {
   margin: 0;
+  overflow: scroll;
   height: 100%;
+}
+
+body.dark {
+  background-color: rgb(36, 41, 46) !important;
 }
 
 body > * {
