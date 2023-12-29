@@ -25,6 +25,7 @@ public class RegistrationEndpoint {
         this.userService = userService;
     }
 
+    @PermitAll
     @PostMapping("")
     public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
         try {
