@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {ConfigurationDto} from "../../../dtos/configuration-dto";
 
 export type confirmAction = (callback: (result: boolean) => void) => boolean;
 
@@ -9,10 +10,10 @@ export type confirmAction = (callback: (result: boolean) => void) => boolean;
   styleUrls: ['./config-modal.component.scss']
 })
 export class ConfigModalComponent {
-  @Input() message: string = 'Do your really wanna delete?';
+  @Input() config: ConfigurationDto;
+
   @Input() confirmAction: confirmAction;
 
-  @Input() title: string = 'Confirmation Title';
   addedAlready: boolean;
 
   constructor(public activeModal: NgbActiveModal) {}

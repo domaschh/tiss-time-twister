@@ -85,7 +85,7 @@ public class ConfigurationEndpoint {
     @Operation(summary = "Get all published Configurations")
     public List<ConfigurationDto> getAllPublished() {
         LOGGER.info("Get All published Configurations");
-        return configurationService.getAllPublicConfigurations().stream().map(configurationMapper::toDto).toList();
+        return configurationMapper.toDtoList(configurationService.getAllPublicConfigurations());
     }
 
     @Secured("ROLE_USER")

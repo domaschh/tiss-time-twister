@@ -257,7 +257,6 @@ export class CalendarPageComponent implements OnInit {
             id++;
             this.calendars.push(newcal);
 
-            console.log(this.calendars)
 
             if (this.calendars != null && this.calendars.length != 0) {
               console.log("hello")

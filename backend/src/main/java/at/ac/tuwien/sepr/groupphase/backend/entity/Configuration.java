@@ -35,6 +35,6 @@ public class Configuration {
         inverseJoinColumns = @JoinColumn(name = "reference_id"))
     List<CalendarReference> calendarReferences;
 
-    @OneToMany(mappedBy = "configuration", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rule> rules = new ArrayList<>();
 }

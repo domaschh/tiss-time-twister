@@ -1,10 +1,12 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
+    @Transactional
     public Configuration add(Configuration configuration, String username) {
         LOGGER.debug("Get all Configurations for user {}", username);
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         if (user != null) {
             configuration.setUser(user);
+            for (Rule r: configuration.getRules()) {
+                r.setConfiguration(configuration);
+            }
             return configurationRepository.save(configuration);
         } else {
             throw new NotFoundException();
