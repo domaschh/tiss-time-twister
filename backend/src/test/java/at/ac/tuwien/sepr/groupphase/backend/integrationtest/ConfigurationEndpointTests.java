@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test, generateData")
+@ActiveProfiles({"test", "generateData"})
 @AutoConfigureMockMvc
 class ConfigurationEndpointTests {
     @Autowired
