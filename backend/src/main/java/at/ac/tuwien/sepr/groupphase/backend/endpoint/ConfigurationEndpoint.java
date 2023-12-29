@@ -42,10 +42,11 @@ public class ConfigurationEndpoint {
     @Secured("ROLE_USER")
     @PutMapping
     @Operation(summary = "Create a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto) {
+    public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
         return configurationMapper.toDto(
-            configurationService.add(configurationMapper.toEntity(configurationDto)));
+            configurationService.add(configurationMapper.toEntity(configurationDto), username));
     }
 
     @Secured("ROLE_USER")

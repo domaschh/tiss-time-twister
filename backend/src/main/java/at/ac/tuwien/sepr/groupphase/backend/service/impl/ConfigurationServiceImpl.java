@@ -28,9 +28,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public Configuration add(Configuration configuration) {
-        LOGGER.debug("Add Configuration {}", configuration);
-        return configurationRepository.save(configuration);
+    public Configuration add(Configuration configuration, String username) {
+        LOGGER.debug("Get all Configurations for user {}", username);
+        var user = applicationUserRepository.getApplicationUserByEmail(username);
+        if (user != null) {
+            configuration.setUser(user);
+            return configurationRepository.save(configuration);
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     @Override
