@@ -2,11 +2,172 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
-
 @import 'ngx-toastr/toastr';
 
+@import 'angular-calendar/scss/angular-calendar.scss';
+
+
+
 /* You can add global styles to this file, and also import other style files */
-body {
-  background-color: whitesmoke;
+
+.dark .container-fluid {
+  background-color: rgb(36, 41, 46);
+}
+.cal-day-view .cal-drag-over .cal-hour-segment, .cal-day-view .cal-hour-segment:hover {
+  background-color: green;
+}
+.dark {
+  .modal-content {
+    background-color: rgb(36, 41, 46) !important;
+    color: white;
+    border: 1px solid rgba(169, 169, 169, 0.16);;
+  }
+}
+.dark .container-fluid > * {
+  $bg-dark-primary: rgb(36, 41, 46);
+  $bg-dark-secondary: #394046;
+  $bg-active: #2c343a;
+  $text-color: #d5d6d7;
+  $border-color: rgba(169, 169, 169, 0.16);
+
+  // Call the calendar mixin with a sass color map of your theme. Every property is optional.
+  // For a list of all variables and how they are used,
+  // see https://github.com/mattlewis92/angular-calendar/tree/master/projects/angular-calendar/src/variables.scss
+  @include cal-theme(
+      (
+        bg-primary: $bg-dark-primary,
+        bg-secondary: $bg-dark-secondary,
+        weekend-color: indianred,
+        bg-active: $bg-active,
+        border-color: $border-color,
+        gray: $bg-dark-secondary,
+        today-bg: $bg-dark-secondary,
+        event-color-primary: $bg-dark-secondary
+      )
+  );
+  color: rgb(250, 251, 252);
+
+  button {
+    color: rgb(250, 251, 252);
+  }
+
+  i {
+    color: rgba(227, 227, 227, 0.37);
+  }
+
+  i:hover {
+    color: white;
+  }
+
+  app-delete-modal>*{
+
+  }
+
+  label[for="inputEmail"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+  label[for="password"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+  input {
+    color: white;
+    background-color: #565656;
+  }
+
+  h2 {
+    color: rgb(250, 251, 252);
+  }
+
+  input::placeholder {
+    color: rgba(211, 211, 211, 0.48);
+  }
+
+  .public-cal-card {
+    background-color: rgb(36, 41, 46) !important;
+    color: white;
+    border: 1px solid rgba(169, 169, 169, 0.16);
+  }
+
+  .card {
+    background-color: rgb(36, 41, 46);
+    color: white;
+    border-radius: 10px !important;
+    border: 1px solid rgba(194, 194, 194, 0.37);
+  }
+  app-delete-modal .modal-dialog{
+    background-color: rgb(36, 41, 46);
+    color: rgb(250, 251, 252);
+  }
+  .modal-bd {
+    background-color: rgb(36, 41, 46);
+    color: rgb(250, 251, 252);
+  }
+
+  h2 {
+    color: white !important;
+  }
+
+  a.dropdown-item {
+    color: white;
+  }
+
+  a.dropdown-item:hover {
+    background-color: rgb(36, 41, 46) !important;
+    text-decoration: underline;
+  }
+
+  select {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    background-color: rgb(36, 41, 46) !important;
+    color: white;
+  }
+
+  ul.dropdown-menu.show {
+    color: white;
+    background-color: rgb(36, 41, 46) !important;
+  }
+
+  .modal-content {
+    background-color: rgb(36, 41, 46) !important;
+    color: white;
+  }
+
+  app-create-config {
+    background-color: rgb(36, 41, 46);
+  }
+
+  input {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    color: white !important;
+
+    background-color: rgb(36, 41, 46) !important;
+  }
 }
 
+.dark > * {
+
+
+}
+
+
+.container-fluid {
+  height: 100%;
+}
+
+html, body {
+  margin: 0;
+  overflow: scroll;
+  height: 100%;
+}
+
+body.dark {
+  background-color: rgb(36, 41, 46) !important;
+}
+
+body > * {
+  color: black;
+}

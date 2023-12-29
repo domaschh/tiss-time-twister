@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'SE PR Group Phase';
+
+  getDarkModeClass() {
+    // Your logic to determine if dark mode should be enabled
+    return true ? 'dark' : '';
+  }
+
 }

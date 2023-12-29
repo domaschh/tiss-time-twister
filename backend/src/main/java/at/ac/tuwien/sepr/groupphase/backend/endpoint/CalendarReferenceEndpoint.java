@@ -1,7 +1,9 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
@@ -22,7 +24,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -39,14 +47,17 @@ public class CalendarReferenceEndpoint {
     private final CalendarReferenceMapper calendarReferenceMapper;
     private final PipelineService pipelineService;
     private final ExtractUsernameService extractUsernameService;
+    private final ConfigurationMapper configurationMapper;
 
     @Autowired
     public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper,
-                                     PipelineService pipelineService, ExtractUsernameService extractUsernameService) {
+                                     PipelineService pipelineService, ExtractUsernameService extractUsernameService,
+                                     ConfigurationMapper configurationMapper) {
         this.calendarReferenceService = calendarReferenceService;
         this.calendarReferenceMapper = calendarReferenceMapper;
         this.pipelineService = pipelineService;
         this.extractUsernameService = extractUsernameService;
+        this.configurationMapper = configurationMapper;
     }
 
     @Secured("ROLE_USER")
@@ -135,9 +146,33 @@ public class CalendarReferenceEndpoint {
                                  .contentType(MediaType.parseMediaType("text/calendar"))
                                  .body(new ByteArrayResource(fileContent));
         } catch (ParserException | IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.internalServerError().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
-
     }
 
+    @Secured("ROLE_USER")
+    @GetMapping("/preview/{id}")
+    @Operation(summary = "Export a calender from its url")
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable long id, @RequestBody List<ConfigurationDto> configurationDtos) {
+        LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurationDtos);
+        try {
+            Calendar preview = pipelineService.previewConfiguration(id,
+                                                                    configurationDtos.stream().map(configurationMapper::toEntity).toList());
+            byte[] fileContent = preview.toString().getBytes();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= preview[" + id + "].ics");
+
+            return ResponseEntity.ok()
+                                 .headers(headers)
+                                 .contentLength(fileContent.length)
+                                 .contentType(MediaType.parseMediaType("text/calendar"))
+                                 .body(new ByteArrayResource(fileContent));
+        } catch (ParserException | IOException | URISyntaxException e) {
+            return ResponseEntity.internalServerError().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

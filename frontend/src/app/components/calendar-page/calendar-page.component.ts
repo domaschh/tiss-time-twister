@@ -20,10 +20,11 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
+  CalendarDayViewBeforeRenderEvent,
   CalendarEvent,
   CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
+  CalendarEventTimesChangedEvent, CalendarMonthViewBeforeRenderEvent,
+  CalendarView, CalendarWeekViewBeforeRenderEvent,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
 import {Calendar, EventCalendar} from 'src/app/dtos/Calendar';
@@ -299,7 +300,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   toggleDarkMode(): void {
-    // Implement your dark mode toggling logic here
+    document.body.classList.toggle('dark');
   }
 
   editPassword(): void {
