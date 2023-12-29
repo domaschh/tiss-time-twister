@@ -1,7 +1,6 @@
 <div class="mt-6 mb-6 mr-6 ml-6">
   <div class="flex flex-row">
-
-    <div class="basis-3/12 mr-6 mt-20">
+    <div class="basis-1/12 mr-6 mt-20">
       <!-- Dropdown button -->
       <div class="dropdown">
         <button class="btn btn-tertiary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -9,7 +8,7 @@
         </button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
-          <li><a class="dropdown-item" href="#">Darkmode</a></li>
+          <li><a class="dropdown-item" (click)="toggleDarkMode()">Darkmode</a></li>
           <li><a class="dropdown-item" href="#">Passwort ändern</a></li>
         </ul>
       </div>
@@ -80,7 +79,7 @@
         <!--Konfigurationen Anzeigen-->
       </div>
     </div>
-    <div class="basis-9/12">
+    <div class="basis-11/12">
       <div class="row text-left">
         <!--Navigation-->
         <div class="col-md-5">
