@@ -21,16 +21,16 @@ public class RegistrationEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserService userService;
 
-    public RegistrationEndpoint(UserService userService){
-        this.userService= userService;
+    public RegistrationEndpoint(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationDto userRegistrationDto){
+    public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
         try {
             String token = userService.registerUser(userRegistrationDto);
             return ResponseEntity.ok(token);
-        } catch (EmailAlreadyExistsException e){
+        } catch (EmailAlreadyExistsException e) {
             LOGGER.error("Registration failed: {}", e.getMessage());
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

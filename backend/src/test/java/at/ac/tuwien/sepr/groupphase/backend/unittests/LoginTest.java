@@ -10,17 +10,11 @@ import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.PasswordDoesNotMatchEmailException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
-import lombok.extern.java.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -41,26 +35,26 @@ public class LoginTest implements TestData {
     @Autowired
     private UserService userService;
     private UserLoginDto userLoginDto;
-    private final String SAMPLE_EMAIL = "user2@email.com";
-    private final String SAMPLE_PASSWORD = "Password1";
+    private final String sampleEmail = "user2@email.com";
+    private final String samplePwd = "Password1";
 
     @BeforeEach
     public void setUp() {
         userDataGenerator.generateUsers();
         userLoginDto = new UserLoginDto();
-        userLoginDto.setEmail(SAMPLE_EMAIL);
-        userLoginDto.setPassword(SAMPLE_PASSWORD);
+        userLoginDto.setEmail(sampleEmail);
+        userLoginDto.setPassword(samplePwd);
     }
 
     @Test
-    public void whenLoginCalled_Successful_Endpoint(){
+    public void whenLoginCalled_Successful_Endpoint() {
         String response = loginEndpoint.login(userLoginDto);
         assertNotNull(response);
         assertTrue(response.startsWith("Bearer "));
     }
 
     @Test
-    public void whenLoginCalled_Unsuccessful_Endpoint(){
+    public void whenLoginCalled_Unsuccessful_Endpoint() {
         UserLoginDto incorrectLoggedInUser = new UserLoginDto();
         incorrectLoggedInUser.setEmail("wrongEmail");
         incorrectLoggedInUser.setPassword("WrongPassword");
@@ -70,16 +64,16 @@ public class LoginTest implements TestData {
     }
 
     @Test
-    public void whenLoginCalled_Successful_Service(){
+    public void whenLoginCalled_Successful_Service() {
         String response = userService.login(userLoginDto);
         assertNotNull(response);
         assertTrue(response.startsWith("Bearer "));
     }
 
     @Test
-    public void whenLoginCalled_Unsuccessful_Service(){
+    public void whenLoginCalled_Unsuccessful_Service() {
         UserLoginDto incorrectLoggedInUser = new UserLoginDto();
-        incorrectLoggedInUser.setEmail(SAMPLE_EMAIL);
+        incorrectLoggedInUser.setEmail(sampleEmail);
         incorrectLoggedInUser.setPassword("WrongPassword1");
         assertThrows(PasswordDoesNotMatchEmailException.class, () -> {
             userService.login(incorrectLoggedInUser);
@@ -87,7 +81,7 @@ public class LoginTest implements TestData {
     }
 
     @Test
-    public void whenUserFoundByEmail_Successful(){
+    public void whenUserFoundByEmail_Successful() {
         String email = "user2@email.com";
         ApplicationUser user = userRepository.findUserByEmail(email);
         assertNotNull(user);
@@ -98,7 +92,7 @@ public class LoginTest implements TestData {
     public void whenLoginCalled_WithNonexistentEmail_ThrowsUsernameNotFoundException() {
         UserLoginDto nonexistentUser = new UserLoginDto();
         nonexistentUser.setEmail("nonexistent@email.com");
-        nonexistentUser.setPassword(SAMPLE_PASSWORD);
+        nonexistentUser.setPassword(samplePwd);
         assertThrows(UsernameNotFoundException.class, () -> {
             userService.loadUserByUsername(nonexistentUser.getEmail());
         });
@@ -107,7 +101,7 @@ public class LoginTest implements TestData {
     @Test
     public void whenLoginCalled_WithIncorrectPassword_ThrowsPasswordDoesNotMatchEmailException() {
         UserLoginDto incorrectPasswordUser = new UserLoginDto();
-        incorrectPasswordUser.setEmail(SAMPLE_EMAIL);
+        incorrectPasswordUser.setEmail(sampleEmail);
         incorrectPasswordUser.setPassword("WrongPassword1");
         assertThrows(PasswordDoesNotMatchEmailException.class, () -> {
             userService.login(incorrectPasswordUser);
@@ -117,7 +111,7 @@ public class LoginTest implements TestData {
     @Test
     public void whenLoginCalled_WithInvalidPasswordFormat_ThrowsInvalidPasswordException() {
         UserLoginDto invalidPasswordFormatUser = new UserLoginDto();
-        invalidPasswordFormatUser.setEmail(SAMPLE_EMAIL);
+        invalidPasswordFormatUser.setEmail(sampleEmail);
         invalidPasswordFormatUser.setPassword("wrong");
         assertThrows(InvalidPasswordException.class, () -> {
             userService.login(invalidPasswordFormatUser);

@@ -65,21 +65,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmailAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public String handleEmailAlreadyExistsException(EmailAlreadyExistsException ex){
+    public String handleEmailAlreadyExistsException(EmailAlreadyExistsException ex) {
         return ex.getMessage();
     }
 
     @ExceptionHandler(InvalidEmailException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public String handleInvalidEmailException(InvalidEmailException ex){
+    public String handleInvalidEmailException(InvalidEmailException ex) {
         return ex.getMessage();
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public String handleInvalidPasswordException(InvalidPasswordException ex){
+    public String handleInvalidPasswordException(InvalidPasswordException ex) {
         return ex.getMessage();
     }
 

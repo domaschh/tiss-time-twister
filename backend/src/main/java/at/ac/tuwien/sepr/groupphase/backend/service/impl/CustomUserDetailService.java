@@ -103,19 +103,19 @@ public class CustomUserDetailService implements UserService {
     }
 
     @Override
-    public String registerUser(UserRegistrationDto userRegistrationDto) throws EmailAlreadyExistsException, InvalidEmailException, InvalidPasswordException{
+    public String registerUser(UserRegistrationDto userRegistrationDto) throws EmailAlreadyExistsException, InvalidEmailException, InvalidPasswordException {
         List<String> roles = new ArrayList<>();
         roles.add("ROLE_USER");
 
-        if (userRepository.findUserByEmail(userRegistrationDto.getEmail()) != null){
+        if (userRepository.findUserByEmail(userRegistrationDto.getEmail()) != null) {
             throw new EmailAlreadyExistsException("An user already exists with this email.");
         }
 
-        if (!isValidEmail(userRegistrationDto.getEmail())){
+        if (!isValidEmail(userRegistrationDto.getEmail())) {
             throw new InvalidEmailException("Email entered is not valid.");
         }
 
-        if (!isValidPassword(userRegistrationDto.getPassword())){
+        if (!isValidPassword(userRegistrationDto.getPassword())) {
             throw new InvalidPasswordException("Password entered is not valid.");
         }
         ApplicationUser newUser = new ApplicationUser(
@@ -127,19 +127,19 @@ public class CustomUserDetailService implements UserService {
         return jwtTokenizer.getAuthToken(userRegistrationDto.getEmail(), roles);
     }
 
-    public boolean isValidEmail(String email){
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-            "[a-zA-Z0-9_+&*-]+)*@" +
-            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-            "A-Z]{2,7}$";
+    public boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."
+            + "[a-zA-Z0-9_+&*-]+)*@"
+            + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+            + "A-Z]{2,7}$";
 
         Pattern pattern = Pattern.compile(emailRegex);
-        if (email == null) return false;
+        if (email == null) { return false; }
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    public boolean isValidPassword(String password){
+    public boolean isValidPassword(String password) {
         if (password == null || password.length() < 8) {
             return false;
         }

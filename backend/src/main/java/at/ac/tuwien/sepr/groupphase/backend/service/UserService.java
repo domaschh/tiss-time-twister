@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public interface UserService extends UserDetailsService {
 
     /**
-     * Find a user in the context of Spring Security based on the email address
+     * Find a user in the context of Spring Security based on the email address.
      *
      * @param email the email address
      * @return a Spring Security user

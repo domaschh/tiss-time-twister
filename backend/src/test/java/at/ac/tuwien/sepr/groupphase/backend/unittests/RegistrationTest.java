@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -36,15 +35,15 @@ public class RegistrationTest implements TestData {
     @Autowired
     private UserService userService;
     private UserRegistrationDto newUserDto;
-    private final String SAMPLE_EMAIL = "sample@email.com";
-    private final String SAMPLE_PASSWORD = "1Password";
+    private final String sampleEmail = "sample@email.com";
+    private final String samplePwd = "1Password";
 
     @BeforeEach
     public void setUp() {
         userDataGenerator.generateUsers();
         newUserDto = new UserRegistrationDto();
-        newUserDto.setEmail(SAMPLE_EMAIL);
-        newUserDto.setPassword(SAMPLE_PASSWORD);
+        newUserDto.setEmail(sampleEmail);
+        newUserDto.setPassword(samplePwd);
     }
 
     @Test
