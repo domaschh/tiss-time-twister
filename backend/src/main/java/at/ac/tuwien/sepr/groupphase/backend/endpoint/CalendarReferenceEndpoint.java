@@ -1,15 +1,12 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
-import at.ac.tuwien.sepr.groupphase.backend.config.properties.SecurityProperties;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
@@ -55,7 +52,8 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @PutMapping
     @Operation(summary = "Import a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto importCalendarReference(@RequestBody CalendarReferenceDto calendarReferenceDto, HttpServletRequest request) {
+    public CalendarReferenceDto importCalendarReference(@RequestBody CalendarReferenceDto calendarReferenceDto,
+                                                        HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/calendar/body:{}", calendarReferenceDto);
         return calendarReferenceMapper.calendarReferenceToDto(
@@ -94,6 +92,14 @@ public class CalendarReferenceEndpoint {
         calendarReferenceService.deleteCalendar(id);
     }
 
+    @Secured("ROLE_USER")
+    @PostMapping("/{calendarId}")
+    @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public CalendarReference addConfig(@PathVariable Long calendarId, @RequestBody Long configId) {
+        LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
+        return calendarReferenceService.addConfig(configId, calendarId);
+    }
+
 
     /**
      * <p> Exports the Calendar associated with the given token.</p>
@@ -108,7 +114,7 @@ public class CalendarReferenceEndpoint {
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
     public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token) {
-        LOGGER.info("Get /api/v1/calendar/get/export/{location}");
+        LOGGER.info("Get /api/v1/calendar/get/export/{token}");
         try {
             Calendar reExportedCalendar = pipelineService.pipeCalendar(token);
             byte[] fileContent = reExportedCalendar.toString().getBytes();
