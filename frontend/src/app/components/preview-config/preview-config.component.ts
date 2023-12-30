@@ -279,7 +279,7 @@ export class PreviewConfigComponent {
     });
   }
 
-  getConfigurations(): Configuration[] {
+  getConfigurations(): Observable<ConfigurationDto[]> {
     //TODO: get configurations from configuration service
     return this.configurationService.getAll();
   }

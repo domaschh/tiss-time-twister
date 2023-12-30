@@ -39,7 +39,7 @@
             </div>
             <div>
               <div class="form-floating">
-                <select class="form-select" formControlName="calendar" ([ngModel]) ="selectedCal">
+                <select class="form-select" formControlName="calendar" [(ngModel)] ="selectedCal">
                   <option *ngFor="let cal of calendars" [value]="cal">{{ cal.name }}</option>
                 </select>
                 <label for="selectEffectType">Select Calendar</label>
