@@ -12,10 +12,14 @@ export class ConfigurationService {
   constructor(private readonly httpClient: HttpClient, private readonly globals: Globals) { }
 
   getAll(){
-    return null;
+      return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + '/all');
   }
 
   getAllPublic() {
     return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + "/allPublic")
+  }
+
+  addToConfigs() {
+    return this.httpClient.get(this.messageBaseUri);
   }
 }

@@ -34,29 +34,15 @@ import { CalendarReferenceService } from 'src/app/services/calendar.reference.se
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import * as ICAL from 'ical.js';
 import {EventService} from "../../services/event.service";
-import {LogoutSuccessModalComponent} from "../logout-success-modal/logout-success-modal.component";
 import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
-import {ca} from "date-fns/locale";
 import {ToastrService} from "ngx-toastr";
-import {data} from "autoprefixer";
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
+import {colors} from "../../global/constants";
+import {ConfigurationDto} from "../../dtos/configuration-dto";
 
 
 //preset colors since color should not be saved
-const colors: Record<number, EventColor> = {
-  0: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  1: {
-    primary: '#03ad2b',
-    secondary: '#32e65c',
-  },
-  2: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
+
 
 @Component({
   selector: 'app-calendar-page',
@@ -68,7 +54,7 @@ export class CalendarPageComponent implements OnInit {
 
   myICAL: ICAL = ICAL;
   calendars: Calendar[] = [];
-  configurations: Configuration[] = [];
+  configurations: ConfigurationDto[] = [];
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -118,6 +104,7 @@ export class CalendarPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCalendars();
+    this.loadConfigs();
     this.configurations = this.getConfigurations();
   }
 
@@ -133,6 +120,18 @@ export class CalendarPageComponent implements OnInit {
       }
       this.viewDate = date;
     }
+  }
+
+  loadConfigs() {
+    this.configurationService.getAll().subscribe({
+      next: (configs) => {
+        console.log(configs)
+        this.configurations = configs;
+      },
+      error: () => {
+        this.toastrService.error("Coudln't fetch configurations")
+      }
+    })
   }
 
   eventTimesChanged({
@@ -257,9 +256,8 @@ export class CalendarPageComponent implements OnInit {
             id++;
             this.calendars.push(newcal);
 
-            console.log(this.calendars)
 
-            if (this.calendars != null && this.calendars.length != 0) {
+            if (this.calendars.length != 0) {
               console.log("hello")
 
               this.calendars.forEach(cal => {
@@ -276,9 +274,10 @@ export class CalendarPageComponent implements OnInit {
     });
   }
 
-  getConfigurations(): Configuration[] {
+  getConfigurations(): ConfigurationDto[] {
     //TODO: get configurations from configuration service
-    return this.configurationService.getAll();
+    return []
+    // return this.configurationService.getAll();
   }
 
   openModal(modalName: string) {

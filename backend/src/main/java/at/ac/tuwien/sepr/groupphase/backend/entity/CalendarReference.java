@@ -21,7 +21,7 @@ public class CalendarReference {
     @Column()
     private String link;
 
-    @ManyToMany(mappedBy = "calendarReferences", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "calendarReferences", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<Configuration> configurations;
 
     @ManyToOne()

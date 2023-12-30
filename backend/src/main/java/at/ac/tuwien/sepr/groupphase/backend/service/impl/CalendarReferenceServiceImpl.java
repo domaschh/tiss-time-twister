@@ -7,6 +7,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -70,21 +71,31 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
+    @Transactional
     public CalendarReference addConfig(Long configId, Long calendarId) {
-        Configuration configuration = configurationRepository.getReferenceById(configId);
+        Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
         if (!configuration.isPublished()) {
             throw new AccessDeniedException("Configuration is not public");
         }
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
-        calendarReference.getConfigurations().add(configuration);
+        if (!calendarReference.getConfigurations().contains(configuration)) {
+            calendarReference.getConfigurations().add(configuration);
+            if (configuration.getCalendarReferences() == null) {
+                configuration.setCalendarReferences(List.of(calendarReference));
+            } else {
+                configuration.getCalendarReferences().add(calendarReference);
+            }
+        }
         return calendarReferenceRepository.save(calendarReference);
     }
 
     @Override
+    @Transactional
     public CalendarReference removeConfig(Long configId, Long calendarId) {
         Configuration configuration = configurationRepository.getReferenceById(configId);
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         calendarReference.getConfigurations().remove(configuration);
+        configuration.getCalendarReferences().remove(calendarReference);
         return calendarReferenceRepository.save(calendarReference);
     }
 

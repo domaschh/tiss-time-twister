@@ -1,6 +1,14 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
@@ -11,13 +19,13 @@ public class Rule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "config_id")
     private Configuration configuration;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Effect effect;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Match match;
 }

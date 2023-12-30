@@ -3,7 +3,8 @@ export interface ConfigurationDto {
   title: string,
   description: string,
   rules: RuleDto[],
-  published: boolean
+  published: boolean,
+  alreadyAdded?: boolean,
 }
 
 export enum MatchType {
@@ -23,8 +24,8 @@ export interface MatchDto {
 }
 
 export enum EffectType {
-  DELETE,
-  MODIFY
+  DELETE = 'DELETE',
+  MODIFY = 'MODIFY'
 }
 
 export interface EffectDto {

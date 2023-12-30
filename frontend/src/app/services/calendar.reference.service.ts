@@ -46,4 +46,12 @@ export class CalendarReferenceService {
       })
     );
   }
+
+  addToCalendar(selectedCal: number, configuration: number) {
+    return this.httpClient.post<CalendarReferenceDto>(this.messageBaseUri + "/" +selectedCal + "/" + configuration, null);
+  }
+
+  removeFromCalendar(selectedCal: number, configuration: number) {
+    return this.httpClient.delete<CalendarReferenceDto>(this.messageBaseUri + "/" +selectedCal + "/" + configuration);
+  }
 }
