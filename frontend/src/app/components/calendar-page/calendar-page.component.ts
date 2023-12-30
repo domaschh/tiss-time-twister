@@ -298,9 +298,6 @@ export class CalendarPageComponent implements OnInit {
     this.router.navigate(['/'], {queryParams: {loggedOut: 'true'}});
   }
 
-  toggleDarkMode(): void {
-    document.body.classList.toggle('dark');
-  }
 
   editPassword(): void {
     // Implement the password editing functionality here

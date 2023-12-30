@@ -1,7 +1,11 @@
-<div *ngIf="showNavbar()" class="flex w-full items-center justify-center">
-  <div>
+<div *ngIf="showNavbar()" class="flex w-full items-center justify-between">
+  <div class="flex-grow text-center">
     <label class="text-2xl hover:underline cursor-pointer" (click)="routeToPage('calendar')"> My Calendar</label>
     <label class="text-2xl"> | </label>
-    <label class="text-2xl hover:underline cursor-pointer" (click)="routeToPage('publicConfigs')"> Public Configs</label>
+    <label class="text-2xl hover:underline cursor-pointer" (click)="routeToPage('publicConfigs')"> Public
+      Configs</label>
+  </div>
+  <div class="right-align">
+    <button [class]="isDarkMode() ? 'bi-sun' : 'bi-moon'" (click)="toggleDarkMode()"></button>
   </div>
 </div>

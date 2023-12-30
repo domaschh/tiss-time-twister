@@ -10,6 +10,7 @@ export class NavbarComponent {
 
   constructor(private readonly router: Router) {
   }
+
   routeToPage(s: string) {
     this.router.navigate([s])
   }
@@ -17,4 +18,13 @@ export class NavbarComponent {
   showNavbar() {
     return localStorage.getItem("authToken")
   }
+
+  toggleDarkMode(): void {
+    document.body.classList.toggle('dark');
+  }
+  isDarkMode(): boolean {
+    return document.body.classList.contains('dark');
+  }
+
+
 }
