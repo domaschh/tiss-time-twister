@@ -46,10 +46,9 @@
 
         <!--Neuen Kalender importieren-->
         <!--Konfigurationen Anzeigen-->
-        <div class="pt-4">
-
+        <div class="pt-4 flex  flex-col gap-3">
           <h5 class="">My Configs</h5>
-          <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 text-center">
+          <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 flex flex-col text-center">
             <label class="form-check-label" [for]="'conf' + conf.id">
               {{ conf.title }}
             </label>
@@ -66,8 +65,8 @@
             </div>
 
           </div>
-          <div (click)="openModal('createConfig')" class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
-            <a matTooltip="Add a Configuration" class="cursor-pointer content-center" aria-label="Token">
+          <div matTooltip="Add a Configuration" (click)="openModal('createConfig')" class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+            <a class="cursor-pointer content-center" aria-label="Token">
               <i class="bi bi-plus" style="font-size: 1rem;"></i>
             </a>
           </div>

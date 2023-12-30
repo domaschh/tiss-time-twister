@@ -5,7 +5,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: 'app-navigation-popover',
   templateUrl: './navigation-popover.component.html',
-  styleUrls: ['./navigation-popover.component.scss']
+  styleUrls: ['./navigation-popover.component.scss'],
 })
 export class NavigationPopoverComponent {
   constructor(

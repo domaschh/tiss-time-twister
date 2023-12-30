@@ -41,7 +41,13 @@ $sepr-group-phase-theme: mat.define-light-theme((
 
 @import 'angular-calendar/scss/angular-calendar.scss';
 
-
+.modal-header{
+   padding-bottom: 0;
+  border:none!important;
+}
+ .modal-footer{
+  border:none!important;
+}
 $font-col: #ADBAC7;
 /* You can add global styles to this file, and also import other style files */
 

@@ -46,13 +46,13 @@ export class ConfigModalComponent implements OnInit {
 
   loadConfigs() {
     this.configurationService.getAll().subscribe({
-      next: (configs) => {
-        if (configs.length >= 1) {
-          let foundConfig = configs.find((c) => c.id === this.config.id);
-          if (foundConfig !== null) {
-            this.selectedCal = foundConfig.id
+      next: (myConfigs) => {
+        if (myConfigs.length >= 1) {
+          const foundCalendar = this.calendars.find((c) => c.configurations.map(config => config.id).includes(this.config.id));
+          if (foundCalendar) {
+            this.selectedCal = foundCalendar.id
           }
-          this.alreadyAdded = !foundConfig === undefined
+          this.alreadyAdded = !(foundCalendar === undefined)
         } else {
           this.alreadyAdded = false;
         }
@@ -90,8 +90,6 @@ export class ConfigModalComponent implements OnInit {
   }
 
   removeFromCalendar() {
-    console.log(this.selectedCal)
-    console.log(this.config.id)
     this.calendarReferenceService.removeFromCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal)=> {
         this.taostrServcie.success("Removed from Calendar")
