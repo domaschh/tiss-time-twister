@@ -1,0 +1,12 @@
+::ng-deep .custom-full-height-modal-left{
+  .modal-dialog {
+    margin: 0;
+    float: left !important;
+    height: 100vh !important;
+  }
+
+   .modal-content {
+    border-radius: 0 10px 0 0;
+    height: 100%;
+  }
+}
