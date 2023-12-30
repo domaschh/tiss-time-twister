@@ -51,7 +51,7 @@ export class CalendarPageComponent implements OnInit {
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
+  view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
@@ -229,17 +229,17 @@ export class CalendarPageComponent implements OnInit {
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
             vevents.forEach(event => {
-              let parsed = {
+              let parsed: MyCalendarEvent = {
                 start: new Date(event.getFirstPropertyValue("dtstart")),
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
                 location: event.getFirstPropertyValue("location"),
-                categories: event.getFirstPropertyValue("categories")
+                categories: event.getFirstPropertyValue("categories"),
               };
               evs.push(parsed)
             })
             var newcal: Calendar = {
-              isActive: false,
+              isActive: true,
               token: calendarReferenceDto.token,
               link: calendarReferenceDto.link,
               name: calendarReferenceDto.name,

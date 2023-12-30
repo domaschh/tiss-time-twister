@@ -1,82 +1,88 @@
-<div class="max-h-[100%] h-full">
+<div class="max-h-[95%] h-full">
   <div class="flex flex-row h-full ">
     <div class="basis-1/12 h-full border-r border-popover p-6">
       <!-- Dropdown button -->
       <!--Buttons-->
-      <div class="flex flex-col ">
-        <button type="button" class="btn btn-primary mt-2 mb-2">
-          <i class="bi bi-pencil"></i>
-          Bearbeiten
-        </button>
-        <button type="button" (click)="createCustomEvent()" class="btn btn-primary mt-2 mb-2">
-          <i class="bi bi-plus-lg"></i>
-          Erstellen
-        </button>
-        <button type="button" class="btn btn-primary mt-2 mb-6">
-          <i class="bi bi-box-arrow-down"></i>
-          Exportieren
-        </button>
+      <div class="flex flex-col w-full max-h-full">
         <!--Buttons-->
         <!--Importierte Kalender-->
-        <p>Meine Kalender:</p>
-        <label class="form-check-label" [for]="1">
-          <input class="form-check-input" type="checkbox" [id]="1" [(ngModel)]="allCalEnabled">
-          Alle anzeigen
-        </label>
-        <div *ngFor="let calendar of calendars">
-          <label class="form-check-label" [for]="'cal' + calendar.id">
-            <input class="form-check-input" type="checkbox" [id]="'cal' + calendar.id" [(ngModel)]="calendar.isActive"
-                   [style.background-color]="calendar.isActive ? calendar.color : '#ffffff'"
-                   [style.border-color]="calendar.color">
-            {{ calendar.name }}
+        <div class="pb-4 border-b border-popover">
+          <h5>My Calendars</h5>
+          <label class="form-check-label pb-2" [for]="1">
+            <input class="form-check-input" type="checkbox" [id]="1" [(ngModel)]="allCalEnabled">
+            Show all
           </label>
-          <a class=" ml-2 btn" aria-label="Delete" (click)="openDeleteModal(calendar)">
-            <i class="bi bi-x-lg" style="font-size: 1rem"></i>
-          </a>
-          <a class="btn" aria-label="Edit" (click)="openEditPage(calendar)">
-            <i class="bi bi-pencil" style="font-size: 1rem;"></i>
-          </a>
-          <a class="btn" aria-label="Token" (click)="openTokenModal(calendar)">
-            <i class="bi bi-info" style="font-size: 1rem;"></i>
-          </a>
-        </div>
-        <!--Importierte Kalender-->
-        <!--Neuen Kalender importieren-->
-        <button type="button" class="btn btn-primary mt-2 mb-6" (click)="openModal('import')">
-          <i class="bi bi-upload"></i>
-          Importieren
-        </button>
-        <!--Neuen Kalender importieren-->
-        <!--Konfigurationen Anzeigen-->
-        <p>Meine Konfigurationen:</p>
-        <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 text-center">
-          <label class="form-check-label" [for]="'conf' + conf.id">
-            {{ conf.title }}
-          </label>
-          <div class="flex   flex-row justify-center">
-            <a class="btn" aria-label="Delete" (click)="removeConfiguraion(conf)">
-              <i class="bi bi-trash" style="font-size: 1rem"></i>
-            </a>
-            <a class="btn" aria-label="Edit">
-              <i class="bi bi-pencil" style="font-size: 1rem;"></i>
-            </a>
-            <a class="btn" aria-label="Edit">
-              <i class="bi bi-info" style="font-size: 1rem;"></i>
+          <div *ngFor="let calendar of calendars" class="text-center">
+            <div class="border-y border-x border-popover rounded p-2">
+              <label class="form-check-label" [for]="'cal' + calendar.id">
+                {{ calendar.name }}
+              </label>
+              <div class="flex flex-row justify-baseline items-center justify-between">
+                <input class="form-check-input cursor-pointer my-auto" type="checkbox" [id]="'cal' + calendar.id"
+                       [(ngModel)]="calendar.isActive"
+                       [style.background-color]="calendar.isActive ? calendar.color : '#ffffff'"
+                       [style.border-color]="calendar.color">
+                <a class="cursor-pointer" aria-label="Delete" (click)="openDeleteModal(calendar)">
+                  <i class="bi bi-x-lg" style="font-size: 1rem"></i>
+                </a>
+                <a class="cursor-pointer" aria-label="Edit" (click)="openEditPage(calendar)">
+                  <i class="bi bi-pencil" style="font-size: 1rem;"></i>
+                </a>
+                <a class="cursor-pointer" aria-label="Token" (click)="openTokenModal(calendar)">
+                  <i class="bi bi-info" style="font-size: 1rem;"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div  matTooltip="Add a Calendar" (click)="openModal('import')" class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+            <a class="cursor-pointer content-center" aria-label="Token">
+              <i class="bi bi-plus" style="font-size: 1rem;"></i>
             </a>
           </div>
-
         </div>
-        <button type="button" class="btn btn-primary mt-2 mb-6" (click)="openModal('createConfig')">
-          <i class="bi bi-upload"></i>
-          Konfiguration Erstellen
-        </button>
+
+        <!--Importierte Kalender-->
+        <!--Neuen Kalender importieren-->
+
+        <!--Neuen Kalender importieren-->
+        <!--Konfigurationen Anzeigen-->
+        <div class="pt-4 flex  flex-col gap-3">
+          <h5 class="">My Configs</h5>
+          <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 flex flex-col text-center">
+            <label class="form-check-label" [for]="'conf' + conf.id">
+              {{ conf.title }}
+            </label>
+            <div class="flex flex-row justify-center">
+              <a class="btn" aria-label="Delete" (click)="removeConfiguraion(conf)">
+                <i class="bi bi-trash" style="font-size: 1rem"></i>
+              </a>
+              <a class="btn" aria-label="Edit">
+                <i class="bi bi-pencil" style="font-size: 1rem;"></i>
+              </a>
+              <a class="btn" aria-label="Edit">
+                <i class="bi bi-info" style="font-size: 1rem;"></i>
+              </a>
+            </div>
+
+          </div>
+          <div matTooltip="Add a Configuration" (click)="openModal('createConfig')" class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+            <a class="cursor-pointer content-center" aria-label="Token">
+              <i class="bi bi-plus" style="font-size: 1rem;"></i>
+            </a>
+          </div>
+        </div>
+
         <!--Konfigurationen Anzeigen-->
       </div>
     </div>
-    <div class="basis-11/12 pr-6 pl-6 pt-6">
+    <div class="basis-11/12 pr-6 pl-6 pt-6 max-h-[90%]">
       <div class="row text-left">
         <!--Navigation-->
         <div class="col-md-5">
+          <button type="button" (click)="createCustomEvent()" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            Erstellen
+          </button>
           <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
                (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
@@ -86,6 +92,7 @@
                (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-right-short" style="font-size: 2rem;"></i>
           </div>
+
         </div>
         <!--Navigation-->
         <!--Datum Anzeige-->
@@ -104,7 +111,7 @@
         <!--Zeitfenster Auswahl-->
       </div>
       <br/>
-      <div [ngSwitch]="view">
+      <div [ngSwitch]="view" class="overflow-scroll max-h-full">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events | eventPipe"
                                  [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
                                  (dayClicked)="dayClicked($event.day)"
@@ -123,3 +130,4 @@
 
     </div>
   </div>
+</div>
