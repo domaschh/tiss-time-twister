@@ -29,6 +29,7 @@ import { PublicConfigCardComponent } from './components/public-config-card/publi
 import { PublicPageComponent } from './components/public-page/public-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ConfirmationModal } from './components/delete-modal/confirmation-modal.component';
+import { PreviewConfigComponent } from './components/preview-config/preview-config.component';
 import { ConfigModalComponent } from './components/public-config-card/config-modal/config-modal.component';
 import { RuleFoldComponent } from './components/public-config-card/rule-fold/rule-fold.component';
 import { NavigationPopoverComponent } from './components/navbar/navigation-popover/navigation-popover.component';
@@ -53,6 +54,7 @@ import { NavigationPopoverRightComponent } from './components/navbar/navigation-
     NavbarComponent,
     ConfirmationModal,
     RegistrationComponent,
+    PreviewConfigComponent,
     ConfigModalComponent,
     RuleFoldComponent,
     NavigationPopoverComponent,

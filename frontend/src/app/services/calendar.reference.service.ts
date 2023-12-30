@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Globals } from "../global/globals";
 import { CalendarReferenceDto } from "../dtos/calendar-reference-dto";
 import { Observable, catchError, of } from 'rxjs';
+import { Configuration } from '../dtos/Configuration';
+import { ConfigurationDto } from '../dtos/configuration-dto';
 
 @Injectable({
   providedIn: 'root'
