@@ -56,18 +56,18 @@
         <!--Neuen Kalender importieren-->
         <!--Konfigurationen Anzeigen-->
         <p>Meine Konfigurationen:</p>
-        <div *ngFor="let conf of configurations">
+        <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2">
           <label class="form-check-label" [for]="'conf' + conf.id">
-            <input type="checkbox" [id]="'conf' + conf.id" [(ngModel)]="conf.alreadyAdded"
-              [style.background-color]="true ? '#fffff' : '#ffffff'"
-              [style.border-color]="'ffffff'">
             {{conf.title}}
           </label>
-          <a class="btn" aria-label="Delete">
-            <i class="bi bi-x-lg" style="font-size: 1rem"></i>
+          <a class="btn" aria-label="Delete" (click)="removeConfiguraion(conf)">
+            <i class="bi bi-trash" style="font-size: 1rem"></i>
           </a>
           <a class="btn" aria-label="Edit">
             <i class="bi bi-pencil" style="font-size: 1rem;"></i>
+          </a>
+          <a class="btn" aria-label="Edit">
+            <i class="bi bi-info" style="font-size: 1rem;"></i>
           </a>
         </div>
         <button type="button" class="btn btn-primary mt-2 mb-6" (click)="openModal('createConfig')">

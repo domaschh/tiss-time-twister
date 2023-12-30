@@ -1,4 +1,6 @@
 import { CalendarEvent } from "angular-calendar"
+import {CalendarReferenceDto} from "./calendar-reference-dto";
+import {ConfigurationDto} from "./configuration-dto";
 
 export class Calendar{
   constructor(
@@ -8,7 +10,8 @@ export class Calendar{
     public id: number,
     public color: string,
     public isActive: boolean,
-    public events?: MyCalendarEvent[]
+    public events?: MyCalendarEvent[],
+    public configs?: ConfigurationDto[]
   ) {}
 }
 

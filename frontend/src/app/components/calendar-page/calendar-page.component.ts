@@ -8,14 +8,8 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours,
 } from 'date-fns';
 import { Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -39,7 +33,6 @@ import {ToastrService} from "ngx-toastr";
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 import {colors} from "../../global/constants";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
-
 
 //preset colors since color should not be saved
 
@@ -229,6 +222,7 @@ export class CalendarPageComponent implements OnInit {
     this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
         cals.forEach((calendarReferenceDto) => {
+          console.log(calendarReferenceDto)
           var evs: MyCalendarEvent[] = [];
           this.calenderReferenceServie.getIcalFromToken(calendarReferenceDto.token).subscribe((icalString) => {
             var parsedcal = this.myICAL.parse(icalString);
@@ -249,6 +243,7 @@ export class CalendarPageComponent implements OnInit {
               token: calendarReferenceDto.token,
               link: calendarReferenceDto.link,
               name: calendarReferenceDto.name,
+              configs: calendarReferenceDto.configurations,
               color: colors[id].primary, //only n preset colors are stored
               events: evs,
               id: calendarReferenceDto.id //id needed for frontend
@@ -258,8 +253,6 @@ export class CalendarPageComponent implements OnInit {
 
 
             if (this.calendars.length != 0) {
-              console.log("hello")
-
               this.calendars.forEach(cal => {
                 if (cal.events != null) {
                   cal.events.forEach(event => {
@@ -345,6 +338,7 @@ export class CalendarPageComponent implements OnInit {
       id: calendar.id,
       name: calendar.name,
       link: calendar.link,
+      configurations: calendar.configs,
       token: uuid.v4()
     }
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
@@ -360,5 +354,26 @@ export class CalendarPageComponent implements OnInit {
         }
       });
     };
+  }
+
+  removeConfiguraion(config: ConfigurationDto) {
+    const modalRef = this.modalService.open(ConfirmationModal);
+    modalRef.componentInstance.title = 'Deletion Confirmation';
+    modalRef.componentInstance.message = 'Are you sure you want to delete: ' + config.title;
+    modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      const calendarReferenceId = this.calendars.filter(c => c.configs.map(config => config.id).includes(config.id))
+      calendarReferenceId.forEach(calendar => {
+        this.calenderReferenceServie.removeFromCalendar(calendar.id, config.id).subscribe({
+          next: () => {
+            this.toastrService.success("Successfully deleted Configuration")
+            this.configurations = this.configurations.filter(obj => obj.id !== config.id);
+            callback(true)
+          }, error: () => {
+            this.toastrService.error("Couldn't delete. Consider removing in the public page")
+            callback(false)
+          }
+        })
+      })
+    }
   }
 }
