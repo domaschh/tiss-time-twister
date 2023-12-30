@@ -19,6 +19,7 @@ export interface MyCalendarEvent extends CalendarEvent{
   location: string,
   categories: string,
   calendar?: Calendar;
+  backgroundColor?: string;
 }
 
 export interface EventCalendar {

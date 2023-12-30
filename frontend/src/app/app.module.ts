@@ -34,6 +34,7 @@ import { ConfigModalComponent } from './components/public-config-card/config-mod
 import { RuleFoldComponent } from './components/public-config-card/rule-fold/rule-fold.component';
 import { NavigationPopoverComponent } from './components/navbar/navigation-popover/navigation-popover.component';
 import { NavigationPopoverRightComponent } from './components/navbar/navigation-popover-right/navigation-popover-right.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { NavigationPopoverRightComponent } from './components/navbar/navigation-
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTooltipModule,
     NgbModule,
     FormsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
