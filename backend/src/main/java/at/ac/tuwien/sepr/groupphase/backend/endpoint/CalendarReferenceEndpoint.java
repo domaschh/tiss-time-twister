@@ -4,6 +4,7 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
@@ -26,6 +27,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,6 +104,22 @@ public class CalendarReferenceEndpoint {
         calendarReferenceService.deleteCalendar(id);
     }
 
+    @Secured("ROLE_USER")
+    @PostMapping("/{calendarId}/{configId}")
+    @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public CalendarReference addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+        LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
+        return calendarReferenceService.addConfig(configId, calendarId);
+    }
+
+    @Secured("ROLE_USER")
+    @DeleteMapping("/{calendarId}/{configId}")
+    @Operation(summary = "Remove a public config from a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
+    public CalendarReference removeConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+        LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
+        return calendarReferenceService.removeConfig(configId, calendarId);
+    }
+
 
     /**
      * <p> Exports the Calendar associated with the given token.</p>
@@ -116,7 +134,7 @@ public class CalendarReferenceEndpoint {
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
     public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token) {
-        LOGGER.info("Get /api/v1/calendar/get/export/{location}");
+        LOGGER.info("Get /api/v1/calendar/get/export/{token}");
         try {
             Calendar reExportedCalendar = pipelineService.pipeCalendar(token);
             byte[] fileContent = reExportedCalendar.toString().getBytes();

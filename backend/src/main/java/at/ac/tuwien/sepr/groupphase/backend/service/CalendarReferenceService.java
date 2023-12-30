@@ -19,4 +19,8 @@ public interface CalendarReferenceService {
     Optional<CalendarReference> getFromToken(UUID token);
 
     List<CalendarReference> getAllForUser(String email);
+
+    CalendarReference addConfig(Long configId, Long calendarId);
+
+    CalendarReference removeConfig(Long configId, Long calendarId);
 }
