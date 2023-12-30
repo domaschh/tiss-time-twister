@@ -68,6 +68,7 @@ export class PreviewConfigComponent {
   myICAL: ICAL = ICAL;
   calendars: Calendar[];
   calReference: CalendarReferenceDto;
+  calId: number;
   config: ConfigurationDto;
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -115,7 +116,11 @@ export class PreviewConfigComponent {
     private modalService: NgbModal,
     private readonly toastrService: ToastrService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    const data = router.getCurrentNavigation().extras.state;
+    this.calId = data?.calId ?? 0;
+    this.config = data?.config ?? null;
+   }
 
   ngOnInit(): void {
 
@@ -232,7 +237,7 @@ export class PreviewConfigComponent {
   getPreview() {
     var id: number = 0;
 
-    this.calenderReferenceServie.getConfigurationPreview(this.calReference, this.config).subscribe({
+    this.calenderReferenceServie.getConfigurationPreview(this.calId, this.config).subscribe({
       next: cal => {
           var evs: MyCalendarEvent[] = [];
             var parsedcal = this.myICAL.parse(cal);
