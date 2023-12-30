@@ -119,15 +119,12 @@ export class PreviewConfigComponent {
   ) {
     const data = router.getCurrentNavigation().extras.state;
     this.calId = data?.calId ?? 0;
+    console.log(this.calId);
     this.config = data?.config ?? null;
    }
 
   ngOnInit(): void {
 
-    this.route.params.subscribe((params) => {
-      this.config = params['config'];
-      this.calReference = params['calendar'];
-    })
     this.getPreview();
   }
 

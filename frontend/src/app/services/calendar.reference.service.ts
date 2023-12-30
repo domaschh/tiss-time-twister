@@ -49,6 +49,10 @@ export class CalendarReferenceService {
     );
   }
 
+  getConfigurationPreview(calendarId: number, config: ConfigurationDto){
+    console.log(calendarId);
+    console.log(config);
+    return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], {responseType: 'text'});
   addToCalendar(selectedCal: number, configuration: number) {
     return this.httpClient.post<CalendarReferenceDto>(this.messageBaseUri + "/" +selectedCal + "/" + configuration, null);
   }

@@ -154,7 +154,7 @@ public class CalendarReferenceEndpoint {
     }
 
     @Secured("ROLE_USER")
-    @GetMapping("/preview/{id}")
+    @PostMapping("/preview/{id}")
     @Operation(summary = "Export a calender from its url")
     public ResponseEntity<Resource> exportCalendarFile(@PathVariable long id, @RequestBody List<ConfigurationDto> configurationDtos) {
         LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurationDtos);
