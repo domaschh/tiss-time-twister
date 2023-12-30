@@ -42,7 +42,6 @@ export class CreateConfigComponent {
     description: ['', [Validators.required]],
     public: [false, [Validators.required]],
     calendar: [Calendar, [Validators.required]],
-    rules: [this.allRules, [Validators.required]]
   });
   submitted = false;
   // Error flag
@@ -57,19 +56,17 @@ export class CreateConfigComponent {
   constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
 
     this.configurationForm.patchValue({ calendar: null });
+    const data = router.getCurrentNavigation().extras.state;
+    this.calendars = data?.calendars ?? null;
+    if (data?.edit) {
+      this.createEditLabel = 'Edit Configuration';
+    } else {
+      this.createEditLabel = 'Create Configuration';
+    }
   }
 
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.calendars = params['cals'];
-
-      if(params['edit']) {
-        this.createEditLabel = 'Edit Configuration';
-      } else {
-        this.createEditLabel = 'Create Configuration';
-      }
-    });
     this.setActiveNewRule();
   }
 
@@ -88,6 +85,13 @@ export class CreateConfigComponent {
   }
 
   createConfiguration() {
+    this.openPreview({
+      description: this.configurationForm.value.description,
+      id: 0,
+      published: false,
+      rules: this.allRules,
+      title: this.configurationForm.value.name
+    });
     console.log(this.configurationForm.value);
   }
 
@@ -133,4 +137,9 @@ export class CreateConfigComponent {
     return Object.values(enumObject) as string[];
   }
 
+  openPreview(config: ConfigurationDto) {
+    this.router.navigate(['previewConfig'], {
+      state: { calId: this.selectedCal, config: config }
+    });
+  }
 }
