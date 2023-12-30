@@ -38,9 +38,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             configuration.setUser(user);
             if (configuration.getRules() == null) {
                 configuration.setRules(List.of());
-            }
-            for (Rule r : configuration.getRules()) {
-                r.setConfiguration(configuration);
+            } else {
+                for (Rule r : configuration.getRules()) {
+                    r.setConfiguration(configuration);
+                }
             }
             return configurationRepository.save(configuration);
         } else {
