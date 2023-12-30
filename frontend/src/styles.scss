@@ -23,7 +23,7 @@
     border: 1px solid rgba(169, 169, 169, 0.16);;
   }
 }
-.dark .container-fluid > * {
+.dark .pagecontainer > * {
   $bg-dark-primary: rgb(36, 41, 46);
   $bg-dark-secondary: #394046;
   $bg-active: #2c343a;
@@ -159,7 +159,7 @@
 }
 
 
-.container-fluid {
+.pagecontainer {
   height: 100%;
 }
 

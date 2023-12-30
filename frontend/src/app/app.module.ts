@@ -31,6 +31,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ConfirmationModal } from './components/delete-modal/confirmation-modal.component';
 import { ConfigModalComponent } from './components/public-config-card/config-modal/config-modal.component';
 import { RuleFoldComponent } from './components/public-config-card/rule-fold/rule-fold.component';
+import { NavigationPopoverComponent } from './components/navbar/navigation-popover/navigation-popover.component';
+import { NavigationPopoverRightComponent } from './components/navbar/navigation-popover-right/navigation-popover-right.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { RuleFoldComponent } from './components/public-config-card/rule-fold/rul
     RegistrationComponent,
     ConfigModalComponent,
     RuleFoldComponent,
+    NavigationPopoverComponent,
+    NavigationPopoverRightComponent,
   ],
   imports: [
     BrowserModule,
