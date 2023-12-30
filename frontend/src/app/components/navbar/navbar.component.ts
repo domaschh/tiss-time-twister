@@ -30,13 +30,13 @@ export class NavbarComponent {
 
   showNavModal() {
     this.modal.open(NavigationPopoverComponent, {
-      centered: false, fullscreen: "xl", windowClass: 'custom-full-height-modal '
+      centered: false, fullscreen: "xl", windowClass: 'custom-full-height-modal-left'
     })
   }
 
   showNavRightModal() {
     this.modal.open(NavigationPopoverRightComponent, {
-      centered: false, fullscreen: "xl", windowClass: 'custom-full-height-modal '
+      centered: false, fullscreen: "xl", windowClass: 'custom-full-height-modal-right'
     })
   }
 }
