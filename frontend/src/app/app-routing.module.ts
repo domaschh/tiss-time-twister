@@ -9,6 +9,7 @@ import { CreateEditMode, CreateEditCustomEventComponent } from "./components/cre
 import { CreateConfigComponent } from "./components/create-config/create-config.component";
 import { PublicPageComponent } from "./components/public-page/public-page.component";
 import { RegistrationComponent } from './components/registration/registration.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
       { path: 'edit/:id', component: CreateEditCustomEventComponent, data: { mode: CreateEditMode.edit } },
     ]
   },
-  { path: 'register', component: RegistrationComponent }
+  { path: 'register', component: RegistrationComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
 ];
 
 @NgModule({

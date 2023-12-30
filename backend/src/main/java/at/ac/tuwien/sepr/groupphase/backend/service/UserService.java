@@ -44,4 +44,12 @@ public interface UserService extends UserDetailsService {
      * @throws org.springframework.security.authentication.BadCredentialsException if credentials are bad
      */
     String registerUser(UserRegistrationDto userRegistrationDto);
+
+    /**
+     * Request a password reset.
+     *
+     * @param email the email address
+     * @throws UsernameNotFoundException if the email address does not exist
+     */
+    void requestPasswordReset(String email);
 }

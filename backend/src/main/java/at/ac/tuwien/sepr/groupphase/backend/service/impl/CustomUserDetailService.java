@@ -10,11 +10,11 @@ import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.PasswordDoesNotMatchEmailException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
+import at.ac.tuwien.sepr.groupphase.backend.service.EmailService;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -25,7 +25,9 @@ import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +38,9 @@ public class CustomUserDetailService implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     public CustomUserDetailService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
@@ -125,6 +130,22 @@ public class CustomUserDetailService implements UserService {
         );
         userRepository.save(newUser);
         return jwtTokenizer.getAuthToken(userRegistrationDto.getEmail(), roles);
+    }
+
+    @Override
+    public void requestPasswordReset(String email) {
+        ApplicationUser user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            String token = UUID.randomUUID().toString();
+            //TODO
+            //user.setResetPasswordToken(token);
+            //user.setResetPasswordExpires(new Date(System.currentTimeMillis() + 3600000)); // 1 hour
+            //userRepository.save(user);
+
+            //TODO
+            String resetUrl = "http://frontend-url/reset-password?token=" + token;
+            emailService.sendResetEmail(user.getEmail(), resetUrl);
+        }
     }
 
     public boolean isValidEmail(String email) {

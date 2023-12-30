@@ -2,6 +2,7 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserRegistrationDto;
 import at.ac.tuwien.sepr.groupphase.backend.exception.EmailAlreadyExistsException;
+import at.ac.tuwien.sepr.groupphase.backend.service.EmailService;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
 import jakarta.annotation.security.PermitAll;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ public class RegistrationEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     public RegistrationEndpoint(UserService userService) {
         this.userService = userService;
@@ -30,6 +33,7 @@ public class RegistrationEndpoint {
     public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
         try {
             String token = userService.registerUser(userRegistrationDto);
+            emailService.sendRegistrationEmail(userRegistrationDto.getEmail());
             return ResponseEntity.ok(token);
         } catch (EmailAlreadyExistsException e) {
             LOGGER.error("Registration failed: {}", e.getMessage());
