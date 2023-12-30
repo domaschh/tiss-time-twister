@@ -36,7 +36,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         if (user != null) {
             configuration.setUser(user);
-            for (Rule r: configuration.getRules()) {
+            if (configuration.getRules() == null) {
+                configuration.setRules(List.of());
+            }
+            for (Rule r : configuration.getRules()) {
                 r.setConfiguration(configuration);
             }
             return configurationRepository.save(configuration);
