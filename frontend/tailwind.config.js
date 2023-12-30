@@ -12,6 +12,7 @@ module.exports = {
       notadded: 'rgba(225,206,10,0.4)',
       remove: 'rgba(225,206,10,0.4)',
       white: '#ffffff',
+      'font-col': '#ADBAC7',
       blue: {
         DEFAULT: '#0095ff',
         dark: '#04559c',
