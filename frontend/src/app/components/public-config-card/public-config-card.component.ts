@@ -4,7 +4,6 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
 import {ConfigurationService} from "../../services/configuration.service";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
-import {Calendar} from "../../dtos/Calendar";
 
 @Component({
   selector: 'app-public-config-card',
@@ -13,7 +12,7 @@ import {Calendar} from "../../dtos/Calendar";
 })
 export class PublicConfigCardComponent{
   @Input() config: ConfigurationDto;
-  addedAlready: boolean;
+  alreadyAdded: boolean;
 
   constructor(
     private readonly modalService: NgbModal,
@@ -29,6 +28,5 @@ export class PublicConfigCardComponent{
       modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       };
   }
-
 
 }

@@ -9,6 +9,7 @@ module.exports = {
       popover: 'rgb(51,60,65)',
       added: 'rgba(70,173,19,0.4)',
       notadded: 'rgba(225,206,10,0.4)',
+      remove: 'rgba(225,206,10,0.4)',
       white: '#ffffff',
       blue: {
         DEFAULT: '#0095ff',

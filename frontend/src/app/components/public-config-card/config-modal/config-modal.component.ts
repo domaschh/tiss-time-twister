@@ -48,7 +48,11 @@ export class ConfigModalComponent implements OnInit {
     this.configurationService.getAll().subscribe({
       next: (configs) => {
         if (configs.length >= 1) {
-          this.alreadyAdded = !(configs.findIndex((c) => c.id === this.config.id) == -1)
+          let foundConfig = configs.find((c) => c.id === this.config.id);
+          if (foundConfig !== null) {
+            this.selectedCal = foundConfig.id
+          }
+          this.alreadyAdded = !foundConfig === undefined
         }
       },
       error: () => {
@@ -67,6 +71,10 @@ export class ConfigModalComponent implements OnInit {
 
 
   addToCalendar() {
+    if (this.alreadyAdded) {
+      this.taostrServcie.error("Can't add config as it is already added to a calendar")
+      return;
+    }
     this.calendarReferenceService.addToCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal)=> {
         this.taostrServcie.success("Added to calendar")
@@ -78,5 +86,17 @@ export class ConfigModalComponent implements OnInit {
 
   onCalendarChange($event: number) {
     this.selectedCal = $event;
+  }
+
+  removeFromCalendar() {
+    console.log(this.selectedCal)
+    console.log(this.config.id)
+    this.calendarReferenceService.removeFromCalendar(this.selectedCal, this.config.id).subscribe({
+      next: (cal)=> {
+        this.taostrServcie.success("Removed from Calendar")
+      },error: () => {
+        this.taostrServcie.error("Couldn't delete")
+      }
+    })
   }
 }

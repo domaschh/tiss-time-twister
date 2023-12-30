@@ -104,6 +104,7 @@ export class CalendarPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCalendars();
+    this.loadConfigs();
     this.configurations = this.getConfigurations();
   }
 
@@ -119,6 +120,18 @@ export class CalendarPageComponent implements OnInit {
       }
       this.viewDate = date;
     }
+  }
+
+  loadConfigs() {
+    this.configurationService.getAll().subscribe({
+      next: (configs) => {
+        console.log(configs)
+        this.configurations = configs;
+      },
+      error: () => {
+        this.toastrService.error("Coudln't fetch configurations")
+      }
+    })
   }
 
   eventTimesChanged({

@@ -9,7 +9,6 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./public-page.component.scss']
 })
 export class PublicPageComponent implements OnInit {
-  a = [...Array(12).keys()]
 
   publicConfigs: ConfigurationDto[] = []
 
@@ -24,8 +23,25 @@ export class PublicPageComponent implements OnInit {
     this.configurationService.getAllPublic().subscribe({
       next: (loadedConfigs) => {
         this.publicConfigs = loadedConfigs
+        this.loadMyConfigs();
       },error:() => {
         this.toastrService.error("Error")
+      }
+    })
+  }
+
+  loadMyConfigs() {
+    this.configurationService.getAll().subscribe({
+      next: (configs) => {
+        this.publicConfigs.forEach((pc) => {
+          if (configs.findIndex(c => c.id === pc.id) >= 0) {
+            console.log("hi")
+            pc.alreadyAdded = true;
+          }
+        });
+      },
+      error: () => {
+        this.toastrService.error("Coudln't fetch configurations")
       }
     })
   }
