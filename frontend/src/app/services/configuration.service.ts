@@ -22,4 +22,8 @@ export class ConfigurationService {
   addToConfigs() {
     return this.httpClient.get(this.messageBaseUri);
   }
+
+  remove(configurationId: number) {
+    return this.httpClient.delete(this.messageBaseUri + '/' + configurationId)
+  }
 }

@@ -20,7 +20,7 @@ export class ConfigModalComponent implements OnInit {
 
   calendars: CalendarReferenceDto[] = [];
   selectedCal: number | null;
-  alreadyAdded: boolean;
+  alreadyAdded: boolean = false;
 
   constructor(public activeModal: NgbActiveModal,
               private readonly calendarReferenceService: CalendarReferenceService,
@@ -53,6 +53,8 @@ export class ConfigModalComponent implements OnInit {
             this.selectedCal = foundConfig.id
           }
           this.alreadyAdded = !foundConfig === undefined
+        } else {
+          this.alreadyAdded = false;
         }
       },
       error: () => {
@@ -79,7 +81,6 @@ export class ConfigModalComponent implements OnInit {
       next: (cal)=> {
         this.taostrServcie.success("Added to calendar")
       },error: () => {
-        this.taostrServcie.error("Couldn't add")
     }
     })
   }
