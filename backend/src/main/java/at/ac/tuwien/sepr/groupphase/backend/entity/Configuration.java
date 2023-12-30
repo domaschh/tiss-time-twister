@@ -42,6 +42,6 @@ public class Configuration {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
-    @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Rule> rules;
 }

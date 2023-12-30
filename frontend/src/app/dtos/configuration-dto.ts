@@ -23,8 +23,8 @@ export interface MatchDto {
 }
 
 export enum EffectType {
-  DELETE,
-  MODIFY
+  DELETE = 'DELETE',
+  MODIFY = 'MODIFY'
 }
 
 export interface EffectDto {
