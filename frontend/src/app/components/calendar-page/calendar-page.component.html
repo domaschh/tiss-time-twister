@@ -12,7 +12,7 @@
             <input class="form-check-input" type="checkbox" [id]="1" [(ngModel)]="allCalEnabled">
             Show all
           </label>
-          <div *ngFor="let calendar of calendars" class="text-center">
+          <div *ngFor="let calendar of calendars" class="text-center mt-3">
             <div class="border-y border-x border-popover rounded p-2">
               <label class="form-check-label" [for]="'cal' + calendar.id">
                 {{ calendar.name }}

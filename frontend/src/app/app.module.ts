@@ -35,6 +35,7 @@ import { RuleFoldComponent } from './components/public-config-card/rule-fold/rul
 import { NavigationPopoverComponent } from './components/navbar/navigation-popover/navigation-popover.component';
 import { NavigationPopoverRightComponent } from './components/navbar/navigation-popover-right/navigation-popover-right.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { RuleFoldInputComponent } from './components/public-config-card/rule-fold-input/rule-fold-input.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     RuleFoldComponent,
     NavigationPopoverComponent,
     NavigationPopoverRightComponent,
+    RuleFoldInputComponent,
   ],
   imports: [
     BrowserModule,

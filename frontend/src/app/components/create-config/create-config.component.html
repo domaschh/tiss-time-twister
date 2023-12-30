@@ -12,186 +12,176 @@
 
       <div class="card rounded-0">
         <div class="card-header">
-          <h3 class="mb-0">{{createEditLabel}}</h3>
+          <h3 class="mb-0">New Rule</h3>
         </div>
 
-        <div class="card-body">
-          <form class="form" [formGroup]="configurationForm" (ngSubmit)="createConfiguration()">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="configDescp" placeholder="Configuration Name"
-                formControlName="name">
-              <label for="configName">Configuration Name</label>
+        <div class="card-body  ">
+          <form class="form flex flex-col gap-4" [formGroup]="configurationForm" (ngSubmit)="previewConfiguration()">
+            <div class="">
+              <input type="text" class="form-control" id="configName" placeholder="Configuration Name"
+                     formControlName="name">
               <div *ngIf="submitted && configurationForm.controls.link.errors" class="error">
                 <small class="form-text text-warning" *ngIf="configurationForm.controls.link.errors.required">
                   Name is required!
                 </small>
               </div>
             </div>
-            <div class="form-floating mb-3">
+            <div class="">
               <input type="text" class="form-control" id="configDesc" placeholder="Configuration Description"
-                formControlName="description">
-              <label for="configDesc">Configuration Description</label>
+                     formControlName="description">
               <div *ngIf="submitted && configurationForm.controls.link.errors" class="error">
                 <small class="form-text text-warning" *ngIf="configurationForm.controls.link.errors.required">
                   Description is required!
                 </small>
               </div>
             </div>
-            <div>
-              <div class="form-floating">
-                <select class="form-select" formControlName="calendar" [(ngModel)] ="selectedCal">
-                  <option *ngFor="let cal of calendars" [value]="cal">{{ cal.name }}</option>
-                </select>
-                <label for="selectEffectType">Select Calendar</label>
-              </div>
-              <div *ngIf="submitted && configurationForm.controls.name.errors" class="error">
-                <small class="form-text text-warning" *ngIf="configurationForm.controls.name.errors.required">
-                  You have to select a calendar!
-                </small>
-              </div>
+            <div class="form-floating h-[38px]">
+              <select class="form-select p-2 " formControlName="calendar" [(ngModel)]="selectedCal">
+                <option *ngFor="let cal of calendars" [value]="cal">{{ cal.name }}</option>
+              </select>
             </div>
-            <br>
-            <div class="form-check">
+            <div *ngIf="submitted && configurationForm.controls.name.errors" class="error">
+              <small class="form-text text-warning" *ngIf="configurationForm.controls.name.errors.required">
+                You have to select a calendar!
+              </small>
+            </div>
+            <div class="form-check mt-2">
               <input class="form-check-input" type="checkbox" name="public" id="public" formControlName="public">
               <label class="form-check-label" for="public">
                 Public
               </label>
             </div>
-            <br>
             <div class="card">
-              <div class="card-header">
+              <h5 class="card-header">
                 Rules
-              </div>
+              </h5>
               <div class="card-body">
-                <div>
-                  <div class="list-group">
-                    <button *ngFor="let rule of allRules; let i = index" (click)="setActiveRule(rule)" type="button"
-                      class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      Rule {{i + 1}}
-                      <span class="badge rounded-pill" [class.bg-warning]="rule.effect.effectType === 'Modify'"
-                        [class.bg-success]="rule.effect.effectType === 'Delete'">{{rule.effect.effectType}}</span>
-                    </button>
-                    <button (click)="setActiveNewRule()" type="button"
-                      class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      New Rule <i class="bi bi-plus"></i>
-                    </button>
+                <h5 class="mb-2">Added Rules</h5>
+                <div class="flex flex-col pt-2">
+                  <div class="list-group flex pt-2" *ngFor="let rule of allRules; let i = index">
+                    <app-rule-fold-input [rule]="rule" (deleteRuleEvent)="deleteRule($event)"></app-rule-fold-input>
                   </div>
                 </div>
-                <br>
                 <!--Display Current Rule-->
-                <h3 class="mb-0">{{currentRuleLabel}}</h3>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating">
-                      <input type="text" id="inpuMatchSummary" class="form-control" placeholder=""
-                        [(ngModel)]="currentRule.match.summary" [ngModelOptions]="{standalone: true}">
-                      <label for="inputMatchSummary">Summary</label>
+                <h5 class="mt-2">New Rule</h5>
+                <div class="px-2">
+                  <p class="font-bold">Match by:</p>
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="">
+                        <select class="form-select" aria-label="MatchType" id="selectMatchTypeSummary"
+                                [(ngModel)]="currentRule.match.summaryMatchType" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="">
+                        <input type="text" id="inputMatchSummary" class="form-control" placeholder="Summary match"
+                               [(ngModel)]="currentRule.match.summary" [ngModelOptions]="{standalone: true}">
+                      </div>
                     </div>
                   </div>
-                  <div class="col-auto">
-                    <div class="form-floating">
-                      <select class="form-select" aria-label="MatchType" id="selectMatchTypeSummary"
-                        [(ngModel)]="currentRule.match.summaryMatchType" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
-                      </select>
-                      <label for="selectMatchTypeSummary">Match Type</label>
+                  <br>
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="">
+                        <select class="form-select" aria-label="MatchType" id="selectMatchTypeDescription"
+                                [(ngModel)]="currentRule.match.descriptionMatchType"
+                                [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="">
+                        <input type="text" id="inputMatchDescription" class="form-control"
+                               placeholder="Description match"
+                               [(ngModel)]="currentRule.match.description" [ngModelOptions]="{standalone: true}">
+                      </div>
                     </div>
                   </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating">
-                      <input type="text" id="inputMatchDescription" class="form-control" placeholder=""
-                        [(ngModel)]="currentRule.match.description" [ngModelOptions]="{standalone: true}">
-                      <label for="inputMatchDescription">Description</label>
+                  <br>
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="">
+                        <select class="form-select" aria-label="MatchType" id="selectMatchTypeLocation"
+                                [(ngModel)]="currentRule.match.locationMatchType" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-auto">
-                    <div class="form-floating">
-                      <select class="form-select" aria-label="MatchType" id="selectMatchTypeDescription"
-                        [(ngModel)]="currentRule.match.descriptionMatchType" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
-                      </select>
-                      <label for="selectMatchTypeSummary">Match Type</label>
-                    </div>
-                  </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating">
-                      <input type="text" id="inputMatchLocation" class="form-control" placeholder=""
-                        [(ngModel)]="currentRule.match.location" [ngModelOptions]="{standalone: true}">
-                      <label for="inputMatchLocation">Location</label>
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <div class="form-floating">
-                      <select class="form-select" aria-label="MatchType" id="selectMatchTypeLocation"
-                        [(ngModel)]="currentRule.match.locationMatchType" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
-                      </select>
-                      <label for="selectMatchTypeSummary">Match Type</label>
-                    </div>
-                  </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating">
-                      <input type="text" id="inputEffectSummary" class="form-control" placeholder=""
-                        [(ngModel)]="currentRule.effect.changedTitle" [ngModelOptions]="{standalone: true}">
-                      <label for="inputEffectChangedTitle">New Title</label>
+                    <div class="col">
+                      <div class="">
+                        <input type="text" id="inputMatchLocation" class="form-control" placeholder="Location match"
+                               [(ngModel)]="currentRule.match.location" [ngModelOptions]="{standalone: true}">
+                      </div>
                     </div>
                   </div>
                 </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating">
-                      <input type="text" id="inputEffectDescription" class="form-control" placeholder=""
-                        [(ngModel)]="currentRule.effect.changedDescription" [ngModelOptions]="{standalone: true}">
-                      <label for="inputEffectChangedDescription">New Description</label>
+                <div class="flex flex-col px-2">
+                  <div class="flex flex-row justify-between align-items-center">
+                    <a>
+                      <p class="mb-2 font-bold pt-2">Effect</p>
+                    </a>
+                    <div class="flex gap-2">
+                      <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                             (click)="currentRule.effect.effectType = EffectType.DELETE"
+                             [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
+                      <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                             (click)="currentRule.effect.effectType = EffectType.MODIFY"
+                             [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
                     </div>
                   </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating">
-                      <input type="text" id="inputEffectLocation" class="form-control" placeholder=""
-                        [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
-                      <label for="inputEffectChangedLocation">New Location</label>
+                  <div *ngIf="!isDeleteEffect()">
+                    <div class="row">
+                      <div class="col">
+                        <div class="">
+                          <input type="text" id="inputEffectSummary" class="form-control" placeholder="Changed Title"
+                                 [(ngModel)]="currentRule.effect.changedTitle" [ngModelOptions]="{standalone: true}">
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col">
+                        <div class="">
+                          <input type="text" id="inputEffectDescription" class="form-control"
+                                 placeholder="Changed Description"
+                                 [(ngModel)]="currentRule.effect.changedDescription"
+                                 [ngModelOptions]="{standalone: true}">
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col">
+                        <div class="">
+                          <input type="text" id="inputEffectLocation" class="form-control"
+                                 placeholder="Changed Location"
+                                 [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <br>
-                <div class="form-floating">
-                  <select class="form-select" aria-label="MatchType" id="selectEffectType"
-                    [(ngModel)]="currentRule.effect.effectType" [ngModelOptions]="{standalone: true}">
-                    <option *ngFor="let type of getEnumValues(EffectType)" [value]="type">{{ type }}</option>
-                  </select>
-                  <label for="selectEffectType">Effect Type</label>
-                </div>
-                <br>
-                <div>
-                  <button style="float: left;" type="button" class="btn btn-danger"
-                    (click)="removeRule()">Remove</button>
-                  <button style="float: right;" type="button" class="btn btn-primary"
-                    (click)="addRule()">{{addRuleLabel}}</button>
+                  <div matTooltip="Add Rule" (click)="addRule()"
+                       class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+                    <a class="cursor-pointer content-center" aria-label="Token">
+                      <i class="bi bi-plus" style="font-size: 1rem;"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-            <br>
-            <button type="button" (click)="createConfiguration()" [disabled]="!configurationForm.valid"
-              class="btn btn-success float-right">Create</button>
-
+            <div class="flex pb-2">
+              <button type="button" (click)="previewConfiguration()" [disabled]="!configurationForm.valid"
+                      class="btn btn-success w-full">Preview
+              </button>
+            </div>
           </form>
         </div>
 
       </div>
-
     </div>
   </div>
 </div>
