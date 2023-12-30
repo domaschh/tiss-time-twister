@@ -76,7 +76,6 @@ class ConfigurationEndpointTests {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setDescription("Insightful Description");
         configurationDto.setTitle("Informing Title");
-//        configurationDto.setRules(List.of());
         return configurationDto;
     }
 
