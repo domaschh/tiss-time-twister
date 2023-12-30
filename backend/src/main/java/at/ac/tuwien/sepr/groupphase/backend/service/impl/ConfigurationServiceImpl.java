@@ -4,6 +4,7 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
+import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
 import jakarta.transaction.Transactional;
@@ -20,12 +21,15 @@ import java.util.List;
 public class ConfigurationServiceImpl implements ConfigurationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final ConfigurationRepository configurationRepository;
+    private final CalendarReferenceRepository calendarReferenceRepository;
     private final ApplicationUserRepository applicationUserRepository;
 
     @Autowired
     public ConfigurationServiceImpl(ConfigurationRepository configurationRepository,
+                                    CalendarReferenceRepository calendarReferenceRepository,
                                     ApplicationUserRepository applicationUserRepository) {
         this.configurationRepository = configurationRepository;
+        this.calendarReferenceRepository = calendarReferenceRepository;
         this.applicationUserRepository = applicationUserRepository;
     }
 
@@ -76,7 +80,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         LOGGER.debug("Get all Configurations for user {}", username);
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         if (user != null) {
-            return configurationRepository.findAllByUser(user);
+            var calendarReferences = calendarReferenceRepository.findAllByUser(user);
+            return calendarReferences.stream().flatMap(cr -> cr.getConfigurations().stream()).toList();
         } else {
             return List.of();
         }

@@ -4,17 +4,16 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
 import {ConfigurationService} from "../../services/configuration.service";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
-import {th} from "date-fns/locale";
+import {Calendar} from "../../dtos/Calendar";
 
 @Component({
   selector: 'app-public-config-card',
   templateUrl: './public-config-card.component.html',
   styleUrls: ['./public-config-card.component.scss']
 })
-export class PublicConfigCardComponent {
+export class PublicConfigCardComponent{
   @Input() config: ConfigurationDto;
   addedAlready: boolean;
-
 
   constructor(
     private readonly modalService: NgbModal,

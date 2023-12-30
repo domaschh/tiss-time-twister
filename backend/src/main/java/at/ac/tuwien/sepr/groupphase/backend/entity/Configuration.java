@@ -24,7 +24,7 @@ import java.util.List;
 @Getter
 public class Configuration {
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "calendar_ref_config",
         joinColumns = @JoinColumn(name = "configuration_id"),

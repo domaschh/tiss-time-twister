@@ -46,4 +46,8 @@ export class CalendarReferenceService {
       })
     );
   }
+
+  addToCalendar(selectedCal: number, configuration: number) {
+    return this.httpClient.post<CalendarReferenceDto>(this.messageBaseUri + "/" +selectedCal + "/" + configuration, null);
+  }
 }
