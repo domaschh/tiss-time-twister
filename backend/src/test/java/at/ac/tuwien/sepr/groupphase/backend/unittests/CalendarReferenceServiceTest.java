@@ -2,12 +2,14 @@ package at.ac.tuwien.sepr.groupphase.backend.unittests;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.impl.CalendarReferenceServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -31,6 +35,9 @@ class CalendarReferenceServiceTest {
     @Autowired
     private CalendarReferenceService service;
 
+    @Mock
+    private ConfigurationRepository configurationRepository;
+
     @Test
     void generateTokenIsUnique() {
         assertThat(service.generateToken()).isNotEqualTo(service.generateToken());
@@ -42,6 +49,7 @@ class CalendarReferenceServiceTest {
         configuration.setPublished(false);
         CalendarReference calendarReference = new CalendarReference();
         calendarReference.setConfigurations(new ArrayList<>());
+        when(configurationRepository.findById(any())).thenReturn(Optional.of(configuration));
 
         CalendarReferenceRepository calendarReferenceRepository = mock(CalendarReferenceRepository.class);
         when(calendarReferenceRepository.getReferenceById(any())).thenReturn(calendarReference);
@@ -51,7 +59,7 @@ class CalendarReferenceServiceTest {
         CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null);
 
 
-        assertThrows(AccessDeniedException.class, () -> serviceMock.addConfig(1L, 1L));
+        assertThrows(NotFoundException.class, () -> serviceMock.addConfig(1L, 1L));
 
     }
 
@@ -61,11 +69,12 @@ class CalendarReferenceServiceTest {
         configuration.setPublished(true);
         CalendarReference calendarReference = new CalendarReference();
         calendarReference.setConfigurations(new ArrayList<>());
+        configuration.setId(1L);
 
         CalendarReferenceRepository calendarReferenceRepository = mock(CalendarReferenceRepository.class);
         when(calendarReferenceRepository.getReferenceById(any())).thenReturn(calendarReference);
         ConfigurationRepository configurationRepository = mock(ConfigurationRepository.class);
-        when(configurationRepository.getReferenceById(any())).thenReturn(configuration);
+        when(configurationRepository.findById(any())).thenReturn(Optional.of(configuration));
 
         CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null);
 

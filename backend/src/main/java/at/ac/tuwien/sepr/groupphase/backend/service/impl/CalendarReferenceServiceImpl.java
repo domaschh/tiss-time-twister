@@ -80,7 +80,11 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (!calendarReference.getConfigurations().contains(configuration)) {
             calendarReference.getConfigurations().add(configuration);
-            configuration.getCalendarReferences().add(calendarReference);
+            if (configuration.getCalendarReferences() == null) {
+                configuration.setCalendarReferences(List.of(calendarReference));
+            } else {
+                configuration.getCalendarReferences().add(calendarReference);
+            }
         }
         return calendarReferenceRepository.save(calendarReference);
     }
