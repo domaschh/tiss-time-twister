@@ -46,7 +46,7 @@ public class ConfigurationEndpoint {
     }
 
     @Secured("ROLE_USER")
-        @PutMapping
+    @PutMapping
     @Operation(summary = "Create a Configuration", security = @SecurityRequirement(name = "apiKey"))
     public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
