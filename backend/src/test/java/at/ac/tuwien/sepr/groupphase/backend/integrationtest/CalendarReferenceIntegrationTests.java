@@ -5,6 +5,7 @@ import at.ac.tuwien.sepr.groupphase.backend.config.properties.SecurityProperties
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.MessageMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -117,7 +118,7 @@ class CalendarReferenceIntegrationTests {
 
     @Test
     @Order(3)
-    public void reexportCalendarFullSizeWorksAndReturnsIcalAsString() throws Exception {
+    void reexportCalendarFullSizeWorksAndReturnsIcalAsString() throws Exception {
         CalendarReferenceDto calendarReferenceDto = new CalendarReferenceDto();
         String customMockUrl = "http://localhost:" + port + "/test-cal";
         calendarReferenceDto.setLink(customMockUrl);

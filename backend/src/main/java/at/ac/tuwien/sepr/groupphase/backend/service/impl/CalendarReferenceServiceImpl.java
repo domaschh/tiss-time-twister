@@ -1,12 +1,15 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
+import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -19,11 +22,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final CalendarReferenceRepository calendarReferenceRepository;
+    private final ConfigurationRepository configurationRepository;
     private final ApplicationUserRepository applicationUserRepository;
 
     public CalendarReferenceServiceImpl(CalendarReferenceRepository calendarReferenceRepository,
+                                        ConfigurationRepository configurationRepository,
                                         ApplicationUserRepository applicationUserRepository) {
         this.calendarReferenceRepository = calendarReferenceRepository;
+        this.configurationRepository = configurationRepository;
         this.applicationUserRepository = applicationUserRepository;
     }
 
@@ -61,6 +67,25 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         } else {
             return List.of();
         }
+    }
+
+    @Override
+    public CalendarReference addConfig(Long configId, Long calendarId) {
+        Configuration configuration = configurationRepository.getReferenceById(configId);
+        if (!configuration.isPublished()) {
+            throw new AccessDeniedException("Configuration is not public");
+        }
+        CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
+        calendarReference.getConfigurations().add(configuration);
+        return calendarReferenceRepository.save(calendarReference);
+    }
+
+    @Override
+    public CalendarReference removeConfig(Long configId, Long calendarId) {
+        Configuration configuration = configurationRepository.getReferenceById(configId);
+        CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
+        calendarReference.getConfigurations().remove(configuration);
+        return calendarReferenceRepository.save(calendarReference);
     }
 
     @Override
