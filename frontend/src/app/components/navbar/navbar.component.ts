@@ -39,4 +39,8 @@ export class NavbarComponent {
       centered: false, fullscreen: "xl", windowClass: 'custom-full-height-modal-right'
     })
   }
+
+  navigateMyCalendars() {
+    this.router.navigate(['calendar'])
+  }
 }

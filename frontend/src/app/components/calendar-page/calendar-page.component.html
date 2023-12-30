@@ -1,9 +1,9 @@
-<div class="max-h-[100%] h-full">
+<div class="max-h-[95%] h-full">
   <div class="flex flex-row h-full ">
     <div class="basis-1/12 h-full border-r border-popover p-6">
       <!-- Dropdown button -->
       <!--Buttons-->
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full max-h-full">
         <!--Buttons-->
         <!--Importierte Kalender-->
         <div class="pb-4 border-b border-popover">
@@ -75,7 +75,7 @@
         <!--Konfigurationen Anzeigen-->
       </div>
     </div>
-    <div class="basis-11/12 pr-6 pl-6 pt-6">
+    <div class="basis-11/12 pr-6 pl-6 pt-6 max-h-[90%]">
       <div class="row text-left">
         <!--Navigation-->
         <div class="col-md-5">
@@ -111,7 +111,7 @@
         <!--Zeitfenster Auswahl-->
       </div>
       <br/>
-      <div [ngSwitch]="view">
+      <div [ngSwitch]="view" class="overflow-scroll max-h-full">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events | eventPipe"
                                  [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
                                  (dayClicked)="dayClicked($event.day)"

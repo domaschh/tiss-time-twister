@@ -49,13 +49,12 @@ $sepr-group-phase-theme: mat.define-light-theme((
   border:none!important;
 }
 $font-col: #ADBAC7;
+$weeknd-col: #0095ff;
+$day-col: rgba(154, 210, 255, 0.62);
 /* You can add global styles to this file, and also import other style files */
 
 .dark .container-fluid {
   background-color: rgb(36, 41, 46);
-}
-.cal-day-view .cal-drag-over .cal-hour-segment, .cal-day-view .cal-hour-segment:hover {
-  background-color: green;
 }
 .dark {
   .modal-content {
@@ -64,6 +63,10 @@ $font-col: #ADBAC7;
     border: 1px solid rgba(169, 169, 169, 0.16);;
   }
 }
+ .cal-day-badge {
+   background-color: $day-col!important;
+}
+
 .dark .pagecontainer > * {
   $bg-dark-primary: rgb(36, 41, 46);
   $bg-dark-secondary: #394046;
@@ -78,12 +81,12 @@ $font-col: #ADBAC7;
       (
         bg-primary: $bg-dark-primary,
         bg-secondary: $bg-dark-secondary,
-        weekend-color: indianred,
+        weekend-color: $weeknd-col,
         bg-active: $bg-active,
         border-color: $border-color,
         gray: $bg-dark-secondary,
         today-bg: $bg-dark-secondary,
-        event-color-primary: $bg-dark-secondary
+        event-color-primary: $bg-dark-secondary,
       )
   );
   color: $font-col;
