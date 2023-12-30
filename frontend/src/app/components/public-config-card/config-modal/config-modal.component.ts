@@ -31,13 +31,13 @@ export class ConfigModalComponent implements OnInit {
 
   ngOnInit() {
     this.loadCalendars()
-    this.loadConfigs()
   }
 
   loadCalendars() {
     this.calendarReferenceService.getAll().subscribe({
       next: cals => {
         this.calendars = cals
+        this.loadConfigs()
       }, error: () => {
         this.taostrServcie.error("Couldn't fetch Calendars")
       }
