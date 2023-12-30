@@ -50,15 +50,8 @@ export class CalendarReferenceService {
   }
 
   getConfigurationPreview(calendarId: number, config: ConfigurationDto){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    const options = {
-      headers: headers,
-      body: config,
-    };
-    
-    return this.httpClient.get(this.messageBaseUri + "/preview/" + calendarId, options);
+    console.log(calendarId);
+    console.log(config);
+    return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], {responseType: 'text'});
   }
 }

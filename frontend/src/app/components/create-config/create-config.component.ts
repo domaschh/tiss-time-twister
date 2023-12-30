@@ -139,7 +139,7 @@ export class CreateConfigComponent {
 
   openPreview(config: ConfigurationDto) {
     this.router.navigate(['previewConfig'], {
-      state: { calId: this.selectedCal, config: config }
+      state: { calId: this.selectedCal.id, config: config }
     });
   }
 }
