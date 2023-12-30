@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Globals } from "../global/globals";
 import { CalendarReferenceDto } from "../dtos/calendar-reference-dto";
 import { Observable, catchError, of } from 'rxjs';
+import { Configuration } from '../dtos/Configuration';
+import { ConfigurationDto } from '../dtos/configuration-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +47,18 @@ export class CalendarReferenceService {
         return of([]);
       })
     );
+  }
+
+  getConfigurationPreview(calendar: CalendarReferenceDto, config: ConfigurationDto){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const options = {
+      headers: headers,
+      body: config,
+    };
+    
+    return this.httpClient.get(this.messageBaseUri + "/preview/" + calendar.id, options);
   }
 }

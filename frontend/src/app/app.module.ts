@@ -29,6 +29,7 @@ import { PublicConfigCardComponent } from './components/public-config-card/publi
 import { PublicPageComponent } from './components/public-page/public-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ConfirmationModal } from './components/delete-modal/confirmation-modal.component';
+import { PreviewConfigComponent } from './components/preview-config/preview-config.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ConfirmationModal } from './components/delete-modal/confirmation-modal.
     NavbarComponent,
     ConfirmationModal,
     RegistrationComponent,
+    PreviewConfigComponent,
   ],
   imports: [
     BrowserModule,
