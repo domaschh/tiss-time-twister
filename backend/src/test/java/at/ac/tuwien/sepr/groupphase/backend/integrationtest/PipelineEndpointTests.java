@@ -93,16 +93,18 @@ class PipelineEndpointTests {
         rule.setEffect(effect);
         config.setRules(List.of(rule));
         mockedCalReference.setConfigurations(List.of(config));
+        mockedCalReference.setEnabledDefaultConfigurations(-1L); //all default flags
+
         when(calendarReferenceRepository.findCalendarReferenceByToken(any()))
             .thenReturn(Optional.of(mockedCalReference));
 
         String path = CALENDAR_REFERENCE_URL + "/export/" + customUUID;
         MvcResult mvcResult2 = mockMvc.perform(get(path) // Replace with your actual endpoint URL
-                                                                                                     .contentType(MediaType.APPLICATION_JSON)
-                                                                                                     .header(securityProperties.getAuthHeader(),
-                                                                                                             jwtTokenizer.getAuthToken(
-                                                                                                                 ADMIN_USER,
-                                                                                                                 ADMIN_ROLES)))
+                                                         .contentType(MediaType.APPLICATION_JSON)
+                                                         .header(securityProperties.getAuthHeader(),
+                                                                 jwtTokenizer.getAuthToken(
+                                                                     ADMIN_USER,
+                                                                     ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
@@ -132,6 +134,8 @@ class PipelineEndpointTests {
         rule.setEffect(effect);
         config.setRules(List.of(rule));
         mockedCalReference.setConfigurations(List.of(config));
+        mockedCalReference.setEnabledDefaultConfigurations(-1L); //all default flags
+
         when(calendarReferenceRepository.findById(any()))
             .thenReturn(Optional.of(mockedCalReference));
 
@@ -139,10 +143,10 @@ class PipelineEndpointTests {
         String configDto = objectMapper.writeValueAsString(List.of(configurationMapper.toDto(config)));
         String path = CALENDAR_REFERENCE_URL + "/preview/" + 1L; // Replace with your actual endpoint URL
         MvcResult mvcResult2 = mockMvc.perform(post(path).contentType("application/json")
-                                                        .content(configDto)
-                                                        .header(securityProperties.getAuthHeader(),
-                                                                jwtTokenizer.getAuthToken(ADMIN_USER,
-                                                                                          ADMIN_ROLES)))
+                                                         .content(configDto)
+                                                         .header(securityProperties.getAuthHeader(),
+                                                                 jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                                           ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
@@ -157,14 +161,13 @@ class PipelineEndpointTests {
             .thenReturn(Optional.empty());
 
 
-        String configDto = objectMapper.writeValueAsString(List.of(new ConfigurationDto()));
         String path = CALENDAR_REFERENCE_URL + "/export/" + UUID.randomUUID(); // Replace with your actual endpoint URL
-        MvcResult mvcResult2 = mockMvc.perform(get(path).contentType(MediaType.APPLICATION_JSON)
-                                                        .header(securityProperties.getAuthHeader(),
-                                                                jwtTokenizer.getAuthToken(
-                                                                    ADMIN_USER,
-                                                                    ADMIN_ROLES)))
-                                      .andExpect(status().isNotFound()).andReturn();
+        mockMvc.perform(get(path).contentType(MediaType.APPLICATION_JSON)
+                                 .header(securityProperties.getAuthHeader(),
+                                         jwtTokenizer.getAuthToken(
+                                             ADMIN_USER,
+                                             ADMIN_ROLES)))
+               .andExpect(status().isNotFound()).andReturn();
 
     }
 
@@ -176,12 +179,12 @@ class PipelineEndpointTests {
 
         String configDto = objectMapper.writeValueAsString(List.of(new ConfigurationDto()));
         String path = CALENDAR_REFERENCE_URL + "/preview/" + 1L; // Replace with your actual endpoint URL
-        MvcResult mvcResult2 = mockMvc.perform(post(path).contentType("application/json")
-                                                        .content(configDto)
-                                                        .header(securityProperties.getAuthHeader(),
-                                                                jwtTokenizer.getAuthToken(ADMIN_USER,
-                                                                                          ADMIN_ROLES)))
-                                      .andExpect(status().isNotFound()).andReturn();
+        mockMvc.perform(post(path).contentType("application/json")
+                                  .content(configDto)
+                                  .header(securityProperties.getAuthHeader(),
+                                          jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                    ADMIN_ROLES)))
+               .andExpect(status().isNotFound()).andReturn();
 
     }
 
