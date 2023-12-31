@@ -176,7 +176,7 @@ class PipelineEndpointTests {
 
         String configDto = objectMapper.writeValueAsString(List.of(new ConfigurationDto()));
         String path = CALENDAR_REFERENCE_URL + "/preview/" + 1L; // Replace with your actual endpoint URL
-        MvcResult mvcResult2 = mockMvc.perform(get(path).contentType("application/json")
+        MvcResult mvcResult2 = mockMvc.perform(post(path).contentType("application/json")
                                                         .content(configDto)
                                                         .header(securityProperties.getAuthHeader(),
                                                                 jwtTokenizer.getAuthToken(ADMIN_USER,
