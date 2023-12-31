@@ -199,44 +199,14 @@ export class PreviewConfigComponent {
       this.modal.open(this.modalContent, {size: 'lg'});
     }
   }
-
-  addEvent(event: MyCalendarEvent, calendar: Calendar): void {
-    const e: MyCalendarEvent = {
-      title: event.title,
-      start: event.start,
-      end: event.end,
-      color: {
-        primary: calendar.color,
-        secondary: '#ededeb'
-      },
-      draggable: false,
-      resizable: {
-        beforeStart: false,
-        afterEnd: false
-      },
-      actions: this.actions,
-      location: event.location,
-      categories: event.categories,
-      calendar: calendar
-    }
-
-    this.events.push(e);
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
 
   getPreview() {
-    var id: number = 0;
-
-    this.calenderReferenceServie.getConfigurationPreview(this.calId, this.config).subscribe({
+    this.calenderReferenceServie.getConfigurationPreview(this.calId, {...this.config, id:1}).subscribe({
       next: cal => {
-          var evs: MyCalendarEvent[] = [];
+            var evs: MyCalendarEvent[] = [];
             var parsedcal = this.myICAL.parse(cal);
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
@@ -250,46 +220,8 @@ export class PreviewConfigComponent {
               };
               evs.push(parsed)
             })
-            var newcal: Calendar = {
-              isActive: false,
-              token: this.calReference.token,
-              link: this.calReference.link,
-              name: this.calReference.name,
-              color: colors[id].primary, //only n preset colors are stored
-              events: evs,
-              id: this.calReference.id //id needed for frontend
-            }
-            id++;
-            this.calendars.push(newcal);
-
-            console.log(this.calendars)
-
-            if (this.calendars != null && this.calendars.length != 0) {
-              console.log("hello")
-
-              this.calendars.forEach(cal => {
-                if (cal.events != null) {
-                  cal.events.forEach(event => {
-                    this.addEvent(event, cal);
-                  });
-                }
-              });
-            }
+            this.events = evs;
       }
     });
-  }
-
-  getConfigurations(): Observable<ConfigurationDto[]> {
-    //TODO: get configurations from configuration service
-    return this.configurationService.getAll();
-  }
-
-  logout(): void {
-    window.localStorage.removeItem('authToken');
-    this.router.navigate(['/'], {queryParams: {loggedOut: 'true'}});
-  }
-
-  toggleDarkMode(): void {
-    document.body.classList.toggle('dark');
   }
 }

@@ -44,6 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -137,7 +138,7 @@ class PipelineEndpointTests {
 
         String configDto = objectMapper.writeValueAsString(List.of(configurationMapper.toDto(config)));
         String path = CALENDAR_REFERENCE_URL + "/preview/" + 1L; // Replace with your actual endpoint URL
-        MvcResult mvcResult2 = mockMvc.perform(get(path).contentType("application/json")
+        MvcResult mvcResult2 = mockMvc.perform(post(path).contentType("application/json")
                                                         .content(configDto)
                                                         .header(securityProperties.getAuthHeader(),
                                                                 jwtTokenizer.getAuthToken(ADMIN_USER,

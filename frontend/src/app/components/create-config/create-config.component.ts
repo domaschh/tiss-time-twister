@@ -105,13 +105,12 @@ export class CreateConfigComponent {
 
   previewConfiguration() {
     console.log(this.allRules)
-    // this.openPreview({
-    //   description: this.configurationForm.value.description,
-    //   id: 0,
-    //   published: false,
-    //   rules: this.allRules,
-    //   title: this.configurationForm.value.name
-    // });
+    this.openPreview({
+      description: this.configurationForm.value.description,
+      published: this.configurationForm.value.public,
+      rules: this.allRules,
+      title: this.configurationForm.value.name
+    });
   }
 
   setActiveNewRule() {
