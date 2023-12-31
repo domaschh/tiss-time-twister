@@ -74,9 +74,6 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Transactional
     public CalendarReference addConfig(Long configId, Long calendarId) {
         Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
-        if (!configuration.isPublished()) {
-            throw new AccessDeniedException("Configuration is not public");
-        }
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (!calendarReference.getConfigurations().contains(configuration)) {
             calendarReference.getConfigurations().add(configuration);

@@ -355,7 +355,11 @@ export class CalendarPageComponent implements OnInit {
       });
     };
   }
-
+  openConfigurationPage(edit: boolean) {
+    this.router.navigate(['createConfig'], {
+      state: {calendars: this.calendars, edit: false}
+    });
+    }
   removeConfiguraion(config: ConfigurationDto) {
     const modalRef = this.modalService.open(ConfirmationModal);
     modalRef.componentInstance.title = 'Deletion Confirmation';

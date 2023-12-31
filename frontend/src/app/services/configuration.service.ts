@@ -19,10 +19,9 @@ export class ConfigurationService {
     return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + "/allPublic")
   }
 
-  addToConfigs() {
-    return this.httpClient.get(this.messageBaseUri);
+  addConfiguration(calendarId: number, configurationDto: ConfigurationDto) {
+    return this.httpClient.put<ConfigurationDto>(this.messageBaseUri, configurationDto)
   }
-
   remove(configurationId: number) {
     return this.httpClient.delete(this.messageBaseUri + '/' + configurationId)
   }

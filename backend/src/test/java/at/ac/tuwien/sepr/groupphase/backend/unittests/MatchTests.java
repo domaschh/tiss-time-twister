@@ -171,7 +171,7 @@ class MatchTests {
                 m.setDescription(MatchType.EQUALS, null);
                 m.setLocation(MatchType.EQUALS, null);
                 try {
-                    assertFalse(m.matches(vevent));
+                    assertTrue(m.matches(vevent));
                 } catch (AssertionError e) {
                     fail(vevent.toString() + '\n' + m + '\n' + e);
                 }
@@ -181,7 +181,7 @@ class MatchTests {
                 m.setDescription(MatchType.REGEX, "");
                 m.setLocation(MatchType.REGEX, ".*");
                 try {
-                    assertFalse(m.matches(vevent));
+                    assertTrue(m.matches(vevent));
                 } catch (AssertionError e) {
                     fail(vevent.toString() + '\n' + m + '\n' + e);
                 }

@@ -60,9 +60,10 @@ public class Match {
     }
 
     private boolean evaluate(Optional<? extends Property> optional, MatchType matchType, String matchValue) {
-        if (matchValue == null) {
+        if (matchValue == null || matchValue.isEmpty()) {
             return true;
         }
+
         if (optional.isEmpty()) {
             return false;
         }
