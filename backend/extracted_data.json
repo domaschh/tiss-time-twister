@@ -1,0 +1,1526 @@
+[
+    {
+        "full_text": "192.055 PR 2023WIT-Projekte f\u00fcr Jugendliche",
+        "shorthand": "IJ"
+    },
+    {
+        "full_text": "104.342 UE 2023WLogik und Grundlagen der Mathematik UE",
+        "shorthand": "LGMU"
+    },
+    {
+        "full_text": "194.154 VU 2023WGenerative AI",
+        "shorthand": "GA"
+    },
+    {
+        "full_text": "330.301 UE 2024STransferable Skill - Fach\u00fcbergreifende Kommunikation in der Technik",
+        "shorthand": "TS-FKT"
+    },
+    {
+        "full_text": "330.140 SE 2024SKarriereplanung und Selbstmanagement",
+        "shorthand": "KS"
+    },
+    {
+        "full_text": "VUParallel Computing",
+        "shorthand": "PC"
+    },
+    {
+        "full_text": "194.077 VU 2023WApplied Deep Learning",
+        "shorthand": "ADL"
+    },
+    {
+        "full_text": "104.633 VU 2023WAlgebra und Diskrete Mathematik f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "ADMIW"
+    },
+    {
+        "full_text": "VUTheoretische Informatik",
+        "shorthand": "TI"
+    },
+    {
+        "full_text": "VUDatenanalyse",
+        "shorthand": "Datenanalyse"
+    },
+    {
+        "full_text": "314.018 SE 2024SGruppendynamisches Seminar",
+        "shorthand": "GS"
+    },
+    {
+        "full_text": "188.919 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "UEAnalysis f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "AIW"
+    },
+    {
+        "full_text": "PRProgrammiertechniken f\u00fcr Visual Computing",
+        "shorthand": "PVC"
+    },
+    {
+        "full_text": "185.A26 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "107.A14 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "629.009 UE 2023WBegleitveranstaltung: Unterst\u00fctzung geh\u00f6rloser und schwerh\u00f6riger Studierender",
+        "shorthand": "BUgsS"
+    },
+    {
+        "full_text": "VUGrundlagen der Computergraphik",
+        "shorthand": "GC"
+    },
+    {
+        "full_text": "015.011 VU 2023WTechn. Franz\u00f6sisch I",
+        "shorthand": "TFI"
+    },
+    {
+        "full_text": "629.003 SE 2023WBegleitlehrveranstaltung der Mentor_innen der TU Wien",
+        "shorthand": "BMTW"
+    },
+    {
+        "full_text": "VUMultimedia",
+        "shorthand": "Multimedia"
+    },
+    {
+        "full_text": "VOMethoden der Angewandten Statistik",
+        "shorthand": "MAS"
+    },
+    {
+        "full_text": "VUDeep Dives: Management und Leadership f\u00fcr Techniker_innen",
+        "shorthand": "DDMLT"
+    },
+    {
+        "full_text": "SEKommunikationstechnik",
+        "shorthand": "Kommunikationstechnik"
+    },
+    {
+        "full_text": "VUDeklaratives Probleml\u00f6sen",
+        "shorthand": "DP"
+    },
+    {
+        "full_text": "VUComputersysteme(*)",
+        "shorthand": "Computersysteme(*)"
+    },
+    {
+        "full_text": "181.208 VU 2023WSoftskills f\u00fcr TechnikerInnen",
+        "shorthand": "ST"
+    },
+    {
+        "full_text": "184.792 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "352.031 VU 2023WPr\u00e4sentations- und Verhandlungstechnik",
+        "shorthand": "PV"
+    },
+    {
+        "full_text": "107.258 VU 2023WComputerstatistik",
+        "shorthand": "2023WComputerstatistik"
+    },
+    {
+        "full_text": "188.992 VU 2023WExperiment Design for Data Science",
+        "shorthand": "EDDS"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Artificial Intelligence(*)",
+        "shorthand": "EAI"
+    },
+    {
+        "full_text": "061.003 VU 2023WTechnik f\u00fcr Menschen",
+        "shorthand": "TM"
+    },
+    {
+        "full_text": "193.125 VU 2023WGrundlagen der Computer Vision",
+        "shorthand": "GCV"
+    },
+    {
+        "full_text": "057.028 VO 2023WSyntaxorientiertes Japanisch I",
+        "shorthand": "SJI"
+    },
+    {
+        "full_text": "060.029 VU 2024STechnisches Schwedisch 2",
+        "shorthand": "TS2"
+    },
+    {
+        "full_text": "040.003 SE 2023WWissenschaftliches Arbeiten: Recherchieren, Zitieren, Schreiben",
+        "shorthand": "WARZS"
+    },
+    {
+        "full_text": "015.725 VU 2023WTechnik darstellen - Darstellungstechniken in audiovisuellen Medien",
+        "shorthand": "Td-DaM"
+    },
+    {
+        "full_text": "330.250 VU 2024SInnovationslabor - Smart Innovation",
+        "shorthand": "I-SI"
+    },
+    {
+        "full_text": "188.995 VU 2023WDatenorientierte Programmierparadigmen",
+        "shorthand": "DP"
+    },
+    {
+        "full_text": "629.012 VU 2024SEinf\u00fchrung in die \u00d6sterreichische Geb\u00e4rdensprache und Geh\u00f6rlosenkultur",
+        "shorthand": "E\u00d6GG"
+    },
+    {
+        "full_text": "057.030 UE 2023WSyntaxorientiertes Japanisch I",
+        "shorthand": "SJI"
+    },
+    {
+        "full_text": "185.A91 VU 2023WEinf\u00fchrung in die Programmierung 1",
+        "shorthand": "EP1"
+    },
+    {
+        "full_text": "184.695 PR 2024SBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUDesign und Entwicklung von Anwendungen im Gesundheitswesen",
+        "shorthand": "DEvAiG"
+    },
+    {
+        "full_text": "060.015 VU 2024SGrundlagen wissenschaftlichen Arbeitens",
+        "shorthand": "GwA"
+    },
+    {
+        "full_text": "330.302 UE 2023WTransferable Skill - Account Management",
+        "shorthand": "TS-AM"
+    },
+    {
+        "full_text": "376.075 VU 2024SWie erfindet man einen Roboter - Produktentwicklung aus der Nutzerperspektive",
+        "shorthand": "WemeR-PaN"
+    },
+    {
+        "full_text": "184.716 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "192.125 VU 2023WIntroduction to Cryptography",
+        "shorthand": "ItC"
+    },
+    {
+        "full_text": "015.088 VU 2023WTechnisches Deutsch f\u00fcr Internationale Studierende",
+        "shorthand": "TDIS"
+    },
+    {
+        "full_text": "184.791 UE 2023WEinf\u00fchrung in Grundlagen des Programmierens f\u00fcr Studierende gemeinsam mit Gefl\u00fcchteten",
+        "shorthand": "EGdPSgmG"
+    },
+    {
+        "full_text": "060.003 VU 2024STalente Programm der TU Wien",
+        "shorthand": "TPTW"
+    },
+    {
+        "full_text": "VUMethods for Data Generation and Analytics in Medicine and Life Sciences",
+        "shorthand": "MDGAMLS"
+    },
+    {
+        "full_text": "SEVWA Mentoring I",
+        "shorthand": "VMI"
+    },
+    {
+        "full_text": "182.715 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "061.006 VU 2024SCollaboration and Co-Creation",
+        "shorthand": "CC"
+    },
+    {
+        "full_text": "191.002 VU 2023WBetriebssysteme",
+        "shorthand": "2023WBetriebssysteme"
+    },
+    {
+        "full_text": "061.001 VU 2024SSearching prior art based on patent applications",
+        "shorthand": "Spabopa"
+    },
+    {
+        "full_text": "193.026 VU 2023WMethods for Data Generation and Analytics in Medicine and Life Sciences",
+        "shorthand": "MDGAMLS"
+    },
+    {
+        "full_text": "330.301 UE 2023WTransferable Skill - Fach\u00fcbergreifende Kommunikation in der Technik",
+        "shorthand": "TS-FKT"
+    },
+    {
+        "full_text": "187.A99 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "629.010 UE 2023WDigitale Kompetenzen f\u00fcr Projekte im Student Support",
+        "shorthand": "DKPiSS"
+    },
+    {
+        "full_text": "330.260 VU 2024SInspirational Leadership im 21. Jahrhundert",
+        "shorthand": "ILi2J"
+    },
+    {
+        "full_text": "330.302 UE 2024STransferable Skill - Account Management",
+        "shorthand": "TS-AM"
+    },
+    {
+        "full_text": "015.111 VU 2023WTechnical English Presentation A",
+        "shorthand": "TEPA"
+    },
+    {
+        "full_text": "015.036 VU 2024STechnisches Spanisch II",
+        "shorthand": "TSI"
+    },
+    {
+        "full_text": "105.731 VU 2024SAKSTA Statistical Computing",
+        "shorthand": "ASC"
+    },
+    {
+        "full_text": "015.112 VU 2023WTechnical English Communication A",
+        "shorthand": "TECA"
+    },
+    {
+        "full_text": "265.003 VO 2023WPrivates Wirtschaftsrecht",
+        "shorthand": "PW"
+    },
+    {
+        "full_text": "061.007 VU 2024SSelbstcoaching",
+        "shorthand": "2024SSelbstcoaching"
+    },
+    {
+        "full_text": "107.254 VO 2023WStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "105.636 VO 2024SFinanzm\u00e4rkte, Finanzintermediation und Kapitalanlage",
+        "shorthand": "FFK"
+    },
+    {
+        "full_text": "VUCreative Media Production",
+        "shorthand": "CMP"
+    },
+    {
+        "full_text": "185.A91 VU 2024SEinf\u00fchrung in die Programmierung 1",
+        "shorthand": "EP1"
+    },
+    {
+        "full_text": "185.A93 UE 2023WFormale Methoden der Informatik",
+        "shorthand": "FMI"
+    },
+    {
+        "full_text": "194.082 VU 2023WTechnik f\u00fcr Menschen 2040",
+        "shorthand": "TM2"
+    },
+    {
+        "full_text": "207.011 VO 2023WBauen f\u00fcr Menschen",
+        "shorthand": "BM"
+    },
+    {
+        "full_text": "242.027 SE 2023WMediative Kompetenz in der Bauwirtschaft 2 - Konflikte mit mediativen Kompetenzen gestalten",
+        "shorthand": "MKB2-KmmKg"
+    },
+    {
+        "full_text": "188.981 VU 2023WProgrammierung von Strategie-Spielen",
+        "shorthand": "PvS"
+    },
+    {
+        "full_text": "185.A12 VU 2023WLogikprogrammierung und Constraints",
+        "shorthand": "LC"
+    },
+    {
+        "full_text": "UEIT Projekte f\u00fcr Jugendliche",
+        "shorthand": "IPJ"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Management und Leadership f\u00fcr Techniker_innen",
+        "shorthand": "EMLT"
+    },
+    {
+        "full_text": "193.052 SE 2023WWissenschaftliches Arbeiten",
+        "shorthand": "WA"
+    },
+    {
+        "full_text": "104.262 UE 2024SAnalysis f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "AIW"
+    },
+    {
+        "full_text": "015.067 VU 2023WTechnisches Russisch I",
+        "shorthand": "TRI"
+    },
+    {
+        "full_text": "015.118 VU 2023WErwachsenenbildung und Lebenslanges Lernenabgesagt",
+        "shorthand": "ELL"
+    },
+    {
+        "full_text": "VUSozio-technische Systeme",
+        "shorthand": "SS"
+    },
+    {
+        "full_text": "194.157 VU 2023WEinf\u00fchrung in Security",
+        "shorthand": "ES"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in die Programmierung 1",
+        "shorthand": "EP1"
+    },
+    {
+        "full_text": "060.019 VU 2023WDeep Dives: Management und Leadership f\u00fcr Techniker_innen",
+        "shorthand": "DDMLT"
+    },
+    {
+        "full_text": "184.714 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUProgramm- und Systemverifikation",
+        "shorthand": "PS"
+    },
+    {
+        "full_text": "SESoziale Netzwerkanalyse",
+        "shorthand": "SN"
+    },
+    {
+        "full_text": "015.035 VU 2023WTechnisches Spanisch I",
+        "shorthand": "TSI"
+    },
+    {
+        "full_text": "384.107 VO 2023WIT Projektplanung und Vergaberecht",
+        "shorthand": "IPV"
+    },
+    {
+        "full_text": "060.028 VU 2023WTechnisches Schwedisch 1",
+        "shorthand": "TS1"
+    },
+    {
+        "full_text": "107.391 UE 2023WMultivariate Statistik",
+        "shorthand": "MS"
+    },
+    {
+        "full_text": "VUKommunikation und Moderation",
+        "shorthand": "KM"
+    },
+    {
+        "full_text": "060.025 SE 2024STU.impact \u2013 das Buddy Programm der TU Wien",
+        "shorthand": "T\u2013dBPTW"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Quantencomputing",
+        "shorthand": "EQ"
+    },
+    {
+        "full_text": "259.446 SE 2023WScience and the quest for knowledge",
+        "shorthand": "Stqk"
+    },
+    {
+        "full_text": "194.151 VU 2023WServerless Computing",
+        "shorthand": "SC"
+    },
+    {
+        "full_text": "180.766 VU 2023WOrientierung Informatik und Wirtschaftsinformatik",
+        "shorthand": "OIW"
+    },
+    {
+        "full_text": "SEPrivatissimum aus Fachdidaktik Informatik",
+        "shorthand": "PaFI"
+    },
+    {
+        "full_text": "180.780 PR 2023WBachelor with Honors Internship Project",
+        "shorthand": "BwHIP"
+    },
+    {
+        "full_text": "242.026 SE 2024SMediative Kompetenz in der Bauwirtschaft 1 - Einf\u00fchrung in die interessensbasierte Kommunkation",
+        "shorthand": "MKB1-EiK"
+    },
+    {
+        "full_text": "183.582 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUSemistrukturierte Daten",
+        "shorthand": "SD"
+    },
+    {
+        "full_text": "VOPr\u00e4sentation, Moderation und Mediation",
+        "shorthand": "PMM"
+    },
+    {
+        "full_text": "186.868 VU 2023WVisual Data Science",
+        "shorthand": "VDS"
+    },
+    {
+        "full_text": "194.023 VU 2023WProgrammierparadigmen",
+        "shorthand": "2023WProgrammierparadigmen"
+    },
+    {
+        "full_text": "194.112 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VURhetorik, K\u00f6rpersprache, Argumentationstraining",
+        "shorthand": "RKA"
+    },
+    {
+        "full_text": "VULogikprogrammierung und Constraints",
+        "shorthand": "LC"
+    },
+    {
+        "full_text": "629.002 VU 2024SAchtsamkeit und Meditation II",
+        "shorthand": "AMI"
+    },
+    {
+        "full_text": "SEExpertiInnen-Laien-Dialoge zu Studium und Arbeitswelt",
+        "shorthand": "EzSA"
+    },
+    {
+        "full_text": "VUDatenbanksysteme",
+        "shorthand": "Datenbanksysteme"
+    },
+    {
+        "full_text": "VUFunktionale Programmierung",
+        "shorthand": "FP"
+    },
+    {
+        "full_text": "629.004 UE 2023WDiversity Skills (English)",
+        "shorthand": "DS("
+    },
+    {
+        "full_text": "192.017 VU 2023WTheoretische Informatik",
+        "shorthand": "TI"
+    },
+    {
+        "full_text": "034.018 SE 2023WFemChem - Gendersensibles Zusammenarbeiten und Projektmanagement",
+        "shorthand": "F-GZP"
+    },
+    {
+        "full_text": "192.027 VU 2024SEinf\u00fchrung in Artificial Intelligence",
+        "shorthand": "EAI"
+    },
+    {
+        "full_text": "Wahlfachkatalog Transferable Skills - Informatik",
+        "shorthand": "WTS-I"
+    },
+    {
+        "full_text": "194.020 VU 2023WSoftware Engineering",
+        "shorthand": "SE"
+    },
+    {
+        "full_text": "166.127 VO 2024S\u00d6kologische u. gesellschaftliche Aspekte d. Chemie",
+        "shorthand": "\u00d6ugAdC"
+    },
+    {
+        "full_text": "060.025 SE 2023WTU.impact \u2013 das Buddy Programm der TU Wien",
+        "shorthand": "T\u2013dBPTW"
+    },
+    {
+        "full_text": "VUSoftskills f\u00fcr TechnikerInnen",
+        "shorthand": "ST"
+    },
+    {
+        "full_text": "265.076 VU 2023WVertrags- und Haftungsrecht",
+        "shorthand": "VH"
+    },
+    {
+        "full_text": "VUSoftware Engineering(*)",
+        "shorthand": "SE"
+    },
+    {
+        "full_text": "259.646 VO 2023WRingvorlesung \u00d6kologie - Aktuelle Forschung Im Bereich \u00d6kologie",
+        "shorthand": "R\u00d6-AFIB\u00d6"
+    },
+    {
+        "full_text": "192.134 VU 2023WGrundz\u00fcge digitaler Systeme",
+        "shorthand": "GdS"
+    },
+    {
+        "full_text": "015.087 VU 2023WE-Tutoring, Moderation von E-Learning",
+        "shorthand": "EMvE"
+    },
+    {
+        "full_text": "185.A98 VU 2023WEpistemic Logic and Communication",
+        "shorthand": "ELC"
+    },
+    {
+        "full_text": "034.014 UE 2023WScience-Technology-Society (STS)abgesagt",
+        "shorthand": "S("
+    },
+    {
+        "full_text": "164.225 VO 2024S\u00d6kologie und nachhaltige Entwicklung",
+        "shorthand": "\u00d6nE"
+    },
+    {
+        "full_text": "194.148 PR 2023WSoftware Engineering Projekt",
+        "shorthand": "SEP"
+    },
+    {
+        "full_text": "015.115 VU 2023WTechnical English Communication B",
+        "shorthand": "TECB"
+    },
+    {
+        "full_text": "193.027 VU 2023WAccess Computing",
+        "shorthand": "AC"
+    },
+    {
+        "full_text": "188.926 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "107.A14 PR 2024SBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "330.144 VU 2024SManagement and Leadership",
+        "shorthand": "ML"
+    },
+    {
+        "full_text": "265.727 VO 2023WSachverst\u00e4ndigenrecht",
+        "shorthand": "2023WSachverst\u00e4ndigenrecht"
+    },
+    {
+        "full_text": "015.100 VO 2023WCreativity Engineering",
+        "shorthand": "CE"
+    },
+    {
+        "full_text": "330.136 UE 2024SOrganisationslaboratorium",
+        "shorthand": "2024SOrganisationslaboratorium"
+    },
+    {
+        "full_text": "192.025 VU 2023WLogik f\u00fcr Wissensrepr\u00e4sentation",
+        "shorthand": "LW"
+    },
+    {
+        "full_text": "183.595 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUMathematisches Arbeiten f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "MAIW"
+    },
+    {
+        "full_text": "192.111 UE 2023WAttacks and Defenses in Computer Security",
+        "shorthand": "ADCS"
+    },
+    {
+        "full_text": "034.018 SE 2024SFemChem - Gendersensibles Zusammenarbeiten und Projektmanagement",
+        "shorthand": "F-GZP"
+    },
+    {
+        "full_text": "060.009 VU 2023WRessourcenmanagement und Resilienz",
+        "shorthand": "RR"
+    },
+    {
+        "full_text": "015.148 VU 2024SWissenschaft verst\u00e4ndlich kommunizieren",
+        "shorthand": "Wvk"
+    },
+    {
+        "full_text": "VUComputerstatistik",
+        "shorthand": "Computerstatistik"
+    },
+    {
+        "full_text": "034.016 VU 2024SFeministische Technikforschung",
+        "shorthand": "FT"
+    },
+    {
+        "full_text": "193.116 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "UEAttacks and Defenses in Computer Security",
+        "shorthand": "ADCS"
+    },
+    {
+        "full_text": "VUNumerical Computation",
+        "shorthand": "NC"
+    },
+    {
+        "full_text": "194.135 VU 2023WResearch topics in natural language processing",
+        "shorthand": "Rtnlp"
+    },
+    {
+        "full_text": "195.072 VU 2023WCurrent Trends in Computer Science",
+        "shorthand": "CTCS"
+    },
+    {
+        "full_text": "VUUsability Engineering and Mobile Interaction",
+        "shorthand": "UEMI"
+    },
+    {
+        "full_text": "194.026 VU 2023WFunktionale Programmierung",
+        "shorthand": "FP"
+    },
+    {
+        "full_text": "SEKommunikation und Rhetorik 2",
+        "shorthand": "KR2"
+    },
+    {
+        "full_text": "265.076 VU 2024SVertrags- und Haftungsrecht",
+        "shorthand": "VH"
+    },
+    {
+        "full_text": "330.255 VU 2024SE&I Garage - Business Model Development",
+        "shorthand": "EG-BMD"
+    },
+    {
+        "full_text": "SEVWA Mentoring II",
+        "shorthand": "VMI"
+    },
+    {
+        "full_text": "VUAlgebra und Diskrete Mathematik f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "ADMIW"
+    },
+    {
+        "full_text": "185.A26 PR 2024SBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VOEDV-Vertragsrecht",
+        "shorthand": "EDV-Vertragsrecht"
+    },
+    {
+        "full_text": "193.070 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "015.728 SE 2023WBegleitlehrveranstaltung der Mentor_innen der TU Wien",
+        "shorthand": "BMTW"
+    },
+    {
+        "full_text": "015.726 VU 2024SSearching prior art based on patent applications",
+        "shorthand": "Spabopa"
+    },
+    {
+        "full_text": "629.005 UE 2023WDiversity Skills (Deutsch)",
+        "shorthand": "DS("
+    },
+    {
+        "full_text": "060.016 VO 2023WFolgen des technischen Fortschritts - Einf\u00fchrung in die Theorie und Praxis der Technikfolgenabsch\u00e4tzung (TA)",
+        "shorthand": "FdtF-ETPT("
+    },
+    {
+        "full_text": "VUStatistical Computing",
+        "shorthand": "SC"
+    },
+    {
+        "full_text": "VUVisualisierung",
+        "shorthand": "Visualisierung"
+    },
+    {
+        "full_text": "VOAlgebra und Diskrete Mathematik f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "ADMIW"
+    },
+    {
+        "full_text": "060.024 UE 2023Wvoice.of.diversity - faire Job-Chancen ohne Vorurteile",
+        "shorthand": "v-fJoV"
+    },
+    {
+        "full_text": "330.139 SE 2023WSoziale Kompetenz",
+        "shorthand": "SK"
+    },
+    {
+        "full_text": "194.114 VU 2023WFree/Libre and Open Source Softwareabgesagt",
+        "shorthand": "FOSS"
+    },
+    {
+        "full_text": "194.096 UE 2023WLet's MOOC Together",
+        "shorthand": "LMT"
+    },
+    {
+        "full_text": "VOLogik und Grundlagen der Mathematik",
+        "shorthand": "LGM"
+    },
+    {
+        "full_text": "260.142 VU 2023WBasic Skills im Umgang mit Organisationen",
+        "shorthand": "BSiUmO"
+    },
+    {
+        "full_text": "251.865 VU 2023WEinf\u00fchrung in das wissenschaftliche Arbeiten - Bauforschung",
+        "shorthand": "EdwA-B"
+    },
+    {
+        "full_text": "184.004 SE 2023WKommunikationstechnik",
+        "shorthand": "2023WKommunikationstechnik"
+    },
+    {
+        "full_text": "194.124 VU 2023WProgramming Principles of Mobile Robotics",
+        "shorthand": "PPoMR"
+    },
+    {
+        "full_text": "VOFrauen in Naturwissenschaft und Technik",
+        "shorthand": "FNT"
+    },
+    {
+        "full_text": "Zentraler Wahlfachkatalog der TU Wien f\u00fcr Transferable Skills",
+        "shorthand": "ZWTWTS"
+    },
+    {
+        "full_text": "629.006 VU 2024SDas TU Talente - Programm f\u00fcr Studierende in Master- und Doktoratsstudien",
+        "shorthand": "DTT-PSMD"
+    },
+    {
+        "full_text": "015.112 VU 2024STechnical English Communication A",
+        "shorthand": "TECA"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Information Retrieval",
+        "shorthand": "EIR"
+    },
+    {
+        "full_text": "VUArgumentieren und Beweisen",
+        "shorthand": "AB"
+    },
+    {
+        "full_text": "034.012 VU 2023WTechnologie und Ethik",
+        "shorthand": "TE"
+    },
+    {
+        "full_text": "251.843 VO 2023WBauen f\u00fcr Menschen :: historisch.smart",
+        "shorthand": "BM:h"
+    },
+    {
+        "full_text": "VUDesign und Fertigung",
+        "shorthand": "DF"
+    },
+    {
+        "full_text": "VUComputermusik",
+        "shorthand": "Computermusik"
+    },
+    {
+        "full_text": "VUWeb Engineering",
+        "shorthand": "WE"
+    },
+    {
+        "full_text": "060.019 VU 2024SDeep Dives: Management und Leadership f\u00fcr Techniker_innen",
+        "shorthand": "DDMLT"
+    },
+    {
+        "full_text": "034.015 VU 2023WEinf\u00fchrung ins Diversit\u00e4tsmanagement",
+        "shorthand": "EiD"
+    },
+    {
+        "full_text": "104.340 VO 2023WLogik und Grundlagen der Mathematik",
+        "shorthand": "LGM"
+    },
+    {
+        "full_text": "194.024 VU 2023WVerteilte Systeme",
+        "shorthand": "VS"
+    },
+    {
+        "full_text": "SECoaching als F\u00fchrungsinstrument 1",
+        "shorthand": "CaF1"
+    },
+    {
+        "full_text": "194.144 VU 2023WPrivacy-Enhancing Technologies",
+        "shorthand": "PT"
+    },
+    {
+        "full_text": "105.629 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "034.011 VO 2023WM\u00e4nnlichkeiten und Technologien: Relationen, Ambivalenzen, Implikationen",
+        "shorthand": "MTRAI"
+    },
+    {
+        "full_text": "629.005 UE 2024SDiversity Skills (Deutsch)",
+        "shorthand": "DS("
+    },
+    {
+        "full_text": "VUForschungsmethoden",
+        "shorthand": "Forschungsmethoden"
+    },
+    {
+        "full_text": "VOStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "251.852 VO 2023WBauen f\u00fcr Menschen :: Sakralbau im st\u00e4dtebaulichen Kontext",
+        "shorthand": "BM:SisK"
+    },
+    {
+        "full_text": "194.158 VU 2023WInformationssysteme des Gesundheitswesens",
+        "shorthand": "IdG"
+    },
+    {
+        "full_text": "187.250 VO 2023WZwischen Karriere und Barriere",
+        "shorthand": "ZKB"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Machine Learning",
+        "shorthand": "EML"
+    },
+    {
+        "full_text": "SEDidaktik in der Informatik",
+        "shorthand": "DI"
+    },
+    {
+        "full_text": "061.003 VU 2024STechnik f\u00fcr Menschen",
+        "shorthand": "TM"
+    },
+    {
+        "full_text": "VUTechniksoziologie und Technikpsychologie",
+        "shorthand": "TT"
+    },
+    {
+        "full_text": "UEMethoden der Angewandten Statistik",
+        "shorthand": "MAS"
+    },
+    {
+        "full_text": "015.012 VU 2024STechn. Franz\u00f6sisch II",
+        "shorthand": "TFI"
+    },
+    {
+        "full_text": "181.200 SE 2023WKommunikation und Rhetorik",
+        "shorthand": "KR"
+    },
+    {
+        "full_text": "VUBetriebssysteme(*)",
+        "shorthand": "Betriebssysteme(*)"
+    },
+    {
+        "full_text": "194.118 SE 2023WSeminar in Artificial Intelligence - Theoretical Aspects of Machine Learning",
+        "shorthand": "SAI-TAoML"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Security",
+        "shorthand": "ES"
+    },
+    {
+        "full_text": "105.175 VU 2024SDatenanalyse",
+        "shorthand": "2024SDatenanalyse"
+    },
+    {
+        "full_text": "259.018 VO 2023WGender Aspects of Building Sciences and Environment",
+        "shorthand": "GAoBSE"
+    },
+    {
+        "full_text": "015.110 VO 2024SUnternehmerisches Denken und Handeln in innovativen Unternehmen und High-tech Start-ups",
+        "shorthand": "UDHiUHS"
+    },
+    {
+        "full_text": "192.023 VU 2023WEinf\u00fchrung in wissensbasierte Systeme",
+        "shorthand": "EwS"
+    },
+    {
+        "full_text": "180.771 VU 2023WProp\u00e4deutikum f\u00fcr Informatik",
+        "shorthand": "PI"
+    },
+    {
+        "full_text": "VUGrundz\u00fcge digitaler Systeme",
+        "shorthand": "GdS"
+    },
+    {
+        "full_text": "VOEinf\u00fchrung in Technik und Gesellschaft",
+        "shorthand": "ETG"
+    },
+    {
+        "full_text": "011.001 VO 2024SVerst\u00e4ndliche Wissenschaft - Lehren in der Kinderuni",
+        "shorthand": "VW-LK"
+    },
+    {
+        "full_text": "Katalog Freie Wahlf\u00e4cher - Informatik",
+        "shorthand": "KFW-I"
+    },
+    {
+        "full_text": "015.099 VU 2024STechnisches Chinesisch IV",
+        "shorthand": "TCI"
+    },
+    {
+        "full_text": "629.001 VU 2023WAchtsamkeit und Meditation I",
+        "shorthand": "AMI"
+    },
+    {
+        "full_text": "104.631 VU 2023WMathematisches Arbeiten f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "MAIW"
+    },
+    {
+        "full_text": "034.004 SE 2023WWas hat Gender mit dem Technikstudium zu tun?",
+        "shorthand": "WhGmdTzt"
+    },
+    {
+        "full_text": "015.113 VU 2024STechnical English Presentation B",
+        "shorthand": "TEPB"
+    },
+    {
+        "full_text": "VUDenkweisen der Informatik",
+        "shorthand": "DI"
+    },
+    {
+        "full_text": "VOEinf\u00fchrung in die Wissenschaftstheorie I",
+        "shorthand": "EWI"
+    },
+    {
+        "full_text": "VUInterface und Interaction Design(*)",
+        "shorthand": "IID"
+    },
+    {
+        "full_text": "107.273 VO 2024SStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "188.383 SE 2023WCoaching als F\u00fchrungsinstrument 1",
+        "shorthand": "CaF1"
+    },
+    {
+        "full_text": "253.179 VO 2023WSustainability Challenge, Interuniversit\u00e4re Lehrveranstaltung",
+        "shorthand": "SCIL"
+    },
+    {
+        "full_text": "VUFoundations of System and Application Security",
+        "shorthand": "FoSAS"
+    },
+    {
+        "full_text": "185.A16 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "194.149 PR 2023WSoftware Engineering Projekt",
+        "shorthand": "SEP"
+    },
+    {
+        "full_text": "VUIntroduction to Cryptography",
+        "shorthand": "ItC"
+    },
+    {
+        "full_text": "040.007 SE 2023WWissenschaftliches Arbeiten: Datenvisualisierung in VR und AR",
+        "shorthand": "WADVA"
+    },
+    {
+        "full_text": "180.767 SE 2023WOrientierung Bachelor with Honors der Informatik und Wirtschaftsinformatik",
+        "shorthand": "OBwHIW"
+    },
+    {
+        "full_text": "180.764 VU 2023WSoftware-Qualit\u00e4tssicherung",
+        "shorthand": "2023WSoftware-Qualit\u00e4tssicherung"
+    },
+    {
+        "full_text": "VUHuman Augmentation",
+        "shorthand": "HA"
+    },
+    {
+        "full_text": "SEInterdisziplin\u00e4re Forschung",
+        "shorthand": "IF"
+    },
+    {
+        "full_text": "242.016 SE 2023WPr\u00e4sentationstechnik I (f\u00fcr BI)",
+        "shorthand": "PI(B"
+    },
+    {
+        "full_text": "VUEffiziente Algorithmen",
+        "shorthand": "EA"
+    },
+    {
+        "full_text": "251.178 UE 2023WMentale Resilienz im Studienalltag",
+        "shorthand": "MRiS"
+    },
+    {
+        "full_text": "181.208 VU 2024SSoftskills f\u00fcr TechnikerInnen",
+        "shorthand": "ST"
+    },
+    {
+        "full_text": "192.033 VU 2024SLogic and Reasoning in Computer Science",
+        "shorthand": "LRCS"
+    },
+    {
+        "full_text": "060.017 SE 2023WFachliches Mentoring - Mathematik (FaMe)",
+        "shorthand": "FM-M("
+    },
+    {
+        "full_text": "034.003 VO 2024STechnik und Gender, Grundlagenvorlesung f\u00fcr IngenieurwissenschafterInnen",
+        "shorthand": "TGGI"
+    },
+    {
+        "full_text": "183.609 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "123.630 VO 2023WF\u00fchrung eines Ziviltechnikerb\u00fcros",
+        "shorthand": "FeZ"
+    },
+    {
+        "full_text": "330.260 VU 2023WInspirational Leadership im 21. Jahrhundert",
+        "shorthand": "ILi2J"
+    },
+    {
+        "full_text": "105.629 PR 2024SBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUBio-Medical Visualization and Visual Analytics",
+        "shorthand": "BVVA"
+    },
+    {
+        "full_text": "SEBerufsorientierung",
+        "shorthand": "Berufsorientierung"
+    },
+    {
+        "full_text": "193.018 VU 2023WGrundlagen der Computergraphik",
+        "shorthand": "GC"
+    },
+    {
+        "full_text": "034.021 SE 2024SNachhaltigkeit & Diversit\u00e4t in Forschung und Entwicklung",
+        "shorthand": "N&DFE"
+    },
+    {
+        "full_text": "VOMultivariate Statistik",
+        "shorthand": "MS"
+    },
+    {
+        "full_text": "015.576 VU 2023WTechnisches Italienisch I",
+        "shorthand": "TII"
+    },
+    {
+        "full_text": "VUAudio and Video Production",
+        "shorthand": "AVP"
+    },
+    {
+        "full_text": "194.155 VU 2023WSustainability in Computer Science",
+        "shorthand": "SCS"
+    },
+    {
+        "full_text": "VUAbstrakte Maschinen",
+        "shorthand": "AM"
+    },
+    {
+        "full_text": "VOEchtzeitsysteme",
+        "shorthand": "Echtzeitsysteme"
+    },
+    {
+        "full_text": "194.101 PR 2023WMachine Learning Algorithms and Applications",
+        "shorthand": "MLAA"
+    },
+    {
+        "full_text": "193.132 VU 2023WDesign und Fertigung",
+        "shorthand": "DF"
+    },
+    {
+        "full_text": "VUInformationssysteme des Gesundheitswesens",
+        "shorthand": "IdG"
+    },
+    {
+        "full_text": "192.061 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in Visual Computing(*)",
+        "shorthand": "EVC"
+    },
+    {
+        "full_text": "VUDaten- und Informatikrecht(*)",
+        "shorthand": "DI"
+    },
+    {
+        "full_text": "060.015 VU 2023WGrundlagen wissenschaftlichen Arbeitens",
+        "shorthand": "GwA"
+    },
+    {
+        "full_text": "234.139 UE 2023WMultidisziplin\u00e4re Planung",
+        "shorthand": "MP"
+    },
+    {
+        "full_text": "187.B12 VU 2023WDenkweisen der Informatik",
+        "shorthand": "DI"
+    },
+    {
+        "full_text": "259.344 VO 2024SDesign for All",
+        "shorthand": "DA"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in wissensbasierte Systeme",
+        "shorthand": "EwS"
+    },
+    {
+        "full_text": "VUKooperatives Arbeiten",
+        "shorthand": "KA"
+    },
+    {
+        "full_text": "SEGruppendynamik",
+        "shorthand": "Gruppendynamik"
+    },
+    {
+        "full_text": "UEPr\u00e4sentation, Moderation und Mediation",
+        "shorthand": "PMM"
+    },
+    {
+        "full_text": "194.122 UE 2023WErg\u00e4nzende Softwareentwicklungs-Skills f\u00fcr Data Scientists",
+        "shorthand": "ESDS"
+    },
+    {
+        "full_text": "107.369 UE 2023WStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "187.A87 SE 2023WForschungsseminar f\u00fcr DiplomandInnen",
+        "shorthand": "FD"
+    },
+    {
+        "full_text": "SEKommunikationsprozesse",
+        "shorthand": "Kommunikationsprozesse"
+    },
+    {
+        "full_text": "VUAnalysis f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "AIW"
+    },
+    {
+        "full_text": "060.008 VU 2024SEinf\u00fchrung in Management und Leadership f\u00fcr Techniker_innen",
+        "shorthand": "EMLT"
+    },
+    {
+        "full_text": "188.944 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "015.068 VU 2024STechnisches Russisch II",
+        "shorthand": "TRI"
+    },
+    {
+        "full_text": "192.111 UE 2023WAttacks and Defenses in Computer Security",
+        "shorthand": "ADCS"
+    },
+    {
+        "full_text": "VU\u00dcbersetzerbau",
+        "shorthand": "\u00dcbersetzerbau"
+    },
+    {
+        "full_text": "107.388 VO 2023WMultivariate Statistik",
+        "shorthand": "MS"
+    },
+    {
+        "full_text": "186.819 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUAccess Computing",
+        "shorthand": "AC"
+    },
+    {
+        "full_text": "VUProgrammierparadigmen",
+        "shorthand": "Programmierparadigmen"
+    },
+    {
+        "full_text": "034.009 SE 2024SGender- und Diversit\u00e4tskompetenz",
+        "shorthand": "GD"
+    },
+    {
+        "full_text": "164.287 VO 2023WEuropean Union - Institutions, Policies and Future Challenges",
+        "shorthand": "EU-IPFC"
+    },
+    {
+        "full_text": "UEAlgebra und Diskrete Mathematik f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "ADMIW"
+    },
+    {
+        "full_text": "384.176 VU 2023WMikrocomputer f\u00fcr Informatiker_innen",
+        "shorthand": "MI"
+    },
+    {
+        "full_text": "VUStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "141.599 VO 2023WStrahlenphysikalische und gesellschaftliche Aspekte des Strahlenschutzes",
+        "shorthand": "SgAdS"
+    },
+    {
+        "full_text": "104.634 VU 2023WAnalysis f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "AIW"
+    },
+    {
+        "full_text": "015.725 VU 2024STechnik darstellen - Darstellungstechniken in audiovisuellen Medien",
+        "shorthand": "Td-DaM"
+    },
+    {
+        "full_text": "VOAnalysis f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "AIW"
+    },
+    {
+        "full_text": "181.200 SE 2024SKommunikation und Rhetorik",
+        "shorthand": "KR"
+    },
+    {
+        "full_text": "VUOrientierung Informatik und Wirtschaftsinformatik",
+        "shorthand": "OIW"
+    },
+    {
+        "full_text": "104.263 UE 2024SAlgebra und Diskrete Mathematik f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "ADMIW"
+    },
+    {
+        "full_text": "VUStatistische Simulation und computerintensive Methoden",
+        "shorthand": "SScM"
+    },
+    {
+        "full_text": "VUAlgorithmen und Datenstrukturen",
+        "shorthand": "AD"
+    },
+    {
+        "full_text": "061.002 EX 2024SFachexkursion TU Wien alumni club",
+        "shorthand": "E2TWac"
+    },
+    {
+        "full_text": "VUVerteilte Systeme(*)",
+        "shorthand": "VS"
+    },
+    {
+        "full_text": "PRSoftware Engineering Projekt(*)",
+        "shorthand": "SEP"
+    },
+    {
+        "full_text": "015.148 VU 2023WWissenschaft verst\u00e4ndlich kommunizieren",
+        "shorthand": "Wvk"
+    },
+    {
+        "full_text": "192.058 UE 2023WIT Projekte f\u00fcr Jugendliche",
+        "shorthand": "IPJ"
+    },
+    {
+        "full_text": "280.169 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "259.345 VU 2024SBarrierefreies Bauen",
+        "shorthand": "BB"
+    },
+    {
+        "full_text": "194.120 VU 2023WMobile Securityabgesagt",
+        "shorthand": "MS"
+    },
+    {
+        "full_text": "VUEinf\u00fchrung in die Programmierung 2",
+        "shorthand": "EP2"
+    },
+    {
+        "full_text": "015.115 VU 2024STechnical English Communication B",
+        "shorthand": "TECB"
+    },
+    {
+        "full_text": "VULogik f\u00fcr Wissensrepr\u00e4sentation",
+        "shorthand": "LW"
+    },
+    {
+        "full_text": "259.346 UE 2024SBarrierefreies Bauen",
+        "shorthand": "BB"
+    },
+    {
+        "full_text": "015.111 VU 2024STechnical English Presentation A",
+        "shorthand": "TEPA"
+    },
+    {
+        "full_text": "184.713 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "UEStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "107.329 VO 2023WMethoden der Angewandten Statistik",
+        "shorthand": "MAS"
+    },
+    {
+        "full_text": "104.634 VU 2024SAnalysis f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "AIW"
+    },
+    {
+        "full_text": "060.003 VU 2023WTalente Programm der TU Wien",
+        "shorthand": "TPTW"
+    },
+    {
+        "full_text": "VUGrundlagen der Computer Vision",
+        "shorthand": "GCV"
+    },
+    {
+        "full_text": "184.695 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "VUSoftware-Qualit\u00e4tssicherung",
+        "shorthand": "Software-Qualit\u00e4tssicherung"
+    },
+    {
+        "full_text": "629.008 VU 2023WFachgeb\u00e4rdenentwicklung",
+        "shorthand": "2023WFachgeb\u00e4rdenentwicklung"
+    },
+    {
+        "full_text": "VUPr\u00e4sentation und Moderation",
+        "shorthand": "PM"
+    },
+    {
+        "full_text": "UELogik und Grundlagen der Mathematik",
+        "shorthand": "LGM"
+    },
+    {
+        "full_text": "VOTheorie und Praxis der Gruppenarbeit",
+        "shorthand": "TPG"
+    },
+    {
+        "full_text": "107.370 UE 2024SStatistik und Wahrscheinlichkeitstheorie",
+        "shorthand": "SW"
+    },
+    {
+        "full_text": "PRBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "107.330 VU 2023WStatistische Simulation und computerintensive Methoden",
+        "shorthand": "SScM"
+    },
+    {
+        "full_text": "194.100 VU 2023WTheoretical Foundations and Research Topics in Machine Learning",
+        "shorthand": "TFRTML"
+    },
+    {
+        "full_text": "UEMultivariate Statistik",
+        "shorthand": "MS"
+    },
+    {
+        "full_text": "034.013 VO 2023WScience-Technology-Society (STS)",
+        "shorthand": "S("
+    },
+    {
+        "full_text": "040.009 VU 2023WDaten und Informationen visualisieren: Grundlagen der Visualisierung f\u00fcr das wissenschaftliche Arbeiten",
+        "shorthand": "DIvGVdwA"
+    },
+    {
+        "full_text": "058.005 VU 2023WEinf\u00fchrung in das Forschungsdatenmanagement",
+        "shorthand": "EdF"
+    },
+    {
+        "full_text": "193.136 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "015.118 VU 2024SErwachsenenbildung und Lebenslanges Lernen",
+        "shorthand": "ELL"
+    },
+    {
+        "full_text": "015.088 VU 2024STechnisches Deutsch f\u00fcr Internationale Studierende",
+        "shorthand": "TDIS"
+    },
+    {
+        "full_text": "VUPr\u00e4sentations- und Verhandlungstechnik",
+        "shorthand": "PV"
+    },
+    {
+        "full_text": "SECoaching als F\u00fchrungsinstrument 2",
+        "shorthand": "CaF2"
+    },
+    {
+        "full_text": "VUDependable Systems",
+        "shorthand": "DS"
+    },
+    {
+        "full_text": "015.082 VO 2023WTechnologieverwertung",
+        "shorthand": "2023WTechnologieverwertung"
+    },
+    {
+        "full_text": "VOZwischen Karriere und Barriere",
+        "shorthand": "ZKB"
+    },
+    {
+        "full_text": "015.098 VU 2023WTechnisches Chinesisch III",
+        "shorthand": "TCI"
+    },
+    {
+        "full_text": "180.781 VU 2023WSummer/Winter School for Bachelor with Honors",
+        "shorthand": "SSBwH"
+    },
+    {
+        "full_text": "SEWissenschaftliches Arbeiten",
+        "shorthand": "WA"
+    },
+    {
+        "full_text": "015.113 VU 2023WTechnical English Presentation B",
+        "shorthand": "TEPB"
+    },
+    {
+        "full_text": "101.973 VU 2023WNumerical Computation",
+        "shorthand": "NC"
+    },
+    {
+        "full_text": "192.138 SE 2023WCAIML Seminar",
+        "shorthand": "CS"
+    },
+    {
+        "full_text": "SEFolgenabsch\u00e4tzung von Informationstechnologien",
+        "shorthand": "FvI"
+    },
+    {
+        "full_text": "163.171 VO 2024SChemie und Gesellschaft",
+        "shorthand": "CG"
+    },
+    {
+        "full_text": "352.490 VU 2023WRhetorik, K\u00f6rpersprache und Argumentationstraining",
+        "shorthand": "RKA"
+    },
+    {
+        "full_text": "VULogic and Reasoning in Computer Science(*)",
+        "shorthand": "LRCS"
+    },
+    {
+        "full_text": "194.025 VU 2023WEinf\u00fchrung in Machine Learning",
+        "shorthand": "EML"
+    },
+    {
+        "full_text": "VUMenschzentrierte K\u00fcnstliche Intelligenz",
+        "shorthand": "MKI"
+    },
+    {
+        "full_text": "184.691 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "182.698 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "186.829 PR 2023WBachelorarbeit f\u00fcr Informatik und Wirtschaftsinformatik",
+        "shorthand": "BIW"
+    },
+    {
+        "full_text": "376.075 VU 2023WWie erfindet man einen Roboter - Produktentwicklung aus der Nutzerperspektive",
+        "shorthand": "WemeR-PaN"
+    },
+    {
+        "full_text": "058.004 VU 2023WFrom Innovation to Product: Business Modelling for Scientists and Engineers",
+        "shorthand": "FItPBMSE"
+    },
+    {
+        "full_text": "107.A15 UE 2023WMethoden der Angewandten Statistik",
+        "shorthand": "MAS"
+    },
+    {
+        "full_text": "260.790 VU 2023WEinf\u00fchrung in das wissenschaftliche Schreiben Publikation",
+        "shorthand": "EdwSP"
+    },
+    {
+        "full_text": "060.027 VU 2024SKreatives und nachhaltiges Produkt-, Service- und Prozess-Engineering",
+        "shorthand": "KnPSP"
+    },
+    {
+        "full_text": "188.470 VU 2023WCreative Media Production",
+        "shorthand": "CMP"
+    },
+    {
+        "full_text": "SEKommunikation und Rhetorik",
+        "shorthand": "KR"
+    },
+    {
+        "full_text": "015.642 VU 2024STechnisches Italienisch II",
+        "shorthand": "TII"
+    },
+    {
+        "full_text": "629.003 SE 2024SBegleitlehrveranstaltung der Mentor_innen der TU Wien",
+        "shorthand": "BMTW"
+    },
+    {
+        "full_text": "015.082 VO 2024STechnologieverwertung",
+        "shorthand": "2024STechnologieverwertung"
+    },
+    {
+        "full_text": "061.009 VU 2024SGrundlagen wissenschaftlichen Arbeitens",
+        "shorthand": "GwA"
+    },
+    {
+        "full_text": "629.006 VU 2023WDas TU Talente - Programm f\u00fcr Studierende in Master- und Doktoratsstudien",
+        "shorthand": "DTT-PSMD"
+    },
+    {
+        "full_text": "VUPrivacy-Enhancing Technologies",
+        "shorthand": "PT"
+    }
+]

@@ -18,3 +18,10 @@ export const colors: Record<number, EventColor> = {
     secondary: '#00d3ff',
   },
 };
+
+export interface Shorthand {
+  from: string,
+  to: string
+}
+
+export const shorthands: Shorthand[] = []

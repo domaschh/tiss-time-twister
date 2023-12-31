@@ -28,5 +28,4 @@ export class PublicConfigCardComponent{
       modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       };
   }
-
 }
