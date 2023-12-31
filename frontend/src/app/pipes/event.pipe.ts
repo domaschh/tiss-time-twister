@@ -14,5 +14,4 @@ export class EventPipePipe implements PipeTransform {
     return allEvents;
     return allEvents.filter(e => e.calendar.isActive);
   }
-
 }

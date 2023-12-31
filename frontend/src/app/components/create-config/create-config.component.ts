@@ -3,7 +3,6 @@ import {FormGroup, UntypedFormBuilder, Validators} from "@angular/forms";
 import {CalendarReferenceService} from "../../services/calendar.reference.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {Calendar} from 'src/app/dtos/Calendar';
 import {ConfigurationDto, EffectType, MatchType, RuleDto} from 'src/app/dtos/configuration-dto';
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 
@@ -21,15 +20,6 @@ export class CreateConfigComponent {
   addRuleLabel: String = 'Add';
   ruleAddMode: boolean = true; //true -> add new Rule/ false -> replace existing rule
 
-  selectedCal: Calendar = {
-    id: 1,
-    isActive: false,
-    name: '',
-    color: "ababa",
-    link: '',
-    token: ''
-  };
-
   currentRule: RuleDto;
 
   allRules: RuleDto[] = []
@@ -38,37 +28,25 @@ export class CreateConfigComponent {
     name: ['', [Validators.required]],
     description: ['', [Validators.required]],
     public: [false, [Validators.required]],
-    calendar: [Calendar, [Validators.required]],
+    calendar: [CalendarReferenceDto, [Validators.required]],
   });
 
   submitted = false;
   // Error flag
   error = false;
   errorMessage = '';
-  // defaultRule: RuleDto = {
-  //   id: 1,
-  //   effect: {
-  //     changedDescription: "dasd",
-  //     changedTitle: "dasd",
-  //     location: "dasdasd",
-  //     effectType:EffectType.MODIFY
-  //   },
-  //   match:{
-  //     summary: "newUsmmart",
-  //     description: "newUsmmart",
-  //     location: "newUsmmart",
-  //     summaryMatchType: MatchType.CONTAINS,
-  //     locationMatchType: MatchType.CONTAINS,
-  //     descriptionMatchType: MatchType.CONTAINS,
-  //   }
-  // };
+  prefilled: {calId: number, config: ConfigurationDto};
 
 
   constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
-
     this.configurationForm.patchValue({ calendar: null });
-    const data = router.getCurrentNavigation().extras.state;
-    this.calendars = data?.calendars ?? null;
+    this.prefilled = this.router.getCurrentNavigation().extras.state as {calId: number, config: ConfigurationDto};
+    if (this.prefilled) {
+      this.configurationForm.controls.name.setValue(this.prefilled.config.title)
+      this.configurationForm.controls.description.setValue(this.prefilled.config.description)
+      this.configurationForm.controls.public.setValue(this.prefilled.config.published)
+      this.allRules = this.prefilled.config.rules
+    }
   }
 
 
@@ -81,10 +59,10 @@ export class CreateConfigComponent {
     this.calendarReferenceService.getAll().subscribe({
       next: (calendars) => {
         this.calendars = calendars;
-        console.log(calendars)
+        const calendar = calendars.find(cal => cal.id == this.prefilled.calId);
+        this.configurationForm.controls.calendar.setValue(calendar.id)
       },
       error: () => {
-
       }
     })
   }
@@ -104,7 +82,6 @@ export class CreateConfigComponent {
   }
 
   previewConfiguration() {
-    console.log(this.allRules)
     this.openPreview({
       description: this.configurationForm.value.description,
       published: this.configurationForm.value.public,
@@ -114,32 +91,28 @@ export class CreateConfigComponent {
   }
 
   setActiveNewRule() {
-    let newRule: RuleDto = {
-      id: this.allRules.length,
+    this.currentRule = {
       match: {
-        summary: '',
-        description: '',
-        location: '',
+        summary: undefined,
+        summaryMatchType: MatchType.CONTAINS,
+        description: undefined,
+        descriptionMatchType: MatchType.CONTAINS,
+        locationMatchType: MatchType.CONTAINS,
+        location: undefined,
       },
       effect: {
-        changedDescription: '',
-        changedTitle: '',
-        location: '',
+        changedDescription: undefined,
+        changedTitle: undefined,
+        location: undefined,
         effectType: EffectType.MODIFY
       }
-    }
-    this.currentRule =newRule;
-    // this.setActiveRule(newRule);
+    };
   }
 
   addRule() {
     if (this.ruleAddMode) {
       this.allRules.push(this.currentRule);
     }
-    this.setActiveNewRule();
-  }
-  removeRule() {
-    this.allRules = this.allRules.filter(rule => rule != this.currentRule);
     this.setActiveNewRule();
   }
 
@@ -149,7 +122,7 @@ export class CreateConfigComponent {
 
   openPreview(config: ConfigurationDto) {
     this.router.navigate(['previewConfig'], {
-      state: { calId: this.selectedCal.id, config: config }
+      state: { calId: this.configurationForm.controls.calendar.value, config: config }
     });
   }
 

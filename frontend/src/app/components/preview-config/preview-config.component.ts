@@ -41,6 +41,7 @@ import {ToastrService} from "ngx-toastr";
 import {data} from "autoprefixer";
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 import { ConfigurationDto } from 'src/app/dtos/configuration-dto';
+import {Location} from "@angular/common";
 
 const colors: Record<number, EventColor> = {
   0: {
@@ -67,7 +68,6 @@ export class PreviewConfigComponent {
 
   myICAL: ICAL = ICAL;
   calendars: Calendar[];
-  calReference: CalendarReferenceDto;
   calId: number;
   config: ConfigurationDto;
 
@@ -77,30 +77,10 @@ export class PreviewConfigComponent {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
-  loggedInUsername: string | null = null;
-
   modalData: {
     action: string;
     event: CalendarEvent;
   };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="bi bi-pencil"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="bi bi-trash"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
 
   refresh = new Subject<void>();
 
@@ -109,6 +89,7 @@ export class PreviewConfigComponent {
 
   constructor(
     private modal: NgbModal,
+    private readonly location: Location,
     private calenderReferenceServie: CalendarReferenceService,
     private configurationService: ConfigurationService,
     private eventService: EventService,
@@ -118,13 +99,12 @@ export class PreviewConfigComponent {
     private route: ActivatedRoute
   ) {
     const data = router.getCurrentNavigation().extras.state;
+    console.log(data)
     this.calId = data?.calId ?? 0;
-    console.log(this.calId);
     this.config = data?.config ?? null;
    }
 
   ngOnInit(): void {
-
     this.getPreview();
   }
 
@@ -165,7 +145,6 @@ export class PreviewConfigComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if(action === 'Clicked' || action === 'Edited'){
-      console.log(myEvent);
       if (!myEvent) {
         console.error("Error while handling event", event);
       } else if (!myEvent.categories.includes('customEvent')) {
@@ -199,12 +178,13 @@ export class PreviewConfigComponent {
       this.modal.open(this.modalContent, {size: 'lg'});
     }
   }
+
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
 
   getPreview() {
-    this.calenderReferenceServie.getConfigurationPreview(this.calId, {...this.config, id:1}).subscribe({
+    this.calenderReferenceServie.getConfigurationPreview(this.calId, this.config).subscribe({
       next: cal => {
             var evs: MyCalendarEvent[] = [];
             var parsedcal = this.myICAL.parse(cal);
@@ -223,5 +203,11 @@ export class PreviewConfigComponent {
             this.events = evs;
       }
     });
+  }
+
+  goToConfigBuilder() {
+    this.router.navigate(['createConfig'], {
+      state: { calId: this.calId, config: this.config }
+    })
   }
 }

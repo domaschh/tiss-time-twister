@@ -8,10 +8,10 @@ export interface ConfigurationDto {
 }
 
 export enum MatchType {
-  CONTAINS = 'Contains',
-  STARTS_WITH = 'Starts with',
-  EQUALS = 'Equals',
-  REGEX = 'Regex'
+  CONTAINS = 'CONTAINS',
+  STARTS_WITH = 'STARTS_WITH',
+  EQUALS = 'EQUALS',
+  REGEX = 'REGEX'
 }
 export interface MatchDto {
   id?: number,
@@ -24,8 +24,8 @@ export interface MatchDto {
 }
 
 export enum EffectType {
-  DELETE = 'Delete',
-  MODIFY = 'Modify'
+  DELETE = 'DELETE',
+  MODIFY = 'MODIFY'
 }
 
 export interface EffectDto {

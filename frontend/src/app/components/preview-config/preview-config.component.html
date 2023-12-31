@@ -1,69 +1,71 @@
-<div class="p-12 max-h-[100%]">
-    <div class="container">
-        <div class="row">
-          <div class="col text-left">
-            <button class="btn btn-danger mx-0">Back</button>
-          </div>
-          <div class="col text-right">
-            <button class="btn btn-success mx-0">Save</button>
-          </div>
-        </div>
-      </div>
-    <div class="flex flex-row">
-      <div class="basis-1/12 mr-6 mt-20">
-        <!-- Dropdown button -->
-        <div class="dropdown">
-          <button class="btn btn-tertiary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person"></i>Profil
-          </button>
-        </div>
-        </div>
-      </div>
-      <div class="basis-11/12">
-        <div class="row text-left">
-          <!--Navigation-->
-          <div class="col-md-5">
-            <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-              (viewDateChange)="closeOpenMonthViewDay()">
-              <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
-            </div>
-            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
-            <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-              (viewDateChange)="closeOpenMonthViewDay()">
-              <i class="bi bi-arrow-right-short" style="font-size: 2rem;"></i>
-            </div>
-          </div>
-          <!--Navigation-->
-          <!--Datum Anzeige-->
-          <div class="col-md-4">
-            <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-          </div>
-          <!--Datum Anzeige-->
-          <!--Zeitfenster Auswahl-->
-          <div class="col-md-3 text-right">
-            <select class="form-select" [(ngModel)] = "view">
-              <option [value]="CalendarView.Day">Day</option>
-              <option [value]="CalendarView.Week">Week</option>
-              <option [value]="CalendarView.Month" selected>Month</option>
-            </select>
-          </div>
-          <!--Zeitfenster Auswahl-->
-        </div>
-        <br />
-        <div [ngSwitch]="view">
-          <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
-            [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-            (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
-          </mwl-calendar-month-view>
-          <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
-            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-            (eventTimesChanged)="eventTimesChanged($event)">
-          </mwl-calendar-week-view>
-          <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
-            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-            (eventTimesChanged)="eventTimesChanged($event)">
-          </mwl-calendar-day-view>
-        </div>
-
+<div class="p-12 h-[90%] overflow-scroll">
+  <div class="flex flex-row">
+    <div class="basis-1/12 mr-6">
+      <!-- Dropdown button -->
+      <div class="dropdown">
+        <button class="btn btn-tertiary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person"></i>Profil
+        </button>
       </div>
     </div>
+  </div>
+  <div class="basis-11/12 overflow-scroll">
+    <div class="row text-left">
+      <!--Navigation-->
+      <div class="col-md-5">
+        <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+             (viewDateChange)="closeOpenMonthViewDay()">
+          <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
+        </div>
+        <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+        <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+             (viewDateChange)="closeOpenMonthViewDay()">
+          <i class="bi bi-arrow-right-short" style="font-size: 2rem;"></i>
+        </div>
+      </div>
+      <!--Navigation-->
+      <!--Datum Anzeige-->
+      <div class="col-md-4">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      </div>
+      <!--Datum Anzeige-->
+      <!--Zeitfenster Auswahl-->
+      <div class="col-md-3 text-right">
+        <select class="form-select" [(ngModel)]="view">
+          <option [value]="CalendarView.Day">Day</option>
+          <option [value]="CalendarView.Week">Week</option>
+          <option [value]="CalendarView.Month" selected>Month</option>
+        </select>
+      </div>
+      <!--Zeitfenster Auswahl-->
+    </div>
+    <div [ngSwitch]="view" class="overflow-scroll">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+                               [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                               (dayClicked)="dayClicked($event.day)"
+                               (eventClicked)="handleEvent('Clicked', $event.event)"
+                               (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+                              [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                              (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+                             [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                             (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-day-view>
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col text-left">
+      <button class="btn btn-danger" (click)="goToConfigBuilder()">Back</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-success">Save</button>
+    </div>
+  </div>
+</div>

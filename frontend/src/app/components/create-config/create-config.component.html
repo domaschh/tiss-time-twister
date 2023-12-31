@@ -36,8 +36,8 @@
               </div>
             </div>
             <div class="form-floating h-[38px]">
-              <select class="form-select p-2 " formControlName="calendar" [(ngModel)]="selectedCal">
-                <option *ngFor="let cal of calendars" [value]="cal">{{ cal.name }}</option>
+              <select class="form-select p-2 " formControlName="calendar">
+                <option *ngFor="let cal of calendars" [value]="cal.id">{{ cal.name }}</option>
               </select>
             </div>
             <div *ngIf="submitted && configurationForm.controls.name.errors" class="error">
@@ -63,8 +63,8 @@
                   </div>
                 </div>
                 <!--Display Current Rule-->
-                <h5 class="mt-2">New Rule</h5>
-                <div class="px-2">
+                <h5 class="mt-2">New Configuration</h5>
+                <div class="px-2 py-2 border-x border-y border-popover-light rounded">
                   <p class="font-bold">Match by:</p>
                   <div class="row">
                     <div class="col-auto">
@@ -118,60 +118,61 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="flex flex-col px-2">
-                  <div class="flex flex-row justify-between align-items-center">
-                    <a>
-                      <p class="mb-2 font-bold pt-2">Effect</p>
-                    </a>
-                    <div class="flex gap-2">
-                      <label class="cursor-pointer rounded-2xl p-1 text-xs"
-                             (click)="currentRule.effect.effectType = EffectType.DELETE"
-                             [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
-                      <label class="cursor-pointer rounded-2xl p-1 text-xs"
-                             (click)="currentRule.effect.effectType = EffectType.MODIFY"
-                             [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+                  <div class="flex flex-col">
+                    <div class="flex flex-row justify-between align-items-center">
+                      <a>
+                        <p class="mb-2 font-bold pt-2">Effect</p>
+                      </a>
+                      <div class="flex gap-2">
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                               (click)="currentRule.effect.effectType = EffectType.DELETE"
+                               [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                               (click)="currentRule.effect.effectType = EffectType.MODIFY"
+                               [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+                      </div>
                     </div>
-                  </div>
-                  <div *ngIf="!isDeleteEffect()">
-                    <div class="row">
-                      <div class="col">
-                        <div class="">
-                          <input type="text" id="inputEffectSummary" class="form-control" placeholder="Changed Title"
-                                 [(ngModel)]="currentRule.effect.changedTitle" [ngModelOptions]="{standalone: true}">
+                    <div *ngIf="!isDeleteEffect()">
+                      <div class="row">
+                        <div class="col">
+                          <div class="">
+                            <input type="text" id="inputEffectSummary" class="form-control" placeholder="Changed Title"
+                                   [(ngModel)]="currentRule.effect.changedTitle" [ngModelOptions]="{standalone: true}">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col">
+                          <div class="">
+                            <input type="text" id="inputEffectDescription" class="form-control"
+                                   placeholder="Changed Description"
+                                   [(ngModel)]="currentRule.effect.changedDescription"
+                                   [ngModelOptions]="{standalone: true}">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col">
+                          <div class="">
+                            <input type="text" id="inputEffectLocation" class="form-control"
+                                   placeholder="Changed Location"
+                                   [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <br>
-                    <div class="row">
-                      <div class="col">
-                        <div class="">
-                          <input type="text" id="inputEffectDescription" class="form-control"
-                                 placeholder="Changed Description"
-                                 [(ngModel)]="currentRule.effect.changedDescription"
-                                 [ngModelOptions]="{standalone: true}">
-                        </div>
-                      </div>
+                    <div matTooltip="Add Rule" (click)="addRule()"
+                         class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+                      <a class="cursor-pointer content-center" aria-label="Token">
+                        <i class="bi bi-plus" style="font-size: 1rem;"></i>
+                      </a>
                     </div>
-                    <br>
-                    <div class="row">
-                      <div class="col">
-                        <div class="">
-                          <input type="text" id="inputEffectLocation" class="form-control"
-                                 placeholder="Changed Location"
-                                 [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div matTooltip="Add Rule" (click)="addRule()"
-                       class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
-                    <a class="cursor-pointer content-center" aria-label="Token">
-                      <i class="bi bi-plus" style="font-size: 1rem;"></i>
-                    </a>
                   </div>
                 </div>
               </div>
+
             </div>
             <div class="flex pb-2">
               <button type="button" (click)="previewConfiguration()" [disabled]="!configurationForm.valid"
