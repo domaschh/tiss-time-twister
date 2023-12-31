@@ -99,7 +99,6 @@ export class PreviewConfigComponent {
     private route: ActivatedRoute
   ) {
     const data = router.getCurrentNavigation().extras.state;
-    console.log(data)
     this.calId = data?.calId ?? 0;
     this.config = data?.config ?? null;
    }
@@ -208,6 +207,23 @@ export class PreviewConfigComponent {
   goToConfigBuilder() {
     this.router.navigate(['createConfig'], {
       state: { calId: this.calId, config: this.config }
+    })
+  }
+
+  saveConfiguration() {
+    this.configurationService.addConfiguration(this.calId, this.config).subscribe({
+      next: (createdConfiguration) => {
+        this.calenderReferenceServie.addToCalendar(this.calId, createdConfiguration.id).subscribe({
+          next:() => {
+            this.toastrService.success("Sucessfully created configuration")
+            this.router.navigate(['calendar'])
+          },error: () => {
+            this.toastrService.error("Coudln't add to Calendar ")
+          }
+        })
+      },error: () => {
+        this.toastrService.error("Coudln't Create Configuration")
+      }
     })
   }
 }
