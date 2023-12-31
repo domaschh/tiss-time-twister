@@ -17,11 +17,26 @@ export class NavbarComponent {
   }
 
   showNavbar() {
+    this.loadDarkMode();
     return localStorage.getItem("authToken")
   }
 
+  private loadDarkMode() {
+    if (localStorage.getItem('dark') === 'true') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }
+
   toggleDarkMode(): void {
-    document.body.classList.toggle('dark');
+    if (localStorage.getItem('dark') === null) {
+      localStorage.setItem('dark', 'true');
+      document.body.classList.add('dark');
+    } else {
+      localStorage.removeItem('dark');
+      document.body.classList.remove('dark');
+    }
   }
 
   isDarkMode(): boolean {
