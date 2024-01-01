@@ -33,6 +33,8 @@ import {ToastrService} from "ngx-toastr";
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 import {colors} from "../../global/constants";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
+import {ConfigImportComponent} from "../calendar-import/config-import.component";
+import {ca} from "date-fns/locale";
 
 //preset colors since color should not be saved
 
@@ -379,5 +381,24 @@ export class CalendarPageComponent implements OnInit {
         })
       })
     }
+  }
+
+  openImportModal() {
+    const modalRef = this.modalService.open(ConfigImportComponent);
+    modalRef.componentInstance.calendars = this.calendars.map(cal => ({
+      id: cal.id,
+      name: cal.name,
+      link: cal.link
+    }))
+  }
+
+  copyLinkToClipboard(confiId: number) {
+    this.toastrService.success("Copied link to clipboard")
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', ("http://localhost:8080/api/v1/calendar/?/" + confiId));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
   }
 }

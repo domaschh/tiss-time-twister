@@ -40,6 +40,7 @@ import { PublicCardFakeComponent } from './components/public-config-card/public-
 import { DefaultConfigModalComponent } from './components/public-config-card/public-card-fake/default-config-modal/default-config-modal.component';
 import { LvaShorthandsComponent } from './components/public-config-card/public-card-fake/lva-shorthands/lva-shorthands.component';
 import { RoomMappingComponent } from './components/public-config-card/public-card-fake/room-mapping/room-mapping.component';
+import {ConfigImportComponent} from "./components/calendar-import/config-import.component";
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { RoomMappingComponent } from './components/public-config-card/public-car
     NavigationPopoverComponent,
     NavigationPopoverRightComponent,
     RuleFoldInputComponent,
+    ConfigImportComponent,
     PublicCardFakeComponent,
     DefaultConfigModalComponent,
     LvaShorthandsComponent,
