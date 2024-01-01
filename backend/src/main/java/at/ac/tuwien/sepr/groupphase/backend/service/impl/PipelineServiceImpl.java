@@ -120,7 +120,7 @@ public class PipelineServiceImpl implements PipelineService {
     private String onlyLongName(String input) {
         String[] parts = input.split(" ");
         if (parts.length > 2) {
-            return String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
+            return String.join(" ", Arrays.copyOfRange(parts, 1, parts.length));
         } else {
             return null;
         }

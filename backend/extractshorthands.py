@@ -31,12 +31,11 @@ def extract_text_and_create_acronym(html_filename):
         print(full_text)
         print(acronym)
 
-        extracted_data.append(full_text + ',' + acronym)
+        extracted_data.append({'ft': full_text, 'a':acronym})
 
     # Store in a JSON file
-    with open('extracted_data.txt', 'w') as file:
-        for item in extracted_data:
-                file.write(item + '\n')
+    with open('extracted_data.json', 'w') as json_file:
+        json.dump(extracted_data, json_file, indent=4)
 
     print("Data extracted and stored in 'extracted_data.json'")
 # Example usage
