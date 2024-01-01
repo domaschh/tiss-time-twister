@@ -110,7 +110,7 @@ public class PipelineServiceImpl implements PipelineService {
         if ((enabledDefaultConfigurations & 0b10) > 0) {
             TissRoom tissRoom;
             if (vEvent.getLocation().isPresent()) {
-                tissRoom = tissService.fetchCorrectLocation(this.onlyLongName(vEvent.getLocation().get().toString()));
+                tissRoom = tissService.fetchCorrectLocation(onlyLongName(vEvent.getLocation().get().toString()));
             } else {
                 tissRoom = null;
             }

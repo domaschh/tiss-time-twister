@@ -26,6 +26,7 @@ export class PublicCardFakeComponent {
     modalRef.componentInstance.bodyToShow = this.bodyToShow
 
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      console.log("hallo")
     };
   }
 }

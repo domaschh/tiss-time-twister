@@ -3,6 +3,9 @@
     <h3 class="modal-title">{{ title }}</h3>
     <label class=" rounded-2xl p-1 text-xs" [ngClass]="alreadyAdded ? 'bg-added' : 'bg-notadded'">{{ alreadyAdded ? 'Already Added' : 'Add to colelction' }}</label>
   </div>
+  <select class="form-select p-2" [(ngModel)]="selectedCalendar">
+    <option *ngFor="let cal of calendars" [value]="cal.id">{{ cal.name }}</option>
+  </select>
   <div class="flex">
     <p>{{ description }}</p>
   </div>
@@ -11,8 +14,8 @@
   </div>
   <div class="flex flex-row justify-end gap-3">
     <button type="button" class="text-font-col" (click)="closeAll()">Close</button>
-    <button [disabled]="alreadyAdded" type="button" class="btn btn-danger" (click)="removeFromCalendar()">{{ 'Remove From Calendar' }}</button>
-    <button [disabled]="!alreadyAdded" type="button" class="btn btn-success" (click)="addToCalendar()">{{ 'Preview in selected Calendar' }}</button>
+    <button [disabled]="!alreadyAdded" type="button" class="btn btn-danger" (click)="removeFromCalendar()">{{ 'Remove From Calendar' }}</button>
+    <button [disabled]="alreadyAdded" type="button" class="btn btn-success" (click)="addToCalendar()">{{ 'Preview in selected Calendar' }}</button>
   </div>
 </div>
 
