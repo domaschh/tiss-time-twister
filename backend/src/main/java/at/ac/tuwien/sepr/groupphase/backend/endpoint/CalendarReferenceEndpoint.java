@@ -107,17 +107,17 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @PostMapping("/{calendarId}/{configId}")
     @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReference addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+    public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
-        return calendarReferenceService.addConfig(configId, calendarId);
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.addConfig(configId, calendarId));
     }
 
     @Secured("ROLE_USER")
     @DeleteMapping("/{calendarId}/{configId}")
     @Operation(summary = "Remove a public config from a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReference removeConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+    public CalendarReferenceDto removeConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
-        return calendarReferenceService.removeConfig(configId, calendarId);
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.removeConfig(configId, calendarId));
     }
 
 

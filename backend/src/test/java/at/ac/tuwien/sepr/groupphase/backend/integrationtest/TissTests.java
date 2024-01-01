@@ -31,16 +31,23 @@ public class TissTests {
 
     @Test
     void validateRoomShortHand() {
-        String roomName = "Propädeutikum für Informatik";
+        String roomName = "PR Programmiertechniken für Visual Computing";
         LVADetail shortHand = tissService.mapLVANameShorthand(roomName);
-        assertEquals(shortHand.shorthand(), "prolog");
+        assertEquals(shortHand.shorthand(), "PR PVC");
+    }
+
+    @Test
+    void validateRoomShortHandMaster() {
+        String roomName = "VU Computability Theory";
+        LVADetail shortHand = tissService.mapLVANameShorthand(roomName);
+        assertEquals(shortHand.shorthand(), "VU CT");
     }
 
     @Test
     void validateRoomShortHand2() {
-        String roomName = "Funktionale Programmierung";
+        String roomName = "VU Funktionale Programmierung";
         LVADetail shortHand = tissService.mapLVANameShorthand(roomName);
-        assertEquals(shortHand.shorthand(), "fp");
+        assertEquals(shortHand.shorthand(), "VU FP");
         assertEquals(shortHand.examURl(), "https://tiss.tuwien.ac.at/education/course/examDateList.xhtml?courseNr=194026&semester=2023W");
     }
 }

@@ -1,0 +1,115 @@
+VO Echtzeitsysteme,VO Echtzeitsysteme
+SE Orientierung Bachelor with Honors der Informatik und Wirtschaftsinformatik,SE OBwHIW
+VU Denkweisen der Informatik,VU DI
+VU Logikprogrammierung und Constraints,VU LC
+VU Grundlagen der Computergraphik,VU GC
+VU Algebra und Diskrete Mathematik für Informatik und Wirtschaftsinformatik,VU ADMIW
+VO Methoden der Angewandten Statistik,VO MAS
+VU Audio and Video Production,VU AVP
+PR Programmiertechniken für Visual Computing,PR PVC
+VU Mathematisches Arbeiten für Informatik und Wirtschaftsinformatik,VU MAIW
+VU Betriebssysteme ,VU Betriebssysteme
+PR BHons Internship Projekt,PR BIP
+SE Didaktik in der Informatik,SE DI
+VU Einführung in die Programmierung 1,VU EP1
+VU Logik für Wissensrepräsentation,VU LW
+VU Kooperatives Arbeiten,VU KA
+VU Präsentations und Verhandlungstechnik,VU PV
+VO Theorie und Praxis der Gruppenarbeit,VO TPG
+VO Analysis für Informatik und Wirtschaftsinformatik,VO AIW
+VU Internationale Summer Winter School,VU ISWS
+VU Propädeutikum für Informatik,VU PI
+VU Techniksoziologie und Technikpsychologie,VU TT
+SE VWA Mentoring I,SE VMI
+VU Software Engineering ,VU SE
+VO Einführung in Technik und Gesellschaft,VO ETG
+SE Wissenschaftliches Arbeiten,SE WA
+VU Deklaratives Problemlösen,VU DP
+VU Statistische Simulation und computerintensive Methoden,VU SScM
+VU Statistik und Wahrscheinlichkeitstheorie,VU SW
+VU Informationssysteme des Gesundheitswesens,VU IdG
+VU Orientierung Informatik und Wirtschaftsinformatik,VU OIW
+VO EDV Vertragsrecht,VO EV
+VU Verteilte Systeme ,VU VS
+VO Multivariate Statistik,VO MS
+SE Gruppendynamik,SE Gruppendynamik
+VU Einführung in Security,VU ES
+VU Einführung in Machine Learning,VU EML
+VU Semistrukturierte Daten,VU SD
+VU Software Qualitätssicherung,VU SQ
+VU Human Augmentation,VU HA
+SE Folgenabschätzung von Informationstechnologien,SE FvI
+SE Privatissimum aus Fachdidaktik Informatik,SE PaFI
+PR Bachelorarbeit für Informatik und Wirtschaftsinformatik,PR BIW
+VU Einführung in Visual Computing ,VU EVC
+VU Argumentieren und Beweisen,VU AB
+VU Theoretische Informatik,VU TI
+VU Foundations of System and Application Security,VU FoSAS
+VU Privacy Enhancing Technologies,VU PET
+VU Bio Medical Visualization and Visual Analytics,VU BMVVA
+VU Menschzentrierte Künstliche Intelligenz,VU MKI
+VU Multimedia,VU Multimedia
+VU Abstrakte Maschinen,VU AM
+VU Parallel Computing,VU PC
+VU Web Engineering,VU WE
+VU Daten und Informatikrecht ,VU DI
+VU Programm und Systemverifikation,VU PS
+VU Sozio technische Systeme,VU StS
+VU Rhetorik Körpersprache Argumentationstraining,VU RKA
+UE Analysis für Informatik und Wirtschaftsinformatik,UE AIW
+VU Datenbanksysteme,VU Datenbanksysteme
+VU Statistical Computing,VU SC
+VU Computersysteme ,VU Computersysteme
+VO Statistik und Wahrscheinlichkeitstheorie,VO SW
+VU Kommunikation und Moderation,VU KM
+VO Präsentation Moderation und Mediation,VO PMM
+UE Logik und Grundlagen der Mathematik,UE LGM
+SE Kommunikation und Rhetorik,SE KR
+VO Logik und Grundlagen der Mathematik,VO LGM
+VU Funktionale Programmierung,VU FP
+UE Methoden der Angewandten Statistik,UE MAS
+VU Computermusik,VU Computermusik
+VO Zwischen Karriere und Barriere,VO ZKB
+VU Einführung in wissensbasierte Systeme,VU EwS
+VU Übersetzerbau,VU Übersetzerbau
+VU Grundlagen der Computer Vision,VU GCV
+VU Creative Media Production,VU CMP
+VU Analysis für Informatik und Wirtschaftsinformatik,VU AIW
+VU Numerical Computation,VU NC
+VU Einführung in Quantencomputing,VU EQ
+VU Design und Entwicklung von Anwendungen im Gesundheitswesen,VU DEvAiG
+UE Multivariate Statistik,UE MS
+UE Statistik und Wahrscheinlichkeitstheorie,UE SW
+VU Logic and Reasoning in Computer Science ,VU LRCS
+VU Effiziente Algorithmen,VU EA
+UE Algebra und Diskrete Mathematik für Informatik und Wirtschaftsinformatik,UE ADMIW
+VU Methods for Data Generation and Analytics in Medicine and Life Sciences,VU MDGAMLS
+VU Einführung in Information Retrieval,VU EIR
+VU Usability Engineering and Mobile Interaction,VU UEMI
+VU Dependable Systems,VU DS
+VU Interface und Interaction Design ,VU IID
+VU Einführung in die Programmierung 2,VU EP2
+PR Software Engineering Projekt ,PR SEP
+SE Coaching als Führungsinstrument 2,SE CaF2
+UE Präsentation Moderation und Mediation,UE PMM
+VU Computerstatistik,VU Computerstatistik
+VU Programmierparadigmen,VU Programmierparadigmen
+SE Kommunikationstechnik,SE Kommunikationstechnik
+VU Einführung in Artificial Intelligence ,VU EAI
+VU Grundzüge digitaler Systeme,VU GdS
+VU Introduction to Cryptography,VU ItC
+VO Algebra und Diskrete Mathematik für Informatik und Wirtschaftsinformatik,VO ADMIW
+VU Datenanalyse,VU Datenanalyse
+VO Frauen in Naturwissenschaft und Technik,VO FNT
+VU Präsentation und Moderation,VU PM
+VU Softskills für TechnikerInnen,VU ST
+VU Access Computing,VU AC
+VU Forschungsmethoden,VU Forschungsmethoden
+VU Design und Fertigung,VU DF
+SE Coaching als Führungsinstrument 1,SE CaF1
+SE Kommunikation und Rhetorik 2,SE KR2
+UE Attacks and Defenses in Computer Security,UE ADCS
+SE VWA Mentoring II,SE VMI
+VU Visualisierung,VU Visualisierung
+VU Algorithmen und Datenstrukturen,VU AD
+VO Einführung in die Wissenschaftstheorie I,VO EWI

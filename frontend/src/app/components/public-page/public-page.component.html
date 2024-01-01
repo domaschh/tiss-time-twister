@@ -1,6 +1,22 @@
-<div class="flex w-full flex-wrap gap-3 p-14">
-  <div *ngIf="publicConfigs.length === 0" class="mx-auto">no public configurations found</div>
-  <div *ngFor="let config of publicConfigs" class="flex">
-    <app-public-config-card [config]="config"></app-public-config-card>
+<div class="flex flex-col p-12">
+  <div class="flex align-items-baseline gap-3">
+    <h4>Default configurations</h4>
+    <i matTooltip="(Added after personal and public configurations)" class="bi bi-question-circle-fill"></i>
+  </div>
+
+  <div class="flex w-full flex-wrap gap-3 py-2">
+    <app-public-card-fake [defaultConfigNumber]="1" [bodyToShow]="1" [title]="'LVA Title shorthands'"
+                          [desc]="'Shortens your LVA names from the Tiss calendar. e.g 192.001 Betriebssysteme VU is turned into BS'"></app-public-card-fake>
+    <app-public-card-fake [defaultConfigNumber]="2" [bodyToShow]="2" [title]="'Room Mappings'"
+                          [desc]="'Gives you the correct address for a room automatically. e.g ARCH INF Hoersaal -> Treitelstrasse 3, 1040 Wien'"></app-public-card-fake>
+    <app-public-card-fake [defaultConfigNumber]="4" [bodyToShow]="3" [title]="'Exam register URl'"
+                          [desc]="'Gives you the correct registration URL for an exam event in the TISS calendar. So you can just clicka ndd register easily'"></app-public-card-fake>
+  </div>
+  <h4 class="mt-4">Published configurations</h4>
+  <div class="flex w-full flex-wrap gap-3 ">
+    <div *ngIf="publicConfigs.length === 0" class="mx-auto">no public configurations found</div>
+    <div *ngFor="let config of publicConfigs" class="flex">
+      <app-public-config-card [config]="config"></app-public-config-card>
+    </div>
   </div>
 </div>

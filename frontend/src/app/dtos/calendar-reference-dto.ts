@@ -5,5 +5,6 @@ export class CalendarReferenceDto{
   name: string;
   link: string;
   token: string | null;
-  configurations?: ConfigurationDto[]
+  configurations?: ConfigurationDto[];
+  enabledDefaultConfigurations?: number;
 }
