@@ -51,6 +51,9 @@ export class CalendarPageComponent implements OnInit {
   calendars: Calendar[] = [];
   configurations: ConfigurationDto[] = [];
 
+  private onlyUnique(value, index, array) {
+    return array.indexOf(value) === index;
+  }
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
@@ -226,7 +229,7 @@ export class CalendarPageComponent implements OnInit {
         cals.forEach((calendarReferenceDto) => {
           console.log(calendarReferenceDto)
           var evs: MyCalendarEvent[] = [];
-          this.calenderReferenceServie.getIcalFromToken(calendarReferenceDto.token).subscribe((icalString) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token).subscribe((icalString) => {
             var parsedcal = this.myICAL.parse(icalString);
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
@@ -334,8 +337,10 @@ export class CalendarPageComponent implements OnInit {
 
   openTokenModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.message = 'https://localhost:8080/' + calendar.token;
+    modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(calendar.token);
     modalRef.componentInstance.title = 'Regenerate a token for calendar: ' + calendar.name;
+    modalRef.componentInstance.isToken = true;
+
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
       name: calendar.name,
@@ -373,6 +378,11 @@ export class CalendarPageComponent implements OnInit {
           next: () => {
             this.toastrService.success("Successfully deleted Configuration")
             this.configurations = this.configurations.filter(obj => obj.id !== config.id);
+            this.calendars.forEach(cal => {
+              if (cal.id == calendar.id) {
+                cal.configs = cal.configs.filter(c => c.id != config.id)
+              }
+            })
             callback(true)
           }, error: () => {
             this.toastrService.error("Couldn't delete. Consider removing in the public page")
@@ -390,6 +400,10 @@ export class CalendarPageComponent implements OnInit {
       name: cal.name,
       link: cal.link
     }))
+
+    modalRef.componentInstance.addedConfiguration.subscribe(addedConfiguration => {
+      this.configurations.push(addedConfiguration)
+    })
   }
 
   copyLinkToClipboard(confiId: number) {
@@ -401,4 +415,48 @@ export class CalendarPageComponent implements OnInit {
     });
     document.execCommand('copy');
   }
+
+  downloadConfigFile(conf: ConfigurationDto) {
+    delete conf.id
+    conf.rules.forEach(rule => {
+      delete rule.id
+      delete rule.effect.id
+      delete rule.match.id
+    })
+
+    const blob = new Blob([JSON.stringify(conf, null, 2)], { type: 'application/json' });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = conf.title + '.json';
+
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
+
+  //with config applied
+  downloadCalendar(calendar: Calendar) {
+    this.calenderReferenceServie.getIcalFileFromToken(calendar.token).subscribe({
+      next: (result) => {
+        const blob = new Blob([result], { type: 'text/calendar' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = calendar.name + '.ics'; // Assuming you have a title in your calendar object
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        this.toastrService.success("Successfully downloaded ical")
+      }, error: () => {
+        this.toastrService.error("Couldn't download calendar with applied configs")
+      }
+    })
+  }
+
+  protected readonly ca = ca;
 }
