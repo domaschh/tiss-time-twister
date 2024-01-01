@@ -80,6 +80,7 @@ export class ConfigModalComponent implements OnInit {
     this.calendarReferenceService.addToCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal)=> {
         this.taostrServcie.success("Added to calendar")
+        this.activeModal.close()
       },error: () => {
     }
     })
@@ -93,6 +94,7 @@ export class ConfigModalComponent implements OnInit {
     this.calendarReferenceService.removeFromCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal)=> {
         this.taostrServcie.success("Removed from Calendar")
+        this.activeModal.close()
       },error: () => {
         this.taostrServcie.error("Couldn't delete")
       }

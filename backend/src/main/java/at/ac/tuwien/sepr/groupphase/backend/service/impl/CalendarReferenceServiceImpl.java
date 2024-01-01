@@ -80,16 +80,9 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         if (configId < 0) { // negatives are default configs
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
         } else {
-
             Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
-            if (!calendarReference.getConfigurations().contains(configuration)) {
-                calendarReference.getConfigurations().add(configuration);
-                if (configuration.getCalendarReferences() == null) {
-                    configuration.setCalendarReferences(List.of(calendarReference));
-                } else {
-                    configuration.getCalendarReferences().add(calendarReference);
-                }
-            }
+            calendarReference.getConfigurations().add(configuration);
+            configuration.getCalendarReferences().add(calendarReference);
         }
         return calendarReferenceRepository.save(calendarReference);
     }

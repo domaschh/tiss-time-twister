@@ -1,8 +1,10 @@
-import {AfterViewInit, Component, Input, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CalendarReferenceService} from "../../../../services/calendar.reference.service";
 import {CalendarReferenceDto} from "../../../../dtos/calendar-reference-dto";
 import {ToastrService} from "ngx-toastr";
+import {th} from "date-fns/locale";
+export type confirmAction = (callback: (result: boolean) => void) => boolean;
 
 @Component({
   selector: 'app-default-config-modal',
@@ -16,36 +18,27 @@ export class DefaultConfigModalComponent implements AfterViewInit {
   calendars: CalendarReferenceDto[] = []
 
   @Input() bodyToShow: number;
+  @Input() defaultConfigNumber: number;
+  @Output() changed: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() changedCalId: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild('customComponent1') customComponent1Template: TemplateRef<any>;
   @ViewChild('customComponent2') customComponent2Template: TemplateRef<any>;
   @ViewChild('customComponent3') customComponent3Template: TemplateRef<any>;
 
   componentToShow: TemplateRef<any>;
-  selectedCalendar: CalendarReferenceDto;
+  selectedCalendar: number;
 
   constructor(private readonly modal: NgbModal, private readonly calendarReferenceService: CalendarReferenceService, private readonly toastrService: ToastrService) {
   }
 
   ngAfterViewInit() {
-    this.loadCalendars()
     this.showComponent();
   }
 
 
   closeAll() {
     this.modal.dismissAll()
-  }
-
-  loadCalendars() {
-    this.calendarReferenceService.getAll().subscribe({
-      next: (cals) => {
-        this.calendars = cals
-        console.log(this.calendars)
-      }, error: () => {
-        this.toastrService.error("Couldn't fetch Calendars")
-      }
-    })
   }
 
   showComponent() {
@@ -59,10 +52,30 @@ export class DefaultConfigModalComponent implements AfterViewInit {
   }
 
   removeFromCalendar() {
-
+    this.calendarReferenceService.removeFromCalendar(this.selectedCalendar, -this.defaultConfigNumber).subscribe({
+      next: (added) => {
+        this.toastrService.success("Removed Default configuration")
+        this.alreadyAdded = false;
+        this.changed.emit(this.alreadyAdded)
+        this.changedCalId.emit(null)
+        this.modal.dismissAll()
+      }, error: () => {
+        this.toastrService.error("Failed to add to calendar")
+      }
+    })
   }
 
   addToCalendar() {
-
+    this.calendarReferenceService.addToCalendar(this.selectedCalendar, -this.defaultConfigNumber).subscribe({
+      next: (added) => {
+        this.toastrService.success("Added Default configuration")
+        this.alreadyAdded = true;
+        this.changed.emit(this.alreadyAdded)
+        this.changedCalId.emit(this.selectedCalendar)
+        this.modal.dismissAll()
+      }, error: () => {
+        this.toastrService.error("Failed to add to calendar")
+      }
+    })
   }
 }
