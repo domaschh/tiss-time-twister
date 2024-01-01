@@ -56,7 +56,7 @@ public class PipelineServiceImpl implements PipelineService {
         }
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
         List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
-        return applyConfigurations(calendar, configurations);
+        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations());
     }
 
     @Override
@@ -66,10 +66,10 @@ public class PipelineServiceImpl implements PipelineService {
             throw new NotFoundException("Calendar with id " + id + " does not exist");
         }
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
-        return applyConfigurations(calendar, configurations);
+        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations());
     }
 
-    private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations) {
+    private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations, Long enabledDefaultConfigurations) {
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
@@ -83,8 +83,8 @@ public class PipelineServiceImpl implements PipelineService {
                                                           return currentVEvent;
                                                       }
                                                   }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
-            if (modifiedVEvent != null) {
-                enhanceTissEvent(modifiedVEvent);
+            if (modifiedVEvent != null && enabledDefaultConfigurations != null) {
+                enhanceTissEvent(modifiedVEvent, enabledDefaultConfigurations);
                 newComponents.add(modifiedVEvent);
             }
         });
@@ -93,27 +93,31 @@ public class PipelineServiceImpl implements PipelineService {
         return calendar;
     }
 
-    private void enhanceTissEvent(VEvent vEvent) {
-        LVADetail detail;
-        if (vEvent.getSummary().isPresent()) {
-            detail = tissService.mapLVANameShorthand(onlyLongName(vEvent.getSummary().get().toString().trim()));
-        } else {
-            detail = null;
+    private void enhanceTissEvent(VEvent vEvent, Long enabledDefaultConfigurations) {
+
+        if ((enabledDefaultConfigurations & 0b1) > 0) {
+            LVADetail detail;
+            if (vEvent.getSummary().isPresent()) {
+                detail = tissService.mapLVANameShorthand(onlyLongName(vEvent.getSummary().get().toString().trim()));
+            } else {
+                detail = null;
+            }
+            if (detail != null) {
+                vEvent.getProperty(Property.SUMMARY).ifPresent(a -> a.setValue(detail.shorthand()));
+            }
         }
 
-        TissRoom tissRoom;
-        if (vEvent.getLocation().isPresent()) {
-            tissRoom = tissService.fetchCorrectLocation(this.onlyLongName(vEvent.getLocation().get().toString()));
-        } else {
-            tissRoom = null;
-        }
+        if ((enabledDefaultConfigurations & 0b10) > 0) {
+            TissRoom tissRoom;
+            if (vEvent.getLocation().isPresent()) {
+                tissRoom = tissService.fetchCorrectLocation(this.onlyLongName(vEvent.getLocation().get().toString()));
+            } else {
+                tissRoom = null;
+            }
 
-        if (detail != null) {
-            vEvent.getProperty(Property.SUMMARY).ifPresent(a -> a.setValue(detail.shorthand()));
-        }
-
-        if (tissRoom != null) {
-            vEvent.getProperty(Property.LOCATION).ifPresent(a -> a.setValue(tissRoom.address()));
+            if (tissRoom != null) {
+                vEvent.getProperty(Property.LOCATION).ifPresent(a -> a.setValue(tissRoom.address()));
+            }
         }
     }
 

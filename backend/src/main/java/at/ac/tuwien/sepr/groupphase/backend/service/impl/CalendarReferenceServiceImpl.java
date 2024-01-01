@@ -10,7 +10,6 @@ import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -42,8 +41,12 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
     @Override
     public CalendarReference add(CalendarReference calendarReference, String username) {
+        if (calendarReference.getEnabledDefaultConfigurations() == null) {
+            calendarReference.setEnabledDefaultConfigurations(0L);
+        }
         LOGGER.debug("Adding CalendarReference {}", calendarReference);
         calendarReference.setToken(generateToken());
+        calendarReference.setEnabledDefaultConfigurations(0L);
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         calendarReference.setUser(user);
         return calendarReferenceRepository.save(calendarReference);
@@ -73,14 +76,19 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Override
     @Transactional
     public CalendarReference addConfig(Long configId, Long calendarId) {
-        Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
-        if (!calendarReference.getConfigurations().contains(configuration)) {
-            calendarReference.getConfigurations().add(configuration);
-            if (configuration.getCalendarReferences() == null) {
-                configuration.setCalendarReferences(List.of(calendarReference));
-            } else {
-                configuration.getCalendarReferences().add(calendarReference);
+        if (configId < 0) { // negatives are default configs
+            calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
+        } else {
+
+            Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
+            if (!calendarReference.getConfigurations().contains(configuration)) {
+                calendarReference.getConfigurations().add(configuration);
+                if (configuration.getCalendarReferences() == null) {
+                    configuration.setCalendarReferences(List.of(calendarReference));
+                } else {
+                    configuration.getCalendarReferences().add(calendarReference);
+                }
             }
         }
         return calendarReferenceRepository.save(calendarReference);
@@ -89,10 +97,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Override
     @Transactional
     public CalendarReference removeConfig(Long configId, Long calendarId) {
-        Configuration configuration = configurationRepository.getReferenceById(configId);
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
-        calendarReference.getConfigurations().remove(configuration);
-        configuration.getCalendarReferences().remove(calendarReference);
+        if (configId < 0) { // negatives are default configs
+            calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() & ~-configId);
+        } else {
+            Configuration configuration = configurationRepository.getReferenceById(configId);
+            calendarReference.getConfigurations().remove(configuration);
+            configuration.getCalendarReferences().remove(calendarReference);
+        }
         return calendarReferenceRepository.save(calendarReference);
     }
 
