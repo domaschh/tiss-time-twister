@@ -103,7 +103,6 @@ export class CalendarPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadCalendars();
     this.loadConfigs();
-    this.configurations = this.getConfigurations();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -123,7 +122,6 @@ export class CalendarPageComponent implements OnInit {
   loadConfigs() {
     this.configurationService.getAll().subscribe({
       next: (configs) => {
-        console.log(configs)
         this.configurations = configs;
       },
       error: () => {
@@ -213,10 +211,6 @@ export class CalendarPageComponent implements OnInit {
     this.events.push(e);
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
@@ -272,12 +266,12 @@ export class CalendarPageComponent implements OnInit {
     });
   }
 
-  getConfigurations(): ConfigurationDto[] {
-    //TODO: get configurations from configuration service
-    return []
-    // return this.configurationService.getAll();
+  openEditConfigModal(config: ConfigurationDto) {
+    console.log(config)
+    this.router.navigate(['createConfig'], {
+      state: { calId: null, config }
+    })
   }
-
   openModal(modalName: string) {
     this.router.navigate([modalName])
   }
