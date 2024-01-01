@@ -1,0 +1,213 @@
+VO Pervasive and Mobile Computing,VO PMC
+VU Software Model Checking,VU SMC
+VU SAT Solving and Extensions,VU SSE
+VU Formal Methods for Security and Privacy,VU FMSP
+VO Knowledge Management,VO KM
+UE Knowledge Management,UE KM
+VU Software Architecture,VU SA
+SE VWA Mentoring I,SE VMI
+VU Parallele Algorithmen,VU PA
+VO Einführung in die Wissenschaftstheorie I,VO EWI
+VU Mobile Network Services and Applications,VU MNSA
+VU Mobile Robotik,VU MR
+VU Problems in Distributed Computing,VU PDC
+VU Computability Theory,VU CT
+SE Seminar aus Datenbanken,SE SaD
+VU Term Rewriting,VU TR
+VU Programmanalyse,VU Programmanalyse
+VU Algorithmics,VU Algorithmics
+SE Seminar in Theoretical Computer Science,SE STCS
+UE Computer Aided Verification,UE CAV
+VU Algorithmic Geometry,VU AG
+VU Hands On Cloud Native,VU HOCN
+SE Seminar aus Security,SE SaS
+UE Formale Methoden der Informatik,UE FMI
+VU Kryptographie,VU Kryptographie
+SE Seminar in Software Engineering,SE SSE
+SE Didaktik in der Informatik,SE DI
+VU Computer Networks,VU CN
+VU Information Design,VU ID
+VU Präsentations und Verhandlungstechnik,VU PV
+SE Seminar in Distributed Systems,SE SDS
+VU Unification Theory,VU UT
+VU Advanced Topics in Formal Language Theory,VU ATFLT
+VO Grundlagen der Makroökonomie,VO GM
+VU Übersetzer für Parallele Systeme,VU ÜPS
+VU Modeling and Solving Constrained Optimization Problems,VU MSCOP
+PR Advanced Software Engineering,PR ASE
+VU Dynamic Compilation,VU DC
+VO Präsentation Moderation und Mediation,VO PMM
+VU Rigorous Systems Engineering,VU RSE
+VU Parallele und Echtzeitprogrammierung,VU PE
+VU Preferences in Artificial Intelligence,VU PAI
+VU Fortgeschrittene logische Programmierung,VU FlP
+VU Practical Applications of Answer Set Programming,VU PAoASP
+VU GIS Theorie I,VU GTI
+PR Project in Computer Science 1,PR PCS1
+UE Analysis of Algorithms,UE AoA
+VU Algorithmic Meta Theorems Algorithmische Meta Theoreme,VU AMTAMT
+VO Data Stewardship,VO DS
+VU Semantik von Programmiersprachen,VU SvP
+SE VWA Mentoring II,SE VMI
+VU Optimierende Übersetzer,VU OÜ
+VU Advanced Object Oriented Programming,VU AOOP
+VU Quantum Computing,VU QC
+VU Enterprise Resource Planning and Control,VU ERPC
+VU Enterprise Risk Management Basics,VU ERMB
+VU Programming Principles of Mobile Robotics,VU PPoMR
+VU Crypto Asset Analytics,VU CAA
+VU Distributed Algorithms,VU DA
+VU Knowledge Graphs,VU KG
+VU Risk Model Management,VU RMM
+VU Structural Decompositions and Algorithms,VU SDA
+VU Business Intelligence,VU BI
+VU Serverless Computing,VU SC
+VU Advanced Project Management,VU APM
+VO GIS Theorie II,VO GTI
+VU Methods of Empirical Software Engineering,VU MoESE
+VU Programming Principles of Mobile Robotics II,VU PPoMRI
+VU e Business Modeling,VU eBM
+VU Molecular Computing,VU MC
+VU Rhetorik Körpersprache Argumentationstraining,VU RKA
+UE Network Engineering,UE NE
+SE Kommunikationstechnik,SE Kommunikationstechnik
+VU Advanced Cryptography,VU AC
+UE Algorithmic Geometry,UE AG
+VU Real Time Scheduling,VU RTS
+VU Fixed Parameter Algorithms and Complexity,VU FPAC
+VU Advanced Topics in Theoretical Computer Science,VU ATTCS
+UE Data Stewardship,UE DS
+VU Software Maintenance and Evolution,VU SME
+VU Algorithms in Graph Theory,VU AGT
+VU Effiziente Programme,VU EP
+PR Project in Computer Science 1,PR PCS1
+VU Machine Learning,VU ML
+VU Sicherheit Privacy und Erklärbarkeit in Maschinellem Lernen,VU SPEML
+SE Seminar aus Algorithmik,SE SaA
+VU Configuration Management,VU CM
+VO Einführung in Technik und Gesellschaft,VO ETG
+UE Präsentation Moderation und Mediation,UE PMM
+SE Gruppendynamik,SE Gruppendynamik
+VU Datenbanktheorie,VU Datenbanktheorie
+VU Web Data Extracion and Integration,VU WDEI
+VU Algorithmic Social Choice,VU ASC
+VU Software in Kommunikationsnetzen,VU SK
+VU Advanced Software Engineering,VU ASE
+VU Formal Methods in Computer Science,VU FMCS
+SE Seminar in Formal Methods,SE SFM
+SE Advanced Model Engineering,SE AME
+SE Folgenabschätzung von Informationstechnologien,SE FvI
+VU Value Based Software Engineering,VU VBSE
+VU Grundlagen des Information Retrieval,VU GdIR
+VU Advanced Distributed Systems,VU ADS
+VU Coalgebra in Computer Science,VU CCS
+VU Smart Contracts,VU SC
+VU GPU Architectures and Computing,VU GAC
+VU Approximation Algorithms,VU AA
+VU Algorithms Design,VU AD
+VU Membrane Computing,VU MC
+PR Project in Computer Science 2,PR PCS2
+VU Techniksoziologie und Technikpsychologie,VU TT
+VU Einführung in Semantic Systems,VU ESS
+VU Similarity Modeling 1,VU SM1
+VU Model Engineering,VU ME
+VU Dependable Distributed Systems,VU DDS
+VU Distributed Systems Technologies,VU DST
+VU Problem Solving and Search in Artificial Intelligence,VU PSSAI
+VU IT Security in Large IT Infrastructures,VU ISLII
+SE Seminar für Diplomand innen,SE SDi
+VU Media and Brain 2,VU MB2
+VU Software Testing,VU ST
+VU Probabilistic Programming and AI,VU PPA
+VU Web Application Engineering and Content Management,VU WAECM
+VU Automated Reasoning and Program Verification,VU ARPV
+VU Network Security Advanced Topics,VU NSAT
+VU Peer to Peer Systems,VU PtPS
+VU Stackbasierte Sprachen,VU SS
+VO Typsysteme,VO Typsysteme
+VU Formal Language Theory,VU FLT
+VU Systems and Applications Security,VU SAS
+VU Semi Automatic Information and Knowledge Systems,VU SAIKS
+VU Kommunikation und Moderation,VU KM
+SE Coaching als Führungsinstrument 2,SE CaF2
+VU Advanced Model Engineering,VU AME
+VU Efficient Algorithms,VU EA
+VU Advanced Algorithms,VU AA
+VU Optimization in Transport and Logistics,VU OTL
+VO Frauen in Naturwissenschaft und Technik,VO FNT
+VU Requirements Engineering and Specification,VU RES
+VU Complexity Theory,VU CT
+PR Project in Computer Science 2,PR PCS2
+VU Theoretical Foundations and Research Topics in Machine Learning,VU TFRTML
+VU Project and Enterprise Financing,VU PEF
+PR Project in Computer Science 2,PR PCS2
+VU Deductive Verification of Software,VU DVoS
+VU Network Security,VU NS
+VU Similarity Modeling 2,VU SM2
+SE Coaching als Führungsinstrument 1,SE CaF1
+VU Präsentation und Moderation,VU PM
+VU Programmiersprachen,VU Programmiersprachen
+VU Verteiltes Programmieren mit Space Based Computing Middleware,VU VPmSBCM
+VU Selbstorganisierende Systeme,VU SS
+VU Distributed Systems Engineering,VU DSE
+VU Formal Methods for Concurrent and Distributed Systems,VU FMCDS
+VO Inductive Rule Learning,VO IRL
+VU Advanced Security for Systems Engineering,VU ASSE
+SE Seminar in Logic,SE SL
+VU Heuristic Optimization Techniques,VU HOT
+VU Fortgeschrittene funktionale Programmierung,VU FfP
+VU Workflow Modeling and Process Management,VU WMPM
+VU Hybrid Classic Quantum Systems,VU HCQS
+PR Project in Computer Science 1,PR PCS1
+SE Kommunikation und Rhetorik,SE KR
+VO Zwischen Karriere und Barriere,VO ZKB
+UE Formale Methoden der Informatik,UE FMI
+VU Cryptocurrencies,VU Cryptocurrencies
+VO Deduktive Datenbanken,VO DD
+VU Automated Deduction,VU AD
+VU Softskills für TechnikerInnen,VU ST
+VU Networks Design and Analysis,VU NDA
+VU Risk Management,VU RM
+VU Wireless in Automation,VU WA
+VO Codegeneratoren,VO Codegeneratoren
+VO Network Engineering,VO NE
+SE Kommunikation und Rhetorik 2,SE KR2
+PR Project in Computer Science 1,PR PCS1
+VU Randomized Algorithms,VU RA
+VU Introduction to Type Theories,VU ItTT
+VU Software Quality Management,VU SQM
+VU Advanced Information Retrieval,VU AIR
+VU Service Level Agreements,VU SLA
+PR Project in Computer Science 2,PR PCS2
+VU Computer Aided Verification,VU CAV
+VU Digitale Nachhaltigkeit,VU DN
+VU Digital Forensics,VU DF
+VU Foundations of Information Integration,VU FoII
+VU Graph Drawing Algorithms,VU GDA
+VU Applied Web Data Extraction and Integration,VU AWDEI
+VO Theorie und Praxis der Gruppenarbeit,VO TPG
+VU Computational Equational Logic,VU CEL
+VU Large scale Distributed Computing,VU LsDC
+VU Programming Principles of Mobile Robotics,VU PPoMR
+SE Seminar aus Programmiersprachen,SE SaP
+VO EDV Vertragsrecht,VO EV
+PR Project in Computer Science 2,PR PCS2
+VO Analysis of Algorithms,VO AoA
+VU Media and Brain 1,VU MB1
+VU Discrete Reasoning Methods,VU DRM
+VU Advanced Internet Computing,VU AIC
+VU Rigorous Systems Engineering,VU RSE
+SE Privatissimum aus Fachdidaktik Informatik,SE PaFI
+VU High Performance Computing,VU HPC
+PR Project in Computer Science 1,PR PCS1
+VU Management von Software Projekten,VU MvSP
+VU Mathematical Programming,VU MP
+VU Datenbanksysteme Vertiefung,VU DV
+VU Analyse und Verifikation,VU AV
+VU Financial Management and Reporting,VU FMR
+VU Einführung in Semantic Systems,VU ESS
+SE Seminar aus Übersetzerbau,SE SaÜ
+VU IT based Management,VU IbM
+VU Kooperatives Arbeiten,VU KA
+VU Forschungsmethoden,VU Forschungsmethoden
+VU Advanced Multiprocessor Programming,VU AMP
