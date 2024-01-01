@@ -24,7 +24,7 @@ export class ConfigModalComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               private readonly calendarReferenceService: CalendarReferenceService,
-              private readonly taostrServcie: ToastrService,
+              private readonly toastrService: ToastrService,
               private readonly configurationService: ConfigurationService,
               private readonly cdRef: ChangeDetectorRef) {
   }
@@ -39,7 +39,7 @@ export class ConfigModalComponent implements OnInit {
         this.calendars = cals
         this.loadConfigs()
       }, error: () => {
-        this.taostrServcie.error("Couldn't fetch Calendars")
+        this.toastrService.error("Couldn't fetch Calendars")
       }
     });
   }
@@ -58,7 +58,7 @@ export class ConfigModalComponent implements OnInit {
         }
       },
       error: () => {
-        this.taostrServcie.error("Coudln't fetch configurations")
+        this.toastrService.error("Coudln't fetch configurations")
       }
     })
   }
@@ -74,12 +74,12 @@ export class ConfigModalComponent implements OnInit {
 
   addToCalendar() {
     if (this.alreadyAdded) {
-      this.taostrServcie.error("Can't add config as it is already added to a calendar")
+      this.toastrService.error("Can't add config as it is already added to a calendar")
       return;
     }
     this.calendarReferenceService.addToCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal)=> {
-        this.taostrServcie.success("Added to calendar")
+        this.toastrService.success("Added to calendar")
         this.activeModal.close()
       },error: () => {
     }
@@ -93,11 +93,21 @@ export class ConfigModalComponent implements OnInit {
   removeFromCalendar() {
     this.calendarReferenceService.removeFromCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal)=> {
-        this.taostrServcie.success("Removed from Calendar")
+        this.toastrService.success("Removed from Calendar")
         this.activeModal.close()
       },error: () => {
-        this.taostrServcie.error("Couldn't delete")
+        this.toastrService.error("Couldn't delete")
       }
     })
+  }
+
+  copyLinkToClipboard() {
+    this.toastrService.success("Copied link to clipboard")
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', ("http://localhost:8080/api/v1/calendar/?/" + this.config.id));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
   }
 }

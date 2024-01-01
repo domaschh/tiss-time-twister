@@ -1,8 +1,11 @@
 <div class="flex flex-col p-3 gap-3">
   <div class="flex flex-row justify-between align-items-center">
     <h3 class="modal-title">{{ config.title }}</h3>
-      <label class=" rounded-2xl p-1 text-xs" [ngClass]="alreadyAdded ? 'bg-added' : 'bg-notadded'">{{ alreadyAdded ? 'Already Added' : 'Add to colelction' }}</label>
+    <label class=" rounded-2xl p-1 text-xs" [ngClass]="alreadyAdded ? 'bg-added' : 'bg-notadded'">{{ alreadyAdded ? 'Already Added' : 'Add to colelction' }}</label>
   </div>
+  <a matTooltip="Copy share link to clipboard" class="cursor-pointer text-white border-x border-y rounded border-popover-light p-2 w-[37px]" aria-label="Edit" (click)="copyLinkToClipboard()">
+    <i class="bi bi-share" style="font-size: 1rem;"></i>
+  </a>
   <select name="calendar"
           class="selectiondropdown form-control"
           id="calendar"
