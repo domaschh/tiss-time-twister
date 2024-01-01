@@ -60,17 +60,17 @@ public class LVADetailConfig {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(","); // Use comma as the delimiter
                 if (parts.length >= 4) {
-                    String lva_type = parts[1];
+                    String lvaType = parts[1];
                     String lvaNumber = parts[0];  // LVA number is the first part
                     String lvaName = parts[2];  // LVA number is the first part
                     String url = parts[3];        // URL is the fourth part
 
-                    if (map.containsKey(lva_type + " " + lvaName)) {
-                        LVADetail existingDetail = map.get(lva_type + " " + lvaName);
+                    if (map.containsKey(lvaType + " " + lvaName)) {
+                        LVADetail existingDetail = map.get(lvaType + " " + lvaName);
 
                         LVADetail updatedDetail = new LVADetail(existingDetail.shorthand(), url, lvaNumber);
 
-                        map.replace(lva_type + " " + lvaName, updatedDetail);
+                        map.replace(lvaType + " " + lvaName, updatedDetail);
                     }
                 }
             }
