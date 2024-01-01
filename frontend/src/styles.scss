@@ -9,6 +9,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -49,6 +50,7 @@ $sepr-group-phase-theme: mat.define-light-theme((
   border:none!important;
 }
 $font-col: #ADBAC7;
+$font-col-placeholder: rgba(134, 139, 148, 0.51);
 $weeknd-col: #0095ff;
 $day-col: rgba(154, 210, 255, 0.62);
 /* You can add global styles to this file, and also import other style files */
@@ -224,6 +226,10 @@ body.dark {
     border: 1px solid rgba(194, 194, 194, 0.37) !important;
     background-color: rgb(36, 41, 46) !important;
     color: $font-col;
+  }
+
+  input::placeholder {
+    color: $font-col-placeholder;
   }
 }
 
