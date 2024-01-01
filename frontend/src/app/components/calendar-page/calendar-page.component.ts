@@ -334,7 +334,7 @@ export class CalendarPageComponent implements OnInit {
 
   openTokenModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.message = 'https://localhost:8080/' + calendar.token;
+    modalRef.componentInstance.message = 'https://localhost:8080/api/v1/export/' + calendar.token;
     modalRef.componentInstance.title = 'Regenerate a token for calendar: ' + calendar.name;
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
@@ -425,5 +425,26 @@ export class CalendarPageComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
+  }
+
+  //with config applied
+  downloadCalendar(calendar: Calendar) {
+    this.calenderReferenceServie.getIcalFromToken(calendar.token).subscribe({
+      next: (result) => {
+        const blob = new Blob([result], { type: 'text/calendar' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = calendar.name + '.ics'; // Assuming you have a title in your calendar object
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        this.toastrService.success("Successfully downloaded ical")
+      }, error: () => {
+        this.toastrService.error("Couldn't download calendar with applied configs")
+      }
+    })
   }
 }
