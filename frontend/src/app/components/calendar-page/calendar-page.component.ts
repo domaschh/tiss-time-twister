@@ -390,6 +390,10 @@ export class CalendarPageComponent implements OnInit {
       name: cal.name,
       link: cal.link
     }))
+
+    modalRef.componentInstance.addedConfiguration.subscribe(addedConfiguration => {
+      this.configurations.push(addedConfiguration)
+    })
   }
 
   copyLinkToClipboard(confiId: number) {
@@ -400,5 +404,26 @@ export class CalendarPageComponent implements OnInit {
       document.removeEventListener('copy', null);
     });
     document.execCommand('copy');
+  }
+
+  downloadConfigFile(conf: ConfigurationDto) {
+    delete conf.id
+    conf.rules.forEach(rule => {
+      delete rule.id
+      delete rule.effect.id
+      delete rule.match.id
+    })
+
+    const blob = new Blob([JSON.stringify(conf, null, 2)], { type: 'application/json' });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = conf.title + '.json';
+
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   }
 }

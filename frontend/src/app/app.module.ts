@@ -2,8 +2,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-
 import {AppRoutingModule} from './app-routing.module';
+import { NgxFileDropModule } from 'ngx-file-drop';
+
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
@@ -41,6 +42,7 @@ import { DefaultConfigModalComponent } from './components/public-config-card/pub
 import { LvaShorthandsComponent } from './components/public-config-card/public-card-fake/lva-shorthands/lva-shorthands.component';
 import { RoomMappingComponent } from './components/public-config-card/public-card-fake/room-mapping/room-mapping.component';
 import {ConfigImportComponent} from "./components/calendar-import/config-import.component";
+import {CdkDropList} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -79,13 +81,15 @@ import {ConfigImportComponent} from "./components/calendar-import/config-import.
     ReactiveFormsModule,
     HttpClientModule,
     MatTooltipModule,
+    NgxFileDropModule,
     NgbModule,
     FormsModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
     EventPipePipe,
     BrowserAnimationsModule,
     CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CdkDropList
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

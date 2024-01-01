@@ -19,7 +19,7 @@ export class ConfigurationService {
     return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + "/allPublic")
   }
 
-  addConfiguration(calendarId: number, configurationDto: ConfigurationDto) {
+  createConfiguration(calendarId: number, configurationDto: ConfigurationDto) {
     return this.httpClient.put<ConfigurationDto>(this.messageBaseUri, configurationDto)
   }
   remove(configurationId: number) {

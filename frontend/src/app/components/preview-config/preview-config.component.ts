@@ -211,7 +211,7 @@ export class PreviewConfigComponent {
   }
 
   saveConfiguration() {
-    this.configurationService.addConfiguration(this.calId, this.config).subscribe({
+    this.configurationService.createConfiguration(this.calId, this.config).subscribe({
       next: (createdConfiguration) => {
         this.calenderReferenceServie.addToCalendar(this.calId, createdConfiguration.id).subscribe({
           next:() => {
