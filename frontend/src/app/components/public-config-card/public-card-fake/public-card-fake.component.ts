@@ -1,9 +1,8 @@
-import {Component, ComponentFactoryResolver, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ConfigurationService} from "../../../services/configuration.service";
 import {ToastrService} from "ngx-toastr";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DefaultConfigModalComponent} from "./default-config-modal/default-config-modal.component";
-import {LvaShorthandsComponent} from "./lva-shorthands/lva-shorthands.component";
 
 @Component({
   selector: 'app-public-card-fake',

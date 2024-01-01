@@ -14,6 +14,7 @@ export class DefaultConfigModalComponent implements  AfterViewInit{
 
   @ViewChild('customComponent1') customComponent1Template: TemplateRef<any>;
   @ViewChild('customComponent2') customComponent2Template: TemplateRef<any>;
+  @ViewChild('customComponent3') customComponent3Template: TemplateRef<any>;
 
   componentToShow: TemplateRef<any>;
 
@@ -34,6 +35,8 @@ export class DefaultConfigModalComponent implements  AfterViewInit{
       this.componentToShow = this.customComponent1Template;
     } else if (this.bodyToShow === 2) {
       this.componentToShow = this.customComponent2Template;
+    } else if (this.bodyToShow === 3) {
+      this.componentToShow = this.customComponent3Template;
     }
   }
 
