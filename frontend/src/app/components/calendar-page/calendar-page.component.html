@@ -23,10 +23,10 @@
                        [(ngModel)]="calendar.isActive"
                        [style.background-color]="calendar.isActive ? calendar.color : '#ffffff'"
                        [style.border-color]="calendar.color">
-                <a class="cursor-pointer" aria-label="Delete" (click)="openDeleteModal(calendar)">
+                <a matTooltip="Delete calendar" class="cursor-pointer" aria-label="Delete" (click)="openDeleteModal(calendar)">
                   <i class="bi bi-trash" style="font-size: 1rem"></i>
                 </a>
-                <a class="cursor-pointer" aria-label="Edit" (click)="openEditPage(calendar)">
+                <a  matTooltip="Edit calendar"class="cursor-pointer" aria-label="Edit" (click)="openEditPage(calendar)">
                   <i class="bi bi-pencil" style="font-size: 1rem;"></i>
                 </a>
                 <a matTooltip="Download Calendar with config applied" class="cursor-pointer" aria-label="Edit" (click)="downloadCalendar(calendar)">
@@ -60,10 +60,10 @@
               {{ conf.title }}
             </label>
             <div class="flex flex-row justify-center">
-              <a class="btn" aria-label="Delete" (click)="removeConfiguraion(conf)">
+              <a matTooltip="Delete configuration" class="btn" aria-label="Delete" (click)="removeConfiguraion(conf)">
                 <i class="bi bi-trash" style="font-size: 1rem"></i>
               </a>
-              <a class="btn" aria-label="Edit" (click)="openEditConfigModal(conf)">
+              <a matTooltip="Edit configuration" class="btn" aria-label="Edit" (click)="openEditConfigModal(conf)">
                 <i class="bi bi-pencil" style="font-size: 1rem;"></i>
               </a>
               <a matTooltip="Download config file" class="btn" aria-label="Edit" (click)="downloadConfigFile(conf)">
