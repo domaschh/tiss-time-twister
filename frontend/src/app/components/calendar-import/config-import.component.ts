@@ -13,6 +13,7 @@ export class ConfigImportComponent {
   configUrl: string;
   @Input() calendars: CalendarReferenceDto[];
   selectedCal: number
+  byLink: boolean;
 
   constructor(private readonly http: HttpClient, private readonly toastrService: ToastrService) {
     console.log(this.calendars)

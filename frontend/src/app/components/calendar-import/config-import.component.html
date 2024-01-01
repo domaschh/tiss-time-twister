@@ -1,17 +1,19 @@
 <div class="flex flex-col p-4">
   <h4>Import a configuration</h4>
-  <select class="form-select p-2" [(ngModel)]="selectedCal">
+  <select class="form-select p-2 mb-4" [(ngModel)]="selectedCal">
     <option *ngFor="let cal of calendars" [value]="cal.id">{{ cal.name }}</option>
   </select>
-  <div class="flex flex-col p2">
-    <h5>By Link</h5>
-    <input class="form-control" type="text" [(ngModel)]="configUrl" placeholder="Link to calendar import">
+  <div class="flex flex-col gap-4">
+    <div class="gap-2 flex ">
+      <label *ngIf="!byLink" class="cursor-pointer w-[63px]  p-1 bg-popover-light rounded" (click)="byLink = true">By Link</label>
+      <label *ngIf="!byLink" class="bg-added rounded w-[60px] p-1 cursor-pointer" (click)="byLink = false">By File</label>
+      <label *ngIf="byLink" class="bg-added rounded w-[63px] p-1 cursor-pointer"  (click)="byLink = true">By Link</label>
+      <label *ngIf="byLink" class="cursor-pointer w-[60px]  p-1 bg-popover-light rounded" (click)="byLink = false">By File</label>
+    </div>
+    <input *ngIf="byLink" class="form-control" type="text" [(ngModel)]="configUrl" placeholder="Link to calendar import">
+    <input *ngIf="!byLink" type="file">
   </div>
-  <div class="flex flex-col p-2">
-    <h5>By File</h5>
-    <p>coming soon</p>
-  </div>
-  <div class="gap-4 flex w-full justify-content-end">
+  <div class="gap-4 flex w-full justify-content-end py-4">
     <button class="btn btn-danger" (click)="closeModal()">Close</button>
     <button class="btn btn-success" (click)="import()">Import</button>
   </div>
