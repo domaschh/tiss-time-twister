@@ -226,7 +226,7 @@ export class CalendarPageComponent implements OnInit {
         cals.forEach((calendarReferenceDto) => {
           console.log(calendarReferenceDto)
           var evs: MyCalendarEvent[] = [];
-          this.calenderReferenceServie.getIcalFromToken(calendarReferenceDto.token).subscribe((icalString) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token).subscribe((icalString) => {
             var parsedcal = this.myICAL.parse(icalString);
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
@@ -334,7 +334,7 @@ export class CalendarPageComponent implements OnInit {
 
   openTokenModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.message = 'https://localhost:8080/api/v1/export/' + calendar.token;
+    modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(calendar.token);
     modalRef.componentInstance.title = 'Regenerate a token for calendar: ' + calendar.name;
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
@@ -429,7 +429,7 @@ export class CalendarPageComponent implements OnInit {
 
   //with config applied
   downloadCalendar(calendar: Calendar) {
-    this.calenderReferenceServie.getIcalFromToken(calendar.token).subscribe({
+    this.calenderReferenceServie.getIcalFileFromToken(calendar.token).subscribe({
       next: (result) => {
         const blob = new Blob([result], { type: 'text/calendar' });
         const url = window.URL.createObjectURL(blob);
