@@ -51,6 +51,9 @@ export class CalendarPageComponent implements OnInit {
   calendars: Calendar[] = [];
   configurations: ConfigurationDto[] = [];
 
+  private onlyUnique(value, index, array) {
+    return array.indexOf(value) === index;
+  }
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
@@ -373,6 +376,11 @@ export class CalendarPageComponent implements OnInit {
           next: () => {
             this.toastrService.success("Successfully deleted Configuration")
             this.configurations = this.configurations.filter(obj => obj.id !== config.id);
+            this.calendars.forEach(cal => {
+              if (cal.id == calendar.id) {
+                cal.configs = cal.configs.filter(c => c.id != config.id)
+              }
+            })
             callback(true)
           }, error: () => {
             this.toastrService.error("Couldn't delete. Consider removing in the public page")
@@ -447,4 +455,6 @@ export class CalendarPageComponent implements OnInit {
       }
     })
   }
+
+  protected readonly ca = ca;
 }
