@@ -94,6 +94,17 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     private void enhanceTissEvent(VEvent vEvent, Long enabledDefaultConfigurations) {
+        if ((enabledDefaultConfigurations & 0b100) > 0) {
+            LVADetail detail;
+            if (vEvent.getSummary().isPresent()) {
+                detail = tissService.mapLVANameShorthand(onlyLongName(vEvent.getSummary().get().toString().trim()));
+            } else {
+                detail = null;
+            }
+            if (detail != null) {
+                vEvent.getProperty(Property.DESCRIPTION).ifPresent(a -> a.setValue(a.getValue() + "\n" + detail.examURl()));
+            }
+        }
 
         if ((enabledDefaultConfigurations & 0b1) > 0) {
             LVADetail detail;
@@ -110,13 +121,13 @@ public class PipelineServiceImpl implements PipelineService {
         if ((enabledDefaultConfigurations & 0b10) > 0) {
             TissRoom tissRoom;
             if (vEvent.getLocation().isPresent()) {
-                tissRoom = tissService.fetchCorrectLocation(onlyLongName(vEvent.getLocation().get().toString()));
+                tissRoom = tissService.fetchCorrectLocation(vEvent.getLocation().get().getValue());
             } else {
                 tissRoom = null;
             }
 
             if (tissRoom != null) {
-                vEvent.getProperty(Property.LOCATION).ifPresent(a -> a.setValue(tissRoom.address()));
+                vEvent.getProperty(Property.LOCATION).ifPresent(a -> a.setValue(vEvent.getLocation().get().getValue() + "\n" + tissRoom.address()));
             }
         }
     }
