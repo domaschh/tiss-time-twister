@@ -81,8 +81,16 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
         } else {
             Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
-            calendarReference.getConfigurations().add(configuration);
-            configuration.getCalendarReferences().add(calendarReference);
+            if (calendarReference.getConfigurations() != null) {
+                calendarReference.getConfigurations().add(configuration);
+            } else {
+                calendarReference.setConfigurations(List.of(configuration));
+            }
+            if (configuration.getCalendarReferences() != null) {
+                configuration.getCalendarReferences().add(calendarReference);
+            } else {
+                configuration.setCalendarReferences(List.of(calendarReference));
+            }
         }
         return calendarReferenceRepository.save(calendarReference);
     }
@@ -95,8 +103,12 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() & ~-configId);
         } else {
             Configuration configuration = configurationRepository.getReferenceById(configId);
-            calendarReference.getConfigurations().remove(configuration);
-            configuration.getCalendarReferences().remove(calendarReference);
+            if (calendarReference.getConfigurations() != null) {
+                calendarReference.getConfigurations().remove(configuration);
+            }
+            if (configuration.getCalendarReferences() != null) {
+                configuration.getCalendarReferences().remove(calendarReference);
+            }
         }
         return calendarReferenceRepository.save(calendarReference);
     }
