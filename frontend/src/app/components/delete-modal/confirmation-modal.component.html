@@ -3,10 +3,17 @@
     <h5 class="modal-title">{{ title }}</h5>
   </div>
   <div class="modal-body">
-    <p>{{ message }}</p>
+    <p *ngIf="!isToken">{{ message }}</p>
+    <div class="flex border-x border-y border-popover hover:border-popover-light rounded cursor-pointer p-2">
+      <label matTooltip="Copy to clipboard" *ngIf="isToken" class="cursor-pointer"
+             (click)="copyMessage()"> {{ message }}</label>
+      <i class="bi bi-copy"></i>
+    </div>
+
   </div>
   <div class="modal-footer">
     <button type="button" class="btn color-added" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-success" (click)="doConfirmAction()">Confirm</button>
+    <button type="button" *ngIf="!isToken" class="btn btn-success" (click)="doConfirmAction()">Confirm</button>
+    <button type="button" *ngIf="isToken" class="btn btn-info" (click)="doConfirmAction()">Regenerate link</button>
   </div>
 </div>

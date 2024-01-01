@@ -339,6 +339,8 @@ export class CalendarPageComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmationModal);
     modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(calendar.token);
     modalRef.componentInstance.title = 'Regenerate a token for calendar: ' + calendar.name;
+    modalRef.componentInstance.isToken = true;
+
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
       name: calendar.name,
