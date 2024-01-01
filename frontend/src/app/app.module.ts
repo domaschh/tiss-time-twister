@@ -39,6 +39,7 @@ import { RuleFoldInputComponent } from './components/public-config-card/rule-fol
 import { PublicCardFakeComponent } from './components/public-config-card/public-card-fake/public-card-fake.component';
 import { DefaultConfigModalComponent } from './components/public-config-card/public-card-fake/default-config-modal/default-config-modal.component';
 import { LvaShorthandsComponent } from './components/public-config-card/public-card-fake/lva-shorthands/lva-shorthands.component';
+import { RoomMappingComponent } from './components/public-config-card/public-card-fake/room-mapping/room-mapping.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { LvaShorthandsComponent } from './components/public-config-card/public-c
     PublicCardFakeComponent,
     DefaultConfigModalComponent,
     LvaShorthandsComponent,
+    RoomMappingComponent,
   ],
   imports: [
     BrowserModule,

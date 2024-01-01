@@ -1,4 +1,7 @@
 import {EventColor} from "calendar-utils";
+import {
+  RoomMappingComponent
+} from "../components/public-config-card/public-card-fake/room-mapping/room-mapping.component";
 
 export const colors: Record<number, EventColor> = {
   1: {
@@ -18,6 +21,894 @@ export const colors: Record<number, EventColor> = {
     secondary: '#00d3ff',
   },
 };
+
+export interface RoomMapping {
+  roomName: string,
+  address: string
+}
+
+export const roomMappings: RoomMapping[] = [
+  {
+    roomName: "Boecklsaal",
+    address: "Karlsplatz 13, Stiege 1, 1. OG"
+  },
+  {
+    roomName: "Seminarraum 212-232",
+    address: "Karlsplatz 13, Stiege 2"
+  },
+  {
+    roomName: "Zeichensaal 15",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege1, 3. Stock"
+  },
+  {
+    roomName: "Kuppelsaal",
+    address: "Karlsplatz 13, 1040 Wien, 4.OG"
+  },
+  {
+    roomName: "Prechtlsaal",
+    address: "Karlsplatz 13"
+  },
+  {
+    roomName: "Studienabteilung",
+    address: "Karlsplatz 13, Erdgeschoss"
+  },
+  {
+    roomName: "H\u00f6rsaal 14",
+    address: "Karlsplatz 13, Stiege 3, 3. Stock"
+  },
+  {
+    roomName: "HS 14A G\u00fcnther Feuerstein",
+    address: "Karlsplatz 13, Stiege 3, 3. Stock"
+  },
+  {
+    roomName: "H\u00f6rsaal 15",
+    address: "Karlsplatz 13, Stiege 3, 3. Stock"
+  },
+  {
+    roomName: "Zeichensaal 13",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege 4, 1. Stock"
+  },
+  {
+    roomName: "Zeichensaal 14",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege 4, 1. Stock"
+  },
+  {
+    roomName: "HS 11 Paul Ludwik",
+    address: "Karlsplatz 13, Hof 1, Stiege 5"
+  },
+  {
+    roomName: "Seminarraum 251",
+    address: "Karlsplatz 13, Stiege 3"
+  },
+  {
+    roomName: "Zeichensaal 2",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege 4, 3. Stock"
+  },
+  {
+    roomName: "Zeichensaal 8",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege 4, 3.Stock"
+  },
+  {
+    roomName: "Seminarraum 225",
+    address: "Karlsplatz 13, Stiege 5"
+  },
+  {
+    roomName: "HS 8 Heinz Parkus",
+    address: "Karlsplatz 13, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 202",
+    address: "Karlsplatz 13, Stiege 2 (od.8)"
+  },
+  {
+    roomName: "HS 18 Czuber",
+    address: "Karlsplatz 13, zw.Stiege 2 u. 8, 2. Stock"
+  },
+  {
+    roomName: "HS 13 Ernst Melan",
+    address: "Karlsplatz 13, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 213",
+    address: "Karlsplatz 13, Stiege 2 (od.8)"
+  },
+  {
+    roomName: "HS 17 Friedrich Hartmann",
+    address: "Karlsplatz 13, Stiege 7, 3. Stock"
+  },
+  {
+    roomName: "Seminarraum 234",
+    address: "Karlsplatz 13, Stiege 2"
+  },
+  {
+    roomName: "H\u00f6rsaal 6",
+    address: "Karlsplatz 13, zw. Stiege 2 u. 8"
+  },
+  {
+    roomName: "H\u00f6rsaal 12",
+    address: "Karlsplatz 13, Hof 2, Stiege 6"
+  },
+  {
+    roomName: "Seminarraum 7/253",
+    address: "Karlsplatz 13, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 6/253",
+    address: "Karlsplatz 13"
+  },
+  {
+    roomName: "Seminarraum 5/260",
+    address: "Karlsplatz 13, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 4/253",
+    address: "Karlsplatz 13, Stiege 7, Dachgescho\u00df"
+  },
+  {
+    roomName: "Seminarraum 3/253",
+    address: "Karlsplatz 13, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 2/253",
+    address: "Karlsplatz 13, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 1",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege 6, 4. Stock"
+  },
+  {
+    roomName: "Zeichensaal EG Panigltrakt",
+    address: "Karlsplatz 13"
+  },
+  {
+    roomName: "Zeichensaal KG Panigltrakt",
+    address: "Karlsplatz 13"
+  },
+  {
+    roomName: "Zeichensaal 7 Ella Briggs",
+    address: ""
+  },
+  {
+    roomName: "Fachschaft Architektur",
+    address: "TU Wien, Karlsplatz 13, Hof 2, EG"
+  },
+  {
+    roomName: "Aufbaulabor",
+    address: "Karlsplatz 13, Hauptgeb\u00e4ude, Stiege 7, 1.Stock"
+  },
+  {
+    roomName: "Seminarraum 8",
+    address: "Karlsplatz 13, Hof 2, Stiege 7, ebenerdig"
+  },
+  {
+    roomName: "HS 7 Sch\u00fctte-Lihotzky",
+    address: "Karlsplatz 13, Hof 2, Stiege 7"
+  },
+  {
+    roomName: "Seminarraum 107/1",
+    address: "Wiedner Hauptstr. 7"
+  },
+  {
+    roomName: "GM 3 Vortmann H\u00f6rsaal",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 2.OG"
+  },
+  {
+    roomName: "Seminarraum BA 02B",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 2.OG"
+  },
+  {
+    roomName: "Seminarraum BA 02A",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 2.OG"
+  },
+  {
+    roomName: "Seminarraum BA 02C",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 2.OG"
+  },
+  {
+    roomName: "Seminarraum BA 03/ Sitzungszimmer Dekanat",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 3.OG"
+  },
+  {
+    roomName: "Seminarraum BA 05",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 5.OG"
+  },
+  {
+    roomName: "Seminarraum BA 08A",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 8.OG"
+  },
+  {
+    roomName: "Seminarraum BA 08B",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 8.OG"
+  },
+  {
+    roomName: "Seminarraum BA 10B",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 10.OG"
+  },
+  {
+    roomName: "TUtheSky",
+    address: "Getreidemarkt 9, 1060 Wien, BA Geb\u00e4ude, 11.OG"
+  },
+  {
+    roomName: "GM 1 Audi. Max.",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, EG"
+  },
+  {
+    roomName: "GM 5 Praktikum HS",
+    address: "Getreidemarkt 9, Bauteil BA Hochhaus, 2.UG"
+  },
+  {
+    roomName: "Seminarraum Lehar 01",
+    address: "Getreidemarkt 9, Bauteil BC Lehartrakt, 1.OG"
+  },
+  {
+    roomName: "Seminarraum Lehar 02",
+    address: "Getreidemarkt 9, Bauteil BC Lehartrakt, 2.OG"
+  },
+  {
+    roomName: "Seminarraum Lehar 03",
+    address: "Getreidemarkt 9, Bauteil BC Lehartrakt, 3.OG"
+  },
+  {
+    roomName: "Seminarraum Lehar EG",
+    address: "Getreidemarkt 9, Bauteil BC Lehartrakt, EG"
+  },
+  {
+    roomName: "Leharkeller (Lernraum)",
+    address: ""
+  },
+  {
+    roomName: "GM 2 Radinger H\u00f6rsaal",
+    address: "Getreidemarkt 9, Bauteil BD Hoftrakt, 1.OG"
+  },
+  {
+    roomName: "Kleiner Schiffbau",
+    address: "Getreidemarkt 9, Bauteil BD Hoftrakt, 1.OG"
+  },
+  {
+    roomName: "Seminarraum BD 02",
+    address: "Getreidemarkt 9, Bauteil BD Hoftrakt, 2.OG"
+  },
+  {
+    roomName: "GM 4 Knoller H\u00f6rsaal",
+    address: "Getreidemarkt 9, Bauteil BD Hoftrakt, 2.OG"
+  },
+  {
+    roomName: "Seminarraum BD 02C",
+    address: "Getreidemarkt 9, Bauteil BD Hoftrakt,2.OG"
+  },
+  {
+    roomName: "Seminarraum BD 03",
+    address: "Getreidemarkt 9, Bauteil BD Hoftrakt, 3.OG"
+  },
+  {
+    roomName: "Seminarraum BE 01",
+    address: "Getreidemarkt 9, Bauteil BE L\u00fcckenbau, 1.OG"
+  },
+  {
+    roomName: "Seminarraum BH 03 Biotechnologie",
+    address: "Gumpendorfer Str. 1a, Bauteil BH Gumpendorferstr., EG"
+  },
+  {
+    roomName: "Seminarraum BH Biosciences",
+    address: "Gumpendorfer Str. 1a, Bauteil BH Gumpendorferstr., EG"
+  },
+  {
+    roomName: "Sitzungszimmer BI 04A03",
+    address: "Getreidemarkt 9, Bauteil BI Loschmidttrakt,4.OG"
+  },
+  {
+    roomName: "Seminarraum 351",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1"
+  },
+  {
+    roomName: "Seminarraum 121",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1"
+  },
+  {
+    roomName: "EI 9 Hlawka HS",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1, Erdgeschoss"
+  },
+  {
+    roomName: "EI 10 Fritz Paschke HS",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1, Erdgeschoss"
+  },
+  {
+    roomName: "Seminarraum 124",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 2"
+  },
+  {
+    roomName: "Seminarraum 387",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 2, Erdgescho\u00df"
+  },
+  {
+    roomName: "Seminarraum 122",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 3"
+  },
+  {
+    roomName: "Seminarraum 125",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1"
+  },
+  {
+    roomName: "EI 11 Geod\u00e4sie HS",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1, 3. Stock"
+  },
+  {
+    roomName: "Seminarraum 127",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1"
+  },
+  {
+    roomName: "Seminarraum 384",
+    address: "Gu\u00dfhausstr. 25-29"
+  },
+  {
+    roomName: "EI 8 P\u00f6tzl HS",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1, Erdgeschoss"
+  },
+  {
+    roomName: "EI 7 H\u00f6rsaal",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 1, Erdgeschoss"
+  },
+  {
+    roomName: "Seminarraum 354",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 8"
+  },
+  {
+    roomName: "EI 3 Sahulka HS",
+    address: "Gu\u00dfhausstr. 25-29, 2. Stock"
+  },
+  {
+    roomName: "EI 3A H\u00f6rsaal",
+    address: "Gu\u00dfhausstr. 25-29, 2. Stock"
+  },
+  {
+    roomName: "EI 5 Hochenegg HS",
+    address: "Gu\u00dfhausstr. 25-29, 2. Stock"
+  },
+  {
+    roomName: "EI 2 Pichelmayer HS",
+    address: "Gu\u00dfhausstr. 25-29, 2. Stock"
+  },
+  {
+    roomName: "EI 1 Petritsch HS",
+    address: "Gu\u00dfhausstr. 25-29, 2. Stock"
+  },
+  {
+    roomName: "EI 4 Reithoffer HS",
+    address: "Gu\u00dfhausstr. 25-29, 2. Stock"
+  },
+  {
+    roomName: "EI 6 Eckert HS",
+    address: "Gu\u00dfhausstr. 25-29, Stiege 10, 4. Stock"
+  },
+  {
+    roomName: "Sem.R. DA gr\u00fcn 02 A",
+    address: "Freihausgeb\u00e4ude (Wiedner Hauptstr. 8)"
+  },
+  {
+    roomName: "Sem.R. DA gr\u00fcn 02 B",
+    address: "Freihausgeb\u00e4ude (Wiedner Hauptstr. 8)"
+  },
+  {
+    roomName: "Sem.R. DA gr\u00fcn 02 C",
+    address: "Wiedner Hauptstr. 8, , Turm A, gr\u00fcner Bereich, 2. OG"
+  },
+  {
+    roomName: "FH H\u00f6rsaal 5 (FH5)",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 2. OG"
+  },
+  {
+    roomName: "FH H\u00f6rsaal 6 (FH6)",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 2. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 03 A",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 3. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 03 C",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 3. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 03 B",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 3. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 04",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 4. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 05",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 5. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 06A",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 6. OG"
+  },
+  {
+    roomName: "Seminarraum DA gr\u00fcn 06B",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 6. OG"
+  },
+  {
+    roomName: "Dissertantenzimmer DA gr\u00fcn 19B",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 8. OG"
+  },
+  {
+    roomName: "EDV Praktikum Physik",
+    address: "Wiedner Hauptstr. 8, Turm A, gr\u00fcner Bereich, 1. OG"
+  },
+  {
+    roomName: "Mensa",
+    address: ""
+  },
+  {
+    roomName: "FH H\u00f6rsaal 7 (FH7)",
+    address: "1040 Wien, Wiedner Hauptstr. 8, Turm B, gelber Bereich, 2. OG"
+  },
+  {
+    roomName: "FH 8 N\u00f6bauer HS",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 2. OG"
+  },
+  {
+    roomName: "FH H\u00f6rsaal 4 (FH4)",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 2. OG"
+  },
+  {
+    roomName: "FH H\u00f6rsaal 3 (FH3)",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 2. OG"
+  },
+  {
+    roomName: "FH H\u00f6rsaal 2 (FH2)",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 2. OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 03",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 3. OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 04",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 4.OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 05 A",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 5. OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 05 B",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 5. OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 07",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 7. OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 09",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 9. OG"
+  },
+  {
+    roomName: "Seminarraum DB gelb 10",
+    address: "Wiedner Hauptstr. 8, Turm B, gelber Bereich, 10. OG"
+  },
+  {
+    roomName: "HTU Lernraum Alte Mensa",
+    address: "Wiedner Hauptstra\u00dfe 8-10, 1. Stock, Roter Bereich, 1040 Wien"
+  },
+  {
+    roomName: "HTU-Gro\u00dfraum",
+    address: ""
+  },
+  {
+    roomName: "FH H\u00f6rsaal 1 (FH1)",
+    address: "Wiedner Hauptstr. 8, Turm C, roter Bereich, 1. u. 2. OG"
+  },
+  {
+    roomName: "Seminarraum DC rot 07",
+    address: "Wiedner Hauptstr. 8, Turm C, roter Bereich, 7. OG"
+  },
+  {
+    roomName: "Vortragsraum Bibliothek",
+    address: "Resselgasse 4, 5. OG Bibliothek"
+  },
+  {
+    roomName: "Fachschaft Wirtschaftsinformatik und Data Science",
+    address: "Treitlstra\u00dfe 3, 1.Stock, gerade"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 2. OG; Plan des Stockwerks."
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 2. OG;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 3. OG;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 3. OG;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 3. OG"
+  },
+  {
+    roomName: "",
+    address: "Treitlstra\u00dfe 3, 3. Stock"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 4. OG;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 4. OG;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Treitlstra\u00dfe 3; 4. OG;"
+  },
+  {
+    roomName: "Seminarraum IFM (EDV Raum)",
+    address: "Treitlstra\u00dfe 3, Bauteil DE, Dachgeschoss"
+  },
+  {
+    roomName: "Seminarraum Techn. Informatik",
+    address: "Treitlstra\u00dfe 3, Zugang \u00fcber Operngasse 9 (Erdgescho\u00df)"
+  },
+  {
+    roomName: "Informatikh\u00f6rsaal",
+    address: "Treitlstra\u00dfe 3, Erdgeschoss"
+  },
+  {
+    roomName: "Lernraum 2, Fachschaft Informatik",
+    address: "1040 Wien, Treitlstra\u00dfe 3, Hochparterre"
+  },
+  {
+    roomName: "Anita-Borg Raum (Beratungsraum), Fachschaft Informatik",
+    address: "1040 Wien, Treitlstra\u00dfe 3, Hochparterre"
+  },
+  {
+    roomName: "Lernraum 1, Fachschaft Informatik",
+    address: "1040 Wien, Treitlstra\u00dfe 3, Hochparterre"
+  },
+  {
+    roomName: "Seminarraum 1/3 OPG",
+    address: "Operngasse 11, Operngasse 11 / 3. Stock"
+  },
+  {
+    roomName: "",
+    address: "Argentinierstrasse 8, 2. Stock"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 2. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 2. OG; im Gang rechts"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 3. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 3. OG; Gangmitte"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 3. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 4. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 4. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 4. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 4. OG; Gangmitte;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; geradeaus; ins 4. OG; Gangmitte;"
+  },
+  {
+    roomName: "Besprechungsraum Kuppel",
+    address: "1040 Wien, Argentinierstra\u00dfe 8; im EG rechts: Besprechungsraum Kuppel;"
+  },
+  {
+    roomName: "Seminarraum Argentinierstrasse",
+    address: "Argentinierstr. 8, Argentinierstrasse 8 od. Paniglgasse, EG"
+  },
+  {
+    roomName: "DSLab",
+    address: "Argentinierstrasse 8, Karlsgasse 11-13, Basement"
+  },
+  {
+    roomName: "Besprechungsraum Galerie",
+    address: "Argentinierstrasse 8, 1. Stock"
+  },
+  {
+    roomName: "Seminarraum 1",
+    address: "Karlsgasse 11, Hochparterre links"
+  },
+  {
+    roomName: "Seminarraum 2",
+    address: "Karlsgasse 11, Hochparterre rechts"
+  },
+  {
+    roomName: "Seminarraum 264/1",
+    address: "Karlsgasse 13, 1. Stock"
+  },
+  {
+    roomName: "Seminarraum 268/2",
+    address: "Karlsgasse 13, 1. Stock"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 2. OG; vom Lift aus links den 2. Gang nehmen (Verlauf folgen);"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 2. OG; vom Lift aus links den 2. Gang nehmen (Verlauf folgen);"
+  },
+  {
+    roomName: "Seminarraum 183/2",
+    address: "Favoritenstr. 9-11, gelber Bereich, Stiege 1"
+  },
+  {
+    roomName: "Seminarraum 186",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege I; ins 5. OG; Seminarraum links;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 2. OG; vom Lift aus links;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 2. OG; vom Lift aus links;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege I; ins 3. OG; rechts: Gegensprechanlage Klappe 18542 w\u00e4hlen;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; Durch Gittertor und Hof zu Stiege II; ins 3. OG; Gegensprechanlage die Nummer 'B18541' w\u00e4hlen;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege I; ins 3. OG; rechts: Gegensprechanlage Klappe 18543 w\u00e4hlen;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege I; ins 3. OG; rechts: Gegensprechanlage Klappe 18544 w\u00e4hlen;"
+  },
+  {
+    roomName: "Seminarraum G\u00f6del",
+    address: "Favoritenstr. 9-11, EG, Zugang vom Innenhof"
+  },
+  {
+    roomName: "Seminarraum von Neumann",
+    address: "Favoritenstr. 9-11, EG, Zugang vom Innenhof"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 2. OG; vom Lift aus rechts;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 2. OG; vom Lift aus rechts;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 2. OG; vom Lift aus rechts;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 3. OG; vom Lift aus links;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 3. OG; vom Lift aus gerade zur Glast\u00fcr und dort l\u00e4uten;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 4. OG; vom Lift aus links;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 4. OG; vom Lift aus rechts;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 5. OG"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 5. OG;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 5. OG;"
+  },
+  {
+    roomName: "",
+    address: "Favoritenstrasse, Stiege 3, 1. Stock"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 2. OG.; vom Lift aus rechts den 2. Gang nehmen, 3. T\u00fcre links;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 2. OG.; vom Lift aus links den 2. Gang nehmen, 1. T\u00fcre rechts;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 4. OG.; vom Lift aus rechts den 2. Gang nehmen, 3. T\u00fcre links;"
+  },
+  {
+    roomName: "Seminarraum 188/2",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 4. OG.; vom Lift aus rechts den 2. Gang nehmen, 1. T\u00fcre links: Seminarraum 188/2;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 4. OG.; vom Lift aus geradeaus: Studierstube-Labor; Plan des Stockwerks."
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor und Hof zu Stiege II; ins 5. OG;"
+  },
+  {
+    roomName: "Seminarraum FAV 01 A (Seminarraum 183/2)",
+    address: "Favoritenstr. 9-11, EG"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 2. OG; vom Lift aus links durch Glasgang;"
+  },
+  {
+    roomName: "Informatiklabor Breakout",
+    address: "Favoritenstr. 9-11, 2.OG(Zugang \u00fcber Stiege 4)"
+  },
+  {
+    roomName: "Informatiklabor Zelda",
+    address: "Favoritenstr. 9-11, 2.OG (Zugang \u00fcber Stiege 4)"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 11; direkt rechts neben dem Eingang zu Stiege IV; ins 2. OG; dem Gang folgen (der Gang biegt nach links);"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 3. OG; vom Lift aus gerade zur Glast\u00fcr und dort l\u00e4uten;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 3. OG; vom Lift aus gerade zur Glast\u00fcr und dort l\u00e4uten;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 4. OG.; vom Lift aus rechts den 1., leicht ansteigenden Gang nehmen; danach rechts; dem Gang weiter folgen; Plan des Stockwerks."
+  },
+  {
+    roomName: "FAV H\u00f6rsaal 1",
+    address: "Favoritenstr. 9-11, Erdgescho\u00df"
+  },
+  {
+    roomName: "FAV H\u00f6rsaal 2",
+    address: "Favoritenstr. 9-11, Erdgescho\u00df"
+  },
+  {
+    roomName: "ehem. Breakout-Raum, ist jetzt im 2. Stock",
+    address: "Beim Eingang Favoritenstra\u00dfe 11 rein gehen und direkt nach links abbiegen. Der Raum ist die erste T\u00fcr links."
+  },
+  {
+    roomName: "B\u00fcro der Inf-Lab Techniker",
+    address: "1040 Wien, Favoritenstra\u00dfe 11; gerade; vor Labor rechts, dann links Richtung Ausgang: letzte T\u00fcre rechts"
+  },
+  {
+    roomName: "Seminarraum 187/2",
+    address: "Favoritenstr. 9-11, Blauer Bereich, Stiege 3"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 2. OG; vom Lift aus rechts den 1., leicht ansteigenden Gang nehmen;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 3. OG; vom Lift aus gerade zur Glast\u00fcr und dort l\u00e4uten;"
+  },
+  {
+    roomName: "Conference room Hahn",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 3. OG; vom Lift aus gerade zur Glast\u00fcr und dort l\u00e4uten;"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 3. OG; vom Lift aus gerade zur Glast\u00fcr und dort l\u00e4uten;"
+  },
+  {
+    roomName: "B\u00fcro von Horst Eidenberger",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 4. OG; vom Lift aus rechts den 1., leicht ansteigenden Gang nehmen; danach rechts"
+  },
+  {
+    roomName: "B\u00fcro von Martin Kampel",
+    address: "1040 Wien, Favoritenstra\u00dfe 9; durch Gittertor danach rechts durch (automatische) Glast\u00fcre zu Stiege III; gerade; ins 4. OG; vom Lift aus rechts den 1., leicht ansteigenden Gang nehmen; danach rechts;"
+  },
+  {
+    roomName: "B\u00fcro von Robert Sablatnig",
+    address: "Favoritenstra\u00dfe, 4. Stock. Um hinzukommen, muss man die Stiege 3 (beim Eingang nach links) raufgehen und dann nach rechts."
+  },
+  {
+    roomName: "Informatiklabor Q*bert",
+    address: "Favoritenstr. 9-11, Erdgescho\u00df"
+  },
+  {
+    roomName: "Informatiklabor Frogger",
+    address: "Favoritenstr. 9-11, Erdgescho\u00df"
+  },
+  {
+    roomName: "Informatiklabor Pong",
+    address: "Favoritenstr. 9-11, Erdgescho\u00df"
+  },
+  {
+    roomName: "Seminarraum Zemanek",
+    address: "Favoritenstr. 9-11, hellgr\u00fcner Bereich, Stiege 3"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Favoritenstra\u00dfe 16; 3. OG;"
+  },
+  {
+    roomName: "Seminarraum 233",
+    address: "Gu\u00dfhausstr. 28-30"
+  },
+  {
+    roomName: "Seminarraum 126",
+    address: "Gu\u00dfhausstr. 28-30,"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Erzherzog-Johann-Platz 1; (automatische T\u00fcr); ins 4. OG; vom Lift aus links;"
+  },
+  {
+    roomName: "Seminarraum 362",
+    address: "Floragasse 7,"
+  },
+  {
+    roomName: "Seminarraum 362/1",
+    address: "Floragasse 7, Floragasse 7, 1. Stock"
+  },
+  {
+    roomName: "Seminarraum 366-MST",
+    address: "Floragasse 7, 2. Stock"
+  },
+  {
+    roomName: "",
+    address: "1040 Wien, Floragasse 7; ins 7. OG.;"
+  },
+  {
+    roomName: "Seminarraum Funke Halle",
+    address: "Adolf Blamauerg. 1-3,"
+  },
+  {
+    roomName: "Bombardier H\u00f6rsaal",
+    address: "Theresianumgasse 27"
+  },
+  {
+    roomName: "Theresianumgasse HS 2",
+    address: "Teresianumgasse 27"
+  }
+]
 
 export interface Shorthand {
   ft: string,
