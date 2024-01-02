@@ -11,8 +11,6 @@ import {
   initTE,
 } from "tw-elements";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LogoutSuccessModalComponent } from '../logout-success-modal/logout-success-modal.component';
-import { th } from 'date-fns/locale';
 
 @Component({
   selector: 'app-login',
@@ -98,7 +96,6 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
   /**
    * Error flag will be deactivated, which clears the error message
    */
@@ -109,17 +106,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     initTE({ Validation, Input, Ripple });
-
-    this.activatedRoute.queryParams.subscribe(params => {
-      if (params['loggedOut']) {
-        this.showLogoutSuccessModal();
-      }
-    });
-  }
-
-  private showLogoutSuccessModal() {
-    const modalRef = this.modalService.open(LogoutSuccessModalComponent);
-    modalRef.componentInstance.message = 'logout successful';
   }
 
 }

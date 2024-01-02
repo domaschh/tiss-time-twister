@@ -19,7 +19,6 @@ import { CalendarPageComponent } from './components/calendar-page/calendar-page.
 import { ImportComponent } from './components/import/import.component';
 import { EventPipePipe } from './pipes/event.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 
 import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
@@ -54,7 +53,6 @@ import {CdkDropList} from "@angular/cdk/drag-drop";
     MessageComponent,
     CalendarPageComponent,
     ImportComponent,
-    LogoutSuccessModalComponent,
     CreateEditCustomEventComponent,
     CreateConfigComponent,
     RuleModalComponent,
