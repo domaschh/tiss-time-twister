@@ -23,7 +23,7 @@
                          accept=".json"
                          dropZoneClassName="border-none"
                          (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
-                         contentClassName="border-none">
+                         contentClassName="">
             <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
               <div class="flex items-center justify-center h-64">
                 <div *ngIf="!filename" class="flex flex-col items-center justify-center ">
@@ -41,7 +41,7 @@
           </ngx-file-drop>
         </div>
 
-        <input id="dropzone-file" type="file" class="hidden" [disabled]="filename" (drop)="uploadFile($event)"
+        <input id="dropzone-file" type="file" class="hidden" (drop)="uploadFile($event)"
                (change)="uploadFile($event)"/>
       </label>
     </div>
