@@ -10,7 +10,7 @@ export type confirmAction = (callback: (result: boolean) => void) => boolean;
   styleUrls: ['./confirmation-modal.component.scss']
 })
 export class ConfirmationModal {
-  @Input() message: string = 'Do your really wanna delete?';
+  @Input() message: string = '';
   @Input() confirmAction: confirmAction;
 
   isToken: boolean = false;
