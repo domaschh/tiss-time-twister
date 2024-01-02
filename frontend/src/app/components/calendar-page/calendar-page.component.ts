@@ -387,7 +387,7 @@ export class CalendarPageComponent implements OnInit {
     }
   }
 
-  openImportModal() {
+  openConfigurationImportModal() {
     const modalRef = this.modalService.open(ConfigImportComponent);
     modalRef.componentInstance.calendars = this.calendars.map(cal => ({
       id: cal.id,
