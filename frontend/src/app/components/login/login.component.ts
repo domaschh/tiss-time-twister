@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
       const authRequest: AuthRequest = new AuthRequest(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
       this.authenticateUser(authRequest);
     } else {
-      console.log('Ungültige Eingabe');
+      console.log('invalid entry');
     }
   }
 
@@ -80,20 +80,20 @@ export class LoginComponent implements OnInit {
    * @param authRequest authentication data from the user login form
    */
   authenticateUser(authRequest: AuthRequest) {
-    console.log('Versuch, den Benutzer zu authentifizieren: ' + authRequest.email);
+    console.log('attempting to authenticate: ' + authRequest.email);
     this.authService.loginUser(authRequest).subscribe({
       next: () => {
-        console.log('User wurde erfolgreich eingelogged ' + authRequest.email);
+        console.log('login successful ' + authRequest.email);
         this.router.navigate(['/calendar']);
       },
       error: error => {
-        console.log('Konnte nicht eingelogged werden wegen: ');
+        console.log('login failed: ');
         console.log(error);
         this.error = true;
         if (typeof error.error === 'object') {
-          this.errors.auth = error.error.error || 'Authentifizierung fehlgeschlagen';
+          this.errors.auth = error.error.error || 'authentication failed';
         } else {
-          this.errors.auth = error.error || 'Authentifizierung fehlgeschlagen';
+          this.errors.auth = error.error || 'authentication failed';
         }
       }
     });
@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
 
   private showLogoutSuccessModal() {
     const modalRef = this.modalService.open(LogoutSuccessModalComponent);
-    modalRef.componentInstance.message = 'Du wurdest erfolgreich ausgelogged.';
+    modalRef.componentInstance.message = 'logout successful';
   }
 
 }

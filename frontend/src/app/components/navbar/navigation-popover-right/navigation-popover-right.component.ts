@@ -22,6 +22,6 @@ export class NavigationPopoverRightComponent {
   }
 
   changePasswort() {
-    this.toastrService.info("Coming soond")
+    this.toastrService.info("Coming soon")
   }
 }
