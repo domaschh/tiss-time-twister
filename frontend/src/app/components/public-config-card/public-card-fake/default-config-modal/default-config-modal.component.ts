@@ -78,4 +78,8 @@ export class DefaultConfigModalComponent implements AfterViewInit {
       }
     })
   }
+
+  yes() {
+    console.log('yes')
+  }
 }
