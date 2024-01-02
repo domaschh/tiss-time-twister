@@ -1,31 +1,13 @@
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import * as uuid from 'uuid';
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-  OnInit,
-} from '@angular/core';
-import {
-  isSameDay,
-  isSameMonth,
-} from 'date-fns';
-import { Observable, Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarDayViewBeforeRenderEvent,
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent, CalendarMonthViewBeforeRenderEvent,
-  CalendarView, CalendarWeekViewBeforeRenderEvent,
-} from 'angular-calendar';
-import { EventColor } from 'calendar-utils';
-import {Calendar, EventCalendar} from 'src/app/dtos/Calendar';
-import { Configuration } from 'src/app/dtos/Configuration';
-import { MyCalendarEvent } from 'src/app/dtos/Calendar';
-import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
-import { ConfigurationService } from 'src/app/services/configuration.service';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import {isSameDay, isSameMonth,} from 'date-fns';
+import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
+import {Calendar, EventCalendar, MyCalendarEvent} from 'src/app/dtos/Calendar';
+import {CalendarReferenceService} from 'src/app/services/calendar.reference.service';
+import {ConfigurationService} from 'src/app/services/configuration.service';
 import * as ICAL from 'ical.js';
 import {EventService} from "../../services/event.service";
 import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
@@ -54,7 +36,8 @@ export class CalendarPageComponent implements OnInit {
   private onlyUnique(value, index, array) {
     return array.indexOf(value) === index;
   }
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+
+  @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
@@ -71,14 +54,14 @@ export class CalendarPageComponent implements OnInit {
     {
       label: '<i class="bi bi-pencil"></i>',
       a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({event}: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       },
     },
     {
       label: '<i class="bi bi-trash"></i>',
       a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({event}: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
       },
@@ -98,23 +81,19 @@ export class CalendarPageComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private readonly toastrService: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadCalendars();
     this.loadConfigs();
+
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
+      this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0);
       this.viewDate = date;
     }
   }
@@ -131,10 +110,10 @@ export class CalendarPageComponent implements OnInit {
   }
 
   eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
+                      event,
+                      newStart,
+                      newEnd,
+                    }: CalendarEventTimesChangedEvent): void {
     this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
@@ -142,7 +121,8 @@ export class CalendarPageComponent implements OnInit {
           start: newStart,
           end: newEnd,
           location: iEvent.location,
-          categories: iEvent.categories
+          categories: iEvent.categories,
+          description: iEvent.description
         };
       }
       return iEvent;
@@ -152,7 +132,7 @@ export class CalendarPageComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
-    if(action === 'Clicked' || action === 'Edited'){
+    if (action === 'Clicked' || action === 'Edited') {
       console.log(myEvent);
       if (!myEvent) {
         console.error("Error while handling event", event);
@@ -166,7 +146,7 @@ export class CalendarPageComponent implements OnInit {
           state: {calendars: calendars}
         });
       }
-    } else if(action == 'Deleted') {
+    } else if (action == 'Deleted') {
       if (!myEvent) {
         console.error("Error while handling event", event);
       } else if (!myEvent.categories.includes('customEvent')) {
@@ -190,7 +170,12 @@ export class CalendarPageComponent implements OnInit {
 
   addEvent(event: MyCalendarEvent, calendar: Calendar): void {
     const e: MyCalendarEvent = {
-      title: event.title,
+      description: event.description,
+      title: event.title
+        + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
+        + '<br>' + event.description
+        + '<br>' + event.categories
+        + '<br>' + event.location,
       start: event.start,
       end: event.end,
       color: {
@@ -234,6 +219,7 @@ export class CalendarPageComponent implements OnInit {
                 title: event.getFirstPropertyValue("summary"),
                 location: event.getFirstPropertyValue("location"),
                 categories: event.getFirstPropertyValue("categories"),
+                description: event.getFirstPropertyValue('description')
               };
               evs.push(parsed)
             })
@@ -269,9 +255,10 @@ export class CalendarPageComponent implements OnInit {
   openEditConfigModal(config: ConfigurationDto) {
     console.log(config)
     this.router.navigate(['createConfig'], {
-      state: { calId: null, config }
+      state: {calId: null, config}
     })
   }
+
   openModal(modalName: string) {
     this.router.navigate([modalName])
   }
@@ -280,6 +267,7 @@ export class CalendarPageComponent implements OnInit {
     if (this.calendars != null)
       return this.calendars.map(c => c.isActive).every(x => x === true);
   }
+
   set allCalEnabled(value: boolean) {
     if (this.calendars != null)
       this.calendars.forEach(c => c.isActive = value);
@@ -317,7 +305,7 @@ export class CalendarPageComponent implements OnInit {
           callback(true);
         },
         error: () => {
-          this.toastrService.error("Couldn't delete");
+          this.toastrService.error("Could not delete");
           callback(false);
         }
       });
@@ -351,16 +339,18 @@ export class CalendarPageComponent implements OnInit {
           modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(response.token)
         },
         error: () => {
-          this.toastrService.error("Couldn't generate token");
+          this.toastrService.error("Could not generate token");
         }
       });
     };
   }
+
   openConfigurationPage(edit: boolean) {
     this.router.navigate(['createConfig'], {
       state: {calendars: this.calendars, edit: false}
     });
-    }
+  }
+
   removeConfiguraion(config: ConfigurationDto) {
     const modalRef = this.modalService.open(ConfirmationModal);
     modalRef.componentInstance.title = 'Configuration Deletion Confirmation';
@@ -379,7 +369,7 @@ export class CalendarPageComponent implements OnInit {
             })
             callback(true)
           }, error: () => {
-            this.toastrService.error("Couldn't delete. Consider removing in the public page")
+            this.toastrService.error("Could not delete. Consider removing in the public page")
             callback(false)
           }
         })
@@ -418,7 +408,7 @@ export class CalendarPageComponent implements OnInit {
       delete rule.match.id
     })
 
-    const blob = new Blob([JSON.stringify(conf, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(conf, null, 2)], {type: 'application/json'});
 
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -435,7 +425,7 @@ export class CalendarPageComponent implements OnInit {
   downloadCalendar(calendar: Calendar) {
     this.calenderReferenceServie.getIcalFileFromToken(calendar.token).subscribe({
       next: (result) => {
-        const blob = new Blob([result], { type: 'text/calendar' });
+        const blob = new Blob([result], {type: 'text/calendar'});
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -447,7 +437,7 @@ export class CalendarPageComponent implements OnInit {
         document.body.removeChild(a);
         this.toastrService.success("Successfully downloaded ical")
       }, error: () => {
-        this.toastrService.error("Couldn't download calendar with applied configs")
+        this.toastrService.error("Could not download calendar with applied configs")
       }
     })
   }
