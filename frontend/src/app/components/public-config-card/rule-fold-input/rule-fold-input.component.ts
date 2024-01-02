@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EffectType, MatchType, RuleDto} from "../../../dtos/configuration-dto";
 import {CalendarView} from "angular-calendar";
-import {th} from "date-fns/locale";
 
 @Component({
   selector: 'app-rule-fold-input',

@@ -31,6 +31,8 @@ export class CreateConfigComponent {
     calendar: [CalendarReferenceDto, [Validators.required]],
   });
 
+  optionalId: number;
+
   submitted = false;
   // Error flag
   error = false;
@@ -42,6 +44,7 @@ export class CreateConfigComponent {
     this.configurationForm.patchValue({ calendar: null });
     this.prefilled = this.router.getCurrentNavigation().extras.state as {calId: number, config: ConfigurationDto};
     if (this.prefilled) {
+      this.optionalId = this.prefilled.config.id;
       this.configurationForm.controls.name.setValue(this.prefilled.config.title)
       this.configurationForm.controls.description.setValue(this.prefilled.config.description)
       this.configurationForm.controls.public.setValue(this.prefilled.config.published)
@@ -67,27 +70,22 @@ export class CreateConfigComponent {
     })
   }
 
-  private defaultServiceErrorHandling(error: any) {
-    console.log(error);
-    this.error = true;
-    if (typeof error.error === 'object') {
-      this.errorMessage = error.error.error;
-    } else {
-      this.errorMessage = error.error;
-    }
-  }
-
   vanishError() {
     this.error = false;
   }
 
   previewConfiguration() {
-    this.openPreview({
+    let config: ConfigurationDto = {
       description: this.configurationForm.value.description,
       published: this.configurationForm.value.public,
       rules: this.allRules,
       title: this.configurationForm.value.name
-    });
+    };
+
+    if (this.optionalId) {
+      config = {...config, id: this.optionalId}
+    }
+    this.openPreview(config);
   }
 
   setActiveNewRule() {

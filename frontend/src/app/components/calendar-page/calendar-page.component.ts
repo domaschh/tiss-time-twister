@@ -103,7 +103,6 @@ export class CalendarPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadCalendars();
     this.loadConfigs();
-    this.configurations = this.getConfigurations();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -123,7 +122,6 @@ export class CalendarPageComponent implements OnInit {
   loadConfigs() {
     this.configurationService.getAll().subscribe({
       next: (configs) => {
-        console.log(configs)
         this.configurations = configs;
       },
       error: () => {
@@ -213,10 +211,6 @@ export class CalendarPageComponent implements OnInit {
     this.events.push(e);
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
@@ -272,12 +266,12 @@ export class CalendarPageComponent implements OnInit {
     });
   }
 
-  getConfigurations(): ConfigurationDto[] {
-    //TODO: get configurations from configuration service
-    return []
-    // return this.configurationService.getAll();
+  openEditConfigModal(config: ConfigurationDto) {
+    console.log(config)
+    this.router.navigate(['createConfig'], {
+      state: { calId: null, config }
+    })
   }
-
   openModal(modalName: string) {
     this.router.navigate([modalName])
   }
@@ -312,8 +306,8 @@ export class CalendarPageComponent implements OnInit {
 
   openDeleteModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.message = 'Do you really want to delete Calendar: ' + calendar.name;
-    modalRef.componentInstance.title = 'Confirm deletion' + calendar.name;
+    modalRef.componentInstance.title = 'Calendar Deletion Confirmation';
+    modalRef.componentInstance.message = 'Do you really want to delete: \'' + calendar.name + '\'';
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
@@ -338,7 +332,7 @@ export class CalendarPageComponent implements OnInit {
   openTokenModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
     modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(calendar.token);
-    modalRef.componentInstance.title = 'Regenerate a token for calendar: ' + calendar.name;
+    modalRef.componentInstance.title = 'Export Calendar: ' + calendar.name;
     modalRef.componentInstance.isToken = true;
 
     const toImport: CalendarReferenceDto = {
@@ -354,7 +348,7 @@ export class CalendarPageComponent implements OnInit {
           this.toastrService.success("Regenerated Token");
           var index = this.calendars.findIndex(obj => obj.id === response.id);
           this.calendars[index].token = response.token;
-          modalRef.componentInstance.message = 'https://localhost:8080/export/' + response.token
+          modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(response.token)
         },
         error: () => {
           this.toastrService.error("Couldn't generate token");
@@ -369,8 +363,8 @@ export class CalendarPageComponent implements OnInit {
     }
   removeConfiguraion(config: ConfigurationDto) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.title = 'Deletion Confirmation';
-    modalRef.componentInstance.message = 'Are you sure you want to delete: ' + config.title;
+    modalRef.componentInstance.title = 'Configuration Deletion Confirmation';
+    modalRef.componentInstance.message = 'Do you really want to delete: \'' + config.title + '\'';
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       const calendarReferenceId = this.calendars.filter(c => c.configs.map(config => config.id).includes(config.id))
       calendarReferenceId.forEach(calendar => {
@@ -393,7 +387,7 @@ export class CalendarPageComponent implements OnInit {
     }
   }
 
-  openImportModal() {
+  openConfigurationImportModal() {
     const modalRef = this.modalService.open(ConfigImportComponent);
     modalRef.componentInstance.calendars = this.calendars.map(cal => ({
       id: cal.id,
