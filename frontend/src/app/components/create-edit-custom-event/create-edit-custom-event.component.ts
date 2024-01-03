@@ -73,8 +73,12 @@ export class CreateEditCustomEventComponent implements OnInit{
     });
 
     if (this.mode === CreateEditMode.edit){
-      let id = 0;
+      let id = '';
       this.route.params.subscribe(p => id = p.id);
+
+      if (id.includes('customEvent')) {
+        id = id.split('_')[1];
+      }
 
       this.eventService.getEventById(id).subscribe({
         next: data => {
@@ -144,7 +148,6 @@ export class CreateEditCustomEventComponent implements OnInit{
   }
 
   onCancelClick() {
-    console.log("cancel");
     this.router.navigate(['calendar']);
   }
 }

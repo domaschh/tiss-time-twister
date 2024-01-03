@@ -62,7 +62,6 @@ export class CalendarPageComponent implements OnInit {
       label: '<i class="bi bi-trash"></i>',
       a11yLabel: 'Delete',
       onClick: ({event}: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
       },
     },
@@ -87,7 +86,6 @@ export class CalendarPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadCalendars();
     this.loadConfigs();
-
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
@@ -155,6 +153,8 @@ export class CalendarPageComponent implements OnInit {
         this.eventService.deleteEvent(myEvent.id).subscribe({
           next: _ => {
             console.log("Deleted successfully");
+            this.events = [];
+            this.calendars = [];
             this.loadCalendars();
           },
           error: error => {
@@ -170,6 +170,7 @@ export class CalendarPageComponent implements OnInit {
 
   addEvent(event: MyCalendarEvent, calendar: Calendar): void {
     const e: MyCalendarEvent = {
+      id: event.id,
       description: event.description,
       title: event.title
         + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
@@ -214,6 +215,7 @@ export class CalendarPageComponent implements OnInit {
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
             vevents.forEach(event => {
               let parsed: MyCalendarEvent = {
+                id: event.getFirstPropertyValue("uid"),
                 start: new Date(event.getFirstPropertyValue("dtstart")),
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
