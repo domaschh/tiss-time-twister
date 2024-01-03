@@ -1,46 +1,17 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import * as uuid from 'uuid';
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-  OnInit,
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import { Observable, Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarDayViewBeforeRenderEvent,
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent, CalendarMonthViewBeforeRenderEvent,
-  CalendarView, CalendarWeekViewBeforeRenderEvent,
-} from 'angular-calendar';
-import { EventColor } from 'calendar-utils';
-import {Calendar, EventCalendar} from 'src/app/dtos/Calendar';
-import { Configuration } from 'src/app/dtos/Configuration';
-import { MyCalendarEvent } from 'src/app/dtos/Calendar';
-import { CalendarReferenceService } from 'src/app/services/calendar.reference.service';
-import { ConfigurationService } from 'src/app/services/configuration.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Component, TemplateRef, ViewChild,} from '@angular/core';
+import {isSameDay, isSameMonth,} from 'date-fns';
+import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
+import {EventColor} from 'calendar-utils';
+import {Calendar, EventCalendar, MyCalendarEvent} from 'src/app/dtos/Calendar';
+import {CalendarReferenceService} from 'src/app/services/calendar.reference.service';
+import {ConfigurationService} from 'src/app/services/configuration.service';
 import * as ICAL from 'ical.js';
 import {EventService} from "../../services/event.service";
-import {LogoutSuccessModalComponent} from "../logout-success-modal/logout-success-modal.component";
-import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
-import {ca} from "date-fns/locale";
 import {ToastrService} from "ngx-toastr";
-import {data} from "autoprefixer";
-import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
-import { ConfigurationDto } from 'src/app/dtos/configuration-dto';
+import {ConfigurationDto} from 'src/app/dtos/configuration-dto';
 import {Location} from "@angular/common";
 
 const colors: Record<number, EventColor> = {

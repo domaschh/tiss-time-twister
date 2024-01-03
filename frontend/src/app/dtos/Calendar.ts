@@ -1,5 +1,4 @@
-import { CalendarEvent } from "angular-calendar"
-import {CalendarReferenceDto} from "./calendar-reference-dto";
+import {CalendarEvent} from "angular-calendar"
 import {ConfigurationDto} from "./configuration-dto";
 
 export class Calendar{
@@ -18,6 +17,7 @@ export class Calendar{
 export interface MyCalendarEvent extends CalendarEvent{
   location: string,
   categories: string,
+  description?: string,
   calendar?: Calendar;
   backgroundColor?: string;
 }
