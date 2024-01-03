@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
-import {CalendarReferenceService} from "../../services/calendar.reference.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormGroup, UntypedFormBuilder, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { CalendarReferenceDto } from "../../dtos/calendar-reference-dto";
+import { CalendarReferenceService } from "../../services/calendar.reference.service";
+import { Router } from "@angular/router";
+import { FormControl, FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-import',
@@ -11,10 +11,11 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./import.component.scss']
 })
 export class ImportComponent implements OnInit {
-  importForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    link: ['', [Validators.required]]
-  });
+
+  importForm: FormGroup;
+  isURLImport = true;
+  selectedFile: File | null = null;
+
   submitted = false;
   // Error flag
   error = false;
@@ -24,15 +25,16 @@ export class ImportComponent implements OnInit {
   optionalToken: string | null;
 
   constructor(private formBuilder: UntypedFormBuilder,
-              private calendarReferenceService: CalendarReferenceService,
-              private router: Router,
-              private readonly toastrService: ToastrService) {
+    private calendarReferenceService: CalendarReferenceService,
+    private router: Router,
+    private readonly toastrService: ToastrService) {
     const data = router.getCurrentNavigation().extras.state;
     this.editMode = data?.editMode ?? false;
     this.optionalEditId = data?.id ?? null;
   }
 
   ngOnInit(): void {
+    this.initForm();
     if (this.editMode) {
       this.calendarReferenceService.getById(this.optionalEditId).subscribe({
         next: (res) => {
@@ -45,7 +47,6 @@ export class ImportComponent implements OnInit {
       })
     }
   }
-
 
   private defaultServiceErrorHandling(error: any) {
     console.log(error);
@@ -61,17 +62,66 @@ export class ImportComponent implements OnInit {
     this.error = false;
   }
 
-  importCalendar() {
-    const toImport: CalendarReferenceDto = {
-      id: this.optionalEditId,
-      name: this.importForm.controls.name.value,
-      link: this.importForm.controls.link.value,
-      token: this.optionalToken
+  initForm(): void {
+    this.importForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      link: [''],
+      importSource: ['url', [Validators.required]],
+      file: [{ value: null, disabled: true }]
+    });
+    this.updateFormValidators();
+  }
+
+  updateFormValidators(): void {
+    if (this.isURLImport) {
+      this.importForm.get('link').setValidators([Validators.required]);
+      this.importForm.get('link').updateValueAndValidity();
+      this.importForm.get('file').clearValidators();
+      this.importForm.get('file').disable();
+    } else {
+      this.importForm.get('file').setValidators([Validators.required]);
+      this.importForm.get('file').enable();
+      this.importForm.get('link').clearValidators();
+      this.importForm.get('link').updateValueAndValidity();
     }
+  }
+
+
+  onImportSourceChange(): void {
+    this.isURLImport = this.importForm.controls.importSource.value === 'url';
+
+    if (this.isURLImport) {
+      this.importForm.get('link').reset();
+    } else {
+      this.importForm.get('file').reset();
+      this.selectedFile = null;
+    }
+    this.updateFormValidators();
+  }
+
+  onFileSelected(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.selectedFile = fileList[0];
+      this.importForm.get('file').setValue(this.selectedFile ? this.selectedFile.name : null);
+    }
+  }
+
+  importCalendar() {
+    this.submitted = true;
+
+    if (this.isURLImport) {
+      const toImport: CalendarReferenceDto = {
+        id: this.optionalEditId,
+        name: this.importForm.controls.name.value,
+        link: this.importForm.controls.link.value,
+        token: this.optionalToken
+      }
       this.calendarReferenceService.upsertCalendar(toImport).subscribe({
         next: () => {
           this.router.navigate(['calendar']);
-          if(this.editMode) {
+          if (this.editMode) {
             this.toastrService.success("Calendar edited")
           } else {
             this.toastrService.success("Created Calendar")
@@ -85,7 +135,28 @@ export class ImportComponent implements OnInit {
             this.errorMessage = err.error;
           }
         }
-      })
+      });
+    } else if (this.selectedFile) {
+
+      const formData = new FormData();
+      formData.append('name', this.importForm.controls.name.value);
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+
+      if (this.optionalToken) {
+        formData.append('token', this.optionalToken);
+      }
+
+      this.calendarReferenceService.upsertCalendarFile(formData).subscribe({
+        next: () => {
+          this.router.navigate(['calendar']);
+          this.toastrService.success("File uploaded successfully");
+        },
+        error: err => {
+          this.defaultServiceErrorHandling(err);
+          this.toastrService.error("Could not import: " + this.errorMessage);
+        }
+      });
     }
+  }
 }
 

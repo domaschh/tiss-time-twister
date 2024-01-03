@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
@@ -11,7 +12,9 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +52,26 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         calendarReference.setEnabledDefaultConfigurations(0L);
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         calendarReference.setUser(user);
+        return calendarReferenceRepository.save(calendarReference);
+    }
+
+    public CalendarReference addFile(String name, MultipartFile file, String username, UUID token) {
+        LOGGER.debug("Adding File CalendarReference {}", name);
+        ApplicationUser user = applicationUserRepository.getApplicationUserByEmail(username);
+
+        CalendarReference calendarReference = token != null ? getFromToken(token).orElse(new CalendarReference()) : new CalendarReference();
+        calendarReference.setName(name);
+        calendarReference.setUser(user);
+        if (calendarReference.getToken() == null) {
+            calendarReference.setToken(generateToken());
+        }
+
+        try {
+            calendarReference.setIcalData(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Error processing file", e);
+        }
+
         return calendarReferenceRepository.save(calendarReference);
     }
 

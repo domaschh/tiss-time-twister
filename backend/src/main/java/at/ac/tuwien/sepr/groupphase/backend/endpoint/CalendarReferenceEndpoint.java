@@ -31,7 +31,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -73,6 +75,16 @@ public class CalendarReferenceEndpoint {
                 calendarReferenceMapper.dtoToCalendarReference(calendarReferenceDto), username));
     }
 
+    @PutMapping("/file")
+    public ResponseEntity<?> uploadICalFile(@RequestParam("name") String name,
+                                            @RequestParam("file") MultipartFile file,
+                                            @RequestParam(required = false) UUID token,
+                                            HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
+        CalendarReference savedCalendarReference = calendarReferenceService.addFile(name, file, username, token);
+        CalendarReferenceDto responseDto = calendarReferenceMapper.calendarReferenceToDto(savedCalendarReference);
+        return ResponseEntity.ok(responseDto);
+    }
 
     @Secured("ROLE_USER")
     @GetMapping
