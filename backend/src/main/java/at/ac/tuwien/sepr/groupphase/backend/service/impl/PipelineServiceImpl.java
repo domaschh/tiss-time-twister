@@ -4,9 +4,11 @@ import at.ac.tuwien.sepr.groupphase.backend.LVADetail;
 import at.ac.tuwien.sepr.groupphase.backend.TissRoom;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Event;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
+import at.ac.tuwien.sepr.groupphase.backend.service.EventService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
 import net.fortuna.ical4j.data.ParserException;
@@ -15,6 +17,10 @@ import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.Categories;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.Location;
+import net.fortuna.ical4j.model.property.Uid;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -41,11 +47,14 @@ public class PipelineServiceImpl implements PipelineService {
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final TissService tissService;
 
+    private final EventService eventService;
+
     public PipelineServiceImpl(CalendarService calendarService, CalendarReferenceRepository calendarReferenceRepository,
-                               TissService tissService) {
+                               TissService tissService, EventService eventService) {
         this.calendarService = calendarService;
         this.calendarReferenceRepository = calendarReferenceRepository;
         this.tissService = tissService;
+        this.eventService = eventService;
     }
 
     @Override
@@ -56,7 +65,8 @@ public class PipelineServiceImpl implements PipelineService {
         }
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
         List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
-        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations());
+        var events = eventService.getEventsByCalendar(optionalCalendarReference.get());
+        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations(), events);
     }
 
     @Override
@@ -65,11 +75,12 @@ public class PipelineServiceImpl implements PipelineService {
         if (optionalCalendarReference.isEmpty()) {
             throw new NotFoundException("Calendar with id " + id + " does not exist");
         }
+        var events = eventService.getEventsByCalendar(optionalCalendarReference.get());
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
-        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations());
+        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations(), events);
     }
 
-    private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations, Long enabledDefaultConfigurations) {
+    private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations, Long enabledDefaultConfigurations, List<Event> customEvents) {
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
@@ -88,6 +99,17 @@ public class PipelineServiceImpl implements PipelineService {
                 newComponents.add(modifiedVEvent);
             }
         });
+
+        for (var event : customEvents){
+            VEvent vEvent = new VEvent(event.getStartTime(), event.getEndTime(), event.getTitle())
+                .withProperty(new Uid("customEvent_" + event.getId()))
+                .withProperty(new Location(event.getLocation()))
+                //.withProperty(new Description(event.getDescription()))
+                .withProperty(new Categories("customEvent"))
+                .getFluentTarget();
+            newComponents.add(vEvent);
+        }
+
         var componentList = new ComponentList<>(newComponents);
         calendar.setComponentList(componentList);
         return calendar;

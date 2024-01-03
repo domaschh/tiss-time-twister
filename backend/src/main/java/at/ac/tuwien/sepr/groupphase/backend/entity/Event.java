@@ -27,4 +27,9 @@ public class Event {
     @ManyToOne()
     @JoinColumn(name = "calendar_id")
     private CalendarReference calendar;
+
+    public Long getCalendarId() {
+        return calendar.getId();
+    }
+
 }
