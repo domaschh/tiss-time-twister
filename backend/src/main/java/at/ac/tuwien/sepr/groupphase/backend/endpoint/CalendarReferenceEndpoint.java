@@ -80,10 +80,13 @@ public class CalendarReferenceEndpoint {
                                             @RequestParam("file") MultipartFile file,
                                             @RequestParam(required = false) UUID token,
                                             HttpServletRequest request) {
-        String username = extractUsernameService.getUsername(request);
-        CalendarReference savedCalendarReference = calendarReferenceService.addFile(name, file, username, token);
-        CalendarReferenceDto responseDto = calendarReferenceMapper.calendarReferenceToDto(savedCalendarReference);
-        return ResponseEntity.ok(responseDto);
+        try {
+            String username = extractUsernameService.getUsername(request);
+            CalendarReference savedCalendarReference = calendarReferenceService.addFile(name, file, username, token);
+            return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(savedCalendarReference));
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @Secured("ROLE_USER")

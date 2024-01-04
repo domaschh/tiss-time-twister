@@ -55,7 +55,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         return calendarReferenceRepository.save(calendarReference);
     }
 
-    public CalendarReference addFile(String name, MultipartFile file, String username, UUID token) {
+    public CalendarReference addFile(String name, MultipartFile file, String username, UUID token) throws IOException {
         LOGGER.debug("Adding File CalendarReference {}", name);
         ApplicationUser user = applicationUserRepository.getApplicationUserByEmail(username);
 
@@ -65,12 +65,10 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         if (calendarReference.getToken() == null) {
             calendarReference.setToken(generateToken());
         }
-
-        try {
-            calendarReference.setIcalData(file.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException("Error processing file", e);
+        if (calendarReference.getEnabledDefaultConfigurations() == null) {
+            calendarReference.setEnabledDefaultConfigurations(0L);
         }
+        calendarReference.setIcalData(file.getBytes());
 
         return calendarReferenceRepository.save(calendarReference);
     }

@@ -9,6 +9,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceReposito
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
+import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
@@ -17,6 +18,7 @@ import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -54,9 +56,19 @@ public class PipelineServiceImpl implements PipelineService {
         if (optionalCalendarReference.isEmpty()) {
             throw new NotFoundException("Calendar with token " + token + " does not exist");
         }
-        var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
-        List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
-        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations());
+
+        CalendarReference calendarReference = optionalCalendarReference.get();
+        Calendar calendar;
+
+        if (calendarReference.getLink() != null && !calendarReference.getLink().isEmpty()) {
+            calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
+        } else if (calendarReference.getIcalData() != null) {
+            calendar = new CalendarBuilder().build(new ByteArrayInputStream(calendarReference.getIcalData()));
+        } else {
+            throw new NotFoundException("No URL or iCal data available for the given token: " + token);
+        }
+        List<Configuration> configurations = calendarReference.getConfigurations();
+        return applyConfigurations(calendar, configurations, calendarReference.getEnabledDefaultConfigurations());
     }
 
     @Override
