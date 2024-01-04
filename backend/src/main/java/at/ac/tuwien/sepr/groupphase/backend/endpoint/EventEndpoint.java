@@ -34,7 +34,7 @@ public class EventEndpoint {
     @PostMapping
     @Operation(summary = "Create a new event", security = @SecurityRequirement(name = "apiKey"))
     public EventDto createEvent(@Valid @RequestBody EventDto event) {
-        LOGGER.info("POST /api/v1/event/ body:{}", event);
+        LOGGER.info("POST /api/v1/event/body:{}", event);
         return eventMapper.eventToDto(eventService.add(eventMapper.dtoToEvent(event)));
     }
 
@@ -56,7 +56,6 @@ public class EventEndpoint {
 
     @Secured("ROLE_USER")
     @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Delete an event by id", security = @SecurityRequirement(name = "apiKey"))
     public void deleteEventById(@PathVariable Long id) {
         LOGGER.info("DELETE /api/v1/event/{}", id);

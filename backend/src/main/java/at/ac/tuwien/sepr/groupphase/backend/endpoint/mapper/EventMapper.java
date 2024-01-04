@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface EventMapper {
 
-    Event dtoToEvent(EventDto calendarReferenceDto);
+    Event dtoToEvent(EventDto eventDto);
 
-    EventDto eventToDto(Event calendarReferenceDto);
+    EventDto eventToDto(Event event);
 }
