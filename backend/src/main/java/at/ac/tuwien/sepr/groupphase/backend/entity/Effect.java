@@ -28,12 +28,15 @@ public class Effect {
     @Column
     private String location;
     @Column
+    private String tag;
+    @Column
     private EffectType effectType;
 
-    public Effect(String changedTitle, String changedDescription, String location, EffectType effectType) {
+    public Effect(String changedTitle, String changedDescription, String location, String tag, EffectType effectType) {
         this.changedTitle = changedTitle;
         this.changedDescription = changedDescription;
         this.location = location;
+        this.tag = tag;
         this.effectType = effectType;
     }
 
@@ -43,6 +46,10 @@ public class Effect {
 
     public VEvent apply(VEvent toModify) {
         if (effectType == null || effectType.equals(EffectType.DELETE)) {
+            return null;
+        }
+
+        if (effectType.equals(EffectType.TAG)) {
             return null;
         }
 
@@ -65,5 +72,11 @@ public class Effect {
         }
 
         return toModify;
+    }
+
+    public Boolean tagMatches(Tag tag){
+        if (!effectType.equals(EffectType.TAG))
+            return false;
+        return tag.getTag().equals(this.tag);
     }
 }

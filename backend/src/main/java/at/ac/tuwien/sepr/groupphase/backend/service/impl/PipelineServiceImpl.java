@@ -4,7 +4,9 @@ import at.ac.tuwien.sepr.groupphase.backend.LVADetail;
 import at.ac.tuwien.sepr.groupphase.backend.TissRoom;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Event;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Tag;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
@@ -18,7 +20,6 @@ import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
-import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.Uid;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     @Override
-    public Calendar pipeCalendar(UUID token) throws ParserException, IOException, URISyntaxException {
+    public Calendar pipeCalendar(UUID token, List<Tag> tags) throws ParserException, IOException, URISyntaxException {
         Optional<CalendarReference> optionalCalendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
         if (optionalCalendarReference.isEmpty()) {
             throw new NotFoundException("Calendar with token " + token + " does not exist");
@@ -66,7 +67,10 @@ public class PipelineServiceImpl implements PipelineService {
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
         List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
         var events = eventService.getEventsByCalendar(optionalCalendarReference.get());
-        return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations(), events);
+        return filterByTags(
+            applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations(), events),
+            configurations,
+            tags);
     }
 
     @Override
@@ -78,6 +82,36 @@ public class PipelineServiceImpl implements PipelineService {
         var events = eventService.getEventsByCalendar(optionalCalendarReference.get());
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
         return applyConfigurations(calendar, configurations, optionalCalendarReference.get().getEnabledDefaultConfigurations(), events);
+    }
+
+    private Calendar filterByTags(Calendar calendar, List<Configuration> configurations, List<Tag> tags) {
+        if (tags.isEmpty()){
+            return calendar;
+        }
+
+        List<CalendarComponent> newComponents = new ArrayList<>();
+        newComponents.add(calendar.getComponentList().getAll().get(0));
+        calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
+            VEvent vEvent = (VEvent) v;
+            VEvent filteredEvent = configurations.stream()
+                .flatMap(configuration -> configuration.getRules().stream())
+                .reduce(vEvent, (currentVEvent, rule) -> {
+                    if (rule.getEffect().getEffectType().equals(EffectType.TAG)){
+                        for (Tag t : tags) {
+                            if (rule.getEffect().tagMatches(t) && !newComponents.contains(currentVEvent)) {
+                                return currentVEvent;
+                            }
+                        }
+                    }
+                    return null;
+                }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
+            if (filteredEvent != null) {
+                newComponents.add(filteredEvent);
+            }
+        });
+        var componentList = new ComponentList<>(newComponents);
+        calendar.setComponentList(componentList);
+        return calendar;
     }
 
     private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations, Long enabledDefaultConfigurations, List<Event> customEvents) {

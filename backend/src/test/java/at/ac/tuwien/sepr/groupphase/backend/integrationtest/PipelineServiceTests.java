@@ -93,7 +93,7 @@ class PipelineServiceTests {
             .when(calendarReferenceRepository.findCalendarReferenceByToken(calendarUUID))
             .thenReturn(Optional.of(calendarReference));
 
-        var returnedCalendar = pipelineService.pipeCalendar(calendarUUID);
+        var returnedCalendar = pipelineService.pipeCalendar(calendarUUID, List.of());
 
         var numberOfFProgEvents = returnedCalendar
             .getComponentList()
