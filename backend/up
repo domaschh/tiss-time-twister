@@ -1,0 +1,6 @@
+pack build ghcr.io/domaschh/spring-boot-flyio:latest \
+    --builder paketobuildpacks/builder:base \
+    --path . \
+    --env "BP_OCI_SOURCE=https://github.com/domaschh/spring-boot-flyio" \
+    --env "BP_JVM_VERSION=17" \
+    --publish

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  backendUrl: 'https://tisstuwien.fly.dev/api/v1'
-  // backendUrl: 'http://localhost:8080/api/v1'
+  // backendUrl: 'https://tisstuwien.fly.dev/api/v1'
+  backendUrl: 'http://localhost:8080/api/v1'
 };
 
 /*

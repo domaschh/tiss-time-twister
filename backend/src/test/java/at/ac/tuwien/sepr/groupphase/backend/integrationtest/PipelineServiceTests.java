@@ -7,6 +7,8 @@ import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.component.VEvent;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +19,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -36,6 +41,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureMockMvc
 class PipelineServiceTests {
     private CalendarReference cal = new CalendarReference();
+
+
+    public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void registerPgProperties(DynamicPropertyRegistry propertyRegistry) {
+        propertyRegistry.add("spring.datasource.url", postgres::getJdbcUrl);
+        propertyRegistry.add("spring.datasource.username", postgres::getUsername);
+        propertyRegistry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private PipelineService pipelineService;
