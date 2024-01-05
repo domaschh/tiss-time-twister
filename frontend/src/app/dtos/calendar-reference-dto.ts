@@ -7,4 +7,5 @@ export class CalendarReferenceDto {
   token: string | null;
   configurations?: ConfigurationDto[];
   enabledDefaultConfigurations?: number;
+  icalData?: string;
 }

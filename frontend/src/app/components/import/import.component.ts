@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarReferenceDto } from "../../dtos/calendar-reference-dto";
 import { CalendarReferenceService } from "../../services/calendar.reference.service";
 import { Router } from "@angular/router";
-import { FormControl, FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
+import { FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -38,13 +38,26 @@ export class ImportComponent implements OnInit {
     if (this.editMode) {
       this.calendarReferenceService.getById(this.optionalEditId).subscribe({
         next: (res) => {
-          this.importForm.controls.name.setValue(res.name)
-          this.importForm.controls.link.setValue(res.link)
-          this.optionalToken = res.token
+          this.importForm.controls.name.setValue(res.name);
+          this.optionalToken = res.token;
+
+          if (res.icalData) {
+            this.isURLImport = false;
+            this.selectedFile = new File([new Blob([res.icalData])], "imported_calendar.ics", { type: "text/calendar" });
+            this.importForm.get('file').setValue(this.selectedFile.name);
+            this.importForm.get('file').enable();
+            this.importForm.get('link').clearValidators();
+            this.importForm.get('link').setValue('');
+            this.importForm.get('importSource').setValue('file');
+          } else {
+            this.importForm.controls.link.setValue(res.link);
+            this.importForm.get('importSource').setValue('url');
+          }
+          this.updateFormValidators();
         }, error: () => {
-          this.toastrService.error("Couldn't fetch Calendar data")
+          this.toastrService.error("Couldn't fetch Calendar data");
         }
-      })
+      });
     }
   }
 
@@ -102,9 +115,18 @@ export class ImportComponent implements OnInit {
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
+
     if (fileList) {
-      this.selectedFile = fileList[0];
-      this.importForm.get('file').setValue(this.selectedFile ? this.selectedFile.name : null);
+      const file = fileList[0];
+
+      if (file.type === "text/calendar" || file.name.endsWith('.ics')) {
+        this.selectedFile = file;
+        this.importForm.get('file').setValue(this.selectedFile ? this.selectedFile.name : null);
+      } else {
+        this.toastrService.error("Only iCal (.ics) files are allowed!");
+        this.importForm.get('file').setValue(null);
+        this.selectedFile = null;
+      }
     }
   }
 
@@ -116,7 +138,8 @@ export class ImportComponent implements OnInit {
         id: this.optionalEditId,
         name: this.importForm.controls.name.value,
         link: this.importForm.controls.link.value,
-        token: this.optionalToken
+        token: this.optionalToken,
+        icalData: null
       }
       this.calendarReferenceService.upsertCalendar(toImport).subscribe({
         next: () => {
@@ -141,10 +164,10 @@ export class ImportComponent implements OnInit {
       const formData = new FormData();
       formData.append('name', this.importForm.controls.name.value);
       formData.append('file', this.selectedFile, this.selectedFile.name);
-
       if (this.optionalToken) {
         formData.append('token', this.optionalToken);
       }
+      formData.append('link', '');
 
       this.calendarReferenceService.upsertCalendarFile(formData).subscribe({
         next: () => {

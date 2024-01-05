@@ -18,6 +18,7 @@ public class CalendarReferenceDto {
     private String name;
     @URL
     private String link;
+    private String icalData;
     private List<ConfigurationDto> configurations;
     private Long enabledDefaultConfigurations;
 

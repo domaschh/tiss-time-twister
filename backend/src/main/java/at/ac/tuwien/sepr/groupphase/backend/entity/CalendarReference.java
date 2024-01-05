@@ -34,7 +34,7 @@ public class CalendarReference {
     @Column()
     private String link;
     @Lob
-    @Column(name = "ical_data", columnDefinition="BLOB")
+    @Column(name = "ical_data", columnDefinition = "BLOB")
     private byte[] icalData;
     @Column()
     private Long enabledDefaultConfigurations;

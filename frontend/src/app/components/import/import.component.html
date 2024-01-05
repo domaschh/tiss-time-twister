@@ -103,6 +103,17 @@
                 id="inputFile"
                 (change)="onFileSelected($event)"
               />
+              <div *ngIf="selectedFile">
+                <small class="form-text text-muted">
+                  Current file: {{ selectedFile.name }}
+                </small>
+              </div>
+              <small
+                class="form-text text-warning"
+                *ngIf="!selectedFile && submitted"
+              >
+                An iCal file is required!
+              </small>
             </div>
 
             <button

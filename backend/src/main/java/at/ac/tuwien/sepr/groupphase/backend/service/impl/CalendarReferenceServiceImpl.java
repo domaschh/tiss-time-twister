@@ -69,6 +69,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             calendarReference.setEnabledDefaultConfigurations(0L);
         }
         calendarReference.setIcalData(file.getBytes());
+        calendarReference.setLink(null);
 
         return calendarReferenceRepository.save(calendarReference);
     }
