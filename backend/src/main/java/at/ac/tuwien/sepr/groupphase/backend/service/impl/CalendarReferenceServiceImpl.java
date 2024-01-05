@@ -81,6 +81,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
     @Override
     public Optional<CalendarReference> getFromToken(UUID token) {
+        LOGGER.debug("Get CalendarReference from token {}", token);
         return calendarReferenceRepository.findCalendarReferenceByToken(token);
     }
 
