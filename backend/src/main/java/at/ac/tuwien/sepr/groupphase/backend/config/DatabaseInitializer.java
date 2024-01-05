@@ -19,7 +19,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             ResultSet resultSet = conn.getMetaData().getCatalogs();
-
+            System.out.println("Hallo ");
             while (resultSet.next()) {
                 String databaseName = resultSet.getString(1);
 
