@@ -1,7 +1,6 @@
 {
   "/api/*": {
-    "target": "http://localhost:8080",
-    "secure": false,
-    "logLevel": "debug"
+    "target": "https://tisstuwien.fly.dev/api/v1",
+    "secure": false
   }
 }
