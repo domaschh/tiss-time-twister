@@ -8,9 +8,9 @@ logging:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tiss-postgres}
-    username: ${SPRING_DATASOURCE_USERNAME:your_username}
-    password: ${SPRING_DATASOURCE_PASSWORD:your_password}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:  # Set this property to true if you want to see the executed queries
     show-sql: false
