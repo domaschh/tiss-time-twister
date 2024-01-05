@@ -129,10 +129,13 @@
                                [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
                         <label class="cursor-pointer rounded-2xl p-1 text-xs"
                                (click)="currentRule.effect.effectType = EffectType.MODIFY"
-                               [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+                               [ngClass]="!isModifyEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                               (click)="currentRule.effect.effectType = EffectType.TAG"
+                               [ngClass]="!isTagEffect() ? 'bg-infoDeactivated': 'bg-info' ">{{ isDeleteEffect() ? 'Tag' : 'Tag' }}</label>
                       </div>
                     </div>
-                    <div *ngIf="!isDeleteEffect()">
+                    <div *ngIf="isModifyEffect()">
                       <div class="row">
                         <div class="col">
                           <div class="">
@@ -161,6 +164,14 @@
                                    [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
                           </div>
                         </div>
+                      </div>
+                    </div>
+                    <div *ngIf="isTagEffect()">
+                      <div class="flex flex-row justify-start align-items-center">
+                        <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1"
+                               *ngFor="let tag of tags"
+                               (click)="tagClicked(tag)"
+                               [ngClass]="selectedTag === tag ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}</label>
                       </div>
                     </div>
                     <div matTooltip="Add Rule" (click)="addRule()"

@@ -209,7 +209,7 @@ export class CalendarPageComponent implements OnInit {
         cals.forEach((calendarReferenceDto) => {
           console.log(calendarReferenceDto)
           var evs: MyCalendarEvent[] = [];
-          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token).subscribe((icalString) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token, []).subscribe((icalString) => {
             var parsedcal = this.myICAL.parse(icalString);
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
@@ -425,7 +425,7 @@ export class CalendarPageComponent implements OnInit {
 
   //with config applied
   downloadCalendar(calendar: Calendar) {
-    this.calenderReferenceServie.getIcalFileFromToken(calendar.token).subscribe({
+    this.calenderReferenceServie.getIcalFileFromToken(calendar.token, []).subscribe({
       next: (result) => {
         const blob = new Blob([result], {type: 'text/calendar'});
         const url = window.URL.createObjectURL(blob);

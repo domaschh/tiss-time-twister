@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {ConfigurationDto, EffectType, MatchType, RuleDto} from 'src/app/dtos/configuration-dto';
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
+import {TagDto} from "../../dtos/tag-dto";
+import {TagService} from "../../services/tag.service";
 
 @Component({
   selector: 'app-create-config',
@@ -13,6 +15,8 @@ import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 })
 export class CreateConfigComponent {
   calendars: CalendarReferenceDto[] = [];
+  tags: TagDto[] = [];
+  selectedTag: TagDto = null;
 
   MatchType = MatchType;
   EffectType = EffectType;
@@ -40,7 +44,13 @@ export class CreateConfigComponent {
   prefilled: {calId: number, config: ConfigurationDto};
 
 
-  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
+  constructor(
+      private route: ActivatedRoute,
+      private formBuilder: UntypedFormBuilder,
+      private calendarReferenceService: CalendarReferenceService,
+      private tagService: TagService,
+      private router: Router,
+      private readonly toastrService: ToastrService) {
     this.configurationForm.patchValue({ calendar: null });
     this.prefilled = this.router.getCurrentNavigation().extras.state as {calId: number, config: ConfigurationDto};
     if (this.prefilled) {
@@ -54,8 +64,18 @@ export class CreateConfigComponent {
 
 
   ngOnInit(): void {
-    this.loadCalendars()
+    this.loadCalendars();
+    this.loadTags();
     this.setActiveNewRule();
+  }
+
+  loadTags() {
+    this.tagService.getAll().subscribe({
+      next: tags => {
+        this.tags = tags;
+      },
+      error: () => {}
+    });
   }
 
   loadCalendars() {
@@ -124,8 +144,26 @@ export class CreateConfigComponent {
     });
   }
 
+  tagClicked(tag: TagDto) {
+    if (this.selectedTag === tag) {
+      this.selectedTag = null;
+      this.currentRule.effect.tag = null;
+    } else {
+      this.selectedTag = tag;
+      this.currentRule.effect.tag = tag.tag;
+    }
+  }
+
   isDeleteEffect() {
     return this.currentRule.effect.effectType === EffectType.DELETE;
+  }
+
+  isModifyEffect() {
+    return this.currentRule.effect.effectType === EffectType.MODIFY;
+  }
+
+  isTagEffect() {
+    return this.currentRule.effect.effectType === EffectType.TAG;
   }
 
   deleteRule($event: RuleDto) {

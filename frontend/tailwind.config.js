@@ -19,8 +19,10 @@ module.exports = {
         dark: '#04559c',
         light: '#E8F3FB',
       },
-      red:'#EB4463',
-      redDeactivated:'rgba(122,46,62,0.51)',
+      red: '#EB4463',
+      redDeactivated: 'rgba(122,46,62,0.51)',
+      info: '#4CB9FA',
+      infoDeactivated: 'rgba(76,185,250,0.4)'
     },
     extend: {
       textColor: {

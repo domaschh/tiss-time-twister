@@ -29,8 +29,8 @@ export class CalendarReferenceService {
     return this.httpClient.get<CalendarReferenceDto>(this.messageBaseUri + '/' + id);
   }
 
-  getIcalFileFromToken(token: string) {
-    return this.httpClient.get(this.getIcalLinkFromToken(token), { responseType: 'text' });
+  getIcalFileFromToken(token: string, tags: []) {
+    return this.httpClient.post(this.getIcalLinkFromToken(token), [], { responseType: 'text' });
   }
 
   getIcalLinkFromToken(token: string){
