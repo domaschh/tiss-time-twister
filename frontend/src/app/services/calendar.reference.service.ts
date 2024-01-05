@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Globals } from "../global/globals";
 import { CalendarReferenceDto } from "../dtos/calendar-reference-dto";
 import { Observable, catchError, of } from 'rxjs';
-import { Configuration } from '../dtos/Configuration';
 import { ConfigurationDto } from '../dtos/configuration-dto';
 
 @Injectable({
@@ -21,6 +20,10 @@ export class CalendarReferenceService {
     return this.httpClient.put<CalendarReferenceDto>(this.messageBaseUri, dto);
   }
 
+  upsertCalendarFile(formData: FormData): Observable<any> {
+    return this.httpClient.put(this.messageBaseUri + '/file', formData);
+  }
+
   deleteCalendar(id: number) {
     return this.httpClient.delete(this.messageBaseUri + "/" + id);
   }
@@ -33,7 +36,7 @@ export class CalendarReferenceService {
     return this.httpClient.get(this.getIcalLinkFromToken(token), { responseType: 'text' });
   }
 
-  getIcalLinkFromToken(token: string){
+  getIcalLinkFromToken(token: string) {
     return this.messageBaseUri + "/export/" + token
   }
 
@@ -47,7 +50,7 @@ export class CalendarReferenceService {
   }
 
   getConfigurationPreview(calendarId: number, config: ConfigurationDto) {
-    return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], { responseType: 'text'});
+    return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], { responseType: 'text' });
   }
 
   addToCalendar(selectedCal: number, configuration: number) {
