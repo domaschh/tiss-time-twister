@@ -23,7 +23,7 @@ public class DatabaseInitializer implements CommandLineRunner {
             while (resultSet.next()) {
                 String databaseName = resultSet.getString(1);
 
-                if ("compose-postgres".equals(databaseName)) {
+                if ("tiss-postgres".equals(databaseName)) {
 
                     return; // Database exists
                 }
@@ -31,7 +31,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             // If here, database does not exist, create it
             try (Statement statement = conn.createStatement()) {
-                statement.executeUpdate("CREATE DATABASE \"compose-postgres\"");
+                statement.executeUpdate("CREATE DATABASE \"tiss-postgres\"");
             }
         }
     }

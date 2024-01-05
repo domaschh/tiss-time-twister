@@ -8,7 +8,7 @@ logging:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/compose-postgres}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tiss-postgres}
     username: ${SPRING_DATASOURCE_USERNAME:your_username}
     password: ${SPRING_DATASOURCE_PASSWORD:your_password}
     driver-class-name: org.postgresql.Driver
