@@ -1,0 +1,854 @@
+[
+    {
+        "ft": "VU Datenbanktheorie",
+        "a": "VU Datenbanktheorie"
+    },
+    {
+        "ft": "VU Knowledge Graphs",
+        "a": "VU KG"
+    },
+    {
+        "ft": "VO Einf\u00fchrung in die Wissenschaftstheorie I",
+        "a": "VO EWI"
+    },
+    {
+        "ft": "VU Datenbanksysteme Vertiefung",
+        "a": "VU DV"
+    },
+    {
+        "ft": "VU Analyse und Verifikation",
+        "a": "VU AV"
+    },
+    {
+        "ft": "PR Project in Computer Science 2",
+        "a": "PR PCS2"
+    },
+    {
+        "ft": "VU Advanced Software Engineering",
+        "a": "VU ASE"
+    },
+    {
+        "ft": "VU Kryptographie",
+        "a": "VU Kryptographie"
+    },
+    {
+        "ft": "VU Einf\u00fchrung in Semantic Systems",
+        "a": "VU ESS"
+    },
+    {
+        "ft": "VU Cryptocurrencies",
+        "a": "VU Cryptocurrencies"
+    },
+    {
+        "ft": "VO Grundlagen der Makro\u00f6konomie",
+        "a": "VO GM"
+    },
+    {
+        "ft": "SE Seminar aus \u00dcbersetzerbau",
+        "a": "SE Sa\u00dc"
+    },
+    {
+        "ft": "VU Enterprise Resource Planning and Control",
+        "a": "VU ERPC"
+    },
+    {
+        "ft": "VU Real Time Scheduling",
+        "a": "VU RTS"
+    },
+    {
+        "ft": "VU Algorithmic Geometry",
+        "a": "VU AG"
+    },
+    {
+        "ft": "VU Information Design",
+        "a": "VU ID"
+    },
+    {
+        "ft": "VU Distributed Systems Technologies",
+        "a": "VU DST"
+    },
+    {
+        "ft": "VU Software in Kommunikationsnetzen",
+        "a": "VU SK"
+    },
+    {
+        "ft": "VU Formal Language Theory",
+        "a": "VU FLT"
+    },
+    {
+        "ft": "VU Digitale Nachhaltigkeit",
+        "a": "VU DN"
+    },
+    {
+        "ft": "VU Fortgeschrittene logische Programmierung",
+        "a": "VU FlP"
+    },
+    {
+        "ft": "VU Algorithmics",
+        "a": "VU Algorithmics"
+    },
+    {
+        "ft": "VU Structural Decompositions and Algorithms",
+        "a": "VU SDA"
+    },
+    {
+        "ft": "VO Deduktive Datenbanken",
+        "a": "VO DD"
+    },
+    {
+        "ft": "SE Seminar aus Datenbanken",
+        "a": "SE SaD"
+    },
+    {
+        "ft": "UE Formale Methoden der Informatik",
+        "a": "UE FMI"
+    },
+    {
+        "ft": "VU Theoretical Foundations and Research Topics in Machine Learning",
+        "a": "VU TFRTML"
+    },
+    {
+        "ft": "VU Approximation Algorithms",
+        "a": "VU AA"
+    },
+    {
+        "ft": "VU Optimierende \u00dcbersetzer",
+        "a": "VU O\u00dc"
+    },
+    {
+        "ft": "VU Programmiersprachen",
+        "a": "VU Programmiersprachen"
+    },
+    {
+        "ft": "VU Membrane Computing",
+        "a": "VU MC"
+    },
+    {
+        "ft": "VO Analysis of Algorithms",
+        "a": "VO AoA"
+    },
+    {
+        "ft": "VU Network Security",
+        "a": "VU NS"
+    },
+    {
+        "ft": "VO Knowledge Management",
+        "a": "VO KM"
+    },
+    {
+        "ft": "VU Programming Principles of Mobile Robotics",
+        "a": "VU PPoMR"
+    },
+    {
+        "ft": "VU Algorithms in Graph Theory",
+        "a": "VU AGT"
+    },
+    {
+        "ft": "VU Financial Management and Reporting",
+        "a": "VU FMR"
+    },
+    {
+        "ft": "VU Unification Theory",
+        "a": "VU UT"
+    },
+    {
+        "ft": "SE Coaching als F\u00fchrungsinstrument 2",
+        "a": "SE CaF2"
+    },
+    {
+        "ft": "VO GIS Theorie II",
+        "a": "VO GTI"
+    },
+    {
+        "ft": "VU Fixed Parameter Algorithms and Complexity",
+        "a": "VU FPAC"
+    },
+    {
+        "ft": "VU Practical Applications of Answer Set Programming",
+        "a": "VU PAoASP"
+    },
+    {
+        "ft": "UE Network Engineering",
+        "a": "UE NE"
+    },
+    {
+        "ft": "VU Parallele und Echtzeitprogrammierung",
+        "a": "VU PE"
+    },
+    {
+        "ft": "VU Coalgebra in Computer Science",
+        "a": "VU CCS"
+    },
+    {
+        "ft": "VU Heuristic Optimization Techniques",
+        "a": "VU HOT"
+    },
+    {
+        "ft": "PR Project in Computer Science 1",
+        "a": "PR PCS1"
+    },
+    {
+        "ft": "VU \u00dcbersetzer f\u00fcr Parallele Systeme",
+        "a": "VU \u00dcPS"
+    },
+    {
+        "ft": "VU Pr\u00e4sentations und Verhandlungstechnik",
+        "a": "VU PV"
+    },
+    {
+        "ft": "VU Value Based Software Engineering",
+        "a": "VU VBSE"
+    },
+    {
+        "ft": "VU Programming Principles of Mobile Robotics",
+        "a": "VU PPoMR"
+    },
+    {
+        "ft": "VU Advanced Security for Systems Engineering",
+        "a": "VU ASSE"
+    },
+    {
+        "ft": "VU Rhetorik K\u00f6rpersprache Argumentationstraining",
+        "a": "VU RKA"
+    },
+    {
+        "ft": "SE VWA Mentoring II",
+        "a": "SE VMI"
+    },
+    {
+        "ft": "VU Similarity Modeling 1",
+        "a": "VU SM1"
+    },
+    {
+        "ft": "VU Management von Software Projekten",
+        "a": "VU MvSP"
+    },
+    {
+        "ft": "SE Kommunikationstechnik",
+        "a": "SE Kommunikationstechnik"
+    },
+    {
+        "ft": "SE Privatissimum aus Fachdidaktik Informatik",
+        "a": "SE PaFI"
+    },
+    {
+        "ft": "SE Advanced Model Engineering",
+        "a": "SE AME"
+    },
+    {
+        "ft": "VU Advanced Topics in Theoretical Computer Science",
+        "a": "VU ATTCS"
+    },
+    {
+        "ft": "VU Advanced Internet Computing",
+        "a": "VU AIC"
+    },
+    {
+        "ft": "VU Networks Design and Analysis",
+        "a": "VU NDA"
+    },
+    {
+        "ft": "VU Dynamic Compilation",
+        "a": "VU DC"
+    },
+    {
+        "ft": "VO Typsysteme",
+        "a": "VO Typsysteme"
+    },
+    {
+        "ft": "VU Model Engineering",
+        "a": "VU ME"
+    },
+    {
+        "ft": "VU Advanced Topics in Formal Language Theory",
+        "a": "VU ATFLT"
+    },
+    {
+        "ft": "VO Pervasive and Mobile Computing",
+        "a": "VO PMC"
+    },
+    {
+        "ft": "PR Project in Computer Science 2",
+        "a": "PR PCS2"
+    },
+    {
+        "ft": "VO Pr\u00e4sentation Moderation und Mediation",
+        "a": "VO PMM"
+    },
+    {
+        "ft": "VU Formal Methods for Security and Privacy",
+        "a": "VU FMSP"
+    },
+    {
+        "ft": "VO Frauen in Naturwissenschaft und Technik",
+        "a": "VO FNT"
+    },
+    {
+        "ft": "VU Optimization in Transport and Logistics",
+        "a": "VU OTL"
+    },
+    {
+        "ft": "VU Randomized Algorithms",
+        "a": "VU RA"
+    },
+    {
+        "ft": "VU Mobile Network Services and Applications",
+        "a": "VU MNSA"
+    },
+    {
+        "ft": "VO Network Engineering",
+        "a": "VO NE"
+    },
+    {
+        "ft": "SE Seminar aus Programmiersprachen",
+        "a": "SE SaP"
+    },
+    {
+        "ft": "VU Automated Reasoning and Program Verification",
+        "a": "VU ARPV"
+    },
+    {
+        "ft": "VU Media and Brain 1",
+        "a": "VU MB1"
+    },
+    {
+        "ft": "VO EDV Vertragsrecht",
+        "a": "VO EV"
+    },
+    {
+        "ft": "VU Advanced Algorithms",
+        "a": "VU AA"
+    },
+    {
+        "ft": "VO Einf\u00fchrung in Technik und Gesellschaft",
+        "a": "VO ETG"
+    },
+    {
+        "ft": "VU Fortgeschrittene funktionale Programmierung",
+        "a": "VU FfP"
+    },
+    {
+        "ft": "VU Digital Forensics",
+        "a": "VU DF"
+    },
+    {
+        "ft": "UE Algorithmic Geometry",
+        "a": "UE AG"
+    },
+    {
+        "ft": "VU Mathematical Programming",
+        "a": "VU MP"
+    },
+    {
+        "ft": "SE VWA Mentoring I",
+        "a": "SE VMI"
+    },
+    {
+        "ft": "VU Methods of Empirical Software Engineering",
+        "a": "VU MoESE"
+    },
+    {
+        "ft": "SE Didaktik in der Informatik",
+        "a": "SE DI"
+    },
+    {
+        "ft": "PR Project in Computer Science 1",
+        "a": "PR PCS1"
+    },
+    {
+        "ft": "VU Software Testing",
+        "a": "VU ST"
+    },
+    {
+        "ft": "VU Enterprise Risk Management Basics",
+        "a": "VU ERMB"
+    },
+    {
+        "ft": "VU Programmanalyse",
+        "a": "VU Programmanalyse"
+    },
+    {
+        "ft": "VU Algorithmic Social Choice",
+        "a": "VU ASC"
+    },
+    {
+        "ft": "VU Automated Deduction",
+        "a": "VU AD"
+    },
+    {
+        "ft": "VU Probabilistic Programming and AI",
+        "a": "VU PPA"
+    },
+    {
+        "ft": "VU Rigorous Systems Engineering",
+        "a": "VU RSE"
+    },
+    {
+        "ft": "VU Complexity Theory",
+        "a": "VU CT"
+    },
+    {
+        "ft": "VO Data Stewardship",
+        "a": "VO DS"
+    },
+    {
+        "ft": "VU Distributed Algorithms",
+        "a": "VU DA"
+    },
+    {
+        "ft": "VU Smart Contracts",
+        "a": "VU SC"
+    },
+    {
+        "ft": "VU Mobile Robotik",
+        "a": "VU MR"
+    },
+    {
+        "ft": "VU Algorithms Design",
+        "a": "VU AD"
+    },
+    {
+        "ft": "VU Formal Methods in Computer Science",
+        "a": "VU FMCS"
+    },
+    {
+        "ft": "VU Dependable Distributed Systems",
+        "a": "VU DDS"
+    },
+    {
+        "ft": "VU Problems in Distributed Computing",
+        "a": "VU PDC"
+    },
+    {
+        "ft": "VU Introduction to Type Theories",
+        "a": "VU ItTT"
+    },
+    {
+        "ft": "VU IT Security in Large IT Infrastructures",
+        "a": "VU ISLII"
+    },
+    {
+        "ft": "VU Similarity Modeling 2",
+        "a": "VU SM2"
+    },
+    {
+        "ft": "VU Machine Learning",
+        "a": "VU ML"
+    },
+    {
+        "ft": "VU Applied Web Data Extraction and Integration",
+        "a": "VU AWDEI"
+    },
+    {
+        "ft": "VU Softskills f\u00fcr TechnikerInnen",
+        "a": "VU ST"
+    },
+    {
+        "ft": "SE Seminar in Logic",
+        "a": "SE SL"
+    },
+    {
+        "ft": "VU Semi Automatic Information and Knowledge Systems",
+        "a": "VU SAIKS"
+    },
+    {
+        "ft": "VU Computability Theory",
+        "a": "VU CT"
+    },
+    {
+        "ft": "SE Kommunikation und Rhetorik 2",
+        "a": "SE KR2"
+    },
+    {
+        "ft": "UE Analysis of Algorithms",
+        "a": "UE AoA"
+    },
+    {
+        "ft": "VU Wireless in Automation",
+        "a": "VU WA"
+    },
+    {
+        "ft": "VU Configuration Management",
+        "a": "VU CM"
+    },
+    {
+        "ft": "VU Modeling and Solving Constrained Optimization Problems",
+        "a": "VU MSCOP"
+    },
+    {
+        "ft": "VU Web Data Extracion and Integration",
+        "a": "VU WDEI"
+    },
+    {
+        "ft": "UE Pr\u00e4sentation Moderation und Mediation",
+        "a": "UE PMM"
+    },
+    {
+        "ft": "VU Advanced Information Retrieval",
+        "a": "VU AIR"
+    },
+    {
+        "ft": "VU Peer to Peer Systems",
+        "a": "VU PtPS"
+    },
+    {
+        "ft": "VU Computational Equational Logic",
+        "a": "VU CEL"
+    },
+    {
+        "ft": "VU Programming Principles of Mobile Robotics II",
+        "a": "VU PPoMRI"
+    },
+    {
+        "ft": "VU Verteiltes Programmieren mit Space Based Computing Middleware",
+        "a": "VU VPmSBCM"
+    },
+    {
+        "ft": "UE Formale Methoden der Informatik",
+        "a": "UE FMI"
+    },
+    {
+        "ft": "VU Advanced Distributed Systems",
+        "a": "VU ADS"
+    },
+    {
+        "ft": "PR Project in Computer Science 2",
+        "a": "PR PCS2"
+    },
+    {
+        "ft": "VU Einf\u00fchrung in Semantic Systems",
+        "a": "VU ESS"
+    },
+    {
+        "ft": "VU Crypto Asset Analytics",
+        "a": "VU CAA"
+    },
+    {
+        "ft": "VU Advanced Multiprocessor Programming",
+        "a": "VU AMP"
+    },
+    {
+        "ft": "VU Web Application Engineering and Content Management",
+        "a": "VU WAECM"
+    },
+    {
+        "ft": "UE Knowledge Management",
+        "a": "UE KM"
+    },
+    {
+        "ft": "UE Computer Aided Verification",
+        "a": "UE CAV"
+    },
+    {
+        "ft": "VU Discrete Reasoning Methods",
+        "a": "VU DRM"
+    },
+    {
+        "ft": "VU Formal Methods for Concurrent and Distributed Systems",
+        "a": "VU FMCDS"
+    },
+    {
+        "ft": "VU Kooperatives Arbeiten",
+        "a": "VU KA"
+    },
+    {
+        "ft": "SE Seminar aus Algorithmik",
+        "a": "SE SaA"
+    },
+    {
+        "ft": "VU GIS Theorie I",
+        "a": "VU GTI"
+    },
+    {
+        "ft": "VU Project and Enterprise Financing",
+        "a": "VU PEF"
+    },
+    {
+        "ft": "VU Effiziente Programme",
+        "a": "VU EP"
+    },
+    {
+        "ft": "VU Term Rewriting",
+        "a": "VU TR"
+    },
+    {
+        "ft": "PR Project in Computer Science 2",
+        "a": "PR PCS2"
+    },
+    {
+        "ft": "VU Network Security Advanced Topics",
+        "a": "VU NSAT"
+    },
+    {
+        "ft": "VU Software Maintenance and Evolution",
+        "a": "VU SME"
+    },
+    {
+        "ft": "VU Kommunikation und Moderation",
+        "a": "VU KM"
+    },
+    {
+        "ft": "SE Coaching als F\u00fchrungsinstrument 1",
+        "a": "SE CaF1"
+    },
+    {
+        "ft": "VU Parallele Algorithmen",
+        "a": "VU PA"
+    },
+    {
+        "ft": "VU Software Model Checking",
+        "a": "VU SMC"
+    },
+    {
+        "ft": "VU Hands On Cloud Native",
+        "a": "VU HOCN"
+    },
+    {
+        "ft": "VU IT based Management",
+        "a": "VU IbM"
+    },
+    {
+        "ft": "VU Forschungsmethoden",
+        "a": "VU Forschungsmethoden"
+    },
+    {
+        "ft": "VU Techniksoziologie und Technikpsychologie",
+        "a": "VU TT"
+    },
+    {
+        "ft": "VU Semantik von Programmiersprachen",
+        "a": "VU SvP"
+    },
+    {
+        "ft": "VU Sicherheit Privacy und Erkl\u00e4rbarkeit in Maschinellem Lernen",
+        "a": "VU SPEML"
+    },
+    {
+        "ft": "VO Theorie und Praxis der Gruppenarbeit",
+        "a": "VO TPG"
+    },
+    {
+        "ft": "SE Seminar in Software Engineering",
+        "a": "SE SSE"
+    },
+    {
+        "ft": "VO Zwischen Karriere und Barriere",
+        "a": "VO ZKB"
+    },
+    {
+        "ft": "SE Seminar in Distributed Systems",
+        "a": "SE SDS"
+    },
+    {
+        "ft": "VU Advanced Cryptography",
+        "a": "VU AC"
+    },
+    {
+        "ft": "VU Risk Management",
+        "a": "VU RM"
+    },
+    {
+        "ft": "VU Algorithmic Meta Theorems Algorithmische Meta Theoreme",
+        "a": "VU AMTAMT"
+    },
+    {
+        "ft": "VU Software Architecture",
+        "a": "VU SA"
+    },
+    {
+        "ft": "SE Folgenabsch\u00e4tzung von Informationstechnologien",
+        "a": "SE FvI"
+    },
+    {
+        "ft": "VU High Performance Computing",
+        "a": "VU HPC"
+    },
+    {
+        "ft": "VU Distributed Systems Engineering",
+        "a": "VU DSE"
+    },
+    {
+        "ft": "VU Advanced Project Management",
+        "a": "VU APM"
+    },
+    {
+        "ft": "UE Data Stewardship",
+        "a": "UE DS"
+    },
+    {
+        "ft": "VU Grundlagen des Information Retrieval",
+        "a": "VU GdIR"
+    },
+    {
+        "ft": "VU Service Level Agreements",
+        "a": "VU SLA"
+    },
+    {
+        "ft": "VU Graph Drawing Algorithms",
+        "a": "VU GDA"
+    },
+    {
+        "ft": "VU Advanced Model Engineering",
+        "a": "VU AME"
+    },
+    {
+        "ft": "VU Deductive Verification of Software",
+        "a": "VU DVoS"
+    },
+    {
+        "ft": "VU Requirements Engineering and Specification",
+        "a": "VU RES"
+    },
+    {
+        "ft": "PR Project in Computer Science 1",
+        "a": "PR PCS1"
+    },
+    {
+        "ft": "VU Problem Solving and Search in Artificial Intelligence",
+        "a": "VU PSSAI"
+    },
+    {
+        "ft": "VU Business Intelligence",
+        "a": "VU BI"
+    },
+    {
+        "ft": "SE Gruppendynamik",
+        "a": "SE Gruppendynamik"
+    },
+    {
+        "ft": "VU Foundations of Information Integration",
+        "a": "VU FoII"
+    },
+    {
+        "ft": "PR Project in Computer Science 1",
+        "a": "PR PCS1"
+    },
+    {
+        "ft": "VU Rigorous Systems Engineering",
+        "a": "VU RSE"
+    },
+    {
+        "ft": "VU Hybrid Classic Quantum Systems",
+        "a": "VU HCQS"
+    },
+    {
+        "ft": "VU Workflow Modeling and Process Management",
+        "a": "VU WMPM"
+    },
+    {
+        "ft": "VU Risk Model Management",
+        "a": "VU RMM"
+    },
+    {
+        "ft": "VU Selbstorganisierende Systeme",
+        "a": "VU SS"
+    },
+    {
+        "ft": "PR Advanced Software Engineering",
+        "a": "PR ASE"
+    },
+    {
+        "ft": "PR Project in Computer Science 2",
+        "a": "PR PCS2"
+    },
+    {
+        "ft": "SE Seminar in Theoretical Computer Science",
+        "a": "SE STCS"
+    },
+    {
+        "ft": "VU Quantum Computing",
+        "a": "VU QC"
+    },
+    {
+        "ft": "PR Project in Computer Science 1",
+        "a": "PR PCS1"
+    },
+    {
+        "ft": "VU Media and Brain 2",
+        "a": "VU MB2"
+    },
+    {
+        "ft": "VU Pr\u00e4sentation und Moderation",
+        "a": "VU PM"
+    },
+    {
+        "ft": "SE Seminar f\u00fcr Diplomand innen",
+        "a": "SE SDi"
+    },
+    {
+        "ft": "VU Software Quality Management",
+        "a": "VU SQM"
+    },
+    {
+        "ft": "VU Serverless Computing",
+        "a": "VU SC"
+    },
+    {
+        "ft": "SE Seminar in Formal Methods",
+        "a": "SE SFM"
+    },
+    {
+        "ft": "VU Large scale Distributed Computing",
+        "a": "VU LsDC"
+    },
+    {
+        "ft": "VU Computer Aided Verification",
+        "a": "VU CAV"
+    },
+    {
+        "ft": "VU Systems and Applications Security",
+        "a": "VU SAS"
+    },
+    {
+        "ft": "VU Stackbasierte Sprachen",
+        "a": "VU SS"
+    },
+    {
+        "ft": "VO Inductive Rule Learning",
+        "a": "VO IRL"
+    },
+    {
+        "ft": "VU GPU Architectures and Computing",
+        "a": "VU GAC"
+    },
+    {
+        "ft": "VU Preferences in Artificial Intelligence",
+        "a": "VU PAI"
+    },
+    {
+        "ft": "VO Codegeneratoren",
+        "a": "VO Codegeneratoren"
+    },
+    {
+        "ft": "VU e Business Modeling",
+        "a": "VU eBM"
+    },
+    {
+        "ft": "SE Seminar aus Security",
+        "a": "SE SaS"
+    },
+    {
+        "ft": "SE Kommunikation und Rhetorik",
+        "a": "SE KR"
+    },
+    {
+        "ft": "VU Computer Networks",
+        "a": "VU CN"
+    },
+    {
+        "ft": "VU Advanced Object Oriented Programming",
+        "a": "VU AOOP"
+    },
+    {
+        "ft": "VU Molecular Computing",
+        "a": "VU MC"
+    },
+    {
+        "ft": "VU Efficient Algorithms",
+        "a": "VU EA"
+    },
+    {
+        "ft": "VU SAT Solving and Extensions",
+        "a": "VU SSE"
+    }
+]

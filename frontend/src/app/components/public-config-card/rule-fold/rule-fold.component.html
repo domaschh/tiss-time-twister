@@ -1,0 +1,27 @@
+<div (click)="openRuleInfo()" class="w-full bg-popover p-2 rounded-md cursor-pointer">
+  <label class="cursor-pointer hover:underline">Rule {{rule.id}}</label>
+</div>
+
+<div *ngIf="infoOpen" class="flex flex-col w-full p-2">
+  <p class="font-bold">Match by:</p>
+  <div class="flex flex-col w-full p-2">
+    <p>Location {{rule.match.locationMatchType}} : "{{rule.match.location}}"</p>
+    <p>Summary {{rule.match.summaryMatchType}} : "{{rule.match.summary}}"</p>
+    <p>Description {{rule.match.descriptionMatchType}}: "{{rule.match.description}}"</p>
+  </div>
+  <div class="flex flex-row justify-between align-items-center">
+    <a>
+      <p class="mb-2 font-bold tracking-tight text-gray-900">Effect</p>
+    </a>
+    <label class=" rounded-2xl p-1 text-xs text-white"
+           [ngClass]="isDeleteEffect() ? 'bg-red' : 'bg-notadded'">{{ isDeleteEffect() ? 'Delete' : 'Modify' }}</label>
+  </div>
+  <div class="flex flex-col w-full p-2">
+    <div *ngIf="!isDeleteEffect()">
+      <p>New Summary: {{rule.effect.changedTitle}}</p>
+      <p>New Location: {{rule.effect.location}}</p>
+      <p>New Description: {{rule.effect.changedDescription}}</p>
+    </div>
+
+  </div>
+</div>

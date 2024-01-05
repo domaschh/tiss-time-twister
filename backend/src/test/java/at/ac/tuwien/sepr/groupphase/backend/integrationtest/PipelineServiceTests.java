@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -85,11 +86,12 @@ class PipelineServiceTests {
         r.setEffect(e);
         r.setMatch(m);
         calendarReference.setConfigurations(List.of(configuration));
+        calendarReference.setEnabledDefaultConfigurations((long) (0b1 & 0b10));
         UUID calendarUUID = UUID.randomUUID();
         calendarReference.setToken(calendarUUID);
         Mockito
             .when(calendarReferenceRepository.findCalendarReferenceByToken(calendarUUID))
-            .thenReturn(calendarReference);
+            .thenReturn(Optional.of(calendarReference));
 
         var returnedCalendar = pipelineService.pipeCalendar(calendarUUID);
 

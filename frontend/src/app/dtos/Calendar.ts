@@ -1,4 +1,5 @@
-import { CalendarEvent } from "angular-calendar"
+import {CalendarEvent} from "angular-calendar"
+import {ConfigurationDto} from "./configuration-dto";
 
 export class Calendar{
   constructor(
@@ -8,14 +9,17 @@ export class Calendar{
     public id: number,
     public color: string,
     public isActive: boolean,
-    public events?: MyCalendarEvent[]
+    public events?: MyCalendarEvent[],
+    public configs?: ConfigurationDto[]
   ) {}
 }
 
 export interface MyCalendarEvent extends CalendarEvent{
   location: string,
   categories: string,
+  description?: string,
   calendar?: Calendar;
+  backgroundColor?: string;
 }
 
 export interface EventCalendar {

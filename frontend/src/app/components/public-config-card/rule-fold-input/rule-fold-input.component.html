@@ -1,0 +1,94 @@
+<div (click)="openRuleInfo()" class="w-full bg-popover p-2 rounded-md cursor-pointer flex justify-between">
+  <label class="cursor-pointer hover:underline">Rule {{ rule.id }}</label>
+  <i class="bi bi-trash" (click)="deleteRule()"></i>
+</div>
+
+<div *ngIf="infoOpen" class="flex flex-col w-full p-2">
+  <p class="font-bold">Match by:</p>
+  <div class="flex flex-col w-full p-2 gap-2 ">
+    <div class="flex w-full gap-2 align-items-center">
+      <label style="width: 120px" class="">Location</label>
+      <select style="width: 120px!important;" class="form-select " [(ngModel)]="rule.match.locationMatchType">
+        <option [value]="MatchType.CONTAINS">contains</option>
+        <option [value]="MatchType.REGEX">regex</option>
+        <option [value]="MatchType.EQUALS">equals</option>
+        <option [value]="MatchType.STARTS_WITH">startswith</option>
+      </select>
+      <input type="text"
+             name="locationMatch"
+             class="form-control"
+             id="locationMatch"
+             [(ngModel)]="rule.match.location">
+    </div>
+    <div class="flex w-full gap-2 align-items-center">
+      <label style="width: 120px" class="">Summary</label>
+      <select style="width: 120px!important;" class="form-select " [(ngModel)]="rule.match.summaryMatchType">
+        <option [value]="MatchType.CONTAINS">contains</option>
+        <option [value]="MatchType.REGEX">regex</option>
+        <option [value]="MatchType.EQUALS">equals</option>
+        <option [value]="MatchType.STARTS_WITH">startswith</option>
+      </select>
+      <input type="text"
+             name="locationMatch"
+             class="form-control"
+             id="summary"
+             [(ngModel)]="rule.match.summary">
+    </div>
+    <div class="flex w-full gap-2 align-items-center">
+      <label style="width: 120px" class="">Description</label>
+      <select style="width: 120px!important;" class="form-select " [(ngModel)]="rule.match.descriptionMatchType">
+        <option [value]="MatchType.CONTAINS">contains</option>
+        <option [value]="MatchType.REGEX">regex</option>
+        <option [value]="MatchType.EQUALS">equals</option>
+        <option [value]="MatchType.STARTS_WITH">startswith</option>
+      </select>
+      <input type="text"
+             name="locationMatch"
+             class="form-control"
+             id="desc"
+             [(ngModel)]="rule.match.description">
+    </div>
+  </div>
+  <div class="flex flex-row justify-between align-items-center">
+    <a>
+      <p class="mb-2 font-bold tracking-tight text-gray-900">Effect</p>
+    </a>
+    <div class="flex gap-2">
+      <label class="cursor-pointer rounded-2xl p-1 text-xs text-white"
+             (click)="rule.effect.effectType = EffectType.DELETE"
+             [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
+      <label class="cursor-pointer rounded-2xl p-1 text-xs text-white"
+             (click)="rule.effect.effectType = EffectType.MODIFY"
+             [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+    </div>
+
+  </div>
+  <div class="flex flex-col w-full p-2">
+    <div *ngIf="!isDeleteEffect()" class="flex flex-col gap-2">
+      <div class="flex w-full gap-2 align-items-center">
+        <label style="width: 100px" class="">Location</label>
+        <input type="text"
+               name="locationMatch"
+               class="form-control"
+               id="locationChnage"
+               [(ngModel)]="rule.effect.location">
+      </div>
+      <div class="flex w-full gap-2 align-items-center">
+        <label style="width: 100px" class="">Location</label>
+        <input type="text"
+               name="locationMatch"
+               class="form-control"
+               id="summaryChange"
+               [(ngModel)]="rule.effect.changedTitle">
+      </div>
+      <div class="flex w-full gap-2 align-items-center">
+        <label style="width: 100px" class="">Location</label>
+        <input type="text"
+               name="locationMatch"
+               class="form-control"
+               id="descriptionChange"
+               [(ngModel)]="rule.effect.changedDescription">
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,58 +5,184 @@
   </button>
 </div>
 
-<div class="pt-5">
-  <div class="row">
-    <div class="col-md-6 mx-auto">
+<div class="pt-4 h-full ">
+  <div class="row h-full">
+    <div class="col-md-6 mx-auto h-[90%] overflow-auto">
       <span class="anchor" id="formLogin"></span>
 
       <div class="card rounded-0">
         <div class="card-header">
-          <h3 class="mb-0">Create a Configuration</h3>
+          <h3 class="mb-0">New Configuration</h3>
         </div>
 
         <div class="card-body">
-          <form class="form" [formGroup]="importForm" (ngSubmit)="createConfiguration()">
-            <div class="form-group">
-              <label for="inputName">Configuration name</label>
-              <input type="text" name="name" formControlName="name" class="form-control" id="inputName"
-                     aria-describedby="usernameHelp" placeholder="Title of the configuration">
-              <div *ngIf="submitted && importForm.controls.name.errors" class="error">
-                <small class="form-text text-warning" *ngIf="importForm.controls.name.errors.required">
-                  A Name is required!
+          <form class="form flex flex-col gap-4" [formGroup]="configurationForm" (ngSubmit)="previewConfiguration()">
+            <div class="">
+              <input type="text" class="form-control" id="configName" placeholder="Configuration Name"
+                     formControlName="name">
+              <div *ngIf="submitted && configurationForm.controls.link.errors" class="error">
+                <small class="form-text text-warning" *ngIf="configurationForm.controls.link.errors.required">
+                  Name is required!
                 </small>
               </div>
             </div>
-            <br>
-            <div class="form-group">
-              <label for="inputLink">Configuration Description</label>
-              <input type="url" name="link" formControlName="link" class="form-control" id="inputLink"
-                     placeholder="What does this configuration do">
-              <div *ngIf="submitted && importForm.controls.link.errors" class="error">
-                <small class="form-text text-warning" *ngIf="importForm.controls.link.errors.required">
-                  A link is required!
+            <div class="">
+              <input type="text" class="form-control" id="configDesc" placeholder="Configuration Description"
+                     formControlName="description">
+              <div *ngIf="submitted && configurationForm.controls.link.errors" class="error">
+                <small class="form-text text-warning" *ngIf="configurationForm.controls.link.errors.required">
+                  Description is required!
                 </small>
               </div>
             </div>
-            <br>
-            <div class="flex flex-col items-start">
-              <label for="public">Public</label>
-              <input type="checkbox" name="link" formControlName="public"  id="public"
-                     placeholder="Public">
-              <div *ngIf="submitted && importForm.controls.public.errors" class="error">
-                <small class="form-text text-warning" *ngIf="importForm.controls.public.errors.required">
-                  A link is required!
-                </small>
-              </div>
+            <div class="form-floating h-[38px]">
+              <select class="form-select p-2 " formControlName="calendar">
+                <option *ngFor="let cal of calendars" [value]="cal.id">{{ cal.name }}</option>
+              </select>
             </div>
-            <br>
-            <button type="button" (click)="createConfiguration()" [disabled]="!importForm.valid" class="btn btn-success float-right">Create</button>
+            <div *ngIf="submitted && configurationForm.controls.name.errors" class="error">
+              <small class="form-text text-warning" *ngIf="configurationForm.controls.name.errors.required">
+                You have to select a calendar!
+              </small>
+            </div>
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" name="public" id="public" formControlName="public">
+              <label class="form-check-label" for="public">
+                Public
+              </label>
+            </div>
+            <div class="card">
+              <h5 class="card-header">
+                Rules
+              </h5>
+              <div class="card-body">
+                <h5 class="mb-2">Added Rules {{allRules.length}}</h5>
+                <div class="flex flex-col pt-2">
+                  <div class="list-group flex pt-2" *ngFor="let rule of allRules; let i = index">
+                    <app-rule-fold-input [rule]="rule" (deleteRuleEvent)="deleteRule($event)"></app-rule-fold-input>
+                  </div>
+                </div>
+                <!--Display Current Rule-->
+                <h5 class="mt-2">New Rule</h5>
+                <div class="px-2 py-2 border-x border-y border-popover-light rounded">
+                  <p class="font-bold">Match by:</p>
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="">
+                        <select class="form-select" aria-label="MatchType" id="selectMatchTypeSummary"
+                                [(ngModel)]="currentRule.match.summaryMatchType" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="">
+                        <input type="text" id="inputMatchSummary" class="form-control" placeholder="Summary match"
+                               [(ngModel)]="currentRule.match.summary" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="">
+                        <select class="form-select" aria-label="MatchType" id="selectMatchTypeDescription"
+                                [(ngModel)]="currentRule.match.descriptionMatchType"
+                                [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="">
+                        <input type="text" id="inputMatchDescription" class="form-control"
+                               placeholder="Description match"
+                               [(ngModel)]="currentRule.match.description" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="">
+                        <select class="form-select" aria-label="MatchType" id="selectMatchTypeLocation"
+                                [(ngModel)]="currentRule.match.locationMatchType" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let type of getEnumValues(MatchType)" [value]="type">{{ type }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="">
+                        <input type="text" id="inputMatchLocation" class="form-control" placeholder="Location match"
+                               [(ngModel)]="currentRule.match.location" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-col">
+                    <div class="flex flex-row justify-between align-items-center">
+                      <a>
+                        <p class="mb-2 font-bold pt-2">Effect</p>
+                      </a>
+                      <div class="flex gap-2">
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                               (click)="currentRule.effect.effectType = EffectType.DELETE"
+                               [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                               (click)="currentRule.effect.effectType = EffectType.MODIFY"
+                               [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+                      </div>
+                    </div>
+                    <div *ngIf="!isDeleteEffect()">
+                      <div class="row">
+                        <div class="col">
+                          <div class="">
+                            <input type="text" id="inputEffectSummary" class="form-control" placeholder="Changed Title"
+                                   [(ngModel)]="currentRule.effect.changedTitle" [ngModelOptions]="{standalone: true}">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col">
+                          <div class="">
+                            <input type="text" id="inputEffectDescription" class="form-control"
+                                   placeholder="Changed Description"
+                                   [(ngModel)]="currentRule.effect.changedDescription"
+                                   [ngModelOptions]="{standalone: true}">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col">
+                          <div class="">
+                            <input type="text" id="inputEffectLocation" class="form-control"
+                                   placeholder="Changed Location"
+                                   [(ngModel)]="currentRule.effect.location" [ngModelOptions]="{standalone: true}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div matTooltip="Add Rule" (click)="addRule()"
+                         class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+                      <a class="cursor-pointer content-center" aria-label="Token">
+                        <i class="bi bi-plus-lg" style="font-size: 1rem;"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+            </div>
+            <div class="flex pb-2">
+              <button type="button" (click)="previewConfiguration()" [disabled]="!configurationForm.valid"
+                      class="btn btn-success w-full">Preview
+              </button>
+            </div>
           </form>
         </div>
 
       </div>
-
     </div>
   </div>
 </div>

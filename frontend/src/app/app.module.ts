@@ -2,8 +2,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-
 import {AppRoutingModule} from './app-routing.module';
+import { NgxFileDropModule } from 'ngx-file-drop';
+
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
@@ -18,7 +19,6 @@ import { CalendarPageComponent } from './components/calendar-page/calendar-page.
 import { ImportComponent } from './components/import/import.component';
 import { EventPipePipe } from './pipes/event.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LogoutSuccessModalComponent } from './components/logout-success-modal/logout-success-modal.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 
 import { CreateEditCustomEventComponent } from './components/create-edit-custom-event/create-edit-custom-event.component';
@@ -41,7 +41,6 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     MessageComponent,
     CalendarPageComponent,
     ImportComponent,
-    LogoutSuccessModalComponent,
     CreateEditCustomEventComponent,
     CreateConfigComponent,
     RuleModalComponent,
@@ -57,13 +56,16 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+   // MatTooltipModule,
+    NgxFileDropModule,
     NgbModule,
     FormsModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
     EventPipePipe,
     BrowserAnimationsModule,
     CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+   // CdkDropList
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

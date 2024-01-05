@@ -1,0 +1,54 @@
+<div class="flex flex-col p-4">
+  <h4>Import a configuration</h4>
+  <select class="form-select p-2 mb-4" [(ngModel)]="selectedCal">
+    <option *ngFor="let cal of calendars" [value]="cal.id">{{ cal.name }}</option>
+  </select>
+  <div class="flex flex-col gap-4">
+    <div class="gap-2 flex ">
+      <label *ngIf="!byLink" class="cursor-pointer w-[63px]  p-1 bg-popover-light rounded" (click)="byLink = true">By
+        Link</label>
+      <label *ngIf="!byLink" class="bg-added rounded w-[60px] p-1 cursor-pointer" (click)="byLink = false">By
+        File</label>
+      <label *ngIf="byLink" class="bg-added rounded w-[63px] p-1 cursor-pointer" (click)="byLink = true">By Link</label>
+      <label *ngIf="byLink" class="cursor-pointer w-[60px]  p-1 bg-popover-light rounded" (click)="byLink = false">By
+        File</label>
+    </div>
+    <input *ngIf="byLink" class="form-control" type="text" [(ngModel)]="configUrl"
+           placeholder="Link to calendar import">
+    <div *ngIf="!byLink" class="flex items-center justify-center w-full">
+      <label for="dropzone-file"
+             class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+        <div class="h-64 w-full">
+          <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                         accept=".json"
+                         dropZoneClassName="border-none"
+                         (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+                         contentClassName="">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+              <div class="flex items-center justify-center h-64">
+                <div *ngIf="!filename" class="flex flex-col items-center justify-center ">
+                  <h1 class="bi-cloud-arrow-up text-xxl-center text-gray-500 dark:text-gray-400"></h1>
+                  <p class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
+                    or drag and drop</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">JSON</p>
+                </div>
+                <div *ngIf="filename">
+                  <h1 class="bi-filetype-json text-xxl-center text-gray-500 dark:text-gray-400"></h1>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{filename}}</p>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-file-drop>
+        </div>
+
+        <input id="dropzone-file" type="file" class="hidden" (drop)="uploadFile($event)"
+               (change)="uploadFile($event)"/>
+      </label>
+    </div>
+
+  </div>
+  <div class="gap-4 flex w-full justify-content-end py-4">
+    <button class="btn btn-danger" (click)="closeModal()">Close</button>
+    <button class="btn btn-success" [disabled]="!selectedCal" (click)="import()">Import</button>
+  </div>
+</div>

@@ -45,8 +45,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles({"test", "generateData"})
 @AutoConfigureMockMvc
 class ConfigurationEndpointTests {
     @Autowired
@@ -66,6 +66,15 @@ class ConfigurationEndpointTests {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    private static RuleDto generateDummyRule() {
+        EffectDto effectDto = new EffectDto(null, "Blabla", "Blabla", "blabla", EffectType.DELETE);
+        MatchDto matchDto = new MatchDto(null,
+                                         MatchType.EQUALS, "dasd",
+                                         MatchType.EQUALS, "dasd",
+                                         MatchType.REGEX, "dasdas");
+        return new RuleDto(null, effectDto, matchDto);
+    }
 
     @BeforeEach
     void beforeEach() {
@@ -95,15 +104,7 @@ class ConfigurationEndpointTests {
 
     @Test
     void creatingConfigurationWithRulesWorks() throws Exception {
-        EffectDto effectDto = new EffectDto(null, "Blabla", "Blabla", "blabla", EffectType.DELETE);
-        MatchDto matchDto = new MatchDto(null,
-                                         MatchType.EQUALS,
-                                         "dasd",
-                                         MatchType.EQUALS,
-                                         "dasd",
-                                         MatchType.REGEX,
-                                         "dasdas");
-        RuleDto rule1 = new RuleDto(null, effectDto, matchDto);
+        RuleDto rule1 = generateDummyRule();
         ConfigurationDto config = configWithRules(List.of(rule1));
         ConfigurationDto createdConfig = generateEmptyConfig(config);
         assertFalse(createdConfig.getRules().isEmpty());
@@ -218,12 +219,12 @@ class ConfigurationEndpointTests {
         assertNotNull(returnedConfigDto);
         assertEquals(generated.getId(), returnedConfigDto.getId());
 
-        MvcResult mvcResultdelete = this.mockMvc.perform(delete(CONFIG_BASE_URI + "/" + generated.getId())
+        MvcResult mvcResultDelete = this.mockMvc.perform(delete(CONFIG_BASE_URI + "/" + generated.getId())
                                                              .header(securityProperties.getAuthHeader(),
                                                                      jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
                                                 .andDo(print())
                                                 .andReturn();
-        MockHttpServletResponse responseDelete = mvcResultdelete.getResponse();
+        MockHttpServletResponse responseDelete = mvcResultDelete.getResponse();
         assertEquals(HttpStatus.OK.value(), responseDelete.getStatus());
 
         MvcResult mvcResultGettingAfter = this.mockMvc.perform(get(CONFIG_BASE_URI + "/" + generated.getId())

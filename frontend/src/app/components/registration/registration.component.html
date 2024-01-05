@@ -20,10 +20,10 @@
       <div class="relative py-3 sm:max-w-xl sm:mx-auto">
         <!-- Logo and headline -->
         <div class="mb-8 w-128 mx-auto">
-          <!--<img src="assets/TTT_Blau_Big.svg" alt="Logo" class="h-12 w-12 max-w-full">-->
-          <h1 class="text-2xl font-semibold">Create Account</h1>
+          <h1 class="text-2xl font-semibold">Registration</h1>
           <h2 class="text-black">
-            The easy way to keep track of time - with TISS Time Twister
+            The simple way to keep your schedule in check - with
+            <img src="assets/TTT_Blau_Big.svg" alt="Logo" class="inline h-10 max-w-full">
           </h2>
         </div>
 
@@ -68,17 +68,17 @@
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.email.errors.required"
-                  >Email is required!</small
+                >An email address is required!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.email.errors.email"
-                  >A valid email address must be entered!</small
+                >A valid email address is required!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.email.errors.exists"
-                  >Email is already registered!</small
+                >This email is already registered!</small
                 >
               </div>
             </div>
@@ -104,55 +104,17 @@
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.password.errors.minlength"
-                  >Password must be at least 8 characters long!</small
+                >Passwords are required be be at least 8 characters long!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.password.errors.required"
-                  >Password is required!</small
+                >A password is required!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="registrationForm.controls.password.errors.pattern"
-                  >Password must include uppercase and lowercase letters and a
-                  digit!</small
-                >
-              </div>
-            </div>
-
-            <!-- Password Confirmation input -->
-            <div class="from-group relative mx-auto w-128">
-              <input
-                type="password"
-                class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
-                formControlName="confirmPassword"
-                id="confirmPassword"
-                placeholder="Confirm Password"
-              />
-              <label
-                for="confirmPassword"
-                class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
-              >
-                Confirm Password
-              </label>
-              <div
-                *ngIf="
-                  submitted && registrationForm.controls.confirmPassword.errors
-                "
-              >
-                <small
-                  class="form-text error-text"
-                  *ngIf="
-                    registrationForm.controls.confirmPassword.errors.required
-                  "
-                  >Confirmation password is required!</small
-                >
-                <small
-                  class="form-text error-text"
-                  *ngIf="
-                    registrationForm.controls.confirmPassword.errors.mustMatch
-                  "
-                  >Passwords must match!</small
+                >Passwords are required to include lower- and uppercase letters and numbers!</small
                 >
               </div>
             </div>
@@ -162,12 +124,12 @@
               <button
                 type="submit"
                 (click)="registerUser()"
-                class="inline-block rounded bg-blue px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-dark hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-dark focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-dark active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                class="inline-block rounded bg-blue px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-font-col shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-dark hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-dark focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-dark active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                 [ngClass]="{ 'w-72': isMobileView, 'w-full': !isMobileView }"
                 data-te-ripple-init
                 data-te-ripple-color="light"
               >
-                Create Account
+                Register
               </button>
             </div>
           </div>

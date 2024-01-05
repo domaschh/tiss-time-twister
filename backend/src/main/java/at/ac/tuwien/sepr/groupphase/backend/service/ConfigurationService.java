@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface ConfigurationService {
-    Configuration add(Configuration configuration);
+    Configuration add(Configuration configuration, String username);
 
     Configuration edit(Configuration configuration);
 

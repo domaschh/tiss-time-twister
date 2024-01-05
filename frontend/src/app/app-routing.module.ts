@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'import', component: ImportComponent },
   { path: 'createConfig', component: CreateConfigComponent },
   { path: 'publicConfigs', component: PublicPageComponent },
+ // { path: 'previewConfig', component: PreviewConfigComponent},
   {
     path: 'event', children: [
       { path: '', redirectTo: 'create', pathMatch: 'full' },

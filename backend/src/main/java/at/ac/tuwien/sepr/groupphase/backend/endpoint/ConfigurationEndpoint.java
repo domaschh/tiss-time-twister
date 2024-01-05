@@ -14,7 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -42,10 +48,11 @@ public class ConfigurationEndpoint {
     @Secured("ROLE_USER")
     @PutMapping
     @Operation(summary = "Create a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto) {
+    public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
         return configurationMapper.toDto(
-            configurationService.add(configurationMapper.toEntity(configurationDto)));
+            configurationService.add(configurationMapper.toEntity(configurationDto), username));
     }
 
     @Secured("ROLE_USER")
@@ -84,7 +91,7 @@ public class ConfigurationEndpoint {
     @Operation(summary = "Get all published Configurations")
     public List<ConfigurationDto> getAllPublished() {
         LOGGER.info("Get All published Configurations");
-        return configurationService.getAllPublicConfigurations().stream().map(configurationMapper::toDto).toList();
+        return configurationMapper.toDtoList(configurationService.getAllPublicConfigurations());
     }
 
     @Secured("ROLE_USER")

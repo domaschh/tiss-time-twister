@@ -12,10 +12,17 @@ export class ConfigurationService {
   constructor(private readonly httpClient: HttpClient, private readonly globals: Globals) { }
 
   getAll(){
-    return null;
+      return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + '/all');
   }
 
   getAllPublic() {
     return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + "/allPublic")
+  }
+
+  createConfiguration(calendarId: number, configurationDto: ConfigurationDto) {
+    return this.httpClient.put<ConfigurationDto>(this.messageBaseUri, configurationDto)
+  }
+  remove(configurationId: number) {
+    return this.httpClient.delete(this.messageBaseUri + '/' + configurationId)
   }
 }

@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
  * Security is a cross-cutting concern, however for the sake of simplicity it is tested against the message endpoint.
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class SecurityTest implements TestData {

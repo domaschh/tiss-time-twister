@@ -1,0 +1,47 @@
+<div class="flex flex-col p-3 gap-3 max-h-screen">
+  <div class="flex flex-row justify-between align-items-center">
+    <h3 class="modal-title">{{ title }}</h3>
+    <label class="rounded-2xl p-1 text-xs"
+           [ngClass]="alreadyAdded ? 'bg-added' : 'bg-notadded'">{{ alreadyAdded ? 'Already Added' : 'Add to collection' }}</label>
+  </div>
+  <select class="form-select p-2" [(ngModel)]="selectedCalendar">
+    <option *ngFor="let cal of calendars" [value]="cal.id">{{ cal.name }}</option>
+  </select>
+  <div class="flex">
+    <p>{{ description }}</p>
+  </div>
+  <div id="content" class="flex flex-col gap-2 overflow-y-clip" style="max-height: calc(100vh - 360px)">
+    <ng-container *ngTemplateOutlet="componentToShow"></ng-container>
+  </div>
+  <div class="flex flex-row justify-end gap-3">
+    <button type="button" class="text-font-col" (click)="closeAll()">Close</button>
+    <button [disabled]="!alreadyAdded" type="button" class="btn btn-danger"
+            (click)="removeFromCalendar()">{{ 'Remove From Calendar' }}</button>
+    <button [disabled]="alreadyAdded || !selectedCalendar" type="button" class="btn btn-success"
+            (click)="addToCalendar()">{{ 'Add to Calendar' }}</button>
+  </div>
+</div>
+
+
+
+
+
+
+<ng-template #customComponent1>
+  <app-lva-shorthands></app-lva-shorthands>
+</ng-template>
+
+
+<ng-template #customComponent2>
+  <app-room-mapping></app-room-mapping>
+</ng-template>
+
+<ng-template #customComponent3>
+  <div class="flex  flex-col w-full p-2">
+    <h5>How it works</h5>
+    <p>If an event is an Exam in the TISS calendar. This already adds the link to the TISS page for the registration</p>
+    <p>e.g 180.764 VU Software-Qualitätssicherung (Prüfung) - Praxistest</p>
+    <a
+      href="https://tiss.tuwien.ac.at/education/course/examDateList.xhtml?dswid=5895&dsrid=44&courseNr=180764&semester=2023W">https://tiss.tuwien.ac.at/education/course/examDateList.xhtml?dswid=5895&dsrid=44&courseNr=180764&semester=2023W</a>
+  </div>
+</ng-template>
