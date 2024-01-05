@@ -119,7 +119,7 @@
         <!--Zeitfenster Auswahl-->
       </div>
       <br/>
-      <div [ngSwitch]="view" class="overflow-y-clip py-5">
+      <div [ngSwitch]="view" class="overflow-y-scroll h-[95%] py-5">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events | eventPipe"
                                  [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
                                  (dayClicked)="dayClicked($event.day)"

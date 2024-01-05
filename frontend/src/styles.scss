@@ -10,7 +10,7 @@
 @include mat.core();
 
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// Define the palettes for your theme using the Material Design palettes available in palette.sc  ss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $sepr-group-phase-primary: mat.define-palette(mat.$indigo-palette);
@@ -49,6 +49,7 @@ $sepr-group-phase-theme: mat.define-light-theme((
  .modal-footer{
   border:none!important;
 }
+ $secondary: blue;
 $font-col: #ADBAC7;
 $font-col-placeholder: rgba(134, 139, 148, 0.51);
 $weeknd-col: #0095ff;
@@ -211,9 +212,11 @@ $day-col: rgba(154, 210, 255, 0.62);
 
 html, body {
   margin: 0;
-  overflow: scroll;
+  overflow: hidden;
   height: 100%;
 }
+
+
 
 body.dark {
   .form-control {
@@ -239,3 +242,25 @@ body > * {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var($font-col) var($font-col);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var($font-col);
+  border-radius: 14px;
+  border: 3px solid var($font-col);
+}
