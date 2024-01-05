@@ -14,7 +14,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -41,4 +44,31 @@ public class CalendarReference {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CalendarReference that = (CalendarReference) o;
+        return new HashSet<>(configurations).containsAll(that.configurations)
+               && configurations.size() == that.configurations.size()
+               && Objects.equals(id, that.id)
+               && Objects.equals(token, that.token)
+               && Objects.equals(name, that.name)
+               && Objects.equals(link, that.link)
+               && Arrays.equals(icalData, that.icalData)
+               && Objects.equals(enabledDefaultConfigurations, that.enabledDefaultConfigurations)
+               && Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(configurations, id, token, name, link, enabledDefaultConfigurations, user);
+        result = 31 * result + Arrays.hashCode(icalData);
+        return result;
+    }
 }

@@ -78,7 +78,7 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @PutMapping("/file")
     @Operation(summary = "Import a CalendarReference with File", security = @SecurityRequirement(name = "apiKey"))
-    public ResponseEntity<?> uploadICalFile(@RequestParam("name") String name,
+    public ResponseEntity<CalendarReferenceDto> uploadICalFile(@RequestParam("name") String name,
                                             @RequestParam("file") MultipartFile file,
                                             @RequestParam(required = false) UUID token,
                                             HttpServletRequest request) {
