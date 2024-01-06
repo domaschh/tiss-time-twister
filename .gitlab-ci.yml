@@ -21,11 +21,17 @@ stages:
 
 test-backend:
   stage: test
-  image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
+  image: docker:19.03.12
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
   script:
     - docker info
     - cd backend
-    - mvn -B test  # or 'mvn -B verify' if integration tests are separate
+    - mvn -b clean isntall
+    - mvn -B test # or 'mvn -B verify' if integration tests are separate
   cache:
     paths:
       - .m2
