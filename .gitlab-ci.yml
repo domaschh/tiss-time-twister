@@ -3,6 +3,12 @@ image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
 variables:
   GIT_STRATEGY: "clone"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""
+  
+services:
+    - name: docker:dind
+      command: ["--tls=false"]
 
 cache:
   paths:
@@ -16,12 +22,6 @@ stages:
 test-backend:
   stage: test
   image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
-  services:
-    - name: docker:dind
-      command: ["--tls=false"]
-  variables:
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_TLS_CERTDIR: ""
   script:
     - docker info
     - cd backend
