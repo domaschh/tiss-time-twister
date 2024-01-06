@@ -6,7 +6,6 @@ logging:
   pattern:
     level: r=%X{r} ip=%X{ip} u=%X{u} %5p
 
-
 spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL}

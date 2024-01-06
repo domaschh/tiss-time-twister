@@ -19,11 +19,10 @@ public class DatabaseInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             ResultSet resultSet = conn.getMetaData().getCatalogs();
-            System.out.println("Hallo ");
             while (resultSet.next()) {
                 String databaseName = resultSet.getString(1);
 
-                if ("tiss-postgres".equals(databaseName)) {
+                if ("Postgres-1V32".equals(databaseName)) {
 
                     return; // Database exists
                 }
@@ -31,7 +30,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             // If here, database does not exist, create it
             try (Statement statement = conn.createStatement()) {
-                statement.executeUpdate("CREATE DATABASE \"tiss-postgres\"");
+                statement.executeUpdate("CREATE DATABASE \"Postgres-1V32\"");
             }
         }
     }
