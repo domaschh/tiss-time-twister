@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://localhost:8080",
+    "target": "https://tiss-time-twister-production.up.railway.app",
     "secure": false,
     "logLevel": "debug"
   }
