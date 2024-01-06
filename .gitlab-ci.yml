@@ -17,14 +17,20 @@ test-backend:
   stage: test
   image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
   services:
-    - docker:dind
+    - name: docker:dind
+      command: ["--tls=false"]
   variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
+    GIT_STRATEGY: "clone"
+    MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+    DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
   script:
     - cd backend
-    - mvn -B clean install
+    - mvn -B test  # or 'mvn -B verify' if integration tests are separate
+  cache:
+    paths:
+      - .m2
 
 
 test-frontend:
