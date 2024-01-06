@@ -23,7 +23,8 @@ test-backend:
   stage: test
   image: docker:19.03.12
   services:
-    - docker:dind
+    - name: docker:dind
+      command: ["--tls=false"]
   variables:
     DOCKER_HOST: "tcp://docker:2375"
     DOCKER_TLS_CERTDIR: ""
