@@ -20,7 +20,6 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-
 security:
   auth:
     header: Authorization
