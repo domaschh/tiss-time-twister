@@ -33,7 +33,6 @@ public class SecurityConfig {
     }
 
 
-
     @Configuration
     public static class CorsConfig implements WebMvcConfigurer {
         @Override
