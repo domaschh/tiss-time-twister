@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'viaduct.proxy.rlwy.net:26609/api/v1'
+  backendUrl: 'https://tiss-time-twister-production.up.railway.app/api/v1'
 };
