@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'https://tisstuwien.fly.dev/api/v1'
+  backendUrl: 'viaduct.proxy.rlwy.net:26609/api/v1'
 };
