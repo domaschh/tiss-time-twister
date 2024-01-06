@@ -1,7 +1,10 @@
 {
-  "/api/*": {
-    "target": "https://tiss-time-twister-production.up.railway.app",
+  "/api": {
+    "target": "https://tiss-time-twister.railway.internal",
     "secure": false,
-    "logLevel": "debug"
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api/v1"
+    }
   }
 }
