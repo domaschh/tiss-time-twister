@@ -8,7 +8,6 @@ at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/RuleMapperImpl.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/MessageMapperImpl.class
 at/ac/tuwien/sepr/groupphase/backend/entity/Event.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/RegistrationEndpoint.class
-at/ac/tuwien/sepr/groupphase/backend/config/DatabaseInitializer.class
 at/ac/tuwien/sepr/groupphase/backend/config/LogFilter.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/SimpleMessageDto$SimpleMessageDtoBuilder.class
 at/ac/tuwien/sepr/groupphase/backend/service/impl/CustomUserDetailService.class
