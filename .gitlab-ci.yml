@@ -28,7 +28,6 @@ test-backend:
     DOCKER_DRIVER: overlay2
   script:
     - curl -fsSL https://app.testcontainers.cloud/bash | bash
-    -  # ... existing steps go here (run tests, etc.)
     - cd backend
     - mvn -B clean install
     - mvn -B test  # or 'mvn -B verify' if integration tests are separate
