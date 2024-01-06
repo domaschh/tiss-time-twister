@@ -4,11 +4,16 @@
   </div>
   <div class="modal-body">
     <p *ngIf="!isToken">{{ message }}</p>
-    <div *ngIf="isToken"
-         class="flex border-x border-y border-popover hover:border-popover-light rounded cursor-pointer p-2">
-      <label matTooltip="Copy to clipboard" *ngIf="isToken" class="cursor-pointer"
-             (click)="copyMessage()"> {{ message }}</label>
-      <i class="bi bi-copy"></i>
+    <div *ngIf="isToken">
+      <div
+        class="flex border-x border-y border-popover hover:border-popover-light rounded cursor-pointer p-2">
+        <label matTooltip="Copy to clipboard" *ngIf="isToken" class="cursor-pointer"
+               (click)="copyMessage()"> {{ message }}</label>
+        <i class="bi bi-copy"></i>
+      </div>
+      <a class="p-1 " style="color: inherit; font-size: 1.5rem" target="_blank" href="https://calendar.google.com/calendar/u/0/r/settings/addbyurl"><i class="bi-google"></i></a>
+      <a class="p-1 " style="color: red; font-size: 1.5rem" target="_blank" href="about:blank"><i class="bi-apple"></i></a>
+      <a class="p-1 " style="color: inherit; font-size: 1.5rem" target="_blank" href="https://outlook.live.com/calendar/0/addcalendar"><i class="bi-microsoft"></i></a>
     </div>
 
   </div>
