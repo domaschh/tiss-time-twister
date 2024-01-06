@@ -16,7 +16,7 @@ stages:
 
 test-backend:
   stage: test
-  image: "docker-image:tag" # ex: maven:3-eclipse-temurin-19
+  image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
   services:
     - name: docker:dind
       command: ["--tls=false"]
