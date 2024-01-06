@@ -8,7 +8,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -97,7 +98,6 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    @Transactional
     public CalendarReference addConfig(Long configId, Long calendarId) {
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs
@@ -119,7 +119,6 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    @Transactional
     public CalendarReference removeConfig(Long configId, Long calendarId) {
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs

@@ -26,7 +26,7 @@ public class RegistrationEndpoint {
     }
 
     @PermitAll
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
         try {
             String token = userService.registerUser(userRegistrationDto);

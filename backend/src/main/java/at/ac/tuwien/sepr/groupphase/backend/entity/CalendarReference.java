@@ -1,18 +1,8 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -36,8 +26,9 @@ public class CalendarReference {
     private String name;
     @Column()
     private String link;
+
+    @Column(name = "ical_data")
     @Lob
-    @Column(name = "ical_data", columnDefinition = "BLOB")
     private byte[] icalData;
     @Column()
     private Long enabledDefaultConfigurations;
