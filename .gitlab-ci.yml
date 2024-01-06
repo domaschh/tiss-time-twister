@@ -15,9 +15,17 @@ stages:
 
 test-backend:
   stage: test
+  image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   script:
     - cd backend
     - mvn -B clean install
+
 
 test-frontend:
   stage: test
