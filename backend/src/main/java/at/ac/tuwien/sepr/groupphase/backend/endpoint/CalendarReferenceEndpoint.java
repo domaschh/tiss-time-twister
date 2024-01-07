@@ -139,7 +139,7 @@ public class CalendarReferenceEndpoint {
 
 
     /**
-     * <p> Exports the Calendar associated with the given token.</p>
+     * <p>  s the Calendar associated with the given token.</p>
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>
      * <br>
      * <p> unsecured to provide calendar synchronisation</p>
