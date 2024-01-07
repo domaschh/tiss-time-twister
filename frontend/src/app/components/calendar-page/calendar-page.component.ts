@@ -17,6 +17,7 @@ import {colors} from "../../global/constants";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
 import {ca} from "date-fns/locale";
+import {EventColor} from "calendar-utils";
 
 @Component({
   selector: 'app-calendar-page',
@@ -169,7 +170,7 @@ export class CalendarPageComponent implements OnInit {
         + '<br>' + event.location ?? '' + '<br>',
       start: event.start,
       end: event.end,
-      color: colors[colorId],
+      color: {primary: calendar.color, secondary:calendar.color},
       draggable: false,
       resizable: {
         beforeStart: false,
@@ -209,7 +210,7 @@ export class CalendarPageComponent implements OnInit {
               link: calRef.link,
               name: calRef.name,
               configs: calRef.configurations,
-              color: colors[id++].primary, //only n preset colors are stored
+              color: calRef.color + '90', //only n preset colors are stored
               events: evs,
               id: calRef.id //id needed for frontend
             });
@@ -283,6 +284,7 @@ export class CalendarPageComponent implements OnInit {
       id: calendar.id,
       name: calendar.name,
       link: calendar.link,
+      color: calendar.color,
       configurations: calendar.configs,
       token: uuid.v4()
     }

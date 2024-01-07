@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-07T19:05:59+0100",
+    date = "2024-01-07T23:03:47+0100",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -31,6 +31,7 @@ public class CalendarReferenceMapperImpl implements CalendarReferenceMapper {
         calendarReferenceDto.setLink( calendarReference.getLink() );
         calendarReferenceDto.setConfigurations( configurationMapper.toDtoList( calendarReference.getConfigurations() ) );
         calendarReferenceDto.setEnabledDefaultConfigurations( calendarReference.getEnabledDefaultConfigurations() );
+        calendarReferenceDto.setColor( calendarReference.getColor() );
 
         calendarReferenceDto.setIcalData( byteArrayToString(calendarReference.getIcalData()) );
 
@@ -49,6 +50,7 @@ public class CalendarReferenceMapperImpl implements CalendarReferenceMapper {
         calendarReference.setId( calendarReferenceDto.getId() );
         calendarReference.setToken( calendarReferenceDto.getToken() );
         calendarReference.setName( calendarReferenceDto.getName() );
+        calendarReference.setColor( calendarReferenceDto.getColor() );
         calendarReference.setLink( calendarReferenceDto.getLink() );
         calendarReference.setEnabledDefaultConfigurations( calendarReferenceDto.getEnabledDefaultConfigurations() );
 
