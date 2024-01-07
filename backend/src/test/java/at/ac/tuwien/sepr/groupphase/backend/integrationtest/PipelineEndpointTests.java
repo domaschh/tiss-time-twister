@@ -135,7 +135,7 @@ class PipelineEndpointTests {
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
         assertNotNull(reexportedCal);
         assertNotNull(calendar);
-        assertEquals(269, calendar.getComponentList().getAll().size());
+        assertEquals(279, calendar.getComponentList().getAll().size());
     }
 
     @Test
@@ -177,7 +177,7 @@ class PipelineEndpointTests {
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
         assertNotNull(reexportedCal);
         assertNotNull(calendar);
-        assertEquals(269, calendar.getComponentList().getAll().size());
+        assertEquals(279, calendar.getComponentList().getAll().size());
     }
 
     @Test

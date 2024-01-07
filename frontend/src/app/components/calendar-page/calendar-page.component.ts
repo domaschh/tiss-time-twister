@@ -18,9 +18,6 @@ import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
 import {ca} from "date-fns/locale";
 
-//preset colors since color should not be saved
-
-
 @Component({
   selector: 'app-calendar-page',
   changeDetection: ChangeDetectionStrategy.Default,
@@ -33,40 +30,35 @@ export class CalendarPageComponent implements OnInit {
   calendars: Calendar[] = [];
   configurations: ConfigurationDto[] = [];
 
-  private onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
-  }
-
   @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
-  loggedInUsername: string | null = null;
-
   modalData: {
     action: string;
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="bi bi-pencil"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="bi bi-trash"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
+  actions: CalendarEventAction[] = []
+  // actions: CalendarEventAction[] = [
+  //   {
+  //     label: '<i class="bi bi-pencil"></i>',
+  //     a11yLabel: 'Edit',
+  //     onClick: ({event}: { event: CalendarEvent }): void => {
+  //       this.handleEvent('Edited', event);
+  //     },
+  //   },
+  //   {
+  //     label: '<i class="bi bi-trash"></i>',
+  //     a11yLabel: 'Delete',
+  //     onClick: ({event}: { event: CalendarEvent }): void => {
+  //       this.events = this.events.filter((iEvent) => iEvent !== event);
+  //       this.handleEvent('Deleted', event);
+  //     },
+  //   },
+  // ];
 
   refresh = new Subject<void>();
 
@@ -133,7 +125,6 @@ export class CalendarPageComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if (action === 'Clicked' || action === 'Edited') {
-      console.log(myEvent);
       if (!myEvent) {
         console.error("Error while handling event", event);
       } else if (!myEvent.categories.includes('customEvent')) {
@@ -168,32 +159,27 @@ export class CalendarPageComponent implements OnInit {
     }
   }
 
-  addEvent(event: MyCalendarEvent, calendar: Calendar): void {
-    const e: MyCalendarEvent = {
+  private mapEvent(event: MyCalendarEvent, calendar: Calendar, colorId: number): MyCalendarEvent {
+    return {
       description: event.description,
       title: event.title
         + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
         + '<br>' + event.description
-        + '<br>' + event.categories
-        + '<br>' + event.location,
+        + '<br>' + event.categories ?? ''
+        + '<br>' + event.location ?? '' + '<br>',
       start: event.start,
       end: event.end,
-      color: {
-        primary: calendar.color,
-        secondary: '#ededeb'
-      },
+      color: colors[colorId],
       draggable: false,
       resizable: {
         beforeStart: false,
         afterEnd: false
       },
       actions: this.actions,
-      location: event.location,
-      categories: event.categories,
+      location: event.location ?? '',
+      categories: event.categories ?? '',
       calendar: calendar
-    }
-
-    this.events.push(e);
+    };
   }
 
   closeOpenMonthViewDay() {
@@ -201,51 +187,33 @@ export class CalendarPageComponent implements OnInit {
   }
 
   loadCalendars() {
-    var id: number = 0;
-
+    let id = 0;
     this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
-        cals.forEach((calendarReferenceDto) => {
-          console.log(calendarReferenceDto)
-          var evs: MyCalendarEvent[] = [];
-          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token).subscribe((icalString) => {
-            var parsedcal = this.myICAL.parse(icalString);
-            var calAsComponent = new this.myICAL.Component(parsedcal);
-            var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
-            vevents.forEach(event => {
-              let parsed: MyCalendarEvent = {
+        cals.forEach((calRef) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calRef.token).subscribe((icalString) => {
+            const calAsComponent = new this.myICAL.Component(this.myICAL.parse(icalString));
+            const vEvents = <any[]>calAsComponent.getAllSubcomponents("vevent");
+            const evs = vEvents.map(event => ({
                 start: new Date(event.getFirstPropertyValue("dtstart")),
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
                 location: event.getFirstPropertyValue("location"),
                 categories: event.getFirstPropertyValue("categories"),
                 description: event.getFirstPropertyValue('description')
-              };
-              evs.push(parsed)
-            })
-            var newcal: Calendar = {
+              })
+            )
+            this.calendars.push({
               isActive: true,
-              token: calendarReferenceDto.token,
-              link: calendarReferenceDto.link,
-              name: calendarReferenceDto.name,
-              configs: calendarReferenceDto.configurations,
-              color: colors[id].primary, //only n preset colors are stored
+              token: calRef.token,
+              link: calRef.link,
+              name: calRef.name,
+              configs: calRef.configurations,
+              color: colors[id++].primary, //only n preset colors are stored
               events: evs,
-              id: calendarReferenceDto.id //id needed for frontend
-            }
-            id++;
-            this.calendars.push(newcal);
-
-
-            if (this.calendars.length != 0) {
-              this.calendars.forEach(cal => {
-                if (cal.events != null) {
-                  cal.events.forEach(event => {
-                    this.addEvent(event, cal);
-                  });
-                }
-              });
-            }
+              id: calRef.id //id needed for frontend
+            });
+            this.events = this.calendars.flatMap(cal => cal.events.map(e => this.mapEvent(e, cal, cal.id)))
           })
         })
       }
@@ -253,7 +221,6 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openEditConfigModal(config: ConfigurationDto) {
-    console.log(config)
     this.router.navigate(['createConfig'], {
       state: {calId: null, config}
     })
@@ -271,16 +238,6 @@ export class CalendarPageComponent implements OnInit {
   set allCalEnabled(value: boolean) {
     if (this.calendars != null)
       this.calendars.forEach(c => c.isActive = value);
-  }
-
-  logout(): void {
-    window.localStorage.removeItem('authToken');
-    this.router.navigate(['/'], {queryParams: {loggedOut: 'true'}});
-  }
-
-
-  editPassword(): void {
-    // Implement the password editing functionality here
   }
 
   createCustomEvent() {
@@ -313,8 +270,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openEditPage(calendar: Calendar) {
-    let extras = {state: {editMode: true, id: calendar.id}};
-    this.router.navigate(['import'], extras)
+    this.router.navigate(['import'], {state: {editMode: true, id: calendar.id}})
   }
 
   openTokenModal(calendar: Calendar) {
@@ -343,12 +299,6 @@ export class CalendarPageComponent implements OnInit {
         }
       });
     };
-  }
-
-  openConfigurationPage(edit: boolean) {
-    this.router.navigate(['createConfig'], {
-      state: {calendars: this.calendars, edit: false}
-    });
   }
 
   removeConfiguraion(config: ConfigurationDto) {

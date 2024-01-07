@@ -104,6 +104,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    const authToken = localStorage.getItem("authToken");
+    if ((authToken != undefined || authToken != null) && this.router.url == '/') {
+      this.router.navigate(['/calendar'])
+    }
     initTE({ Validation, Input, Ripple });
   }
 

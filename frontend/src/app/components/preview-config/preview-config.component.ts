@@ -166,7 +166,7 @@ export class PreviewConfigComponent {
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
                 location: event.getFirstPropertyValue("location"),
-                categories: event.getFirstPropertyValue("categories")
+                categories: event.getFirstPropertyValue("categories"),
               };
               evs.push(parsed)
             })

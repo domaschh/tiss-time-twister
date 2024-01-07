@@ -14,18 +14,18 @@ import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.*;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 //BEGIN:VEVENT
 //    DTSTAMP:20231204T175902Z
@@ -84,6 +84,8 @@ public class PipelineServiceImpl implements PipelineService {
     private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations, Long enabledDefaultConfigurations) {
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
+        Set<LVADetail> lvaDetailsForMe = new HashSet<>();
+
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
             VEvent vEvent = (VEvent) v;
             VEvent modifiedVEvent = configurations.stream()
@@ -96,13 +98,51 @@ public class PipelineServiceImpl implements PipelineService {
                                                       }
                                                   }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
             if (modifiedVEvent != null && enabledDefaultConfigurations != null) {
+                if ((enabledDefaultConfigurations & 0b1000) > 0) {
+                    LVADetail detail;
+                    if (vEvent.getSummary().isPresent()) {
+                        detail = tissService.mapLVANameShorthand(onlyLongName(vEvent.getSummary().get().toString().trim()));
+                    } else {
+                        detail = null;
+                    }
+                    if (detail != null) {
+                        lvaDetailsForMe.add(detail);
+                    }
+                }
                 enhanceTissEvent(modifiedVEvent, enabledDefaultConfigurations);
                 newComponents.add(modifiedVEvent);
             }
         });
+        if (enabledDefaultConfigurations != null && (enabledDefaultConfigurations & 0b1000) > 0) {
+            lvaDetailsForMe.forEach(detail -> detail.testRegistrations().forEach(testRegistration -> {
+                System.out.println("Registration URL" + detail.examURl());
+                LocalDateTime startDateTime = convertToLocalDateTimeViaInstant(testRegistration.date());
+                LocalDateTime endDateTime = convertToLocalDateTimeViaInstant(testRegistration.date());
+
+                LocalDateTime startDateTimeMinusOneHour = startDateTime.minusHours(1);
+
+                VEvent testRegEvent = new VEvent();
+                var properties = new PropertyList(List.of(
+                    new Description(detail.examURl()),
+                    new Summary(detail.shorthand() + " " + testRegistration.testName()),
+                    new DtStart(startDateTimeMinusOneHour),
+                    new DtEnd(endDateTime),
+                    new Categories("REGISTRATION")
+                ));
+
+                testRegEvent.setPropertyList(properties);
+                newComponents.add(testRegEvent);
+            }));
+        }
         var componentList = new ComponentList<>(newComponents);
         calendar.setComponentList(componentList);
         return calendar;
+    }
+
+    private static LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDateTime();
     }
 
     private void enhanceTissEvent(VEvent vEvent, Long enabledDefaultConfigurations) {
