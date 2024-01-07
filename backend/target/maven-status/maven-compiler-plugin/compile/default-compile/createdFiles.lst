@@ -40,10 +40,10 @@ at/ac/tuwien/sepr/groupphase/backend/entity/Match$1.class
 at/ac/tuwien/sepr/groupphase/backend/service/impl/PipelineServiceImpl.class
 at/ac/tuwien/sepr/groupphase/backend/entity/Configuration.class
 at/ac/tuwien/sepr/groupphase/backend/service/RuleService.class
-at/ac/tuwien/sepr/groupphase/backend/config/WebConfig.class
 at/ac/tuwien/sepr/groupphase/backend/TissRoom.class
 at/ac/tuwien/sepr/groupphase/backend/service/impl/RuleServiceImpl.class
 at/ac/tuwien/sepr/groupphase/backend/config/LVADetailConfig.class
+at/ac/tuwien/sepr/groupphase/backend/entity/ModifyEffect.class
 at/ac/tuwien/sepr/groupphase/backend/datagenerator/UserDataGenerator.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/SimpleMessageDto.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/RuleEndpoint.class
@@ -76,6 +76,7 @@ at/ac/tuwien/sepr/groupphase/backend/endpoint/ConfigurationEndpoint.class
 at/ac/tuwien/sepr/groupphase/backend/service/UserService.class
 at/ac/tuwien/sepr/groupphase/backend/config/SecurityConfig.class
 at/ac/tuwien/sepr/groupphase/backend/repository/UserRepository.class
+at/ac/tuwien/sepr/groupphase/backend/entity/DeleteEffect.class
 at/ac/tuwien/sepr/groupphase/backend/service/TissService.class
 at/ac/tuwien/sepr/groupphase/backend/config/SecurityPropertiesConfig$Jwt.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/ConfigurationMapper.class
@@ -92,6 +93,7 @@ at/ac/tuwien/sepr/groupphase/backend/repository/EventRepository.class
 at/ac/tuwien/sepr/groupphase/backend/entity/ApplicationUser.class
 at/ac/tuwien/sepr/groupphase/backend/entity/EffectType.class
 at/ac/tuwien/sepr/groupphase/backend/config/EncoderConfig.class
+at/ac/tuwien/sepr/groupphase/backend/Registration.class
 at/ac/tuwien/sepr/groupphase/backend/config/SecurityPropertiesConfig.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/EffectMapper.class
 at/ac/tuwien/sepr/groupphase/backend/service/ExportService.class

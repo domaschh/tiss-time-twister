@@ -66,7 +66,7 @@ with open('exam_registrations.txt', 'w') as txt_file, open('lvasthissemester.txt
         split = line.split(" ")
         course_url = generate_url(split[0].replace(".", ""))
         page = requests.get(course_url, headers=headers)
-        lva_name = " ".join(split[3:len(split)]).replace("\n", "")
+        lva_name = " ".join(split[1:len(split)]).replace("\n", "").replace("2024S ", "").replace("2023W ", "")
         exam_registers = extract_anmeldefrist(page.text, lva_name)
         unique_exams = {}
 

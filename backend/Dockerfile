@@ -12,6 +12,7 @@ COPY lvas.txt lvas.txt
 COPY bachelor_shorthands.txt bachelor_shorthands.txt
 COPY master_softwareengineering_shorthands.txt master_softwareengineering_shorthands.txt
 COPY rooms.txt rooms.txt
+COPY exam_registrations.txt exam_registrations.txt
 
 # Run the jar file
 ENTRYPOINT ["java", "-jar","/app.jar"]

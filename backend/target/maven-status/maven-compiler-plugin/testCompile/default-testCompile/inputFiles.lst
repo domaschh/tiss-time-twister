@@ -8,7 +8,6 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/unittests/CalendarReferenceServiceTest.java
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/unittests/RegistrationTest.java
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/unittests/MessageMappingTest.java
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/unittests/MessageRepositoryTest.java
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/unittests/MatchTests.java
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/integrationtest/PipelineEndpointTests.java
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/integrationtest/MessageEndpointTest.java

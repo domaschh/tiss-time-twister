@@ -1,5 +1,4 @@
 at/ac/tuwien/sepr/groupphase/backend/unittests/MessageMappingTest.class
-at/ac/tuwien/sepr/groupphase/backend/unittests/MessageRepositoryTest.class
 at/ac/tuwien/sepr/groupphase/backend/integrationtest/MessageEndpointTest.class
 at/ac/tuwien/sepr/groupphase/backend/integrationtest/ConfigurationEndpointTests.class
 at/ac/tuwien/sepr/groupphase/backend/basetest/TestData.class
