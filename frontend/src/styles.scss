@@ -42,6 +42,9 @@ $sepr-group-phase-theme: mat.define-light-theme((
 
 @import 'angular-calendar/scss/angular-calendar.scss';
 
+::ng-deep .modal {
+  padding: 0!important;
+}
 .modal-header{
    padding-bottom: 0;
   border:none!important;
@@ -119,6 +122,13 @@ $day-col: rgba(154, 210, 255, 0.62);
     background-color: transparent !important;
     color: transparent;
   }
+
+  label[for="passwordConfirmation"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+
 
   input {
     color: $font-col;
