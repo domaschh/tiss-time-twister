@@ -41,7 +41,9 @@ $sepr-group-phase-theme: mat.define-light-theme((
 @import 'ngx-toastr/toastr';
 
 @import 'angular-calendar/scss/angular-calendar.scss';
-
+::-webkit-scrollbar {
+  width: 0px!important;
+}
 ::ng-deep .modal {
   padding: 0!important;
 }
