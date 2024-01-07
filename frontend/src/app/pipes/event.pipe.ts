@@ -10,8 +10,6 @@ import { MyCalendarEvent } from '../dtos/Calendar';
 export class EventPipePipe implements PipeTransform {
 
   transform(allEvents: MyCalendarEvent[]): CalendarEvent[] {
-    if(allEvents.length == 0)
-    return allEvents;
     return allEvents.filter(e => e.calendar.isActive);
   }
 }

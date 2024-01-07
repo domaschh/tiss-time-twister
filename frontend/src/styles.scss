@@ -200,14 +200,15 @@ $day-col: rgba(154, 210, 255, 0.62);
   }
 }
 
-.dark > * {
-
-
-}
-
-
 .pagecontainer {
   height: 100%;
+}
+
+.cal-event {
+  color: black!important;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 html, body {
@@ -219,6 +220,9 @@ html, body {
 
 
 body.dark {
+  .cal-event {
+    color: white!important;
+  }
   .form-control {
     border: 1px solid rgba(194, 194, 194, 0.37) !important;
     background-color: rgb(36, 41, 46) !important;

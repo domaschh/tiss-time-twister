@@ -31,7 +31,7 @@ public class LVADetailConfig {
                     String shorthand = parts[1];
                     String germanName = parts[0];
                     String englishName = parts[0];
-                    var detail = new LVADetail(shorthand, "https://tiss.tuwien.ac.at/", "123.456", List.of());
+                    var detail = new LVADetail(shorthand, "https://tiss.tuwien.ac.at/education/favorites.xhtml?dswid=5891", "123.456", List.of());
 
                     map.put(germanName.trim(), detail);
                     map.put(englishName.trim(), detail);
@@ -49,7 +49,7 @@ public class LVADetailConfig {
                     String shorthand = parts[1];
                     String germanName = parts[0];
                     String englishName = parts[0];
-                    var detail = new LVADetail(shorthand, "https://tiss.tuwien.ac.at/", "123.456", List.of());
+                    var detail = new LVADetail(shorthand, "https://tiss.tuwien.ac.at/education/favorites.xhtml?dswid=5891", "123.456", List.of());
 
                     map.put(germanName.trim(), detail);
                     map.put(englishName.trim(), detail);

@@ -17,9 +17,7 @@ import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.DtStart;
-import net.fortuna.ical4j.model.property.Summary;
+import net.fortuna.ical4j.model.property.*;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -127,7 +125,9 @@ public class PipelineServiceImpl implements PipelineService {
                 var properties = new PropertyList(List.of(
                     new Description(detail.examURl()),
                     new Summary(detail.shorthand() + " " + testRegistration.testName()),
-                    new DtStart(startDateTimeMinusOneHour)
+                    new DtStart(startDateTimeMinusOneHour),
+                    new DtEnd(endDateTime),
+                    new Categories("REGISTRATION")
                 ));
 
                 testRegEvent.setPropertyList(properties);

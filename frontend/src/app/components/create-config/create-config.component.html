@@ -124,10 +124,10 @@
                         <p class="mb-2 font-bold pt-2">Effect</p>
                       </a>
                       <div class="flex gap-2">
-                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs text-white"
                                (click)="currentRule.effect.effectType = EffectType.DELETE"
                                [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
-                        <label class="cursor-pointer rounded-2xl p-1 text-xs"
+                        <label class="cursor-pointer rounded-2xl p-1 text-xs text-white"
                                (click)="currentRule.effect.effectType = EffectType.MODIFY"
                                [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
                       </div>
