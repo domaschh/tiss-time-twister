@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepr.groupphase.backend.service;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.PublicConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,9 @@ public interface ConfigurationService {
 
     List<Configuration> getAllByUser(String userId);
 
-    List<Configuration> getAllPublicConfigurations();
+    List<PublicConfiguration> getAllPublicConfigurations();
 
     Configuration changeVisibility(Long configurationId);
+
+    boolean publish(Configuration configToPublish, String username);
 }

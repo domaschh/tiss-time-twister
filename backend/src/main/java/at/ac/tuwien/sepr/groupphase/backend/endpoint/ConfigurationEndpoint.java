@@ -1,7 +1,11 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.PublicConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.PublicConfigMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.PublicConfiguration;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
@@ -9,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +40,16 @@ public class ConfigurationEndpoint {
 
     private final ConfigurationService configurationService;
     private final ConfigurationMapper configurationMapper;
+    private final PublicConfigMapper publicConfigurationMapper;
     private final ExtractUsernameService extractUsernameService;
 
     @Autowired
     public ConfigurationEndpoint(ConfigurationService configurationService, ConfigurationMapper configurationMapper,
+                                 PublicConfigMapper publicConfigurationMapper,
                                  ExtractUsernameService extractUsernameService) {
         this.configurationService = configurationService;
         this.configurationMapper = configurationMapper;
+        this.publicConfigurationMapper = publicConfigurationMapper;
         this.extractUsernameService = extractUsernameService;
     }
 
@@ -51,8 +59,14 @@ public class ConfigurationEndpoint {
     public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
-        return configurationMapper.toDto(
-            configurationService.add(configurationMapper.toEntity(configurationDto), username));
+        Configuration created = configurationService.add(configurationMapper.toEntity(configurationDto), username);
+        ConfigurationDto createdDto = configurationMapper.toDto(
+            created);
+
+        if (created.isPublished()) {
+            configurationService.publish(created, username);
+        }
+        return createdDto;
     }
 
     @Secured("ROLE_USER")
@@ -89,9 +103,16 @@ public class ConfigurationEndpoint {
     @PermitAll
     @GetMapping("/allPublic")
     @Operation(summary = "Get all published Configurations")
-    public List<ConfigurationDto> getAllPublished() {
+    public List<PublicConfigurationDto> getAllPublished(HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Get All published Configurations");
-        return configurationMapper.toDtoList(configurationService.getAllPublicConfigurations());
+        List<PublicConfiguration> allPublicConfigurations = configurationService.getAllPublicConfigurations();
+
+        return allPublicConfigurations.stream().map(config -> {
+            var configDto = publicConfigurationMapper.toDto(config);
+            configDto.setPublished(config.getOwningUser().equals(username));
+            return configDto;
+        }).toList();
     }
 
     @Secured("ROLE_USER")

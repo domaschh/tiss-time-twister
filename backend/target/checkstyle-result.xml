@@ -36,6 +36,8 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/CalendarReferenceRepository.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/PublicConfigurationRepository.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/MessageRepository.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/EventRepository.java">
@@ -94,6 +96,8 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Event.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/PublicConfiguration.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Match.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Session.java">
@@ -101,6 +105,8 @@
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Rule.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/Registration.java">
+</file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/PublicConfigurationDto.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/UserRegistrationDto.java">
 </file>
@@ -143,6 +149,8 @@
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/ConfigurationMapper.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/CalendarReferenceMapper.java">
+</file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/PublicConfigMapper.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/EffectMapper.java">
 </file>

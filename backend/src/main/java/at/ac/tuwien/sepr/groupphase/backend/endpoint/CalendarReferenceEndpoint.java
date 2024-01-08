@@ -97,7 +97,8 @@ public class CalendarReferenceEndpoint {
     public List<CalendarReferenceDto> getAllForUser(HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Get /api/v1/calendar/{}", username);
-        return calendarReferenceService.getAllForUser(username).stream().map(calendarReferenceMapper::calendarReferenceToDto).toList();
+        List<CalendarReference> allForUser = calendarReferenceService.getAllForUser(username);
+        return allForUser.stream().map(calendarReferenceMapper::calendarReferenceToDto).toList();
     }
 
     @Secured("ROLE_USER")

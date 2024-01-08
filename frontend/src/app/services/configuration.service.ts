@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ConfigurationDto} from "../dtos/configuration-dto";
+import {ConfigurationDto, PublicConfigurationDto} from "../dtos/configuration-dto";
 import {Globals} from "../global/globals";
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ConfigurationService {
   }
 
   getAllPublic() {
-    return this.httpClient.get<ConfigurationDto[]>(this.messageBaseUri + "/allPublic")
+    return this.httpClient.get<PublicConfigurationDto[]>(this.messageBaseUri + "/allPublic")
   }
 
   createConfiguration(calendarId: number, configurationDto: ConfigurationDto) {

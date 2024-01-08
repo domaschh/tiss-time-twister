@@ -109,10 +109,9 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             } else {
                 calendarReference.setConfigurations(List.of(configuration));
             }
-            if (configuration.getCalendarReferences() != null) {
-                configuration.getCalendarReferences().add(calendarReference);
-            } else {
-                configuration.setCalendarReferences(List.of(calendarReference));
+
+            if (configuration != null) {
+                configuration.setCalendarReference(calendarReference);
             }
         }
         return calendarReferenceRepository.save(calendarReference);
@@ -128,9 +127,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             if (calendarReference.getConfigurations() != null) {
                 calendarReference.getConfigurations().remove(configuration);
             }
-            if (configuration.getCalendarReferences() != null) {
-                configuration.getCalendarReferences().remove(calendarReference);
-            }
+            configuration.setCalendarReference(null);
         }
         return calendarReferenceRepository.save(calendarReference);
     }

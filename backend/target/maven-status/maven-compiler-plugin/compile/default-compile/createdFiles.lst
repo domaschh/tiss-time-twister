@@ -1,6 +1,7 @@
 at/ac/tuwien/sepr/groupphase/backend/service/ConfigurationService.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/RuleMapper.class
 at/ac/tuwien/sepr/groupphase/backend/exception/PasswordDoesNotMatchEmailException.class
+at/ac/tuwien/sepr/groupphase/backend/entity/PublicConfiguration.class
 at/ac/tuwien/sepr/groupphase/backend/service/CalendarService.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/UserRegistrationDto.class
 at/ac/tuwien/sepr/groupphase/backend/service/impl/EventServiceImp.class
@@ -33,8 +34,10 @@ at/ac/tuwien/sepr/groupphase/backend/service/PipelineService.class
 at/ac/tuwien/sepr/groupphase/backend/service/CalendarReferenceService.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/CalendarReferenceMapper.class
 at/ac/tuwien/sepr/groupphase/backend/security/JwtTokenizer.class
+at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/PublicConfigurationDto.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/ConfigurationDto.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/MessageMapper.class
+at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/PublicConfigMapperImpl.class
 at/ac/tuwien/sepr/groupphase/backend/config/ExamConfig.class
 at/ac/tuwien/sepr/groupphase/backend/entity/Match$1.class
 at/ac/tuwien/sepr/groupphase/backend/service/impl/PipelineServiceImpl.class
@@ -66,6 +69,7 @@ at/ac/tuwien/sepr/groupphase/backend/exception/EmailAlreadyExistsException.class
 at/ac/tuwien/sepr/groupphase/backend/entity/MatchType.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/DetailedMessageDto$DetailedMessageDtoBuilder.class
 at/ac/tuwien/sepr/groupphase/backend/exception/NotFoundException.class
+at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/PublicConfigMapper.class
 at/ac/tuwien/sepr/groupphase/backend/exception/InvalidEmailException.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/EventMapperImpl.class
 at/ac/tuwien/sepr/groupphase/backend/endpoint/CustomHealthEndpoint.class
@@ -87,6 +91,7 @@ at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/MessageInquiryDto$MessageInqui
 at/ac/tuwien/sepr/groupphase/backend/entity/Message.class
 at/ac/tuwien/sepr/groupphase/backend/repository/RuleRepository.class
 at/ac/tuwien/sepr/groupphase/backend/security/JwtAuthorizationFilter.class
+at/ac/tuwien/sepr/groupphase/backend/repository/PublicConfigurationRepository.class
 at/ac/tuwien/sepr/groupphase/backend/config/SecurityPropertiesConfig$Auth.class
 at/ac/tuwien/sepr/groupphase/backend/config/SecurityConfig$CorsConfig.class
 at/ac/tuwien/sepr/groupphase/backend/repository/EventRepository.class
