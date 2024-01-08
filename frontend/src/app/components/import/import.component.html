@@ -33,29 +33,48 @@
             [formGroup]="importForm"
             (ngSubmit)="importCalendar()"
           >
-            <div class="form-group">
-              <label for="inputName">Calendar Name</label>
-              <input
-                type="text"
-                name="name"
-                formControlName="name"
-                class="form-control"
-                id="inputName"
-                aria-describedby="usernameHelp"
-                placeholder="enter a calendar name"
-              />
-              <div
-                *ngIf="submitted && importForm.controls.name.errors"
-                class="error"
-              >
-                <small
-                  class="form-text text-warning"
-                  *ngIf="importForm.controls.name.errors.required"
-                >
-                  A Name is required!
-                </small>
+              <div class="form-group">
+                <div class="flex flex-row">
+                  <div class="form-group w-full">
+                    <label for="inputName">Calendar Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      formControlName="name"
+                      class="form-control"
+                      id="inputName"
+                      aria-describedby="usernameHelp"
+                      placeholder="Enter a calendar name"
+                    />
+                    <div *ngIf="submitted && importForm.controls.name.errors" class="error">
+                      <small class="form-text text-warning" *ngIf="importForm.controls.name.errors.required">
+                        A Name is required!
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputColor">Color</label>
+                    <input
+                      type="color"
+                      name="color"
+                      formControlName="color"
+                      class="form-control"
+                      id="inputColor"
+                      aria-describedby="usernameHelp"
+                      placeholder="Choose a calendar color"
+                      style="width: 38px; height: 38px; padding: 5px;"
+                    />
+                    <div *ngIf="submitted && importForm.controls.color.errors" class="error">
+                      <small class="form-text text-warning" *ngIf="importForm.controls.color.errors.required">
+                        A Color is required!
+                      </small>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+
+
 
             <div class="form-group">
               <label>Import Source</label>
@@ -80,14 +99,8 @@
                   id="inputLink"
                   placeholder="Calendar URL"
                 />
-                <div
-                  *ngIf="submitted && importForm.controls.link.errors"
-                  class="error"
-                >
-                  <small
-                    class="form-text text-warning"
-                    *ngIf="importForm.controls.link.errors.required"
-                  >
+                <div *ngIf="submitted && importForm.controls.link.errors" class="error">
+                  <small class="form-text text-warning" *ngIf="importForm.controls.link.errors.required">
                     A link is required!
                   </small>
                 </div>
@@ -108,10 +121,7 @@
                   Current file: {{ selectedFile.name }}
                 </small>
               </div>
-              <small
-                class="form-text text-warning"
-                *ngIf="!selectedFile && submitted"
-              >
+              <small class="form-text text-warning" *ngIf="!selectedFile && submitted">
                 An iCal file is required!
               </small>
             </div>
