@@ -91,7 +91,7 @@ export class CreateConfigComponent {
 
   previewConfiguration() {
     if (this.ruleHasValues(this.currentRule)) {
-      this.allRules.push({...this.currentRule, id: this.allRules.length + 1});
+      this.allRules.push(this.currentRule);
     }
     let config: ConfigurationDto = {
       description: this.configurationForm.value.description,
