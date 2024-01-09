@@ -11,6 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ConfigurationDto {
     private Long id;
+    private Long clonedFromId;
+    private Long calendarReferenceId;
     private String title;
     private String description;
     private List<RuleDto> rules;

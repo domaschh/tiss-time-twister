@@ -97,7 +97,8 @@ public class CalendarReferenceEndpoint {
     public List<CalendarReferenceDto> getAllForUser(HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Get /api/v1/calendar/{}", username);
-        return calendarReferenceService.getAllForUser(username).stream().map(calendarReferenceMapper::calendarReferenceToDto).toList();
+        List<CalendarReference> allForUser = calendarReferenceService.getAllForUser(username);
+        return allForUser.stream().map(calendarReferenceMapper::calendarReferenceToDto).toList();
     }
 
     @Secured("ROLE_USER")
@@ -126,7 +127,7 @@ public class CalendarReferenceEndpoint {
     @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
     public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
-        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.addConfig(configId, calendarId));
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId));
     }
 
     @Secured("ROLE_USER")

@@ -8,13 +8,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -22,14 +21,11 @@ import java.util.List;
 @Table(name = "Configurations")
 @Setter
 @Getter
+@ToString
 public class Configuration {
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "calendar_ref_config",
-        joinColumns = @JoinColumn(name = "configuration_id"),
-        inverseJoinColumns = @JoinColumn(name = "reference_id"))
-    List<CalendarReference> calendarReferences;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "calendar_id")
+    private CalendarReference calendarReference;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +35,9 @@ public class Configuration {
     private String description;
     @Column()
     private boolean published;
-    @ManyToOne()
+    @Column()
+    private Long clonedFromId;
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
     @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

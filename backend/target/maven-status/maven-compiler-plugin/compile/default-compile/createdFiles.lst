@@ -1,3 +1,4 @@
+at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\PublicConfigMapper.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\RuleDto.class
 at\ac\tuwien\sepr\groupphase\backend\config\SecurityPropertiesConfig.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\CalendarReferenceEndpoint.class
@@ -24,6 +25,7 @@ at\ac\tuwien\sepr\groupphase\backend\exception\InvalidEmailException.class
 at\ac\tuwien\sepr\groupphase\backend\entity\Message.class
 at\ac\tuwien\sepr\groupphase\backend\service\MessageService.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\MatchMapperImpl.class
+at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\PublicConfigMapperImpl.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\DetailedMessageDto$DetailedMessageDtoBuilder.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\CalendarReferenceMapperImpl.class
 at\ac\tuwien\sepr\groupphase\backend\repository\CalendarReferenceRepository.class
@@ -33,6 +35,7 @@ at\ac\tuwien\sepr\groupphase\backend\entity\Match.class
 at\ac\tuwien\sepr\groupphase\backend\repository\ApplicationUserRepository.class
 at\ac\tuwien\sepr\groupphase\backend\TissRoom.class
 at\ac\tuwien\sepr\groupphase\backend\config\SecurityPropertiesConfig$Jwt.class
+at\ac\tuwien\sepr\groupphase\backend\repository\PublicConfigurationRepository.class
 at\ac\tuwien\sepr\groupphase\backend\service\impl\CustomUserDetailService.class
 at\ac\tuwien\sepr\groupphase\backend\entity\CalendarReference.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\ConfigurationMapper.class
@@ -76,6 +79,7 @@ at\ac\tuwien\sepr\groupphase\backend\config\LVADetailConfig.class
 at\ac\tuwien\sepr\groupphase\backend\entity\EffectType.class
 at\ac\tuwien\sepr\groupphase\backend\service\TissService.class
 at\ac\tuwien\sepr\groupphase\backend\config\SecurityConfig$CorsConfig.class
+at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\PublicConfigurationDto.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\EventEndpoint.class
 at\ac\tuwien\sepr\groupphase\backend\service\impl\TissServiceImpl.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\EventMapper.class
@@ -105,4 +109,5 @@ at\ac\tuwien\sepr\groupphase\backend\service\impl\RuleServiceImpl.class
 at\ac\tuwien\sepr\groupphase\backend\entity\Event.class
 at\ac\tuwien\sepr\groupphase\backend\service\impl\EventServiceImp.class
 at\ac\tuwien\sepr\groupphase\backend\config\properties\SecurityProperties.class
+at\ac\tuwien\sepr\groupphase\backend\entity\PublicConfiguration.class
 at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\UserLoginDto.class

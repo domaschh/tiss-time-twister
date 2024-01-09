@@ -45,7 +45,7 @@
                 You have to select a calendar!
               </small>
             </div>
-            <div class="form-check mt-2">
+            <div class="form-check mt-2" *ngIf="prefilled !== null">
               <input class="form-check-input" type="checkbox" name="public" id="public" formControlName="public">
               <label class="form-check-label" for="public">
                 Public

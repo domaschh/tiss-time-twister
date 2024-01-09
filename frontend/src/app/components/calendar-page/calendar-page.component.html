@@ -54,8 +54,9 @@
             <i matTooltip="Import a Configuration" class="bi bi-plus-square cursor-pointer " (click)="openConfigurationImportModal()"></i>
           </div>
           <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 flex flex-col text-center">
-            <label class="form-check-label border-b border-popover pb-2" [for]="'conf' + conf.id">
+            <label class="form-check-label border-b flex justify-between border-popover pb-2" [for]="'conf' + conf.id">
               {{ conf.title }}
+              <i matTooltip="Published" *ngIf="conf.published" class="bi bi-rocket-takeoff "></i>
             </label>
             <div class="flex flex-row justify-baseline items-center justify-between p-2">
               <a matTooltip="Delete" class="cursor-pointer" aria-label="Delete" (click)="removeConfiguraion(conf)">
@@ -66,9 +67,6 @@
               </a>
               <a matTooltip="Download as File" class="cursor-pointer" aria-label="Download" (click)="downloadConfigFile(conf)">
                 <i class="bi bi-download" style="font-size: 1rem;"></i>
-              </a>
-              <a matTooltip="Copy Link to Clipboard" class="cursor-pointer" aria-label="Edit" (click)="copyLinkToClipboard(conf.id)">
-                <i class="bi bi-share" style="font-size: 1rem;"></i>
               </a>
             </div>
 

@@ -1,10 +1,18 @@
 export interface ConfigurationDto {
   id?: number,
   title: string,
+  calendarReferenceId?: number,
+  clonedFromId?: number,
   description: string,
   rules: RuleDto[],
   published: boolean,
   alreadyAdded?: boolean,
+}
+
+export interface PublicConfigurationDto extends ConfigurationDto {
+  initialConfigurationId: number;
+  alreadyCloned?: boolean;
+  mine: boolean;
 }
 
 export enum MatchType {

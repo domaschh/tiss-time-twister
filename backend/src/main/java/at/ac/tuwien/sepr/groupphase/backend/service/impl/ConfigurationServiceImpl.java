@@ -1,12 +1,13 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
+import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
+import at.ac.tuwien.sepr.groupphase.backend.repository.PublicConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,34 +24,33 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private final ConfigurationRepository configurationRepository;
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final ApplicationUserRepository applicationUserRepository;
+    private final PublicConfigurationRepository publicConfigurationRepository;
 
     @Autowired
     public ConfigurationServiceImpl(ConfigurationRepository configurationRepository,
                                     CalendarReferenceRepository calendarReferenceRepository,
-                                    ApplicationUserRepository applicationUserRepository) {
+                                    ApplicationUserRepository applicationUserRepository,
+                                    PublicConfigurationRepository publicConfigurationRepository) {
         this.configurationRepository = configurationRepository;
         this.calendarReferenceRepository = calendarReferenceRepository;
         this.applicationUserRepository = applicationUserRepository;
+        this.publicConfigurationRepository = publicConfigurationRepository;
     }
 
     @Override
     @Transactional
-    public Configuration add(Configuration configuration, String username) {
-        LOGGER.debug("Get all Configurations for user {}", username);
-        var user = applicationUserRepository.getApplicationUserByEmail(username);
-        if (user != null) {
-            configuration.setUser(user);
-            if (configuration.getRules() == null) {
-                configuration.setRules(List.of());
-            } else {
-                for (Rule r : configuration.getRules()) {
-                    r.setConfiguration(configuration);
-                }
-            }
-            return configurationRepository.save(configuration);
-        } else {
-            throw new NotFoundException();
-        }
+    public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
+        LOGGER.debug("Update Configuration {}", username);
+
+        // Retrieve the CalendarReference entity using calendarReferenceId
+        CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
+                                                                         .orElseThrow(() -> new EntityNotFoundException("CalendarReference not found"));
+
+        // Set the CalendarReference in the Configuration entity
+        configuration.setCalendarReference(calendarReference);
+
+        // Save the Configuration entity
+        return configurationRepository.save(configuration);
     }
 
     @Override
@@ -88,9 +88,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public List<Configuration> getAllPublicConfigurations() {
+    public List<PublicConfiguration> getAllPublicConfigurations() {
         LOGGER.debug("Get all published Configurations");
-        return configurationRepository.findAllByPublishedIsTrue();
+        return publicConfigurationRepository.findAll();
     }
 
     @Override
@@ -99,5 +99,58 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         var config = configurationRepository.getReferenceById(configurationId);
         config.setPublished(!config.isPublished());
         return configurationRepository.save(config);
+    }
+
+    @Override
+    public boolean publish(Configuration configToPublish, String username) {
+        PublicConfiguration publicConfiguration = new PublicConfiguration();
+
+        publicConfiguration.setTitle(configToPublish.getTitle());
+        publicConfiguration.setInitialConfigurationId(configToPublish.getId());
+        publicConfiguration.setDescription(configToPublish.getDescription());
+        publicConfiguration.setPublished(configToPublish.isPublished());
+        publicConfiguration.setRules(configToPublish.getRules().stream().map(rule -> {
+            var r = new Rule();
+
+            var m = new Match();
+            m.setSummary(rule.getMatch().getSummary());
+            m.setSummaryMatchType(rule.getMatch().getSummaryMatchType());
+            m.setDescription(rule.getMatch().getDescription());
+            m.setDescriptionMatchType(rule.getMatch().getDescriptionMatchType());
+            m.setLocation(rule.getMatch().getLocation());
+            m.setLocationMatchType(rule.getMatch().getLocationMatchType());
+
+            var e = new Effect();
+            e.setEffectType(rule.getEffect().getEffectType());
+            e.setLocation(rule.getEffect().getLocation());
+            e.setChangedTitle(rule.getEffect().getChangedTitle());
+            e.setChangedDescription(rule.getEffect().getChangedDescription());
+
+            r.setConfiguration(publicConfiguration);
+            r.setMatch(m);
+            r.setEffect(e);
+            return r;
+        }).toList());
+
+        publicConfiguration.setOwningUser(username);
+
+        this.publicConfigurationRepository.save(publicConfiguration);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public void deletePublic(Long id) {
+        PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
+        LOGGER.debug(publicConf.toString());
+        System.out.println("HALLO");
+        System.out.println(publicConf);
+        var clonedFrom = configurationRepository.getReferenceById(publicConf.getInitialConfigurationId());
+        if (clonedFrom != null) {
+            clonedFrom.setPublished(false);
+            configurationRepository.save(clonedFrom);
+        }
+
+        this.publicConfigurationRepository.delete(publicConf);
     }
 }
