@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConfigModalComponent} from "./config-modal/config-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
@@ -14,6 +14,9 @@ export class PublicConfigCardComponent{
   @Input() config: PublicConfigurationDto;
   alreadyAdded: boolean;
 
+  @Output() removedFromPublicPage = new EventEmitter<number>();
+
+
   constructor(
     private readonly modalService: NgbModal,
     private readonly toastrService: ToastrService,
@@ -26,6 +29,11 @@ export class PublicConfigCardComponent{
       console.log(this.config.alreadyCloned)
       modalRef.componentInstance.config = this.config;
       modalRef.componentInstance.alreadyAdded = this.config.alreadyCloned;
+      modalRef.componentInstance.removedFromPublicPage.subscribe({
+        next: (idnumber) => {
+          this.removedFromPublicPage.emit(idnumber)
+        }
+      })
 
       modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       };

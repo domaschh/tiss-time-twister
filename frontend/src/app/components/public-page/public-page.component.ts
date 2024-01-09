@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ConfigurationService} from "../../services/configuration.service";
 import {ConfigurationDto, PublicConfigurationDto} from "../../dtos/configuration-dto";
 import {ToastrService} from "ngx-toastr";
@@ -12,7 +12,7 @@ export class PublicPageComponent implements OnInit {
 
   publicConfigs: PublicConfigurationDto[] = []
 
-  constructor(private readonly configurationService: ConfigurationService, private readonly toastrService: ToastrService) {
+  constructor(private readonly configurationService: ConfigurationService, private readonly toastrService: ToastrService, private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -45,5 +45,9 @@ export class PublicPageComponent implements OnInit {
         this.toastrService.error("Coudln't fetch configurations")
       }
     })
+  }
+
+  removeCard(id: number) {
+    this.publicConfigs = this.publicConfigs.filter(conf => conf.id !== id);
   }
 }

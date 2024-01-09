@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfigurationDto, PublicConfigurationDto} from "../../../dtos/configuration-dto";
 import {CalendarReferenceService} from "../../../services/calendar.reference.service";
@@ -22,6 +22,8 @@ export class ConfigModalComponent implements OnInit {
   selectedCal: number | null;
   @Input() alreadyAdded: boolean;
 
+  @Output() removedFromPublicPage = new EventEmitter<number>();
+
   constructor(public activeModal: NgbActiveModal,
               private readonly calendarReferenceService: CalendarReferenceService,
               private readonly toastrService: ToastrService,
@@ -30,7 +32,6 @@ export class ConfigModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.alreadyAdded)
     this.loadCalendars()
   }
 
@@ -62,14 +63,6 @@ export class ConfigModalComponent implements OnInit {
         this.toastrService.error("Coudln't fetch configurations")
       }
     })
-  }
-
-  doConfirmAction() {
-    this.confirmAction((result) => {
-      if (result) {
-        this.activeModal.close("Closed")
-      }
-    });
   }
 
 
@@ -107,6 +100,8 @@ export class ConfigModalComponent implements OnInit {
     this.configurationService.removeFromPublicPage(this.config.id).subscribe({
       next: () => {
       this.toastrService.success("Deleted public configuration")
+        this.removedFromPublicPage.emit(this.config.id);
+        this.activeModal.dismiss()
       }
     });
   }

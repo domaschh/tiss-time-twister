@@ -11,13 +11,7 @@
        (click)="copyLinkToClipboard()">
       <i class="bi bi-share" style="font-size: 1rem;"></i>
     </a>
-    <a matTooltip="Remove config from public page"
-       *ngIf="config.mine"
-       class="cursor-pointer flex w-auto text-popover-light text-white border-x border-y rounded border-popover-light p-2 w-[37px]" aria-label="Edit"
-       (click)="removeFromPublicPage()">
-      <i class="bi bi-trash" style="font-size: 1rem;"></i>
-      Remove from public page
-    </a>
+
   </div>
 
   <select name="calendar"
@@ -43,6 +37,13 @@
   </div>
   <div class="flex flex-row justify-end gap-3">
     <button type="button" class="text-font-col" (click)="activeModal.close('Close click')">Close</button>
+    <a matTooltip="Remove config from public page"
+       *ngIf="config.mine"
+       class="cursor-pointer flex w-auto text-popover-light text-popover-light text-red border-x border-y rounded border-red p-2 w-[37px]" aria-label="Edit"
+       (click)="removeFromPublicPage()">
+      <i class="bi bi-trash" style="font-size: 1rem;"></i>
+      Remove from public page
+    </a>
     <button [disabled]="!selectedCal || this.alreadyAdded" type="button" class="btn btn-success"
             (click)="addToCalendar()">{{ 'Add to Calendar' }}
     </button>

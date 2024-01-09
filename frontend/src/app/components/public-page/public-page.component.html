@@ -18,7 +18,7 @@
   <div class="flex w-full flex-wrap gap-3 ">
     <div *ngIf="publicConfigs.length === 0" class="mx-auto">no public configurations found</div>
     <div *ngFor="let config of publicConfigs" class="flex">
-      <app-public-config-card [config]="config"></app-public-config-card>
+      <app-public-config-card (removedFromPublicPage)="removeCard($event)" [config]="config"></app-public-config-card>
     </div>
   </div>
 </div>
