@@ -14,12 +14,12 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "Rules")
-public class Rule implements Cloneable {
+public class Rule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "config_id")
     private Configuration configuration;
 
