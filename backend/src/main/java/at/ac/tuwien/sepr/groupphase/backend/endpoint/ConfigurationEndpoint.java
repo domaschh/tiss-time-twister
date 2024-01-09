@@ -63,7 +63,6 @@ public class ConfigurationEndpoint {
             created);
 
         if (created.isPublished()) {
-            System.out.println("PUBLISHIGN");
             configurationService.publish(created, username);
         }
         return createdDto;

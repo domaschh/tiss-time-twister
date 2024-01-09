@@ -33,7 +33,7 @@ public class CalendarReference {
     private byte[] icalData;
     @Column()
     private Long enabledDefaultConfigurations;
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
 

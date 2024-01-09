@@ -8,8 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -24,8 +22,8 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public class Configuration implements Cloneable {
-    @ManyToOne
+public class Configuration {
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "calendar_id")
     private CalendarReference calendarReference;
     @Id
@@ -39,7 +37,7 @@ public class Configuration implements Cloneable {
     private boolean published;
     @Column()
     private Long clonedFromId;
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
     @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
