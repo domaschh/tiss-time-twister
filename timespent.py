@@ -20,16 +20,35 @@ def get_commit_times(author_name):
     return [datetime.strptime(line.strip(), "%Y-%m-%d %H:%M:%S") for line in log.split('\n') if line.strip()]
 
 # Function to calculate time spent for each author
+def get_lines_changed(commit_hash):
+    changes = run_git_command(f'git show {commit_hash} --stat --oneline | tail -1')
+    added, deleted = 0, 0
+    if changes:
+        parts = changes.split(',')
+        for part in parts:
+            if 'insertion' in part:
+                added = int(part.split()[0])
+            elif 'deletion' in part:
+                deleted = int(part.split()[0])
+    return added + deleted
+
+# Modified calculate_time_per_author function
 def calculate_time_per_author(author_name):
+    commit_hashes = run_git_command(f'git log --author="{author_name}" --pretty=format:"%H"').split()
     commit_times = get_commit_times(author_name)
     commits_by_date = defaultdict(list)
-    for commit_time in commit_times:
-        commits_by_date[commit_time.date()].append(commit_time)
+    for commit_time, commit_hash in zip(commit_times, commit_hashes):
+        commits_by_date[commit_time.date()].append((commit_time, commit_hash))
 
     total_time_spent = 0
-    for date, times in commits_by_date.items():
-        if times:
-            min_time, max_time = min(times), max(times)
+    for date, times_hashes in commits_by_date.items():
+        if len(times_hashes) == 1:
+            commit_time, commit_hash = times_hashes[0]
+            lines_changed = get_lines_changed(commit_hash)
+            total_time_spent += lines_changed * 20 / 3600  # 20 seconds per line
+        elif times_hashes:
+            min_time = min(commit_time for commit_time, _ in times_hashes)
+            max_time = max(commit_time for commit_time, _ in times_hashes)
             time_spent = (max_time - min_time).total_seconds() / 3600  # Convert to hours
             total_time_spent += time_spent
 
