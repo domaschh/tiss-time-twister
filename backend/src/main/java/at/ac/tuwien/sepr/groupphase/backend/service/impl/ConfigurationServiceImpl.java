@@ -7,6 +7,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceReposito
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.PublicConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,22 +39,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     @Transactional
-    public Configuration add(Configuration configuration, String username) {
-        LOGGER.debug("Get all Configurations for user {}", username);
-        var user = applicationUserRepository.getApplicationUserByEmail(username);
-        if (user != null) {
-            configuration.setUser(user);
-            if (configuration.getRules() == null) {
-                configuration.setRules(List.of());
-            } else {
-                for (Rule r : configuration.getRules()) {
-                    r.setConfiguration(configuration);
-                }
-            }
-            return configurationRepository.save(configuration);
-        } else {
-            throw new NotFoundException();
-        }
+    public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
+        LOGGER.debug("Update Configuration {}", username);
+
+        // Retrieve the CalendarReference entity using calendarReferenceId
+        CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
+                                                                         .orElseThrow(() -> new EntityNotFoundException("CalendarReference not found"));
+
+        // Set the CalendarReference in the Configuration entity
+        configuration.setCalendarReference(calendarReference);
+
+        // Save the Configuration entity
+        return configurationRepository.save(configuration);
     }
 
     @Override
@@ -139,5 +136,21 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
         this.publicConfigurationRepository.save(publicConfiguration);
         return true;
+    }
+
+    @Override
+    @Transactional
+    public void deletePublic(Long id) {
+        PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
+        LOGGER.debug(publicConf.toString());
+        System.out.println("HALLO");
+        System.out.println(publicConf);
+        var clonedFrom = configurationRepository.getReferenceById(publicConf.getInitialConfigurationId());
+        if (clonedFrom != null) {
+            clonedFrom.setPublished(false);
+            configurationRepository.save(clonedFrom);
+        }
+
+        this.publicConfigurationRepository.delete(publicConf);
     }
 }

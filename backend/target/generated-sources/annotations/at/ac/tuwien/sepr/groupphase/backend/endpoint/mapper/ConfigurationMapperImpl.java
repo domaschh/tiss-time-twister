@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-09T00:16:32+0100",
+    date = "2024-01-09T02:22:07+0100",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -35,6 +35,7 @@ public class ConfigurationMapperImpl implements ConfigurationMapper {
         configuration.setTitle( configurationDto.getTitle() );
         configuration.setDescription( configurationDto.getDescription() );
         configuration.setPublished( configurationDto.isPublished() );
+        configuration.setClonedFromId( configurationDto.getClonedFromId() );
         configuration.setRules( ruleDtoListToRuleList( configurationDto.getRules() ) );
 
         return configuration;
@@ -50,6 +51,7 @@ public class ConfigurationMapperImpl implements ConfigurationMapper {
 
         configurationDto.setCalendarReferenceId( calendarReferenceToId( config.getCalendarReference() ) );
         configurationDto.setId( config.getId() );
+        configurationDto.setClonedFromId( config.getClonedFromId() );
         configurationDto.setTitle( config.getTitle() );
         configurationDto.setDescription( config.getDescription() );
         configurationDto.setRules( ruleListToRuleDtoList( config.getRules() ) );

@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,24 +58,17 @@ public class ConfigurationEndpoint {
     public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
-        Configuration created = configurationService.add(configurationMapper.toEntity(configurationDto), username);
+        Configuration created = configurationService.update(configurationMapper.toEntity(configurationDto), username, configurationDto.getCalendarReferenceId());
         ConfigurationDto createdDto = configurationMapper.toDto(
             created);
 
         if (created.isPublished()) {
+            System.out.println("PUBLISHIGN");
             configurationService.publish(created, username);
         }
         return createdDto;
     }
 
-    @Secured("ROLE_USER")
-    @PutMapping("/changeVisibility/{configurationId}")
-    @Operation(summary = "Create a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ConfigurationDto changeVisibility(@PathVariable Long configurationId) {
-        LOGGER.info("Put /api/v1/configuration/changeVisibility/{}", configurationId);
-        return configurationMapper.toDto(
-            configurationService.changeVisibility(configurationId));
-    }
 
     @Secured("ROLE_USER")
     @GetMapping("/{id}")
@@ -99,6 +91,14 @@ public class ConfigurationEndpoint {
         configurationService.delete(id);
     }
 
+    @Secured("ROLE_USER")
+    @DeleteMapping("/public/{id}")
+    @Operation(summary = "Deletes a Configuration", security = @SecurityRequirement(name = "apiKey"))
+    public void deletePublicConfiguration(@PathVariable Long id) {
+        LOGGER.info("Deleting Configuration with id: {}", id);
+        configurationService.deletePublic(id);
+    }
+
 
     @PermitAll
     @GetMapping("/allPublic")
@@ -110,7 +110,7 @@ public class ConfigurationEndpoint {
 
         return allPublicConfigurations.stream().map(config -> {
             var configDto = publicConfigurationMapper.toDto(config);
-            configDto.setPublished(config.getOwningUser().equals(username));
+            configDto.setMine(config.getOwningUser().equals(username));
             return configDto;
         }).toList();
     }

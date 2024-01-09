@@ -1,11 +1,25 @@
 <div class="flex flex-col p-3 gap-3">
   <div class="flex flex-row justify-between align-items-center">
     <h3 class="modal-title">{{ config.title }}</h3>
-    <label class=" rounded-2xl p-1 text-xs text-white" [ngClass]="alreadyAdded ? 'bg-added' : 'bg-notadded'">{{ alreadyAdded ? 'Already Added' : 'Add to colelction' }}</label>
+    <label class="text-center rounded-2xl p-1 text-xs text-white ms-4 cursor-pointer"
+           [ngClass]="config.alreadyCloned ? 'bg-added' : 'bg-notadded'"
+    >{{ config.alreadyCloned ? 'Already Added' : 'Add to collection' }}</label>
   </div>
-  <a matTooltip="Copy share link to clipboard" class="cursor-pointer text-white border-x border-y rounded border-popover-light p-2 w-[37px]" aria-label="Edit" (click)="copyLinkToClipboard()">
-    <i class="bi bi-share" style="font-size: 1rem;"></i>
-  </a>
+  <div class="flex gap-2">
+    <a matTooltip="Copy share link to clipboard"
+       class="cursor-pointer text-white border-x border-y rounded border-popover-light p-2 w-[37px]" aria-label="Edit"
+       (click)="copyLinkToClipboard()">
+      <i class="bi bi-share" style="font-size: 1rem;"></i>
+    </a>
+    <a matTooltip="Remove config from public page"
+       *ngIf="config.mine"
+       class="cursor-pointer flex w-auto text-popover-light text-white border-x border-y rounded border-popover-light p-2 w-[37px]" aria-label="Edit"
+       (click)="removeFromPublicPage()">
+      <i class="bi bi-trash" style="font-size: 1rem;"></i>
+      Remove from public page
+    </a>
+  </div>
+
   <select name="calendar"
           class="selectiondropdown form-control"
           id="calendar"
@@ -13,15 +27,15 @@
           [(ngModel)]="selectedCal"
           (ngModelChange)="onCalendarChange($event)">
 
-  >
+    >
     <option [value]="null">None</option>
     <option *ngFor="let item of calendars" [value]="item.id">{{ item.name }}</option>
   </select>
   <div class="overflow-y-scroll" style="max-height: calc(100vh - 470px);">
-  <div class="flex flex-col">
-    <h5>Description</h5>
-    <p>{{ config.description }}</p>
-  </div>
+    <div class="flex flex-col">
+      <h5>Description</h5>
+      <p>{{ config.description }}</p>
+    </div>
   </div>
   <h5>Rules</h5>
   <div class="flex flex-col gap-2" *ngFor="let rule of config.rules">
@@ -29,7 +43,8 @@
   </div>
   <div class="flex flex-row justify-end gap-3">
     <button type="button" class="text-font-col" (click)="activeModal.close('Close click')">Close</button>
-    <button [disabled]="!selectedCal && !this.alreadyAdded" type="button" class="btn btn-danger" (click)="removeFromCalendar()">{{ 'Remove From Calendar' }}</button>
-    <button [disabled]="!selectedCal || this.alreadyAdded" type="button" class="btn btn-success" (click)="addToCalendar()">{{ 'Preview in selected Calendar' }}</button>
+    <button [disabled]="!selectedCal || this.alreadyAdded" type="button" class="btn btn-success"
+            (click)="addToCalendar()">{{ 'Add to Calendar' }}
+    </button>
   </div>
 </div>

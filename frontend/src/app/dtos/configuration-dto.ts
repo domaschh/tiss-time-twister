@@ -2,6 +2,7 @@ export interface ConfigurationDto {
   id?: number,
   title: string,
   calendarReferenceId?: number,
+  clonedFromId?: number,
   description: string,
   rules: RuleDto[],
   published: boolean,
@@ -9,7 +10,9 @@ export interface ConfigurationDto {
 }
 
 export interface PublicConfigurationDto extends ConfigurationDto {
-  isMine: boolean;
+  initialConfigurationId: number;
+  alreadyCloned?: boolean;
+  mine: boolean;
 }
 
 export enum MatchType {

@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
 @Table(name = "Configurations")
 @Setter
 @Getter
+@ToString
 public class Configuration implements Cloneable {
     @ManyToOne
     @JoinColumn(name = "calendar_id")
@@ -35,6 +37,8 @@ public class Configuration implements Cloneable {
     private String description;
     @Column()
     private boolean published;
+    @Column()
+    private Long clonedFromId;
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private ApplicationUser user;

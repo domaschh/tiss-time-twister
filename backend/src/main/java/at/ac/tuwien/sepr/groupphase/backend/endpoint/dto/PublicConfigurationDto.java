@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PublicConfigurationDto extends ConfigurationDto {
+    private Long initialConfigurationId;
     private boolean isMine;
 }

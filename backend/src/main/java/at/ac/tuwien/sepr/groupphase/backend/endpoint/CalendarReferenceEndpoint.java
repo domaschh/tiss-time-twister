@@ -127,7 +127,7 @@ public class CalendarReferenceEndpoint {
     @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
     public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
-        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.addConfig(configId, calendarId));
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId));
     }
 
     @Secured("ROLE_USER")

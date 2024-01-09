@@ -1,4 +1,4 @@
-#Tue Jan 09 00:16:30 CET 2024
+#Tue Jan 09 02:22:04 CET 2024
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/BackendApplication.java=1704535616432
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/LVADetail.java=1704655665321
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/Registration.java=1704655665321
@@ -13,8 +13,8 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/config/TissRoomConfig.java=1704547560946
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/config/properties/SecurityProperties.java=1701644039777
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/datagenerator/UserDataGenerator.java=1704547560946
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/CalendarReferenceEndpoint.java=1704752786943
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/ConfigurationEndpoint.java=1704755117795
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/CalendarReferenceEndpoint.java=1704760628302
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/ConfigurationEndpoint.java=1704762760534
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/CustomHealthEndpoint.java=1701644039778
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/EventEndpoint.java=1704547560947
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/LoginEndpoint.java=1703499185782
@@ -22,13 +22,13 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/RegistrationEndpoint.java=1704655665322
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/RuleEndpoint.java=1704547560947
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/CalendarReferenceDto.java=1704747473990
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/ConfigurationDto.java=1704753517472
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/ConfigurationDto.java=1704758344221
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/DetailedMessageDto.java=1701644039778
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/EffectDto.java=1704547560948
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/EventDto.java=1703167265213
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/MatchDto.java=1704547560948
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/MessageInquiryDto.java=1704547560948
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/PublicConfigurationDto.java=1704755057511
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/PublicConfigurationDto.java=1704758470858
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/RuleDto.java=1704547560948
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/SimpleMessageDto.java=1701644039778
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/UserLoginDto.java=1704547560949
@@ -44,7 +44,7 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/RuleMapper.java=1704547541788
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/ApplicationUser.java=1704547535114
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/CalendarReference.java=1704753350649
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Configuration.java=1704755256173
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Configuration.java=1704762416930
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/DeleteEffect.java=1704655665322
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Effect.java=1704547538255
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/EffectType.java=1704547560949
@@ -53,7 +53,7 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/MatchType.java=1704547560950
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Message.java=1704547560950
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/ModifyEffect.java=1704655665322
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/PublicConfiguration.java=1704755776728
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/PublicConfiguration.java=1704761999913
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Rule.java=1704755442622
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Session.java=1704547560951
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/exception/EmailAlreadyExistsException.java=1703851946735
@@ -72,9 +72,9 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/UserRepository.java=1704547560952
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/security/JwtAuthorizationFilter.java=1704547560952
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/security/JwtTokenizer.java=1701644039779
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/CalendarReferenceService.java=1704752799193
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/CalendarReferenceService.java=1704760628299
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/CalendarService.java=1703167265214
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/ConfigurationService.java=1704755057509
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/ConfigurationService.java=1704762760530
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/EventService.java=1704547560952
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/ExportService.java=1704547560952
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/ExtractUsernameService.java=1704547560952
@@ -84,9 +84,9 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/TMapper.java=1703167265215
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/TissService.java=1704547560953
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/UserService.java=1703851946736
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CalendarReferenceServiceImpl.java=1704753875218
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CalendarReferenceServiceImpl.java=1704760742831
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CalendarServiceImpl.java=1703167265215
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/ConfigurationServiceImpl.java=1704755776729
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/ConfigurationServiceImpl.java=1704763320357
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CustomUserDetailService.java=1703851946736
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/EventServiceImp.java=1703167265215
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/ExtractUserNameImpl.java=1704547560953

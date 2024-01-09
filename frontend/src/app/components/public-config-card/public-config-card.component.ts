@@ -3,7 +3,7 @@ import {ConfigModalComponent} from "./config-modal/config-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
 import {ConfigurationService} from "../../services/configuration.service";
-import {ConfigurationDto} from "../../dtos/configuration-dto";
+import {ConfigurationDto, PublicConfigurationDto} from "../../dtos/configuration-dto";
 
 @Component({
   selector: 'app-public-config-card',
@@ -11,7 +11,7 @@ import {ConfigurationDto} from "../../dtos/configuration-dto";
   styleUrls: ['./public-config-card.component.scss']
 })
 export class PublicConfigCardComponent{
-  @Input() config: ConfigurationDto;
+  @Input() config: PublicConfigurationDto;
   alreadyAdded: boolean;
 
   constructor(
@@ -23,7 +23,9 @@ export class PublicConfigCardComponent{
 
   openConfigModal() {
       const modalRef = this.modalService.open(ConfigModalComponent);
+      console.log(this.config.alreadyCloned)
       modalRef.componentInstance.config = this.config;
+      modalRef.componentInstance.alreadyAdded = this.config.alreadyCloned;
 
       modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       };

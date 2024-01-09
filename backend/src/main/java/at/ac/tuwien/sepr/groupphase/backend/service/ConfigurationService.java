@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface ConfigurationService {
-    Configuration add(Configuration configuration, String username);
+    Configuration update(Configuration configuration, String username, Long calenderReferenceId);
 
     Configuration edit(Configuration configuration);
 
@@ -23,4 +23,6 @@ public interface ConfigurationService {
     Configuration changeVisibility(Long configurationId);
 
     boolean publish(Configuration configToPublish, String username);
+
+    void deletePublic(Long id);
 }

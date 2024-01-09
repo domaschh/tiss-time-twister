@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigurationService} from "../../services/configuration.service";
-import {ConfigurationDto} from "../../dtos/configuration-dto";
+import {ConfigurationDto, PublicConfigurationDto} from "../../dtos/configuration-dto";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -10,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class PublicPageComponent implements OnInit {
 
-  publicConfigs: ConfigurationDto[] = []
+  publicConfigs: PublicConfigurationDto[] = []
 
   constructor(private readonly configurationService: ConfigurationService, private readonly toastrService: ToastrService) {
   }
@@ -34,10 +34,11 @@ export class PublicPageComponent implements OnInit {
     this.configurationService.getAll().subscribe({
       next: (configs) => {
         this.publicConfigs.forEach((pc) => {
-          if (configs.findIndex(c => c.id === pc.id) >= 0) {
-            console.log("hi")
-            pc.alreadyAdded = true;
-          }
+          configs.forEach(myConf => {
+            if (myConf.clonedFromId === pc.id) {
+              pc.alreadyCloned = true;
+            }
+          })
         });
       },
       error: () => {
