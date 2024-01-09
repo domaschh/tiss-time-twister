@@ -109,7 +109,9 @@ class ConfigurationEndpointTests {
     @BeforeEach
     void beforeEach() {
         configurationRepository.deleteAll();
-        when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(new CalendarReference()));
+        CalendarReference value = new CalendarReference();
+        value.setConfigurations(List.of());
+        when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(value));
     }
 
     private ConfigurationDto generateConfigurationWithoutRules() {
