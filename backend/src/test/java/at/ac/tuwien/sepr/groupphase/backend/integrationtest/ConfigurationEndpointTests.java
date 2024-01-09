@@ -7,17 +7,21 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.EffectDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.MatchDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.RuleDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.MatchType;
+import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -31,6 +35,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
@@ -40,6 +45,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -84,6 +91,9 @@ class ConfigurationEndpointTests {
     @Autowired
     private JwtTokenizer jwtTokenizer;
 
+    @MockBean
+    private CalendarReferenceRepository calendarReferenceRepository;
+
     @Autowired
     private SecurityProperties securityProperties;
 
@@ -99,11 +109,13 @@ class ConfigurationEndpointTests {
     @BeforeEach
     void beforeEach() {
         configurationRepository.deleteAll();
+        when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(new CalendarReference()));
     }
 
     private ConfigurationDto generateConfigurationWithoutRules() {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setDescription("Insightful Description");
+        configurationDto.setCalendarReferenceId(1L);
         configurationDto.setTitle("Informing Title");
         return configurationDto;
     }
