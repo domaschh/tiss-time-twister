@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {Observable} from "rxjs";
 import {EventCalendar} from "../../dtos/Calendar";
+import {ToastrService} from "ngx-toastr";
 
 export enum CreateEditMode{
   create,
@@ -62,7 +63,8 @@ export class CreateEditCustomEventComponent implements OnInit{
   constructor(
     private eventService: EventService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private readonly toastrService: ToastrService,
   ) {
     this.calendars = this.router.getCurrentNavigation().extras.state?.calendars;
   }
@@ -88,6 +90,7 @@ export class CreateEditCustomEventComponent implements OnInit{
         },
         error: error => {
           console.error('error fetching event', error);
+          this.toastrService.error('Error fetching event');
           this.router.navigate(['calendar']);
         }
       })
@@ -129,6 +132,16 @@ export class CreateEditCustomEventComponent implements OnInit{
       observable.subscribe({
         next: data => {
           console.log(`success ${data}`);
+          let action: string;
+          switch (this.mode){
+            case CreateEditMode.create:
+              action = 'created';
+              break;
+            case CreateEditMode.edit:
+              action = 'edited';
+              break;
+          }
+          this.toastrService.success("Successfully " + action + " event!");
           this.router.navigate(['calendar']);
         },
         error: error => {
@@ -142,6 +155,7 @@ export class CreateEditCustomEventComponent implements OnInit{
               break;
           }
           console.error('Error ' + action + ' event', error);
+          this.toastrService.error('Error ' + action + ' event');
         }
       })
     }

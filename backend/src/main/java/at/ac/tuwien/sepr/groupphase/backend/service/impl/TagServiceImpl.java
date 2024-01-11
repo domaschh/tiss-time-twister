@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.Tag;
+import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.TagRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.TagService;
@@ -28,6 +29,18 @@ public class TagServiceImpl implements TagService {
     public Tag add(Tag tag) {
         LOGGER.debug("Add Tag {}", tag);
         return tagRepository.save(tag);
+    }
+
+    @Override
+    public Tag getTagById(Long id) {
+        LOGGER.debug("Get tag {}", id);
+        var tagOptional = tagRepository.findById(id);
+        if (tagOptional.isEmpty()) {
+            throw new NotFoundException();
+        }
+        else {
+            return tagOptional.get();
+        }
     }
 
     @Override

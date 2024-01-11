@@ -119,6 +119,27 @@
         <!--Zeitfenster Auswahl-->
       </div>
       <br/>
+      <div class="flex flex-column align content-center">
+        <div class="flex flex-row">
+          <h5>Filter</h5>
+          <i [matTooltip]="filterUnfolded ? 'Hide Filters' : 'Show Filters'" class="bi cursor-pointer ml-2" (click)="filterButtonClicked()"
+             [ngClass]="filterUnfolded ? 'bi-dash-square' : 'bi-plus-square'">
+          </i>
+        </div>
+        <div *ngIf="filterUnfolded" class="flex flex-row justify-start align-items-center">
+          <label class="cursor-pointer rounded-2xl m-2 px-3 py-1 text-base"
+                 *ngFor="let tag of tags"
+                 (click)="tagClicked(tag)"
+                 [ngClass]="selectedTags.includes(tag) ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}
+          </label>
+          <button type="button" (click)="applyFilters()" class="btn btn-primary h-2/3 ml-10">
+            Apply Filters
+          </button>
+          <button type="button" (click)="resetFilter()" class="btn btn-secondary h-2/3 ml-2">
+            Reset filters
+          </button>
+        </div>
+      </div>
       <div [ngSwitch]="view" class="overflow-y-clip py-5">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events | eventPipe"
                                  [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"

@@ -2,6 +2,21 @@
   <div class="modal-header">
     <h5 class="modal-title">{{ title }}</h5>
   </div>
+  <div *ngIf="tags" class="flex flex-column align content-center ml-4">
+    <div class="flex flex-row">
+      <h6>Filter</h6>
+      <i [matTooltip]="filterUnfolded ? 'Hide Filters' : 'Show Filters'" class="bi cursor-pointer ml-2" (click)="filterButtonClicked()"
+         [ngClass]="filterUnfolded ? 'bi-dash-square' : 'bi-plus-square'">
+      </i>
+    </div>
+    <div *ngIf="filterUnfolded" class="flex flex-row justify-start align-items-center">
+      <label class="cursor-pointer rounded-2xl m-2 px-3 py-1 text-base"
+             *ngFor="let tag of tags"
+             (click)="tagClicked(tag)"
+             [ngClass]="selectedTags.includes(tag) ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}
+      </label>
+    </div>
+  </div>
   <div class="modal-body">
     <p *ngIf="!isToken">{{ message }}</p>
     <div *ngIf="isToken"

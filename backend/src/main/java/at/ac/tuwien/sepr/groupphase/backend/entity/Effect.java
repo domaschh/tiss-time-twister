@@ -50,7 +50,7 @@ public class Effect {
         }
 
         if (effectType.equals(EffectType.TAG)) {
-            return null;
+            return toModify;
         }
 
         if (changedTitle != null) {

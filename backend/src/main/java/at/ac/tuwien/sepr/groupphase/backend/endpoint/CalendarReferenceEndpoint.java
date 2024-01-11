@@ -2,7 +2,6 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
-import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.TagDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.TagMapper;
@@ -11,6 +10,7 @@ import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
+import at.ac.tuwien.sepr.groupphase.backend.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
@@ -33,12 +33,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -51,18 +53,18 @@ public class CalendarReferenceEndpoint {
     private final PipelineService pipelineService;
     private final ExtractUsernameService extractUsernameService;
     private final ConfigurationMapper configurationMapper;
-    private final TagMapper tagMapper;
+    private final TagService tagService;
 
     @Autowired
     public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper,
                                      PipelineService pipelineService, ExtractUsernameService extractUsernameService,
-                                     ConfigurationMapper configurationMapper, TagMapper tagMapper) {
+                                     ConfigurationMapper configurationMapper, TagService tagService, TagMapper tagMapper) {
         this.calendarReferenceService = calendarReferenceService;
         this.calendarReferenceMapper = calendarReferenceMapper;
         this.pipelineService = pipelineService;
         this.extractUsernameService = extractUsernameService;
         this.configurationMapper = configurationMapper;
-        this.tagMapper = tagMapper;
+        this.tagService = tagService;
     }
 
     @Secured("ROLE_USER")
@@ -137,10 +139,15 @@ public class CalendarReferenceEndpoint {
     @PermitAll
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token) {
-        LOGGER.info("Get /api/v1/calendar/export/{}}", token);
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token,
+                                                       @RequestParam(value = "tag", required = false) List<Long> tagIds) {
+        LOGGER.info("Get /api/v1/calendar/export/{}, Params: {}}", token, tagIds);
         try {
-            Calendar reExportedCalendar = pipelineService.pipeCalendar(token, List.of());
+            List<Tag> tags = new java.util.ArrayList<>(List.of());
+            if (tagIds != null) {
+                tagIds.forEach(id -> tags.add(tagService.getTagById(id)));
+            }
+            Calendar reExportedCalendar = pipelineService.pipeCalendar(token, tags);
             byte[] fileContent = reExportedCalendar.toString().getBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + token + ".ics");
@@ -150,42 +157,6 @@ public class CalendarReferenceEndpoint {
                                  .contentLength(fileContent.length)
                                  .contentType(MediaType.parseMediaType("text/calendar"))
                                  .body(new ByteArrayResource(fileContent));
-        } catch (ParserException | IOException | URISyntaxException e) {
-            return ResponseEntity.internalServerError().build();
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    /**
-     * <p> Exports the Calendar associated with the given token.</p>
-     * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>
-     * <br>
-     * <p> unsecured to provide calendar synchronisation</p>
-     *
-     * @param token the user/tag specific token
-     * @return ics file containing the adjusted calendar
-     */
-    @Secured("ROLE_USER")
-    @PostMapping("/export/{token}")
-    @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token, @RequestBody(required = false) List<TagDto> tagDtos) {
-        LOGGER.info("POST /api/v1/calendar/export/{}, filter: {}", token, tagDtos);
-        try {
-            List<Tag> tags = List.of();
-            if (tagDtos != null) {
-                tags = tagDtos.stream().map(tagMapper::dtoToTag).toList();
-            }
-            Calendar reExportedCalendar = pipelineService.pipeCalendar(token, tags);
-            byte[] fileContent = reExportedCalendar.toString().getBytes();
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + token + ".ics");
-
-            return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(fileContent.length)
-                .contentType(MediaType.parseMediaType("text/calendar"))
-                .body(new ByteArrayResource(fileContent));
         } catch (ParserException | IOException | URISyntaxException e) {
             return ResponseEntity.internalServerError().build();
         } catch (NotFoundException e) {

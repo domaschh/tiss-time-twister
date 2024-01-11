@@ -17,6 +17,8 @@ import {colors} from "../../global/constants";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
 import {ca} from "date-fns/locale";
+import {TagDto} from "../../dtos/tag-dto";
+import {TagService} from "../../services/tag.service";
 
 //preset colors since color should not be saved
 
@@ -32,6 +34,10 @@ export class CalendarPageComponent implements OnInit {
   myICAL: ICAL = ICAL;
   calendars: Calendar[] = [];
   configurations: ConfigurationDto[] = [];
+
+  tags: TagDto[] = [];
+  selectedTags: TagDto[] = [];
+  filterUnfolded: boolean = false;
 
   private onlyUnique(value, index, array) {
     return array.indexOf(value) === index;
@@ -79,11 +85,13 @@ export class CalendarPageComponent implements OnInit {
     private eventService: EventService,
     private router: Router,
     private modalService: NgbModal,
-    private readonly toastrService: ToastrService
+    private readonly toastrService: ToastrService,
+  private tagService: TagService,
   ) {
   }
 
   ngOnInit(): void {
+    this.loadTags();
     this.loadCalendars();
     this.loadConfigs();
   }
@@ -94,6 +102,15 @@ export class CalendarPageComponent implements OnInit {
         events.length === 0);
       this.viewDate = date;
     }
+  }
+
+  loadTags() {
+    this.tagService.getAll().subscribe({
+      next: tags => {
+        this.tags = tags;
+      },
+      error: () => {}
+    });
   }
 
   loadConfigs() {
@@ -209,7 +226,7 @@ export class CalendarPageComponent implements OnInit {
         cals.forEach((calendarReferenceDto) => {
           console.log(calendarReferenceDto)
           var evs: MyCalendarEvent[] = [];
-          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token, []).subscribe((icalString) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token, this.selectedTags).subscribe((icalString) => {
             var parsedcal = this.myICAL.parse(icalString);
             var calAsComponent = new this.myICAL.Component(parsedcal);
             var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
@@ -321,9 +338,11 @@ export class CalendarPageComponent implements OnInit {
 
   openTokenModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(calendar.token);
+    modalRef.componentInstance.message =
+      this.calenderReferenceServie.getIcalLinkFromToken(calendar.token, modalRef.componentInstance.selectedTags);
     modalRef.componentInstance.title = 'Export Calendar: ' + calendar.name;
     modalRef.componentInstance.isToken = true;
+    modalRef.componentInstance.tags = this.tags;
 
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
@@ -338,7 +357,8 @@ export class CalendarPageComponent implements OnInit {
           this.toastrService.success("Regenerated Token");
           var index = this.calendars.findIndex(obj => obj.id === response.id);
           this.calendars[index].token = response.token;
-          modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(response.token)
+          modalRef.componentInstance.message =
+            this.calenderReferenceServie.getIcalLinkFromToken(response.token, modalRef.componentInstance.selectedTags);
         },
         error: () => {
           this.toastrService.error("Could not generate token");
@@ -445,4 +465,27 @@ export class CalendarPageComponent implements OnInit {
   }
 
   protected readonly ca = ca;
+
+  tagClicked(tag: TagDto) {
+    if (this.selectedTags.includes(tag)) {
+      this.selectedTags = this.selectedTags.filter(t => t != tag);
+    } else {
+      this.selectedTags.push(tag);
+    }
+  }
+
+  filterButtonClicked() {
+    this.filterUnfolded = !this.filterUnfolded;
+  }
+
+  applyFilters() {
+    this.events = [];
+    this.calendars = [];
+    this.loadCalendars();
+  }
+
+  resetFilter() {
+    this.selectedTags = [];
+    this.applyFilters();
+  }
 }

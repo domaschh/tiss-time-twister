@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
+import {TagDto} from "../../dtos/tag-dto";
 
 export type confirmAction = (callback: (result: boolean) => void) => boolean;
 
@@ -12,6 +13,12 @@ export type confirmAction = (callback: (result: boolean) => void) => boolean;
 export class ConfirmationModal {
   @Input() message: string = '';
   @Input() confirmAction: confirmAction;
+  @Input() tags: TagDto[];
+
+  @Output() selectedTags: TagDto[] = [];
+
+  filterUnfolded: boolean = false;
+
 
   isToken: boolean = false;
 
@@ -35,5 +42,18 @@ export class ConfirmationModal {
       document.removeEventListener('copy', null);
     });
     document.execCommand('copy');
+  }
+
+  tagClicked(tag: TagDto) {
+    if (this.selectedTags.includes(tag)) {
+      this.selectedTags = this.selectedTags.filter(t => t != tag);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.doConfirmAction();
+  }
+
+  filterButtonClicked() {
+    this.filterUnfolded = !this.filterUnfolded;
   }
 }

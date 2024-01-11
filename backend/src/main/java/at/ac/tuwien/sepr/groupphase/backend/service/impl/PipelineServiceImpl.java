@@ -93,18 +93,20 @@ public class PipelineServiceImpl implements PipelineService {
         newComponents.add(calendar.getComponentList().getAll().get(0));
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
             VEvent vEvent = (VEvent) v;
-            VEvent filteredEvent = configurations.stream()
-                .flatMap(configuration -> configuration.getRules().stream())
-                .reduce(vEvent, (currentVEvent, rule) -> {
+            VEvent filteredEvent = null;
+            for (var c : configurations) {
+                for (var rule : c.getRules()) {
                     if (rule.getEffect().getEffectType().equals(EffectType.TAG)){
                         for (Tag t : tags) {
-                            if (rule.getEffect().tagMatches(t) && !newComponents.contains(currentVEvent)) {
-                                return currentVEvent;
+                            if (rule.getMatch().matches(vEvent) &&
+                                rule.getEffect().tagMatches(t) &&
+                                !newComponents.contains(vEvent)) {
+                                filteredEvent = vEvent;
                             }
                         }
                     }
-                    return null;
-                }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
+                }
+            }
             if (filteredEvent != null) {
                 newComponents.add(filteredEvent);
             }
