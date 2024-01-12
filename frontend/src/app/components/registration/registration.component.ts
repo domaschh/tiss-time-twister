@@ -11,6 +11,7 @@ import { AuthRequest } from 'src/app/dtos/auth-request';
 import { Router } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import {ToastrService} from "ngx-toastr";
 
 export function MustMatch(controlName: string, matchingControlName: string): ValidatorFn {
   return (formGroup: FormGroup): ValidationErrors | null => {
@@ -57,14 +58,13 @@ export class RegistrationComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private toastrService: ToastrService
   ) {
     this.registrationForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]+$')]],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validator: MustMatch('password', 'confirmPassword')
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\W]*$')]],
+      passwordConfirmation: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\W]*$')]]
     });
 
     // Listen for window resize events
@@ -85,11 +85,12 @@ export class RegistrationComponent implements OnInit {
    */
   registerUser() {
     this.submitted = true;
-    if (this.registrationForm.valid) {
+    if (this.registrationForm.valid && this.registrationForm.controls.password.value == this.registrationForm.controls.password.value) {
       const authRequest: AuthRequest = new AuthRequest(this.registrationForm.controls.email.value, this.registrationForm.controls.password.value);
       this.authService.registerUser(authRequest).subscribe({
         next: () => {
           console.log('Successfully registered user.');
+          this.toastrService.success("Registered")
           this.router.navigate(['/calendar']);
         },
         error: (error) => {

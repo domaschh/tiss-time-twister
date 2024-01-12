@@ -31,20 +31,20 @@ export class CreateConfigComponent {
     calendar: [CalendarReferenceDto, [Validators.required]],
   });
 
-  optionalId: number;
+  optionalConfigId: number;
 
   submitted = false;
   // Error flag
   error = false;
   errorMessage = '';
-  prefilled: {calId: number, config: ConfigurationDto};
+  prefilled: { calId: number, config: ConfigurationDto };
 
 
   constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
-    this.configurationForm.patchValue({ calendar: null });
-    this.prefilled = this.router.getCurrentNavigation().extras.state as {calId: number, config: ConfigurationDto};
+    this.configurationForm.patchValue({calendar: null});
+    this.prefilled = this.router.getCurrentNavigation().extras.state as { calId: number, config: ConfigurationDto };
     if (this.prefilled) {
-      this.optionalId = this.prefilled.config.id;
+      this.optionalConfigId = this.prefilled.config.id;
       this.configurationForm.controls.name.setValue(this.prefilled.config.title)
       this.configurationForm.controls.description.setValue(this.prefilled.config.description)
       this.configurationForm.controls.public.setValue(this.prefilled.config.published)
@@ -62,7 +62,7 @@ export class CreateConfigComponent {
     this.calendarReferenceService.getAll().subscribe({
       next: (calendars) => {
         this.calendars = calendars;
-        const calendar = calendars.find(cal => cal.id == this.prefilled.calId);
+        const calendar = calendars.find(cal => cal.id == this.prefilled.config.calendarReferenceId);
         this.configurationForm.controls.calendar.setValue(calendar.id)
       },
       error: () => {
@@ -74,7 +74,25 @@ export class CreateConfigComponent {
     this.error = false;
   }
 
+  private ruleHasValues(rule: RuleDto) {
+    if (
+      rule.match.description == null &&
+      rule.match.summary == null &&
+      rule.match.location == null &&
+      rule.effect.changedDescription == null &&
+      rule.effect.changedTitle == null &&
+      rule.effect.location == null
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   previewConfiguration() {
+    if (this.ruleHasValues(this.currentRule)) {
+      this.allRules.push(this.currentRule);
+    }
     let config: ConfigurationDto = {
       description: this.configurationForm.value.description,
       published: this.configurationForm.value.public,
@@ -82,8 +100,8 @@ export class CreateConfigComponent {
       title: this.configurationForm.value.name
     };
 
-    if (this.optionalId) {
-      config = {...config, id: this.optionalId}
+    if (this.optionalConfigId) {
+      config = {...config, id: this.optionalConfigId}
     }
     this.openPreview(config);
   }
@@ -120,7 +138,7 @@ export class CreateConfigComponent {
 
   openPreview(config: ConfigurationDto) {
     this.router.navigate(['previewConfig'], {
-      state: { calId: this.configurationForm.controls.calendar.value, config: config }
+      state: {calId: this.configurationForm.controls.calendar.value, config: config}
     });
   }
 

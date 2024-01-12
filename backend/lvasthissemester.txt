@@ -1,0 +1,98 @@
+185.A91 VU 2024S Einführung in die Programmierung 1
+185.A91 VU 2023W Einführung in die Programmierung 1
+194.023 VU 2023W Programmierparadigmen
+194.026 VU 2023W Funktionale Programmierung
+185.A12 VU 2023W Logikprogrammierung und Constraints
+192.134 VU 2023W Grundzüge digitaler Systeme
+191.002 VU 2023W Betriebssysteme
+188.470 VU 2023W Creative Media Production
+193.018 VU 2023W Grundlagen der Computergraphik
+193.125 VU 2023W Grundlagen der Computer Vision
+187.B12 VU 2023W Denkweisen der Informatik
+180.766 VU 2023W Orientierung Informatik und Wirtschaftsinformatik
+193.027 VU 2023W Access Computing
+193.132 VU 2023W Design und Fertigung
+192.023 VU 2023W Einführung in wissensbasierte Systeme
+192.027 VU 2024S Einführung in Artificial Intelligence
+192.033 VU 2024S Logic and Reasoning in Computer Science
+194.025 VU 2023W Einführung in Machine Learning
+192.025 VU 2023W Logik für Wissensrepräsentation
+104.340 VO 2023W Logik und Grundlagen der Mathematik
+104.342 UE 2023W Logik und Grundlagen der Mathematik UE
+194.158 VU 2023W Informationssysteme des Gesundheitswesens
+193.026 VU 2023W Methods for Data Generation and Analytics in Medicine and Life Sciences
+194.157 VU 2023W Einführung in Security
+192.111 UE 2023W Attacks and Defenses in Computer Security
+194.144 VU 2023W Privacy-Enhancing Technologies
+104.263 UE 2024S Algebra und Diskrete Mathematik für Informatik und Wirtschaftsinformatik
+104.633 VU 2023W Algebra und Diskrete Mathematik für Informatik und Wirtschaftsinformatik
+104.262 UE 2024S Analysis für Informatik und Wirtschaftsinformatik
+104.634 VU 2024S Analysis für Informatik und Wirtschaftsinformatik
+104.634 VU 2023W Analysis für Informatik und Wirtschaftsinformatik
+104.631 VU 2023W Mathematisches Arbeiten für Informatik und Wirtschaftsinformatik
+107.254 VO 2023W Statistik und Wahrscheinlichkeitstheorie
+107.273 VO 2024S Statistik und Wahrscheinlichkeitstheorie
+107.369 UE 2023W Statistik und Wahrscheinlichkeitstheorie
+107.370 UE 2024S Statistik und Wahrscheinlichkeitstheorie
+107.258 VU 2023W Computerstatistik
+105.731 VU 2024S AKSTA Statistical Computing
+107.330 VU 2023W Statistische Simulation und computerintensive Methoden
+105.175 VU 2024S Datenanalyse
+107.329 VO 2023W Methoden der Angewandten Statistik
+107.A15 UE 2023W Methoden der Angewandten Statistik
+107.388 VO 2023W Multivariate Statistik
+107.391 UE 2023W Multivariate Statistik
+101.973 VU 2023W Numerical Computation
+194.020 VU 2023W Software Engineering
+194.148 PR 2023W Software Engineering Projekt
+194.149 PR 2023W Software Engineering Projekt
+194.024 VU 2023W Verteilte Systeme
+180.764 VU 2023W Software-Qualitätssicherung
+192.017 VU 2023W Theoretische Informatik
+192.125 VU 2023W Introduction to Cryptography
+193.052 SE 2023W Wissenschaftliches Arbeiten
+193.136 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+186.819 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+183.582 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.691 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.695 PR 2024S Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.695 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+182.698 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+188.919 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+183.595 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+186.829 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+188.926 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+182.715 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+105.629 PR 2024S Bachelorarbeit für Informatik und Wirtschaftsinformatik
+105.629 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+188.944 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.713 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.714 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.716 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+183.609 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+185.A16 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+185.A26 PR 2024S Bachelorarbeit für Informatik und Wirtschaftsinformatik
+185.A26 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+107.A14 PR 2024S Bachelorarbeit für Informatik und Wirtschaftsinformatik
+107.A14 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+280.169 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+187.A99 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+184.792 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+192.061 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+193.070 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+194.112 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+193.116 PR 2023W Bachelorarbeit für Informatik und Wirtschaftsinformatik
+188.383 SE 2023W Coaching als Führungsinstrument 1
+194.042 SE 2023W Didaktik in der Informatik , Abenteuer Informatik
+280.239 VO 2023W EDV-Vertragsrecht
+185.A34 VU 2023W Forschungsmethoden
+181.200 SE 2024S Kommunikation und Rhetorik
+181.200 SE 2023W Kommunikation und Rhetorik
+181.204 SE 2023W Kommunikation und Rhetorik 2
+184.004 SE 2023W Kommunikationstechnik
+185.A62 VU 2023W Präsentation und Moderation
+352.031 VU 2023W Präsentations- und Verhandlungstechnik
+352.490 VU 2023W Rhetorik, Körpersprache und Argumentationstraining
+181.208 VU 2024S Softskills für TechnikerInnen
+181.208 VU 2023W Softskills für TechnikerInnen
+187.250 VO 2023W Zwischen Karriere und Barriere

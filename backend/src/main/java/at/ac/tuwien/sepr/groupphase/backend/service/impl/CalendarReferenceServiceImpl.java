@@ -1,17 +1,16 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
-import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -97,29 +97,84 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    @Transactional
     public CalendarReference addConfig(Long configId, Long calendarId) {
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
         } else {
-            Configuration configuration = configurationRepository.findById(configId).orElseThrow(NotFoundException::new);
+            Configuration configuration = configurationRepository
+                .findById(configId)
+                .orElseThrow(NotFoundException::new);
             if (calendarReference.getConfigurations() != null) {
                 calendarReference.getConfigurations().add(configuration);
             } else {
                 calendarReference.setConfigurations(List.of(configuration));
             }
-            if (configuration.getCalendarReferences() != null) {
-                configuration.getCalendarReferences().add(calendarReference);
-            } else {
-                configuration.setCalendarReferences(List.of(calendarReference));
+
+            if (configuration != null) {
+                configuration.setCalendarReference(calendarReference);
             }
         }
         return calendarReferenceRepository.save(calendarReference);
     }
 
     @Override
-    @Transactional
+    public CalendarReference clonePublicConfig(Long configId, Long calendarId) {
+        Configuration configToAdd = configurationRepository.getReferenceById(configId);
+        CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
+        if (configId < 0) { // negatives are default configs
+            calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
+            return calendarReferenceRepository.save(calendarReference);
+        }
+
+
+        if (configToAdd.isPublished()) {
+            Configuration cloned = new Configuration();
+
+            cloned.setTitle(configToAdd.getTitle());
+            cloned.setClonedFromId(configToAdd.getId());
+            cloned.setCalendarReference(calendarReference);
+            cloned.setDescription(configToAdd.getDescription());
+            cloned.setPublished(false);
+
+            cloned.setRules(configToAdd.getRules().stream().map(rule -> {
+                var r = new Rule();
+
+                var m = new Match();
+                m.setSummary(rule.getMatch().getSummary());
+                m.setSummaryMatchType(rule.getMatch().getSummaryMatchType());
+                m.setDescription(rule.getMatch().getDescription());
+                m.setDescriptionMatchType(rule.getMatch().getDescriptionMatchType());
+                m.setLocation(rule.getMatch().getLocation());
+                m.setLocationMatchType(rule.getMatch().getLocationMatchType());
+
+                var e = new Effect();
+                e.setEffectType(rule.getEffect().getEffectType());
+                e.setLocation(rule.getEffect().getLocation());
+                e.setChangedTitle(rule.getEffect().getChangedTitle());
+                e.setChangedDescription(rule.getEffect().getChangedDescription());
+
+                r.setConfiguration(cloned);
+                r.setMatch(m);
+                r.setEffect(e);
+                return r;
+            }).toList());
+
+            if (calendarReference.getConfigurations() == null) {
+                calendarReference.setConfigurations(List.of(cloned));
+            } else {
+                calendarReference.getConfigurations().add(cloned);
+            }
+
+            calendarReferenceRepository.save(calendarReference);
+
+            return calendarReference;
+        } else {
+            throw new AccessDeniedException("Can't add nto public Config");
+        }
+    }
+
+    @Override
     public CalendarReference removeConfig(Long configId, Long calendarId) {
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs
@@ -129,9 +184,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             if (calendarReference.getConfigurations() != null) {
                 calendarReference.getConfigurations().remove(configuration);
             }
-            if (configuration.getCalendarReferences() != null) {
-                configuration.getCalendarReferences().remove(calendarReference);
-            }
+            configuration.setCalendarReference(null);
         }
         return calendarReferenceRepository.save(calendarReference);
     }

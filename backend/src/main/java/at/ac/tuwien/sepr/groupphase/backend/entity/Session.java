@@ -17,7 +17,7 @@ public class Session {
     @Column(name = "expiry_time")
     private LocalDateTime expiryTime;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
 }

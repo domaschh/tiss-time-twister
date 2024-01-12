@@ -11,12 +11,14 @@
                           [desc]="'Gives you the correct address for a room automatically. e.g ARCH INF Hoersaal -> Treitelstrasse 3, 1040 Wien'"></app-public-card-fake>
     <app-public-card-fake [defaultConfigNumber]="4" [bodyToShow]="3" [title]="'Exam register URl'"
                           [desc]="'Gives you the correct registration URL for an exam event in the TISS calendar. So you can just clicka ndd register easily'"></app-public-card-fake>
+    <app-public-card-fake [defaultConfigNumber]="8" [bodyToShow]="4" [title]="'Exam registration Events'"
+                          [desc]="'When able to find via public TISS, automatically get Registration Start and Registration End for an Exam'"></app-public-card-fake>
   </div>
   <h4 class="mt-4">Published configurations</h4>
   <div class="flex w-full flex-wrap gap-3 ">
     <div *ngIf="publicConfigs.length === 0" class="mx-auto">no public configurations found</div>
     <div *ngFor="let config of publicConfigs" class="flex">
-      <app-public-config-card [config]="config"></app-public-config-card>
+      <app-public-config-card (removedFromPublicPage)="removeCard($event)" [config]="config"></app-public-config-card>
     </div>
   </div>
 </div>

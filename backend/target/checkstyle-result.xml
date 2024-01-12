@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.12.4">
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\BackendApplication.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\EncoderConfig.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\ExamConfig.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\LogConfiguration.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\LogFilter.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\LVADetailConfig.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\properties\SecurityProperties.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\SecurityConfig.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\SecurityPropertiesConfig.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\config\TissRoomConfig.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\datagenerator\MessageDataGenerator.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\datagenerator\UserDataGenerator.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\CalendarReferenceEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\ConfigurationEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\CustomHealthEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\CalendarReferenceDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\ConfigurationDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\DetailedMessageDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\EffectDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\EventDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\MatchDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\MessageInquiryDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\PublicConfigurationDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\RuleDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\SimpleMessageDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\UserLoginDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\dto\UserRegistrationDto.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\EventEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\exceptionhandler\GlobalExceptionHandler.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\LoginEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\CalendarReferenceMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\ConfigurationMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\EffectMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\EventMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\MatchMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\MessageMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\PublicConfigMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\mapper\RuleMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\MessageEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\RegistrationEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\endpoint\RuleEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\ApplicationUser.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\CalendarReference.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Configuration.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\DeleteEffect.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Effect.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\EffectType.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Event.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Match.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\MatchType.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Message.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\ModifyEffect.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\PublicConfiguration.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Rule.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\entity\Session.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\exception\EmailAlreadyExistsException.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\exception\InvalidEmailException.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\exception\InvalidPasswordException.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\exception\NotFoundException.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\exception\PasswordDoesNotMatchEmailException.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\LVADetail.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\Registration.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\ApplicationUserRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\CalendarReferenceRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\ConfigurationRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\EventRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\MessageRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\PublicConfigurationRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\RuleRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\SessionRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\repository\UserRepository.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\security\JwtAuthorizationFilter.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\security\JwtTokenizer.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\CalendarReferenceService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\CalendarService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\ConfigurationService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\EventService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\ExportService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\ExtractUsernameService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\CalendarReferenceServiceImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\CalendarServiceImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\ConfigurationServiceImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\CustomUserDetailService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\EventServiceImp.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\ExtractUserNameImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\PipelineServiceImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\RuleServiceImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\SimpleMessageService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\impl\TissServiceImpl.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\MessageService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\PipelineService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\RuleService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\TissService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\TMapper.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\service\UserService.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\main\java\at\ac\tuwien\sepr\groupphase\backend\TissRoom.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\basetest\TestData.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\CalendarReferenceIntegrationTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\CalendarServiceTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\ConfigurationEndpointTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\MessageEndpointTest.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\PipelineEndpointTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\PipelineServiceTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\SecurityTest.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\integrationtest\TissTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\MockCalendarEndpoint.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\TestUtility.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\unittests\CalendarReferenceServiceTest.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\unittests\EffectTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\unittests\LoginTest.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\unittests\MatchTests.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\unittests\MessageMappingTest.java">
+</file>
+<file name="D:\Repositories\SEPR_23W_GROUP\backend\src\test\java\at\ac\tuwien\sepr\groupphase\backend\unittests\RegistrationTest.java">
+</file>
+</checkstyle>

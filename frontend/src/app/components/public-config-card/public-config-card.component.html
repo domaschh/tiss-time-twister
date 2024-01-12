@@ -5,9 +5,9 @@
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:accent-font-col">{{ config.title }}</h5>
     </a>
     <label class="text-center rounded-2xl p-1 text-xs text-white ms-4 cursor-pointer"
-           [ngClass]="config.alreadyAdded ? 'bg-added' : 'bg-notadded'"
-    >{{ config.alreadyAdded ? 'Already Added' : 'Add to collection' }}</label>
+           [ngClass]="config.alreadyCloned ? 'bg-added' : 'bg-notadded'"
+    >{{ config.alreadyCloned ? 'Already Added' : 'Add to collection' }}</label>
+    <label *ngIf="config.mine" class="text-center rounded-2xl p-1 text-xs text-white ms-4 cursor-pointer bg-myinfo">IsMine</label>
   </div>
   <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 w-full whitespace-normal ">{{ config.description }}</p>
-
 </div>

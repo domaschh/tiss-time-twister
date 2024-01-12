@@ -19,7 +19,7 @@ public class Rule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "config_id")
     private Configuration configuration;
 

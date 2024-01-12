@@ -4,21 +4,21 @@ import {
 } from "../components/public-config-card/public-card-fake/room-mapping/room-mapping.component";
 
 export const colors: Record<number, EventColor> = {
-  1: {
-    primary: '#ff1f1f',
-    secondary: '#FAE3E3',
-  },
   3: {
-    primary: '#03ad2b',
-    secondary: '#32e65c',
+    primary: 'rgba(255,34,34,0.57)',
+    secondary: 'rgba(255,157,157,0.5)',
   },
-  0: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
+  1: {
+    primary: '#03ad2b',
+    secondary: 'rgba(50,230,92,0.5)',
   },
   2: {
+    primary: '#e3bc08',
+    secondary: 'rgba(253,241,186,0.5)',
+  },
+  0: {
     primary: '#08c9e3',
-    secondary: '#00d3ff',
+    secondary: 'rgba(0,211,255,0.5)',
   },
 };
 

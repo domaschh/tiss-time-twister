@@ -25,6 +25,7 @@ export class DefaultConfigModalComponent implements AfterViewInit {
   @ViewChild('customComponent1') customComponent1Template: TemplateRef<any>;
   @ViewChild('customComponent2') customComponent2Template: TemplateRef<any>;
   @ViewChild('customComponent3') customComponent3Template: TemplateRef<any>;
+  @ViewChild('customComponent4') customComponent4Template: TemplateRef<any>;
 
   componentToShow: TemplateRef<any>;
   selectedCalendar: number;
@@ -48,6 +49,8 @@ export class DefaultConfigModalComponent implements AfterViewInit {
       this.componentToShow = this.customComponent2Template;
     } else if (this.bodyToShow === 3) {
       this.componentToShow = this.customComponent3Template;
+    } else if (this.bodyToShow === 4) {
+      this.componentToShow = this.customComponent4Template;
     }
   }
 

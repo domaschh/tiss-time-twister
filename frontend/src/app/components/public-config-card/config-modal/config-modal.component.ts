@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfigurationDto} from "../../../dtos/configuration-dto";
+import {ConfigurationDto, PublicConfigurationDto} from "../../../dtos/configuration-dto";
 import {CalendarReferenceService} from "../../../services/calendar.reference.service";
 import {CalendarReferenceDto} from "../../../dtos/calendar-reference-dto";
 import {ToastrService} from "ngx-toastr";
@@ -14,13 +14,15 @@ export type confirmAction = (callback: (result: boolean) => void) => boolean;
   styleUrls: ['./config-modal.component.scss']
 })
 export class ConfigModalComponent implements OnInit {
-  @Input() config: ConfigurationDto;
+  @Input() config: PublicConfigurationDto;
 
   @Input() confirmAction: confirmAction;
 
   calendars: CalendarReferenceDto[] = [];
   selectedCal: number | null;
-  alreadyAdded: boolean = false;
+  @Input() alreadyAdded: boolean;
+
+  @Output() removedFromPublicPage = new EventEmitter<number>();
 
   constructor(public activeModal: NgbActiveModal,
               private readonly calendarReferenceService: CalendarReferenceService,
@@ -48,7 +50,7 @@ export class ConfigModalComponent implements OnInit {
     this.configurationService.getAll().subscribe({
       next: (myConfigs) => {
         if (myConfigs.length >= 1) {
-          const foundCalendar = this.calendars.find((c) => c.configurations.map(config => config.id).includes(this.config.id));
+          const foundCalendar = this.calendars.find((c) => c.configurations.map(config => config.clonedFromId).includes(this.config.id));
           if (foundCalendar) {
             this.selectedCal = foundCalendar.id
           }
@@ -63,14 +65,6 @@ export class ConfigModalComponent implements OnInit {
     })
   }
 
-  doConfirmAction() {
-    this.confirmAction((result) => {
-      if (result) {
-        this.activeModal.close("Closed")
-      }
-    });
-  }
-
 
   addToCalendar() {
     if (this.alreadyAdded) {
@@ -78,27 +72,18 @@ export class ConfigModalComponent implements OnInit {
       return;
     }
     this.calendarReferenceService.addToCalendar(this.selectedCal, this.config.id).subscribe({
-      next: (cal)=> {
+      next: (cal) => {
         this.toastrService.success("Added to calendar")
         this.activeModal.close()
-      },error: () => {
-    }
+        window.location.reload();
+
+      }, error: () => {
+      }
     })
   }
 
   onCalendarChange($event: number) {
     this.selectedCal = $event;
-  }
-
-  removeFromCalendar() {
-    this.calendarReferenceService.removeFromCalendar(this.selectedCal, this.config.id).subscribe({
-      next: (cal)=> {
-        this.toastrService.success("Removed from Calendar")
-        this.activeModal.close()
-      },error: () => {
-        this.toastrService.error("Couldn't delete")
-      }
-    })
   }
 
   copyLinkToClipboard() {
@@ -109,5 +94,15 @@ export class ConfigModalComponent implements OnInit {
       document.removeEventListener('copy', null);
     });
     document.execCommand('copy');
+  }
+
+  removeFromPublicPage() {
+    this.configurationService.removeFromPublicPage(this.config.id).subscribe({
+      next: () => {
+      this.toastrService.success("Deleted public configuration")
+        this.removedFromPublicPage.emit(this.config.id);
+        this.activeModal.dismiss()
+      }
+    });
   }
 }

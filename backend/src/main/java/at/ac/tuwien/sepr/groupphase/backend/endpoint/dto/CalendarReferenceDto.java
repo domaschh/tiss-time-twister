@@ -21,5 +21,19 @@ public class CalendarReferenceDto {
     private String icalData;
     private List<ConfigurationDto> configurations;
     private Long enabledDefaultConfigurations;
+    private String color;
 
+    @Override
+    public String toString() {
+        return "CalendarReferenceDto{"
+               + "id=" + id
+               + ", token=" + token
+               + ", name='" + name + '\''
+               + ", link='" + link + '\''
+               + ", icalData='" + icalData + '\''
+               + ", configurations=" + configurations
+               + ", enabledDefaultConfigurations=" + enabledDefaultConfigurations
+               + ", color='" + color + '\''
+               + '}';
+    }
 }

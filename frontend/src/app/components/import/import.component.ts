@@ -39,11 +39,13 @@ export class ImportComponent implements OnInit {
       this.calendarReferenceService.getById(this.optionalEditId).subscribe({
         next: (res) => {
           this.importForm.controls.name.setValue(res.name);
+          this.importForm.controls.color.setValue(res.color);
           this.optionalToken = res.token;
 
           if (res.icalData) {
             this.isURLImport = false;
             this.selectedFile = new File([new Blob([res.icalData])], "imported_calendar.ics", { type: "text/calendar" });
+            this.importForm.get('file').setValue(this.selectedFile.name);
             this.importForm.get('file').setValue(this.selectedFile.name);
             this.importForm.get('file').enable();
             this.importForm.get('link').clearValidators();
@@ -80,7 +82,8 @@ export class ImportComponent implements OnInit {
       name: ['', [Validators.required]],
       link: [''],
       importSource: ['url', [Validators.required]],
-      file: [{ value: null, disabled: true }]
+      file: [{ value: null, disabled: true }],
+      color: [''],
     });
     this.updateFormValidators();
   }
@@ -138,6 +141,7 @@ export class ImportComponent implements OnInit {
         id: this.optionalEditId,
         name: this.importForm.controls.name.value,
         link: this.importForm.controls.link.value,
+        color: this.importForm.controls.color.value,
         token: this.optionalToken,
         icalData: null
       }
