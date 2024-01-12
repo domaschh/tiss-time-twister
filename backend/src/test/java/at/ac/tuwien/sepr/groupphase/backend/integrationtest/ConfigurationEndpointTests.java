@@ -68,7 +68,7 @@ class ConfigurationEndpointTests {
     private SecurityProperties securityProperties;
 
     private static RuleDto generateDummyRule() {
-        EffectDto effectDto = new EffectDto(null, "Blabla", "Blabla", "blabla", EffectType.DELETE);
+        EffectDto effectDto = new EffectDto(null, "Blabla", "Blabla", "blabla", null, EffectType.DELETE);
         MatchDto matchDto = new MatchDto(null,
                                          MatchType.EQUALS, "dasd",
                                          MatchType.EQUALS, "dasd",

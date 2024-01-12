@@ -37,8 +37,7 @@ public class TagServiceImpl implements TagService {
         var tagOptional = tagRepository.findById(id);
         if (tagOptional.isEmpty()) {
             throw new NotFoundException();
-        }
-        else {
+        } else {
             return tagOptional.get();
         }
     }

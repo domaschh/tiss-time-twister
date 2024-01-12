@@ -22,4 +22,8 @@ export class TagService {
             })
         );
   }
+
+  createTag(tag: TagDto): Observable<TagDto> {
+    return this.httpClient.post<TagDto>(this.messageBaseUri, tag);
+  }
 }

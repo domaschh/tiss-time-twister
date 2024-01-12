@@ -17,6 +17,8 @@ export class CreateConfigComponent {
   calendars: CalendarReferenceDto[] = [];
   tags: TagDto[] = [];
   selectedTag: TagDto = null;
+  newTag: string;
+
 
   MatchType = MatchType;
   EffectType = EffectType;
@@ -42,7 +44,6 @@ export class CreateConfigComponent {
   error = false;
   errorMessage = '';
   prefilled: {calId: number, config: ConfigurationDto};
-
 
   constructor(
       private route: ActivatedRoute,
@@ -168,5 +169,27 @@ export class CreateConfigComponent {
 
   deleteRule($event: RuleDto) {
     this.allRules = this.allRules.filter(ruleToFind => ruleToFind.id !== $event.id)
+  }
+
+  addTag() {
+    if (!this.newTag || this.newTag == '') {
+      this.toastrService.error("Please enter a tag!");
+    } else if(this.tags.filter(t => t.tag == this.newTag).length !== 0) {
+      this.toastrService.error("Tag already exists!");
+    } else {
+      let newTag = new TagDto();
+      newTag.tag = this.newTag;
+      this.tagService.createTag(newTag).subscribe({
+        next: () => {
+          this.toastrService.success("Tag created successfully!");
+          this.newTag = '';
+          this.loadTags();
+        },
+        error: e => {
+          this.toastrService.error("Error creating tag!");
+          console.error("Error creating tag: ", e);
+        }
+      });
+    }
   }
 }

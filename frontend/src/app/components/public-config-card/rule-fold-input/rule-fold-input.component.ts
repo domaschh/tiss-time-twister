@@ -3,6 +3,7 @@ import {EffectType, MatchType, RuleDto} from "../../../dtos/configuration-dto";
 import {CalendarView} from "angular-calendar";
 import {TagDto} from "../../../dtos/tag-dto";
 import {TagService} from "../../../services/tag.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-rule-fold-input',
@@ -13,27 +14,19 @@ export class RuleFoldInputComponent {
   @Input() rule: RuleDto
   @Output() deleteRuleEvent: EventEmitter<RuleDto> = new EventEmitter<RuleDto>();
 
-  tags: TagDto[] = [];
+  @Input() tags: TagDto[] = [];
   selectedTag: TagDto = null;
+  newTag: string;
+
 
   infoOpen = false;
 
-  constructor(private tagService: TagService,) {
+  constructor(private tagService: TagService,
+              private readonly toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
-    console.log("init");
-    this.loadTags();
-  }
-
-  loadTags() {
-    this.tagService.getAll().subscribe({
-      next: tags => {
-        this.tags = tags;
-        this.selectedTag = this.tags.find(t => t.tag === this.rule.effect.tag);
-      },
-      error: () => {}
-    });
+    this.selectedTag = this.tags.find(t => t.tag === this.rule.effect.tag);
   }
 
   openRuleInfo() {

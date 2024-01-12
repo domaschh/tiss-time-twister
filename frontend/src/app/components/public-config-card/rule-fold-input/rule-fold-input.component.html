@@ -95,8 +95,8 @@
     </div>
   </div>
   <div *ngIf="isTagEffect()">
-    <div class="flex flex-row justify-start align-items-center">
-      <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1"
+    <div class="flex flex-row justify-start align-items-center flex-wrap">
+      <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1"
              *ngFor="let tag of tags"
              (click)="tagClicked(tag)"
              [ngClass]="selectedTag === tag ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}</label>

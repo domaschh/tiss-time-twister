@@ -74,9 +74,10 @@ public class Effect {
         return toModify;
     }
 
-    public Boolean tagMatches(Tag tag){
-        if (!effectType.equals(EffectType.TAG))
+    public Boolean tagMatches(Tag tag) {
+        if (!effectType.equals(EffectType.TAG)) {
             return false;
+        }
         return tag.getTag().equals(this.tag);
     }
 }

@@ -2,8 +2,10 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.TagDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.TagMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
 import at.ac.tuwien.sepr.groupphase.backend.service.TagService;
+import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +33,13 @@ public class TagEndpoint {
     private final TagService tagService;
     private final TagMapper tagMapper;
     private final ExtractUsernameService extractUsernameService;
+    private final UserService userService;
 
-    public TagEndpoint(TagService tagService, TagMapper tagMapper, ExtractUsernameService extractUsernameService) {
+    public TagEndpoint(TagService tagService, TagMapper tagMapper, ExtractUsernameService extractUsernameService, UserService userService) {
         this.tagService = tagService;
         this.tagMapper = tagMapper;
         this.extractUsernameService = extractUsernameService;
+        this.userService = userService;
     }
 
     @Secured("ROLE_USER")
@@ -50,9 +54,11 @@ public class TagEndpoint {
     @Secured("ROLE_USER")
     @PostMapping
     @Operation(summary = "Create a new tag", security = @SecurityRequirement(name = "apiKey"))
-    public TagDto createTag (@Valid @RequestBody TagDto tag) {
+    public TagDto createTag(@Valid @RequestBody TagDto tag, HttpServletRequest request) {
         LOGGER.info("POST /api/v1/tag/body:{}", tag);
-        return tagMapper.tagToDto(tagService.add(tagMapper.dtoToTag(tag)));
+        String username = extractUsernameService.getUsername(request);
+        ApplicationUser user = userService.findApplicationUserByEmail(username);
+        return tagMapper.tagToDto(tagService.add(tagMapper.dtoToTag(tag, user)));
     }
 
     @Secured("ROLE_USER")

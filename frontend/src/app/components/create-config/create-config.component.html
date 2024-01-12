@@ -59,7 +59,7 @@
                 <h5 class="mb-2">Added Rules {{allRules.length}}</h5>
                 <div class="flex flex-col pt-2">
                   <div class="list-group flex pt-2" *ngFor="let rule of allRules; let i = index">
-                    <app-rule-fold-input [rule]="rule" (deleteRuleEvent)="deleteRule($event)"></app-rule-fold-input>
+                    <app-rule-fold-input [rule]="rule" [tags]="tags" (deleteRuleEvent)="deleteRule($event)"></app-rule-fold-input>
                   </div>
                 </div>
                 <!--Display Current Rule-->
@@ -167,11 +167,20 @@
                       </div>
                     </div>
                     <div *ngIf="isTagEffect()">
-                      <div class="flex flex-row justify-start align-items-center">
-                        <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1"
+                      <div class="flex flex-row justify-start align-items-center flex-wrap">
+                        <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1"
                                *ngFor="let tag of tags"
                                (click)="tagClicked(tag)"
                                [ngClass]="selectedTag === tag ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}</label>
+                      </div>
+                      <div class="flex flex-row mt-3">
+                        <input type="text" id="newTag" class="form-control w-3/5 mr-3"
+                               placeholder="New Tag"
+                               [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}">
+                        <button type="button" (click)="addTag()" class="btn btn-primary w-2/5">
+                          <i class="bi bi-plus-lg"></i>
+                          Add Tag
+                        </button>
                       </div>
                     </div>
                     <div matTooltip="Add Rule" (click)="addRule()"

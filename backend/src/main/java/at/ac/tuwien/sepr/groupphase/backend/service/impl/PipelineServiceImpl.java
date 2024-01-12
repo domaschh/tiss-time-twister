@@ -85,7 +85,7 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     private Calendar filterByTags(Calendar calendar, List<Configuration> configurations, List<Tag> tags) {
-        if (tags.isEmpty()){
+        if (tags.isEmpty()) {
             return calendar;
         }
 
@@ -96,11 +96,11 @@ public class PipelineServiceImpl implements PipelineService {
             VEvent filteredEvent = null;
             for (var c : configurations) {
                 for (var rule : c.getRules()) {
-                    if (rule.getEffect().getEffectType().equals(EffectType.TAG)){
+                    if (rule.getEffect().getEffectType().equals(EffectType.TAG)) {
                         for (Tag t : tags) {
-                            if (rule.getMatch().matches(vEvent) &&
-                                rule.getEffect().tagMatches(t) &&
-                                !newComponents.contains(vEvent)) {
+                            if (rule.getMatch().matches(vEvent)
+                                && rule.getEffect().tagMatches(t)
+                                && !newComponents.contains(vEvent)) {
                                 filteredEvent = vEvent;
                             }
                         }
@@ -136,7 +136,7 @@ public class PipelineServiceImpl implements PipelineService {
             }
         });
 
-        for (var event : customEvents){
+        for (var event : customEvents) {
             VEvent vEvent = new VEvent(event.getStartTime(), event.getEndTime(), event.getTitle())
                 .withProperty(new Uid("customEvent_" + event.getId()))
                 .withProperty(new Location(event.getLocation()))

@@ -2,6 +2,7 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.TagDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.TagMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Tag;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class TagMapperImpl implements TagMapper {
 
     @Override
     public Tag dtoToTag(TagDto tagDto) {
-        if (tagDto == null){
+        if (tagDto == null) {
             return null;
         }
 
@@ -24,6 +25,20 @@ public class TagMapperImpl implements TagMapper {
         tag.setId(tagDto.id());
         tag.setTag(tagDto.tag());
         tag.setUser(userService.findApplicationUserById(tagDto.userId()));
+
+        return tag;
+    }
+
+    @Override
+    public Tag dtoToTag(TagDto tagDto, ApplicationUser user) {
+        if (tagDto == null) {
+            return null;
+        }
+
+        Tag tag = new Tag();
+        tag.setId(tagDto.id());
+        tag.setTag(tagDto.tag());
+        tag.setUser(user);
 
         return tag;
     }
