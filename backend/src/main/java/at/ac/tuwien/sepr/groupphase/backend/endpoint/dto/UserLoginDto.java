@@ -54,34 +54,4 @@ public class UserLoginDto {
             + ", password='" + password + '\''
             + '}';
     }
-
-
-    public static final class UserLoginDtoBuilder {
-        private String email;
-        private String password;
-
-        private UserLoginDtoBuilder() {
-        }
-
-        public static UserLoginDtoBuilder anUserLoginDto() {
-            return new UserLoginDtoBuilder();
-        }
-
-        public UserLoginDtoBuilder withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserLoginDtoBuilder withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserLoginDto build() {
-            UserLoginDto userLoginDto = new UserLoginDto();
-            userLoginDto.setEmail(email);
-            userLoginDto.setPassword(password);
-            return userLoginDto;
-        }
-    }
 }

@@ -1,10 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint.exceptionhandler;
 
-import at.ac.tuwien.sepr.groupphase.backend.exception.EmailAlreadyExistsException;
-import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidEmailException;
-import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidPasswordException;
-import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepr.groupphase.backend.exception.PasswordDoesNotMatchEmailException;
+import at.ac.tuwien.sepr.groupphase.backend.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -50,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         HttpHeaders headers,
         HttpStatusCode status, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
-        //Get all errors
+
         List<String> errors = ex.getBindingResult()
             .getFieldErrors()
             .stream()
@@ -59,7 +55,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("Validation errors", errors);
 
         return new ResponseEntity<>(body.toString(), headers, status);
-
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
