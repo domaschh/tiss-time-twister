@@ -20,9 +20,6 @@ import {TagService} from "../../services/tag.service";
 
 //preset colors since color should not be saved
 
-import {EventColor} from "calendar-utils";
-import {ta, tr} from "date-fns/locale";
-
 @Component({
   selector: 'app-calendar-page',
   changeDetection: ChangeDetectionStrategy.Default,
@@ -104,7 +101,8 @@ export class CalendarPageComponent implements OnInit {
       next: tags => {
         this.tags = tags;
       },
-      error: () => {}
+      error: () => {
+      }
     });
   }
 
@@ -180,17 +178,18 @@ export class CalendarPageComponent implements OnInit {
   private mapEvent(event: MyCalendarEvent, calendar: Calendar, colorId: number): MyCalendarEvent {
     const description = event.description ?? ''; //for some reason can't inline
     const allDay = (event.start.getHours() - event.end.getHours()) === 0;
+    let time = allDay ? '' : event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8);
     return {
       id: event.id,
       description: event.description,
       title: event.title
-        + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
+        + '<br>' + time
         + '<br>' + description
         + '<br>' + event.categories ?? ''
         + '<br>' + event.location ?? '' + '<br>',
       start: event.start,
       end: event.end,
-      color: {primary: calendar.color, secondary:calendar.color},
+      color: {primary: calendar.color, secondary: calendar.color},
       draggable: false,
       allDay,
       resizable: {
@@ -455,12 +454,12 @@ export class CalendarPageComponent implements OnInit {
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       this.tagService.deleteTag(tag.id).subscribe({
         next: (configurations) => {
-          if (configurations.length === 0 ){
+          if (configurations.length === 0) {
             this.toastrService.success("Deleted tag");
             this.tags = this.tags.filter(t => t.id != tag.id);
             callback(true);
           } else {
-           this.toastrService.error("Couldn't delete tag because it is still used in: " + configurations.map(config => '\n' +config.title))
+            this.toastrService.error("Couldn't delete tag because it is still used in: " + configurations.map(config => '\n' + config.title))
           }
         },
         error: () => {
