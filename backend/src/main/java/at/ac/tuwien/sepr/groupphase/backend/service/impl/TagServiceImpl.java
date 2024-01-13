@@ -8,6 +8,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.TagRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.TagService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -61,6 +62,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public List<Configuration> delete(Long id, String email) {
         var user = applicationUserRepository.getApplicationUserByEmail(email);
         if (user != null) {
