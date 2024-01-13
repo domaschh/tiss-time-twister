@@ -67,7 +67,7 @@ class EffectTests {
 
     @Test
     void modifyingEffect1Proprty() {
-        Effect m = new Effect("new Title", null, null, EffectType.MODIFY);
+        Effect m = new Effect("new Title", null, null, null, EffectType.MODIFY);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals("new Title", result.getSummary().get().getValue());
@@ -77,7 +77,7 @@ class EffectTests {
 
     @Test
     void modifyingEffect0Proprty() {
-        Effect m = new Effect(null, null, null, EffectType.MODIFY);
+        Effect m = new Effect(null, null, null, null, EffectType.MODIFY);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals(result, vEvent);
@@ -85,7 +85,7 @@ class EffectTests {
 
     @Test
     void modifyingEffectAllProperties() {
-        Effect m = new Effect("new title", "new Description", "new Location", EffectType.MODIFY);
+        Effect m = new Effect("new title", "new Description", "new Location", null, EffectType.MODIFY);
         var result = m.apply(vEvent);
         assertNotNull(result);
         assertEquals("new title", result.getSummary().get().getValue());

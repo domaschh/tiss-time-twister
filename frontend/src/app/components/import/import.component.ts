@@ -78,12 +78,13 @@ export class ImportComponent implements OnInit {
   }
 
   initForm(): void {
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
     this.importForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       link: [''],
       importSource: ['url', [Validators.required]],
       file: [{ value: null, disabled: true }],
-      color: [''],
+      color: ['#' + randomColor],
     });
     this.updateFormValidators();
   }

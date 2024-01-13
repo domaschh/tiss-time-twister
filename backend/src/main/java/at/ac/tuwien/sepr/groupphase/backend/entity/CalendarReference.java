@@ -16,7 +16,7 @@ import java.util.UUID;
 @ToString
 @Table(name = "Calendars")
 public class CalendarReference {
-    @OneToMany(mappedBy = "calendarReference", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "calendarReference", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Configuration> configurations;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

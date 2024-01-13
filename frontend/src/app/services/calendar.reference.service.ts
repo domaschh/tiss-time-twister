@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import { Globals } from "../global/globals";
 import { CalendarReferenceDto } from "../dtos/calendar-reference-dto";
 import { Observable, catchError, of } from 'rxjs';
 import { ConfigurationDto } from '../dtos/configuration-dto';
+import {TagDto} from "../dtos/tag-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +33,24 @@ export class CalendarReferenceService {
     return this.httpClient.get<CalendarReferenceDto>(this.messageBaseUri + '/' + id);
   }
 
-  getIcalFileFromToken(token: string) {
-    return this.httpClient.get(this.getIcalLinkFromToken(token), { responseType: 'text' });
+  getIcalFileFromToken(token: string, tags: TagDto[]) {
+    let params = new HttpParams();
+    for (let i = 0; i < tags.length; i++) {
+      params = params.append('tag', tags[i].id);
+    }
+    return this.httpClient.get(this.getIcalLinkFromToken(token, []), { params: params, responseType: 'text' });
   }
 
-  getIcalLinkFromToken(token: string) {
-    return this.messageBaseUri + "/export/" + token
+  getIcalLinkFromToken(token: string, tags: TagDto[]){
+    let uri = this.messageBaseUri + "/export/" + token;
+    if (tags.length === 0) {
+      return uri;
+    }
+    let params = new HttpParams();
+    for (let i = 0; i < tags.length; i++) {
+      params = params.append('tag', tags[i].id);
+    }
+    return uri + '?' + params.toString();
   }
 
   getAll(): Observable<CalendarReferenceDto[]> {
@@ -50,6 +63,7 @@ export class CalendarReferenceService {
   }
 
   getConfigurationPreview(calendarId: number, config: ConfigurationDto) {
+    console.log(config)
     return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], { responseType: 'text' });
   }
 

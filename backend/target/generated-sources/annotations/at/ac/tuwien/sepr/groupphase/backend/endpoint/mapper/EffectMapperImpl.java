@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-13T15:02:23+0100",
+    date = "2024-01-13T22:54:40+0100",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -28,6 +28,7 @@ public class EffectMapperImpl implements EffectMapper {
         effect.setChangedTitle( effectDto.changedTitle() );
         effect.setChangedDescription( effectDto.changedDescription() );
         effect.setLocation( effectDto.location() );
+        effect.setTag( effectDto.tag() );
         effect.setEffectType( effectDto.effectType() );
 
         return effect;
@@ -43,15 +44,17 @@ public class EffectMapperImpl implements EffectMapper {
         String changedTitle = null;
         String changedDescription = null;
         String location = null;
+        String tag = null;
         EffectType effectType = null;
 
         id = effect.getId();
         changedTitle = effect.getChangedTitle();
         changedDescription = effect.getChangedDescription();
         location = effect.getLocation();
+        tag = effect.getTag();
         effectType = effect.getEffectType();
 
-        EffectDto effectDto = new EffectDto( id, changedTitle, changedDescription, location, effectType );
+        EffectDto effectDto = new EffectDto( id, changedTitle, changedDescription, location, tag, effectType );
 
         return effectDto;
     }

@@ -34,6 +34,8 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/test/java/at/ac/tuwien/sepr/groupphase/backend/integrationtest/MessageEndpointTest.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/TagRepository.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/CalendarReferenceRepository.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/repository/PublicConfigurationRepository.java">
@@ -90,6 +92,8 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Effect.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Tag.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/ApplicationUser.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/entity/Configuration.java">
@@ -116,6 +120,8 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/ConfigurationDto.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/TagDto.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/MatchDto.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/dto/SimpleMessageDto.java">
@@ -140,6 +146,10 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/CalendarReferenceEndpoint.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/impl/TagMapperImpl.java">
+</file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/impl/EventMapperImpl.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/EventMapper.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/RuleMapper.java">
@@ -147,6 +157,8 @@
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/MessageMapper.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/ConfigurationMapper.java">
+</file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/TagMapper.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/mapper/CalendarReferenceMapper.java">
 </file>
@@ -159,6 +171,8 @@
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/RuleEndpoint.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/EventEndpoint.java">
+</file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/TagEndpoint.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/endpoint/CustomHealthEndpoint.java">
 </file>
@@ -186,7 +200,11 @@
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/TissServiceImpl.java">
 </file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/TagServiceImpl.java">
+</file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/CalendarService.java">
+</file>
+<file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/TagService.java">
 </file>
 <file name="/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/UserService.java">
 </file>

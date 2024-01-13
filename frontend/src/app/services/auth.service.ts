@@ -62,6 +62,14 @@ export class AuthService {
     return localStorage.getItem('authToken');
   }
 
+  getUsername() {
+    return jwtDecode(this.getToken())["sub"].split("@")[0];
+  }
+
+  getEmail() {
+    return jwtDecode(this.getToken())["sub"];
+  }
+
   /**
    * Returns the user role based on the current token
    */

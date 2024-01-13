@@ -33,7 +33,8 @@ export interface MatchDto {
 
 export enum EffectType {
   DELETE = 'DELETE',
-  MODIFY = 'MODIFY'
+  MODIFY = 'MODIFY',
+  TAG = 'TAG'
 }
 
 export interface EffectDto {
@@ -41,6 +42,7 @@ export interface EffectDto {
   changedTitle?: string,
   changedDescription?: string,
   location?: string,
+  tag?: string,
   effectType?: EffectType
 }
 

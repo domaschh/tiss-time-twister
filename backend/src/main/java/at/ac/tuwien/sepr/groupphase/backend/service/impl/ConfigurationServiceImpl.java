@@ -69,26 +69,39 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         if (configuration.getId() != null) {
             Configuration fetchDb = configurationRepository.findById(configuration.getId()).orElseThrow(() -> new EntityNotFoundException(
                 "Config not found"));
+
             fetchDb.setTitle(configuration.getTitle());
             fetchDb.setDescription(configuration.getDescription());
             fetchDb.setPublished(configuration.isPublished());
             fetchDb.setRules(configuration.getRules());
             fetchDb.setClonedFromId(configuration.getClonedFromId());
             fetchDb.setCalendarReference(calendarReference);
+
+            if (!fetchDb.isPublished()) {
+                if (fetchDb.getClonedFromId() == null) {
+                    this.deletePublicByOriginalId(fetchDb.getId());
+                }
+            }
             return configurationRepository.save(fetchDb);
         }
 
         return configurationRepository.save(configuration);
     }
 
+    private void deletePublicByOriginalId(Long id) {
+        this.publicConfigurationRepository.deletePublicConfigurationByInitialConfigurationId(id);
+    }
+
 
     @Override
+    @Transactional
     public void delete(Long id, String username) {
         LOGGER.debug("Delete Configuration by id {}", id);
 
         if (!configurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
             throw new AccessDeniedException("Can Not Delete Configurations that are not owned");
         }
+
         configurationRepository.deleteById(id);
     }
 
@@ -161,6 +174,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             e.setLocation(rule.getEffect().getLocation());
             e.setChangedTitle(rule.getEffect().getChangedTitle());
             e.setChangedDescription(rule.getEffect().getChangedDescription());
+            e.setTag(rule.getEffect().getTag());
 
             r.setConfiguration(publicConfiguration);
             r.setMatch(m);
@@ -181,17 +195,16 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         if (!publicConfigurationRepository
             .findById(id)
             .orElseThrow(NotFoundException::new)
-            .getUser()
-            .getEmail()
+            .getOwningUser()
             .equals(username)) {
             throw new AccessDeniedException("Can Not remove published Configurations that are not owned");
         }
         PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
         LOGGER.debug(publicConf.toString());
-        var clonedFrom = configurationRepository.getReferenceById(publicConf.getInitialConfigurationId());
-        if (clonedFrom != null) {
-            clonedFrom.setPublished(false);
-            configurationRepository.save(clonedFrom);
+        var clonedFrom = configurationRepository.findById(publicConf.getInitialConfigurationId());
+        if (clonedFrom.isPresent()) {
+            clonedFrom.get().setPublished(false);
+            configurationRepository.save(clonedFrom.get());
         }
 
         this.publicConfigurationRepository.delete(publicConf);

@@ -5,12 +5,12 @@
   </select>
   <div class="flex flex-col gap-4">
     <div class="gap-2 flex ">
-      <label *ngIf="!byLink" class="cursor-pointer w-[63px]  p-1 bg-popover-light rounded" (click)="byLink = true">By
+      <label *ngIf="!byLink" class="cursor-pointer w-[63px]  p-1 border-x border-y border-popover-light rounded" (click)="byLink = true">By
         Link</label>
-      <label *ngIf="!byLink" class="bg-added rounded w-[60px] p-1 cursor-pointer" (click)="byLink = false">By
+      <label *ngIf="!byLink" class="bg-added border-added border-x border-y rounded w-[60px] p-1 cursor-pointer" (click)="byLink = false">By
         File</label>
-      <label *ngIf="byLink" class="bg-added rounded w-[63px] p-1 cursor-pointer" (click)="byLink = true">By Link</label>
-      <label *ngIf="byLink" class="cursor-pointer w-[60px]  p-1 bg-popover-light rounded" (click)="byLink = false">By
+      <label *ngIf="byLink" class="bg-added border-added border-x border-y rounded w-[63px] p-1 cursor-pointer" (click)="byLink = true">By Link</label>
+      <label *ngIf="byLink" class="cursor-pointer w-[60px]  p-1 border-x border-y border-popover-light rounded" (click)="byLink = false">By
         File</label>
     </div>
     <input *ngIf="byLink" class="form-control" type="text" [(ngModel)]="configUrl"

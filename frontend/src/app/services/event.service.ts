@@ -25,12 +25,15 @@ export class EventService {
     return this.httpClient.put<CustomEventDto>(this.messageBaseUri + '/' + dto.id, dto);
   }
 
-  getEventById(id: number): Observable<CustomEventDto> {
+  getEventById(id: string): Observable<CustomEventDto> {
     console.log('Get event ' + id);
     return this.httpClient.get<CustomEventDto>(this.messageBaseUri + '/' + id);
   }
 
   deleteEvent(id: number | string): Observable<object> {
+    if (id.toString().includes('customEvent')) {
+      id = id.toString().split('_')[1];
+    }
     return this.httpClient.delete(this.messageBaseUri + '/' + id);
   }
 }

@@ -8,6 +8,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceReposito
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.impl.CalendarReferenceServiceImpl;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,6 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Example;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -98,7 +98,7 @@ class CalendarReferenceServiceTest {
         ConfigurationRepository configurationRepository = mock(ConfigurationRepository.class);
         when(configurationRepository.getReferenceById(any())).thenReturn(configuration);
 
-        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null);
+        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null, null);
 
 
         assertThrows(NotFoundException.class, () -> serviceMock.addConfig(1L, 1L));
@@ -118,7 +118,7 @@ class CalendarReferenceServiceTest {
         ConfigurationRepository configurationRepository = mock(ConfigurationRepository.class);
         when(configurationRepository.findById(any())).thenReturn(Optional.of(configuration));
 
-        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null);
+        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null, null);
 
         assertDoesNotThrow(() -> serviceMock.addConfig(1L, 1L));
     }
@@ -138,6 +138,7 @@ class CalendarReferenceServiceTest {
     }
 
     @Test
+    @Transactional
     void importCalendarFileCanBeFound() throws IOException {
         InputStream is = new ClassPathResource("domasch_fixed.ics").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("name", is);

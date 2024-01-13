@@ -13,15 +13,16 @@
     <a>
       <p class="mb-2 font-bold tracking-tight text-gray-900">Effect</p>
     </a>
-    <label class=" rounded-2xl p-1 text-xs text-white"
+    <label class=" rounded-2xl p-1 text-xs text-white" *ngIf="!isTagEffect()"
            [ngClass]="isDeleteEffect() ? 'bg-red' : 'bg-notadded'">{{ isDeleteEffect() ? 'Delete' : 'Modify' }}</label>
+    <label class="cursor-pointer rounded-2xl p-1 text-xs text-white bg-info"
+           (click)="rule.effect.effectType = EffectType.TAG" *ngIf="isTagEffect()" >{{ 'Tag: ' + rule.effect.tag}}</label>
   </div>
   <div class="flex flex-col w-full p-2">
-    <div *ngIf="!isDeleteEffect()">
+    <div *ngIf="!isDeleteEffect() && !isTagEffect()">
       <p>New Summary: {{rule.effect.changedTitle}}</p>
       <p>New Location: {{rule.effect.location}}</p>
       <p>New Description: {{rule.effect.changedDescription}}</p>
     </div>
-
   </div>
 </div>
