@@ -157,7 +157,7 @@ public class CalendarReferenceEndpoint {
     @PermitAll
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token, HttpServletRequest request) {
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token) {
         LOGGER.info("Get /api/v1/calendar/get/export/{token}");
 
         try {
