@@ -67,14 +67,22 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         }
 
         if (configuration.getId() != null) {
+            if (!configuration.isPublished()) {
+                publicConfigurationRepository.deletePublicConfigurationByInitialConfigurationId(configuration.getId());
+            }
             Configuration fetchDb = configurationRepository.findById(configuration.getId()).orElseThrow(() -> new EntityNotFoundException(
                 "Config not found"));
+
             fetchDb.setTitle(configuration.getTitle());
             fetchDb.setDescription(configuration.getDescription());
             fetchDb.setPublished(configuration.isPublished());
             fetchDb.setRules(configuration.getRules());
             fetchDb.setClonedFromId(configuration.getClonedFromId());
             fetchDb.setCalendarReference(calendarReference);
+
+            if (!fetchDb.isPublished()) {
+                this.deletePublic(fetchDb.getClonedFromId(), username);
+            }
             return configurationRepository.save(fetchDb);
         }
 
@@ -181,8 +189,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         if (!publicConfigurationRepository
             .findById(id)
             .orElseThrow(NotFoundException::new)
-            .getUser()
-            .getEmail()
+            .getOwningUser()
             .equals(username)) {
             throw new AccessDeniedException("Can Not remove published Configurations that are not owned");
         }
