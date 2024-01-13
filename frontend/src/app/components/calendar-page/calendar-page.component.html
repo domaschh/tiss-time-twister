@@ -125,7 +125,7 @@
                  *ngFor="let tag of tags"
                  (click)="tagClicked(tag)"
                  [ngClass]="selectedTags.includes(tag) ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}
-            <i class="bi bi-trash text-white" (click)="openDeleteTagModal(tag)"></i>
+            <i matTooltip="Delete tag" class="bi bi-trash text-white ml-2" (click)="openDeleteTagModal(tag)"></i>
           </label>
           <button type="button" *ngIf="showapplyFilters" (click)="applyFilters()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light">
             Apply Filters

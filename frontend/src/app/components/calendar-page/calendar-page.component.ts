@@ -178,12 +178,13 @@ export class CalendarPageComponent implements OnInit {
   }
 
   private mapEvent(event: MyCalendarEvent, calendar: Calendar, colorId: number): MyCalendarEvent {
+    const description = event.description ?? ''; //for some reason can't inline
     return {
       id: event.id,
       description: event.description,
       title: event.title
         + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
-        + '<br>' + event.description
+        + '<br>' + description
         + '<br>' + event.categories ?? ''
         + '<br>' + event.location ?? '' + '<br>',
       start: event.start,
@@ -457,7 +458,7 @@ export class CalendarPageComponent implements OnInit {
             this.tags = this.tags.filter(t => t.id != tag.id);
             callback(true);
           } else {
-           this.toastrService.error("Couldnt delte tag because it is usd in: " + configurations.map(config => config.title))
+           this.toastrService.error("Couldn't delete tag because it is still used in: " + configurations.map(config => '\n' +config.title))
           }
         },
         error: () => {

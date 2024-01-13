@@ -94,12 +94,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 
     @Override
+    @Transactional
     public void delete(Long id, String username) {
         LOGGER.debug("Delete Configuration by id {}", id);
 
         if (!configurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
             throw new AccessDeniedException("Can Not Delete Configurations that are not owned");
         }
+
         configurationRepository.deleteById(id);
     }
 

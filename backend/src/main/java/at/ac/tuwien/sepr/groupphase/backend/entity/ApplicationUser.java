@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -23,6 +26,11 @@ public class ApplicationUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @JoinColumn(name = "user_id")
+    private List<Configuration> configurations;
 
     public ApplicationUser(String email, String password, Boolean admin) {
         this.email = email;
