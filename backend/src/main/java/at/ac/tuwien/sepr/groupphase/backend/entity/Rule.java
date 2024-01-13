@@ -22,7 +22,7 @@ public class Rule {
     private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "config_id", nullable = false)
+    @JoinColumn(name = "config_id")
     private Configuration configuration;
 
     @OneToOne(cascade = CascadeType.ALL)
