@@ -189,6 +189,7 @@ export class CalendarPageComponent implements OnInit {
 
   loadCalendars() {
     let id = 0;
+    this.calendars = []
     this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
         cals.forEach((calRef) => {
@@ -258,8 +259,9 @@ export class CalendarPageComponent implements OnInit {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
           this.toastrService.success("Deleted Calendar");
+          this.loadCalendars();
+          this.refresh.next()
           this.calendars = this.calendars.filter(obj => obj.id !== calendar.id);
-
           callback(true);
         },
         error: () => {
@@ -319,6 +321,8 @@ export class CalendarPageComponent implements OnInit {
                 cal.configs = cal.configs.filter(c => c.id != config.id)
               }
             })
+            this.loadCalendars();
+            this.refresh.next()
             callback(true)
           }, error: () => {
             this.toastrService.error("Could not delete. Consider removing in the public page")
@@ -339,6 +343,7 @@ export class CalendarPageComponent implements OnInit {
 
     modalRef.componentInstance.addedConfiguration.subscribe(addedConfiguration => {
       this.configurations.push(addedConfiguration)
+      window.location.reload()
     })
   }
 
@@ -354,8 +359,10 @@ export class CalendarPageComponent implements OnInit {
 
   downloadConfigFile(conf: ConfigurationDto) {
     delete conf.id
+    delete conf.calendarReferenceId
     conf.rules.forEach(rule => {
       delete rule.id
+      delete rule.configId
       delete rule.effect.id
       delete rule.match.id
     })
