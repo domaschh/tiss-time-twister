@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationPopoverComponent} from "./navigation-popover/navigation-popover.component";
 import {NavigationPopoverRightComponent} from "./navigation-popover-right/navigation-popover-right.component";
 import {is} from "date-fns/locale";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,12 @@ export class NavbarComponent {
 
   constructor(private readonly router: Router,
               private modal: NgbModal,
+              private readonly authService: AuthService
   ) {
+  }
+
+  get username() {
+    return this.authService.getUsername()
   }
 
   showNavbar() {
