@@ -14,5 +14,5 @@ import java.util.UUID;
 public interface PipelineService {
     Calendar pipeCalendar(UUID token, List<Tag> tags) throws ParserException, IOException, URISyntaxException;
 
-    Calendar previewConfiguration(long id, List<Configuration> configurations) throws NotFoundException, ParserException, IOException, URISyntaxException;
+    Calendar previewConfiguration(long id, List<Configuration> configurations, String username) throws NotFoundException, ParserException, IOException, URISyntaxException;
 }

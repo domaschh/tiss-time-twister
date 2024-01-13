@@ -10,7 +10,7 @@
 @include mat.core();
 
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// Define the palettes for your theme using the Material Design palettes available in palette.sc  ss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $sepr-group-phase-primary: mat.define-palette(mat.$indigo-palette);
@@ -41,7 +41,12 @@ $sepr-group-phase-theme: mat.define-light-theme((
 @import 'ngx-toastr/toastr';
 
 @import 'angular-calendar/scss/angular-calendar.scss';
-
+::-webkit-scrollbar {
+  width: 0px!important;
+}
+::ng-deep .modal {
+  padding: 0!important;
+}
 .modal-header{
    padding-bottom: 0;
   border:none!important;
@@ -49,6 +54,7 @@ $sepr-group-phase-theme: mat.define-light-theme((
  .modal-footer{
   border:none!important;
 }
+ $secondary: blue;
 $font-col: #ADBAC7;
 $font-col-placeholder: rgba(134, 139, 148, 0.51);
 $weeknd-col: #0095ff;
@@ -118,6 +124,13 @@ $day-col: rgba(154, 210, 255, 0.62);
     background-color: transparent !important;
     color: transparent;
   }
+
+  label[for="passwordConfirmation"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+
 
   input {
     color: $font-col;
@@ -199,23 +212,29 @@ $day-col: rgba(154, 210, 255, 0.62);
   }
 }
 
-.dark > * {
-
-
-}
-
-
 .pagecontainer {
   height: 100%;
 }
 
+.cal-event {
+  color: black!important;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 html, body {
   margin: 0;
-  overflow: scroll;
+  overflow: hidden;
   height: 100%;
 }
 
+
+
 body.dark {
+  .cal-event {
+    color: white!important;
+  }
   .form-control {
     border: 1px solid rgba(194, 194, 194, 0.37) !important;
     background-color: rgb(36, 41, 46) !important;
@@ -239,3 +258,25 @@ body > * {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var($font-col) var($font-col);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var($font-col);
+  border-radius: 14px;
+  border: 3px solid var($font-col);
+}

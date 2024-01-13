@@ -1,6 +1,9 @@
+
 ::ng-deep .custom-full-height-modal-right {
   .modal-dialog {
     margin: 0;
+    padding: 0!important;
+    right: 0;
     float: right!important;
     height: 100vh !important;
   }

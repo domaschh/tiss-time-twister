@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RuleDto {
     private Long id;
+    private Long configId;
     private EffectDto effect;
     private MatchDto match;
 }

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import { Globals } from "../global/globals";
 import { CalendarReferenceDto } from "../dtos/calendar-reference-dto";
 import { Observable, catchError, of } from 'rxjs';
-import { Configuration } from '../dtos/Configuration';
 import { ConfigurationDto } from '../dtos/configuration-dto';
 import {TagDto} from "../dtos/tag-dto";
 
@@ -20,6 +19,10 @@ export class CalendarReferenceService {
   upsertCalendar(dto: CalendarReferenceDto) {
     console.log(dto)
     return this.httpClient.put<CalendarReferenceDto>(this.messageBaseUri, dto);
+  }
+
+  upsertCalendarFile(formData: FormData): Observable<any> {
+    return this.httpClient.put(this.messageBaseUri + '/file', formData);
   }
 
   deleteCalendar(id: number) {
@@ -60,7 +63,7 @@ export class CalendarReferenceService {
   }
 
   getConfigurationPreview(calendarId: number, config: ConfigurationDto) {
-    return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], { responseType: 'text'});
+    return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], { responseType: 'text' });
   }
 
   addToCalendar(selectedCal: number, configuration: number) {

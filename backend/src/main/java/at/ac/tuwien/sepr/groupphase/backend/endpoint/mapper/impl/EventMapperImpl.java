@@ -32,7 +32,7 @@ public class EventMapperImpl implements EventMapper {
         event.setEndTime(eventDto.endTime());
         event.setLocation(eventDto.location());
 
-        CalendarReference calendar = calendarRefService.getFromId(eventDto.calendarId());
+        CalendarReference calendar = calendarRefService.getFromId(eventDto.calendarId(), "dasd");
         event.setCalendar(calendar);
 
         return event;

@@ -35,16 +35,19 @@ export class ConfigImportComponent implements OnInit {
     if (this.byLink) {
       //http://localhost:8080/api/v1/calendar/?/1
       //return this.httpClient.post<CalendarReferenceDto>(this.messageBaseUri + "/" + selectedCal + "/" + configuration, null);
-      return this.http.post<ConfigurationDto>(this.configUrl.replace("?", "" + this.selectedCal), null).subscribe({
-        next: () => {
+      return this.http.post<CalendarReferenceDto>(this.configUrl.replace("?", "" + this.selectedCal), null).subscribe({
+        next: (created) => {
+          console.log(created)
           this.toastrService.success("Imported Configuration")
+          this.addedConfiguration.emit(created.configurations[created.configurations.length - 1])
+          this.modal.dismissAll()
         }, error: () => {
           this.toastrService.error("Failed to import")
         }
       })
     } else {
       if (this.selectedConfigurationDto && this.selectedCal) {
-        return this.configService.createConfiguration(-1, this.selectedConfigurationDto).subscribe({
+        return this.configService.createConfiguration(this.selectedCal, this.selectedConfigurationDto).subscribe({
           next: (created) => {
             this.calendarService.addToCalendar(this.selectedCal, created.id).subscribe({
               next: (added) => {

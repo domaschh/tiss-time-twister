@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationPopoverComponent} from "./navigation-popover/navigation-popover.component";
 import {NavigationPopoverRightComponent} from "./navigation-popover-right/navigation-popover-right.component";
+import {is} from "date-fns/locale";
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,8 @@ export class NavbarComponent {
 
   showNavbar() {
     this.loadDarkMode();
-    return localStorage.getItem("authToken")
+    const authToken = localStorage.getItem("authToken");
+    return (authToken != undefined || authToken != null) && this.router.url != '/'
   }
 
   private loadDarkMode() {

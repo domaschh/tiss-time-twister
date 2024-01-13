@@ -13,23 +13,37 @@ import at.ac.tuwien.sepr.groupphase.backend.service.CalendarService;
 import at.ac.tuwien.sepr.groupphase.backend.service.EventService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
 import at.ac.tuwien.sepr.groupphase.backend.service.TissService;
+import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Categories;
 import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.model.property.Categories;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.DtEnd;
+import net.fortuna.ical4j.model.property.DtStart;
+import net.fortuna.ical4j.model.property.Summary;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.AccessDeniedException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 //BEGIN:VEVENT
@@ -58,13 +72,29 @@ public class PipelineServiceImpl implements PipelineService {
         this.eventService = eventService;
     }
 
+    private static LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDateTime();
+    }
+
     @Override
     public Calendar pipeCalendar(UUID token, List<Tag> tags) throws ParserException, IOException, URISyntaxException {
         Optional<CalendarReference> optionalCalendarReference = calendarReferenceRepository.findCalendarReferenceByToken(token);
         if (optionalCalendarReference.isEmpty()) {
             throw new NotFoundException("Calendar with token " + token + " does not exist");
         }
-        var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
+        CalendarReference calendarReference = optionalCalendarReference.get();
+        Calendar calendar;
+
+        if (calendarReference.getLink() != null && !calendarReference.getLink().isEmpty()) {
+            calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
+        } else if (calendarReference.getIcalData() != null) {
+            calendar = new CalendarBuilder().build(new ByteArrayInputStream(calendarReference.getIcalData()));
+        } else {
+            throw new NotFoundException("No URL or iCal data available for the given token: " + token);
+        }
+
         List<Configuration> configurations = optionalCalendarReference.get().getConfigurations();
         var events = eventService.getEventsByCalendar(optionalCalendarReference.get());
         return filterByTags(
@@ -74,10 +104,14 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     @Override
-    public Calendar previewConfiguration(long id, List<Configuration> configurations) throws ParserException, IOException, URISyntaxException {
+    public Calendar previewConfiguration(long id, List<Configuration> configurations, String username)
+        throws ParserException, IOException, URISyntaxException {
         Optional<CalendarReference> optionalCalendarReference = calendarReferenceRepository.findById(id);
-        if (optionalCalendarReference.isEmpty()) {
-            throw new NotFoundException("Calendar with id " + id + " does not exist");
+        if (!optionalCalendarReference.orElseThrow(() -> new NotFoundException("Calendar with id " + id + " does not exist"))
+                                      .getUser()
+                                      .getEmail()
+                                      .equals(username)) {
+            throw new AccessDeniedException("Can not preview Configurations on Calendars you don't own");
         }
         var events = eventService.getEventsByCalendar(optionalCalendarReference.get());
         var calendar = calendarService.fetchCalendarByUrl(optionalCalendarReference.get().getLink());
@@ -119,6 +153,8 @@ public class PipelineServiceImpl implements PipelineService {
     private Calendar applyConfigurations(Calendar calendar, List<Configuration> configurations, Long enabledDefaultConfigurations, List<Event> customEvents) {
         List<CalendarComponent> newComponents = new ArrayList<>();
         newComponents.add(calendar.getComponentList().getAll().get(0));
+        Set<LVADetail> lvaDetailsForMe = new HashSet<>();
+
         calendar.getComponentList().getAll().stream().filter(VEvent.class::isInstance).forEach(v -> {
             VEvent vEvent = (VEvent) v;
             VEvent modifiedVEvent = configurations.stream()
@@ -131,10 +167,43 @@ public class PipelineServiceImpl implements PipelineService {
                                                       }
                                                   }, (VEvent vEvent1, VEvent vEvent2) -> vEvent2);
             if (modifiedVEvent != null && enabledDefaultConfigurations != null) {
+                if ((enabledDefaultConfigurations & 0b1000) > 0) {
+                    LVADetail detail;
+                    if (vEvent.getSummary().isPresent()) {
+                        detail = tissService.mapLVANameShorthand(onlyLongName(vEvent.getSummary().get().toString().trim()));
+                    } else {
+                        detail = null;
+                    }
+                    if (detail != null) {
+                        lvaDetailsForMe.add(detail);
+                    }
+                }
                 enhanceTissEvent(modifiedVEvent, enabledDefaultConfigurations);
                 newComponents.add(modifiedVEvent);
             }
         });
+        if (enabledDefaultConfigurations != null && (enabledDefaultConfigurations & 0b1000) > 0) {
+            lvaDetailsForMe.forEach(detail -> detail.testRegistrations().forEach(testRegistration -> {
+                System.out.println("Registration URL" + detail.examURl());
+                LocalDateTime startDateTime = convertToLocalDateTimeViaInstant(testRegistration.date());
+                LocalDateTime endDateTime = convertToLocalDateTimeViaInstant(testRegistration.date());
+
+                LocalDateTime startDateTimeMinusOneHour = startDateTime.minusHours(1);
+
+                VEvent testRegEvent = new VEvent();
+                var properties = new PropertyList(List.of(
+                    new Description(detail.examURl()),
+                    new Summary(detail.shorthand() + " " + testRegistration.testName()),
+                    new DtStart(startDateTimeMinusOneHour),
+                    new DtEnd(endDateTime),
+                    new Categories("REGISTRATION")
+                ));
+
+                testRegEvent.setPropertyList(properties);
+                newComponents.add(testRegEvent);
+            }));
+        }
+
 
         for (var event : customEvents) {
             VEvent vEvent = new VEvent(event.getStartTime(), event.getEndTime(), event.getTitle())
@@ -185,7 +254,8 @@ public class PipelineServiceImpl implements PipelineService {
             }
 
             if (tissRoom != null) {
-                vEvent.getProperty(Property.LOCATION).ifPresent(a -> a.setValue(vEvent.getLocation().get().getValue() + "\n" + tissRoom.address()));
+                vEvent.getProperty(Property.LOCATION)
+                      .ifPresent(a -> a.setValue(vEvent.getLocation().get().getValue() + "\n" + tissRoom.address()));
             }
         }
     }

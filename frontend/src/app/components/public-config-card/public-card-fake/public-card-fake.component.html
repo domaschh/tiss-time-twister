@@ -1,10 +1,10 @@
-<div class="public-cal-card max-w-sm p-6 bg-white rounded-lg shadow dark:bg-gray-800 ">
-  <div class="flex flex-row justify-between align-items-center">
+<div class="public-cal-card max-w-sm p-6 bg-white rounded-lg shadow dark:bg-gray-800 cursor-pointer "           (click)="openConfigModal()"
+>
+  <div class="flex flex-row justify-between align-items-center c">
     <a>
       <h5 class="mb-2 text-2xl mr-2 font-bold tracking-tight text-gray-900 dark:accent-font-col">{{ title }}</h5>
     </a>
-    <label class="text-center rounded-2xl p-1 text-xs text-white ms-4"
-           (click)="openConfigModal()"
+    <label class="text-center rounded-2xl p-1 text-xs text-white ms-4 cursor-pointer"
            [ngClass]="isAdded ? 'bg-added' : 'bg-notadded'"
     >{{ isAdded ? 'Already Added' : 'Add to collection' }}</label>
   </div>

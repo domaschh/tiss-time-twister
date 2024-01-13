@@ -13,15 +13,14 @@ import {EventService} from "../../services/event.service";
 import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
 import {ToastrService} from "ngx-toastr";
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
-import {colors} from "../../global/constants";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
-import {ca} from "date-fns/locale";
 import {TagDto} from "../../dtos/tag-dto";
 import {TagService} from "../../services/tag.service";
 
 //preset colors since color should not be saved
 
+import {EventColor} from "calendar-utils";
 
 @Component({
   selector: 'app-calendar-page',
@@ -34,44 +33,38 @@ export class CalendarPageComponent implements OnInit {
   myICAL: ICAL = ICAL;
   calendars: Calendar[] = [];
   configurations: ConfigurationDto[] = [];
-
   tags: TagDto[] = [];
   selectedTags: TagDto[] = [];
   filterUnfolded: boolean = false;
-
-  private onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
-  }
-
   @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
-  loggedInUsername: string | null = null;
-
   modalData: {
     action: string;
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="bi bi-pencil"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="bi bi-trash"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
+  actions: CalendarEventAction[] = []
+  // actions: CalendarEventAction[] = [
+  //   {
+  //     label: '<i class="bi bi-pencil"></i>',
+  //     a11yLabel: 'Edit',
+  //     onClick: ({event}: { event: CalendarEvent }): void => {
+  //       this.handleEvent('Edited', event);
+  //     },
+  //   },
+  //   {
+  //     label: '<i class="bi bi-trash"></i>',
+  //     a11yLabel: 'Delete',
+  //     onClick: ({event}: { event: CalendarEvent }): void => {
+  //       this.events = this.events.filter((iEvent) => iEvent !== event);
+  //       this.handleEvent('Deleted', event);
+  //     },
+  //   },
+  // ];
 
   refresh = new Subject<void>();
 
@@ -86,7 +79,7 @@ export class CalendarPageComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private readonly toastrService: ToastrService,
-  private tagService: TagService,
+    private tagService: TagService,
   ) {
   }
 
@@ -94,6 +87,7 @@ export class CalendarPageComponent implements OnInit {
     this.loadTags();
     this.loadCalendars();
     this.loadConfigs();
+
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
@@ -148,7 +142,6 @@ export class CalendarPageComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if (action === 'Clicked' || action === 'Edited') {
-      console.log(myEvent);
       if (!myEvent) {
         console.error("Error while handling event", event);
       } else if (!myEvent.categories.includes('customEvent')) {
@@ -170,8 +163,6 @@ export class CalendarPageComponent implements OnInit {
         this.eventService.deleteEvent(myEvent.id).subscribe({
           next: _ => {
             console.log("Deleted successfully");
-            this.events = [];
-            this.calendars = [];
             this.loadCalendars();
           },
           error: error => {
@@ -185,33 +176,28 @@ export class CalendarPageComponent implements OnInit {
     }
   }
 
-  addEvent(event: MyCalendarEvent, calendar: Calendar): void {
-    const e: MyCalendarEvent = {
+  private mapEvent(event: MyCalendarEvent, calendar: Calendar, colorId: number): MyCalendarEvent {
+    return {
       id: event.id,
       description: event.description,
       title: event.title
         + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
         + '<br>' + event.description
-        + '<br>' + event.categories
-        + '<br>' + event.location,
+        + '<br>' + event.categories ?? ''
+        + '<br>' + event.location ?? '' + '<br>',
       start: event.start,
       end: event.end,
-      color: {
-        primary: calendar.color,
-        secondary: '#ededeb'
-      },
+      color: {primary: calendar.color, secondary:calendar.color},
       draggable: false,
       resizable: {
         beforeStart: false,
         afterEnd: false
       },
       actions: this.actions,
-      location: event.location,
-      categories: event.categories,
+      location: event.location ?? '',
+      categories: event.categories ?? '',
       calendar: calendar
-    }
-
-    this.events.push(e);
+    };
   }
 
   closeOpenMonthViewDay() {
@@ -219,19 +205,15 @@ export class CalendarPageComponent implements OnInit {
   }
 
   loadCalendars() {
-    var id: number = 0;
-
+    let id = 0;
+    this.calendars = []
     this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
-        cals.forEach((calendarReferenceDto) => {
-          console.log(calendarReferenceDto)
-          var evs: MyCalendarEvent[] = [];
-          this.calenderReferenceServie.getIcalFileFromToken(calendarReferenceDto.token, this.selectedTags).subscribe((icalString) => {
-            var parsedcal = this.myICAL.parse(icalString);
-            var calAsComponent = new this.myICAL.Component(parsedcal);
-            var vevents = <any[]>calAsComponent.getAllSubcomponents("vevent");
-            vevents.forEach(event => {
-              let parsed: MyCalendarEvent = {
+        cals.forEach((calRef) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calRef.token, this.selectedTags).subscribe((icalString) => {
+            const calAsComponent = new this.myICAL.Component(this.myICAL.parse(icalString));
+            const vEvents = <any[]>calAsComponent.getAllSubcomponents("vevent");
+            const evs = vEvents.map(event => ({
                 id: event.getFirstPropertyValue("uid"),
                 start: new Date(event.getFirstPropertyValue("dtstart")),
                 end: new Date(event.getFirstPropertyValue("dtend")),
@@ -239,32 +221,19 @@ export class CalendarPageComponent implements OnInit {
                 location: event.getFirstPropertyValue("location"),
                 categories: event.getFirstPropertyValue("categories"),
                 description: event.getFirstPropertyValue('description')
-              };
-              evs.push(parsed)
-            })
-            var newcal: Calendar = {
+              })
+            )
+            this.calendars.push({
               isActive: true,
-              token: calendarReferenceDto.token,
-              link: calendarReferenceDto.link,
-              name: calendarReferenceDto.name,
-              configs: calendarReferenceDto.configurations,
-              color: colors[id].primary, //only n preset colors are stored
+              token: calRef.token,
+              link: calRef.link,
+              name: calRef.name,
+              configs: calRef.configurations,
+              color: calRef.color + '90', //only n preset colors are stored
               events: evs,
-              id: calendarReferenceDto.id //id needed for frontend
-            }
-            id++;
-            this.calendars.push(newcal);
-
-
-            if (this.calendars.length != 0) {
-              this.calendars.forEach(cal => {
-                if (cal.events != null) {
-                  cal.events.forEach(event => {
-                    this.addEvent(event, cal);
-                  });
-                }
-              });
-            }
+              id: calRef.id //id needed for frontend
+            });
+            this.events = this.calendars.flatMap(cal => cal.events.map(e => this.mapEvent(e, cal, cal.id)))
           })
         })
       }
@@ -272,7 +241,6 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openEditConfigModal(config: ConfigurationDto) {
-    console.log(config)
     this.router.navigate(['createConfig'], {
       state: {calId: null, config}
     })
@@ -292,16 +260,6 @@ export class CalendarPageComponent implements OnInit {
       this.calendars.forEach(c => c.isActive = value);
   }
 
-  logout(): void {
-    window.localStorage.removeItem('authToken');
-    this.router.navigate(['/'], {queryParams: {loggedOut: 'true'}});
-  }
-
-
-  editPassword(): void {
-    // Implement the password editing functionality here
-  }
-
   createCustomEvent() {
     let calendars: EventCalendar[] = this.calendars.map(cal => {
       return {id: cal.id, name: cal.name}
@@ -319,8 +277,9 @@ export class CalendarPageComponent implements OnInit {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
           this.toastrService.success("Deleted Calendar");
+          this.loadCalendars();
+          this.refresh.next()
           this.calendars = this.calendars.filter(obj => obj.id !== calendar.id);
-
           callback(true);
         },
         error: () => {
@@ -332,8 +291,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openEditPage(calendar: Calendar) {
-    let extras = {state: {editMode: true, id: calendar.id}};
-    this.router.navigate(['import'], extras)
+    this.router.navigate(['import'], {state: {editMode: true, id: calendar.id}})
   }
 
   openTokenModal(calendar: Calendar) {
@@ -348,6 +306,7 @@ export class CalendarPageComponent implements OnInit {
       id: calendar.id,
       name: calendar.name,
       link: calendar.link,
+      color: calendar.color,
       configurations: calendar.configs,
       token: uuid.v4()
     }
@@ -445,7 +404,7 @@ export class CalendarPageComponent implements OnInit {
 
   //with config applied
   downloadCalendar(calendar: Calendar) {
-    this.calenderReferenceServie.getIcalFileFromToken(calendar.token, []).subscribe({
+    this.calenderReferenceServie.getIcalFileFromToken(calendar.token, this.tags).subscribe({
       next: (result) => {
         const blob = new Blob([result], {type: 'text/calendar'});
         const url = window.URL.createObjectURL(blob);
@@ -463,8 +422,6 @@ export class CalendarPageComponent implements OnInit {
       }
     })
   }
-
-  protected readonly ca = ca;
 
   tagClicked(tag: TagDto) {
     if (this.selectedTags.includes(tag)) {
@@ -488,4 +445,5 @@ export class CalendarPageComponent implements OnInit {
     this.selectedTags = [];
     this.applyFilters();
   }
+
 }

@@ -154,6 +154,8 @@ export class PreviewConfigComponent {
   }
 
   getPreview() {
+    console.log(this.config)
+    console.log(this.calId)
     this.calenderReferenceServie.getConfigurationPreview(this.calId, this.config).subscribe({
       next: cal => {
             var evs: MyCalendarEvent[] = [];
@@ -166,7 +168,7 @@ export class PreviewConfigComponent {
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
                 location: event.getFirstPropertyValue("location"),
-                categories: event.getFirstPropertyValue("categories")
+                categories: event.getFirstPropertyValue("categories"),
               };
               evs.push(parsed)
             })
@@ -184,14 +186,8 @@ export class PreviewConfigComponent {
   saveConfiguration() {
     this.configurationService.createConfiguration(this.calId, this.config).subscribe({
       next: (createdConfiguration) => {
-        this.calenderReferenceServie.addToCalendar(this.calId, createdConfiguration.id).subscribe({
-          next:() => {
-            this.toastrService.success("Sucessfully created configuration")
-            this.router.navigate(['calendar'])
-          },error: () => {
-            this.toastrService.error("Coudln't add to Calendar ")
-          }
-        })
+        this.toastrService.success("Sucessfully created configuration")
+        this.router.navigate(['calendar'])
       },error: () => {
         this.toastrService.error("Coudln't Create Configuration")
       }

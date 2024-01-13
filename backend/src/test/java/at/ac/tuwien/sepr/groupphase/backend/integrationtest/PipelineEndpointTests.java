@@ -12,11 +12,14 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
 import at.ac.tuwien.sepr.groupphase.backend.entity.MatchType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
+import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,11 +28,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.io.StringReader;
 import java.util.List;
@@ -38,6 +45,7 @@ import java.util.UUID;
 
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CALENDAR_REFERENCE_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -49,7 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "generateData"})
 @AutoConfigureMockMvc
 class PipelineEndpointTests {
     @Autowired
@@ -66,6 +74,26 @@ class PipelineEndpointTests {
     private SecurityProperties securityProperties;
     @LocalServerPort
     private int port;
+
+
+    public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void registerPgProperties(DynamicPropertyRegistry propertyRegistry) {
+        propertyRegistry.add("spring.datasource.url", postgres::getJdbcUrl);
+        propertyRegistry.add("spring.datasource.username", postgres::getUsername);
+        propertyRegistry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @BeforeEach
     void beforeEach() {
@@ -103,14 +131,14 @@ class PipelineEndpointTests {
                                                          .contentType(MediaType.APPLICATION_JSON)
                                                          .header(securityProperties.getAuthHeader(),
                                                                  jwtTokenizer.getAuthToken(
-                                                                     ADMIN_USER,
+                                                                     ADMIN_USER_EMAIL,
                                                                      ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
         assertNotNull(reexportedCal);
         assertNotNull(calendar);
-        assertEquals(269, calendar.getComponentList().getAll().size());
+        assertEquals(279, calendar.getComponentList().getAll().size());
     }
 
     @Test
@@ -124,6 +152,7 @@ class PipelineEndpointTests {
         var customUUID = UUID.randomUUID();
         mockedCalReference.setToken(customUUID);
         mockedCalReference.setLink(customMockUrl);
+        mockedCalReference.setUser(ADMIN_USER);
         Configuration config = new Configuration();
         config.setId(1L);
         var rule = new Rule();
@@ -145,14 +174,14 @@ class PipelineEndpointTests {
         MvcResult mvcResult2 = mockMvc.perform(post(path).contentType("application/json")
                                                          .content(configDto)
                                                          .header(securityProperties.getAuthHeader(),
-                                                                 jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                 jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL,
                                                                                            ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
         Calendar calendar = new CalendarBuilder().build(new StringReader(reexportedCal));
         assertNotNull(reexportedCal);
         assertNotNull(calendar);
-        assertEquals(269, calendar.getComponentList().getAll().size());
+        assertEquals(279, calendar.getComponentList().getAll().size());
     }
 
     @Test
@@ -165,7 +194,7 @@ class PipelineEndpointTests {
         mockMvc.perform(get(path).contentType(MediaType.APPLICATION_JSON)
                                  .header(securityProperties.getAuthHeader(),
                                          jwtTokenizer.getAuthToken(
-                                             ADMIN_USER,
+                                             ADMIN_USER_EMAIL,
                                              ADMIN_ROLES)))
                .andExpect(status().isNotFound()).andReturn();
 
@@ -182,7 +211,7 @@ class PipelineEndpointTests {
         mockMvc.perform(post(path).contentType("application/json")
                                   .content(configDto)
                                   .header(securityProperties.getAuthHeader(),
-                                          jwtTokenizer.getAuthToken(ADMIN_USER,
+                                          jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL,
                                                                     ADMIN_ROLES)))
                .andExpect(status().isNotFound()).andReturn();
 

@@ -8,8 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -17,19 +15,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Configurations")
 @Setter
 @Getter
 public class Configuration {
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "calendar_ref_config",
-        joinColumns = @JoinColumn(name = "configuration_id"),
-        inverseJoinColumns = @JoinColumn(name = "reference_id"))
-    List<CalendarReference> calendarReferences;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "calendar_id")
+    private CalendarReference calendarReference;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,9 +34,30 @@ public class Configuration {
     private String description;
     @Column()
     private boolean published;
-    @ManyToOne()
+    @Column()
+    private Long clonedFromId;
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
-    @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "config_id")
     private List<Rule> rules;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Configuration that = (Configuration) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

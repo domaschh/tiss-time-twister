@@ -1,7 +1,11 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.PublicConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.PublicConfigMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.PublicConfiguration;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
@@ -13,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,13 +40,16 @@ public class ConfigurationEndpoint {
 
     private final ConfigurationService configurationService;
     private final ConfigurationMapper configurationMapper;
+    private final PublicConfigMapper publicConfigurationMapper;
     private final ExtractUsernameService extractUsernameService;
 
     @Autowired
     public ConfigurationEndpoint(ConfigurationService configurationService, ConfigurationMapper configurationMapper,
+                                 PublicConfigMapper publicConfigurationMapper,
                                  ExtractUsernameService extractUsernameService) {
         this.configurationService = configurationService;
         this.configurationMapper = configurationMapper;
+        this.publicConfigurationMapper = publicConfigurationMapper;
         this.extractUsernameService = extractUsernameService;
     }
 
@@ -51,26 +59,33 @@ public class ConfigurationEndpoint {
     public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
-        return configurationMapper.toDto(
-            configurationService.add(configurationMapper.toEntity(configurationDto), username));
+
+        Configuration created = configurationService.update(configurationMapper.toEntity(configurationDto),
+                                                            username,
+                                                            configurationDto.getCalendarReferenceId());
+        ConfigurationDto createdDto = configurationMapper.toDto(
+            created);
+
+        if (created.isPublished()) {
+            configurationService.publish(created, username);
+        }
+        return createdDto;
     }
 
-    @Secured("ROLE_USER")
-    @PutMapping("/changeVisibility/{configurationId}")
-    @Operation(summary = "Create a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ConfigurationDto changeVisibility(@PathVariable Long configurationId) {
-        LOGGER.info("Put /api/v1/configuration/changeVisibility/{}", configurationId);
-        return configurationMapper.toDto(
-            configurationService.changeVisibility(configurationId));
-    }
 
     @Secured("ROLE_USER")
     @GetMapping("/{id}")
     @Operation(summary = "Get a stored Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ResponseEntity<ConfigurationDto> getConfiguration(@PathVariable Long id) {
+    public ResponseEntity<ConfigurationDto> getConfiguration(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/configuration/{}", id);
+        String username = extractUsernameService.getUsername(request);
+
         try {
-            return ResponseEntity.ok(configurationMapper.toDto(configurationService.getById(id)));
+            Configuration configuration = configurationService.getById(id);
+            if (!configuration.getUser().getEmail().equals(username)) {
+                throw new AccessDeniedException("Can Not fetch Configuration owned by others.");
+            }
+            return ResponseEntity.ok(configurationMapper.toDto(configuration));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
@@ -80,18 +95,37 @@ public class ConfigurationEndpoint {
     @Secured("ROLE_USER")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletes a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public void deleteConfiguration(@PathVariable Long id) {
+    public void deleteConfiguration(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Deleting Configuration with id: {}", id);
-        configurationService.delete(id);
+        String username = extractUsernameService.getUsername(request);
+
+        configurationService.delete(id, username);
+    }
+
+    @Secured("ROLE_USER")
+    @DeleteMapping("/public/{id}")
+    @Operation(summary = "Deletes a Configuration", security = @SecurityRequirement(name = "apiKey"))
+    public void deletePublicConfiguration(@PathVariable Long id, HttpServletRequest request) {
+        LOGGER.info("Deleting Configuration with id: {}", id);
+        String username = extractUsernameService.getUsername(request);
+
+        configurationService.deletePublic(id, username);
     }
 
 
     @PermitAll
     @GetMapping("/allPublic")
     @Operation(summary = "Get all published Configurations")
-    public List<ConfigurationDto> getAllPublished() {
+    public List<PublicConfigurationDto> getAllPublished(HttpServletRequest request) {
+        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Get All published Configurations");
-        return configurationMapper.toDtoList(configurationService.getAllPublicConfigurations());
+        List<PublicConfiguration> allPublicConfigurations = configurationService.getAllPublicConfigurations();
+
+        return allPublicConfigurations.stream().map(config -> {
+            var configDto = publicConfigurationMapper.toDto(config);
+            configDto.setMine(config.getOwningUser().equals(username));
+            return configDto;
+        }).toList();
     }
 
     @Secured("ROLE_USER")
