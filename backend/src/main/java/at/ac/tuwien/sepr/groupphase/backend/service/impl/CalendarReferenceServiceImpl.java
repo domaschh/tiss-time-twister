@@ -145,6 +145,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             throw new AccessDeniedException("Can Not assign public Configurations to Calendars you don't own.");
         }
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
+
         if (configId < 0) { // negatives are default configs
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
             return calendarReferenceRepository.save(calendarReference);

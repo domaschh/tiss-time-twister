@@ -7,6 +7,8 @@ import {ConfigurationService} from "../../services/configuration.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CalendarReferenceService} from "../../services/calendar.reference.service";
 import {NgxFileDropEntry} from "ngx-file-drop";
+import {TagService} from "../../services/tag.service";
+import {TagDto} from "../../dtos/tag-dto";
 
 @Component({
   selector: 'app-config-import',
@@ -19,16 +21,31 @@ export class ConfigImportComponent implements OnInit {
   selectedCal: number
   byLink: boolean;
   filename: string;
+  tags: TagDto[] = []
 
   selectedConfigurationDto: ConfigurationDto;
   @Output() addedConfiguration: EventEmitter<ConfigurationDto> = new EventEmitter<ConfigurationDto>();
 
-  constructor(private readonly http: HttpClient, private readonly toastrService: ToastrService, private readonly configService: ConfigurationService, private readonly modal: NgbModal, private readonly calendarService: CalendarReferenceService) {
-    console.log(this.calendars)
+  constructor(private readonly http: HttpClient,
+              private readonly toastrService: ToastrService,
+              private readonly configService: ConfigurationService,
+              private readonly modal: NgbModal,
+              private readonly calendarService: CalendarReferenceService,
+              private readonly tagService: TagService) {
   }
 
   ngOnInit(): void {
+    this.loadTags();
+  }
 
+  loadTags() {
+    this.tagService.getAll().subscribe({
+      next: tags => {
+        this.tags = tags;
+      },
+      error: () => {
+      }
+    });
   }
 
   import() {
@@ -49,15 +66,22 @@ export class ConfigImportComponent implements OnInit {
       if (this.selectedConfigurationDto && this.selectedCal) {
         return this.configService.createConfiguration(this.selectedCal, this.selectedConfigurationDto).subscribe({
           next: (created) => {
-            this.calendarService.addToCalendar(this.selectedCal, created.id).subscribe({
-              next: (added) => {
-                this.toastrService.success("Added configuration to calendar")
-                this.addedConfiguration.emit(created)
-                this.modal.dismissAll()
-              }, error: () => {
-                this.toastrService.error("Failed to add configuration to calendar")
+            this.selectedConfigurationDto.rules.filter(rule => rule.effect.tag !== null).forEach(tagInConfig => {
+              let alreadyAdded = []
+              if (!this.tags.map(t => t.tag).includes(tagInConfig.effect.tag) && !alreadyAdded.includes(tagInConfig.effect.tag)) {
+                alreadyAdded.push(tagInConfig.effect.tag);
+                this.tagService.createTag({
+                  tag: tagInConfig.effect.tag
+                }).subscribe({
+                  next: () => {
+                    console.log("added tag")
+                  }
+                })
               }
             })
+            this.toastrService.success("Added configuration to calendar")
+            this.addedConfiguration.emit(created)
+            this.modal.dismissAll()
           }, error: () => {
             this.toastrService.error("Failed to create Configuration")
           }
