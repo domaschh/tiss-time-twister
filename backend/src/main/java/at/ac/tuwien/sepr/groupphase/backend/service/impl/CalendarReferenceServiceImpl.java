@@ -200,7 +200,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    public CalendarReference removeConfig(Long configId, Long calendarId) {
+    public CalendarReference removeConfig(Long configId, Long calendarId, String username) {
+        if (!calendarReferenceRepository.findById(calendarId)
+                                        .orElseThrow(NotFoundException::new)
+                                        .getUser()
+                                        .getEmail()
+                                        .equals(username)) {
+            throw new AccessDeniedException("Can Not Remove Configurations from Calendars you don't own.");
+        }
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() & ~-configId);
@@ -222,7 +229,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
                                         .getUser()
                                         .getEmail()
                                         .equals(username)) {
-            throw new AccessDeniedException("Can Not Delete Calendars you don't own");
+            throw new AccessDeniedException("Can Not Delete Calendars you don't own.");
         }
         calendarReferenceRepository.deleteById(id);
     }

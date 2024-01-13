@@ -26,7 +26,7 @@ public interface CalendarReferenceService {
 
     CalendarReference clonePublicConfig(Long configId, Long calendarId, String username);
 
-    CalendarReference removeConfig(Long configId, Long calendarId);
+    CalendarReference removeConfig(Long configId, Long calendarId, String username);
 
     CalendarReference addFile(String name, MultipartFile file, String username, UUID token) throws IOException;
 }

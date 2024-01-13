@@ -141,7 +141,7 @@ public class CalendarReferenceEndpoint {
     public CalendarReferenceDto removeConfig(@PathVariable Long calendarId, @PathVariable Long configId, HttpServletRequest request) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
         String username = extractUsernameService.getUsername(request);
-        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.removeConfig(configId, calendarId));
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.removeConfig(configId, calendarId, username));
     }
 
 
