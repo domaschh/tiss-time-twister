@@ -179,6 +179,7 @@ export class CalendarPageComponent implements OnInit {
 
   private mapEvent(event: MyCalendarEvent, calendar: Calendar, colorId: number): MyCalendarEvent {
     const description = event.description ?? ''; //for some reason can't inline
+    const allDay = (event.start.getHours() - event.end.getHours()) === 0;
     return {
       id: event.id,
       description: event.description,
@@ -191,6 +192,7 @@ export class CalendarPageComponent implements OnInit {
       end: event.end,
       color: {primary: calendar.color, secondary:calendar.color},
       draggable: false,
+      allDay,
       resizable: {
         beforeStart: false,
         afterEnd: false
