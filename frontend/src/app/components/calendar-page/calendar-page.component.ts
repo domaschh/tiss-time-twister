@@ -21,6 +21,7 @@ import {TagService} from "../../services/tag.service";
 //preset colors since color should not be saved
 
 import {EventColor} from "calendar-utils";
+import {tr} from "date-fns/locale";
 
 @Component({
   selector: 'app-calendar-page',
@@ -35,7 +36,7 @@ export class CalendarPageComponent implements OnInit {
   configurations: ConfigurationDto[] = [];
   tags: TagDto[] = [];
   selectedTags: TagDto[] = [];
-  filterUnfolded: boolean = false;
+  showapplyFilters: boolean = true;
   @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
@@ -431,19 +432,17 @@ export class CalendarPageComponent implements OnInit {
     }
   }
 
-  filterButtonClicked() {
-    this.filterUnfolded = !this.filterUnfolded;
-  }
-
   applyFilters() {
+    this.showapplyFilters = false;
     this.events = [];
     this.calendars = [];
     this.loadCalendars();
   }
 
   resetFilter() {
+    this.showapplyFilters = true;
     this.selectedTags = [];
-    this.applyFilters();
+    this.loadCalendars();
   }
 
 }

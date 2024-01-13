@@ -12,6 +12,7 @@ export type confirmAction = (callback: (result: boolean) => void) => boolean;
 })
 export class ConfirmationModal {
   @Input() message: string = '';
+  modifiedMessage: string = '';
   @Input() confirmAction: confirmAction;
   @Input() tags: TagDto[];
 
@@ -19,7 +20,9 @@ export class ConfirmationModal {
 
   filterUnfolded: boolean = false;
 
-
+  get totalMessage () {
+    return this.message + this.modifiedMessage ?? '';
+  }
   isToken: boolean = false;
 
   @Input() title: string = 'Confirmation Title';
@@ -37,7 +40,7 @@ export class ConfirmationModal {
   copyMessage() {
     this.toastrService.success("Copied link to clipboard")
     document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', this.message);
+      e.clipboardData.setData('text/plain', this.totalMessage);
       e.preventDefault();
       document.removeEventListener('copy', null);
     });
@@ -50,7 +53,14 @@ export class ConfirmationModal {
     } else {
       this.selectedTags.push(tag);
     }
-    this.doConfirmAction();
+    this.modifiedMessage = ''
+    this.selectedTags.forEach((tag, index) => {
+      if (index == 0) {
+        this.modifiedMessage += '?tag='+tag.id
+      } else {
+        this.modifiedMessage += '&tag='+tag.id
+      }
+    })
   }
 
   filterButtonClicked() {

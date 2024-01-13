@@ -23,7 +23,7 @@
       <div
         class="flex border-x border-y border-popover hover:border-popover-light rounded cursor-pointer p-2">
         <label matTooltip="Copy to clipboard" *ngIf="isToken" class="cursor-pointer"
-               (click)="copyMessage()"> {{ message }}</label>
+               (click)="copyMessage()"> {{ totalMessage }}</label>
         <i class="bi bi-copy cursor-pointer" (click)="copyMessage()"></i>
       </div>
       <p class="text-center text-red">Generating a new token invalidates the old one!</p>

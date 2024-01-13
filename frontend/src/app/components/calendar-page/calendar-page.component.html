@@ -119,25 +119,22 @@
       <div class="flex flex-column align content-center">
         <div class="flex flex-row">
           <h5>Filter</h5>
-          <i [matTooltip]="filterUnfolded ? 'Hide Filters' : 'Show Filters'" class="bi cursor-pointer ml-2" (click)="filterButtonClicked()"
-             [ngClass]="filterUnfolded ? 'bi-dash-square' : 'bi-plus-square'">
-          </i>
         </div>
-        <div *ngIf="filterUnfolded" class="flex flex-row justify-start align-items-center">
-          <label class="cursor-pointer rounded-2xl m-2 px-3 py-1 text-base"
+        <div  class="flex flex-row justify-start align-items-center">
+          <label class="cursor-pointer rounded-2xl m-2 p-2 py-1 text-base text-white"
                  *ngFor="let tag of tags"
                  (click)="tagClicked(tag)"
                  [ngClass]="selectedTags.includes(tag) ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}
           </label>
-          <button type="button" (click)="applyFilters()" class="btn btn-primary h-2/3 ml-10">
+          <button type="button" *ngIf="showapplyFilters" (click)="applyFilters()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light">
             Apply Filters
           </button>
-          <button type="button" (click)="resetFilter()" class="btn btn-secondary h-2/3 ml-2">
+          <button type="button" *ngIf="!showapplyFilters" (click)="resetFilter()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light ml-2">
             Reset filters
           </button>
         </div>
       </div>
-      <div [ngSwitch]="view" class="overflow-y-scroll h-[95%] py-5">
+      <div [ngSwitch]="view" class="overflow-y-scroll h-[95%] pb-5 pt-2">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events | eventPipe"
                                  [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
                                  (dayClicked)="dayClicked($event.day)"
