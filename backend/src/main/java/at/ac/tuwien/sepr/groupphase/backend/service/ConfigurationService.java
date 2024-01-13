@@ -10,8 +10,6 @@ import java.util.List;
 public interface ConfigurationService {
     Configuration update(Configuration configuration, String username, Long calenderReferenceId);
 
-    Configuration edit(Configuration configuration);
-
     void delete(Long id, String username);
 
     Configuration getById(Long id);

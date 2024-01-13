@@ -45,7 +45,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
-        LOGGER.debug("Update Configuration {}", username);
+        LOGGER.debug("Update Configuration {}, user:{}", configuration, username);
 
         // Retrieve the CalendarReference entity using calendarReferenceId
         CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
@@ -57,17 +57,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         if (configuration.getUser() == null) {
             configuration.setUser(applicationUserRepository.getApplicationUserByEmail(username));
         }
-        LOGGER.error("12345" + configuration.getUser().getEmail());
 
         // Save the Configuration entity
         return configurationRepository.save(configuration);
     }
 
-    @Override
-    public Configuration edit(Configuration configuration) {
-        LOGGER.debug("Edit Configuration {}", configuration);
-        return configurationRepository.save(configuration);
-    }
+
 
     @Override
     public void delete(Long id, String username) {
