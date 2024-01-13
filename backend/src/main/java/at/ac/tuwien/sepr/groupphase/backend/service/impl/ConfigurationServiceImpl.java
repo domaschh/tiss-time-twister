@@ -174,6 +174,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             e.setLocation(rule.getEffect().getLocation());
             e.setChangedTitle(rule.getEffect().getChangedTitle());
             e.setChangedDescription(rule.getEffect().getChangedDescription());
+            e.setTag(rule.getEffect().getTag());
 
             r.setConfiguration(publicConfiguration);
             r.setMatch(m);

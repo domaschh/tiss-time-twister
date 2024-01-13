@@ -14,7 +14,12 @@ export class RuleFoldComponent {
   }
 
   isDeleteEffect() {
-    console.log(this.rule.effect.effectType)
     return this.rule.effect.effectType === EffectType.DELETE;
   }
+
+  isTagEffect() {
+    return this.rule.effect.effectType === EffectType.TAG;
+  }
+
+  protected readonly EffectType = EffectType;
 }

@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Example;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -98,7 +97,7 @@ class CalendarReferenceServiceTest {
         ConfigurationRepository configurationRepository = mock(ConfigurationRepository.class);
         when(configurationRepository.getReferenceById(any())).thenReturn(configuration);
 
-        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null);
+        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null, null);
 
 
         assertThrows(NotFoundException.class, () -> serviceMock.addConfig(1L, 1L));
@@ -118,7 +117,7 @@ class CalendarReferenceServiceTest {
         ConfigurationRepository configurationRepository = mock(ConfigurationRepository.class);
         when(configurationRepository.findById(any())).thenReturn(Optional.of(configuration));
 
-        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null);
+        CalendarReferenceService serviceMock = new CalendarReferenceServiceImpl(calendarReferenceRepository, configurationRepository, null, null);
 
         assertDoesNotThrow(() -> serviceMock.addConfig(1L, 1L));
     }
