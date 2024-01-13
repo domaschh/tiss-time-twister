@@ -122,7 +122,7 @@ public class CalendarReferenceEndpoint {
 
         LOGGER.info("Deleting Calendar with id: {}", id);
         String username = extractUsernameService.getUsername(request);
-        calendarReferenceService.deleteCalendar(id);
+        calendarReferenceService.deleteCalendar(id, username);
     }
 
     @Secured("ROLE_USER")
@@ -132,7 +132,7 @@ public class CalendarReferenceEndpoint {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
         String username = extractUsernameService.getUsername(request);
 
-        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId));
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId, username));
     }
 
     @Secured("ROLE_USER")

@@ -14,7 +14,7 @@ public interface CalendarReferenceService {
 
     CalendarReference add(CalendarReference calendarReference, String username);
 
-    void deleteCalendar(Long id);
+    void deleteCalendar(Long id, String username);
 
     UUID generateToken();
 
@@ -24,7 +24,7 @@ public interface CalendarReferenceService {
 
     CalendarReference addConfig(Long configId, Long calendarId);
 
-    CalendarReference clonePublicConfig(Long configId, Long calendarId);
+    CalendarReference clonePublicConfig(Long configId, Long calendarId, String username);
 
     CalendarReference removeConfig(Long configId, Long calendarId);
 

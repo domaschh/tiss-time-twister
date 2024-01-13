@@ -137,7 +137,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    public CalendarReference clonePublicConfig(Long configId, Long calendarId) {
+    public CalendarReference clonePublicConfig(Long configId, Long calendarId, String username) {
+        if (!calendarReferenceRepository.findById(calendarId)
+                                        .orElseThrow(NotFoundException::new)
+                                        .getUser()
+                                        .getEmail()
+                                        .equals(username)) {
+            throw new AccessDeniedException("Can Not assign public Configurations to Calendars you don't own.");
+        }
         Configuration configToAdd = configurationRepository.getReferenceById(configId);
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs
@@ -188,7 +195,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
             return calendarReference;
         } else {
-            throw new AccessDeniedException("Can't add nto public Config");
+            throw new AccessDeniedException("Failed to add public Config.");
         }
     }
 
@@ -208,8 +215,15 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    public void deleteCalendar(Long id) {
-        LOGGER.debug("Deleting CalendarReference {}", id);
+    public void deleteCalendar(Long id, String username) {
+        LOGGER.debug("Deleting CalendarReference with id: {}, as user: {}", id, username);
+        if (!calendarReferenceRepository.findById(id)
+                                        .orElseThrow(NotFoundException::new)
+                                        .getUser()
+                                        .getEmail()
+                                        .equals(username)) {
+            throw new AccessDeniedException("Can Not Delete Calendars you don't own");
+        }
         calendarReferenceRepository.deleteById(id);
     }
 }
