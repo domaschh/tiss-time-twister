@@ -1,4 +1,4 @@
-#Sat Jan 13 03:02:40 CET 2024
+#Sat Jan 13 07:11:58 CET 2024
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\BackendApplication.java=1701192354978
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\LVADetail.java=1704748102230
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\Registration.java=1704748102230
@@ -15,7 +15,7 @@ D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sep
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\datagenerator\\MessageDataGenerator.java=1703651773978
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\datagenerator\\UserDataGenerator.java=1705094975884
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\CalendarReferenceEndpoint.java=1705111226172
-D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\ConfigurationEndpoint.java=1705101308507
+D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\ConfigurationEndpoint.java=1705126261271
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\CustomHealthEndpoint.java=1701192354980
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\EventEndpoint.java=1704748102231
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\LoginEndpoint.java=1704545690393
@@ -44,8 +44,8 @@ D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sep
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\mapper\\PublicConfigMapper.java=1705076408188
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\endpoint\\mapper\\RuleMapper.java=1704748102234
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\ApplicationUser.java=1705080531575
-D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\CalendarReference.java=1705100454819
-D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\Configuration.java=1705103951478
+D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\CalendarReference.java=1705123266842
+D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\Configuration.java=1705123247077
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\DeleteEffect.java=1704658394069
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\Effect.java=1704748102235
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\entity\\EffectType.java=1704748102235
@@ -87,7 +87,7 @@ D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sep
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\UserService.java=1704748102240
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\CalendarReferenceServiceImpl.java=1705111086492
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\CalendarServiceImpl.java=1704498989500
-D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\ConfigurationServiceImpl.java=1705105768735
+D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\ConfigurationServiceImpl.java=1705125924774
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\CustomUserDetailService.java=1704748102241
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\EventServiceImp.java=1703651927717
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\main\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\service\\impl\\ExtractUserNameImpl.java=1705086729310
@@ -100,7 +100,7 @@ D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sep
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\basetest\\TestData.java=1705103201355
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\CalendarReferenceIntegrationTests.java=1705109832944
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\CalendarServiceTests.java=1705100454820
-D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\ConfigurationEndpointTests.java=1705108142727
+D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\ConfigurationEndpointTests.java=1705122444219
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\MessageEndpointTest.java=1705103201359
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\PipelineEndpointTests.java=1705108142723
 D\:\\Repositories\\SEPR_23W_GROUP\\backend\\src\\test\\java\\at\\ac\\tuwien\\sepr\\groupphase\\backend\\integrationtest\\PipelineServiceTests.java=1704748102244

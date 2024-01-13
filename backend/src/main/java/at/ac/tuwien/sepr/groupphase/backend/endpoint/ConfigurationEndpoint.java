@@ -82,7 +82,9 @@ public class ConfigurationEndpoint {
 
         try {
             Configuration configuration = configurationService.getById(id);
-          
+            if (!configuration.getUser().getEmail().equals(username)) {
+                throw new AccessDeniedException("Can Not fetch Configuration owned by others.");
+            }
             return ResponseEntity.ok(configurationMapper.toDto(configuration));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
