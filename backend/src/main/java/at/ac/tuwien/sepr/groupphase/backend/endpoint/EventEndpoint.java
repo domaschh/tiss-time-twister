@@ -6,20 +6,12 @@ import at.ac.tuwien.sepr.groupphase.backend.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.invoke.MethodHandles;
 
@@ -42,7 +34,7 @@ public class EventEndpoint {
     @PostMapping
     @Operation(summary = "Create a new event", security = @SecurityRequirement(name = "apiKey"))
     public EventDto createEvent(@Valid @RequestBody EventDto event) {
-        LOGGER.info("POST /api/v1/event/ body:{}", event);
+        LOGGER.info("POST /api/v1/event/body:{}", event);
         return eventMapper.eventToDto(eventService.add(eventMapper.dtoToEvent(event)));
     }
 
@@ -64,7 +56,6 @@ public class EventEndpoint {
 
     @Secured("ROLE_USER")
     @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Delete an event by id", security = @SecurityRequirement(name = "apiKey"))
     public void deleteEventById(@PathVariable Long id) {
         LOGGER.info("DELETE /api/v1/event/{}", id);

@@ -14,13 +14,17 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Configurations")
+@Setter
+@Getter
 public class Configuration {
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "calendar_id")
+    private CalendarReference calendarReference;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,51 +32,32 @@ public class Configuration {
     private String title;
     @Column()
     private String description;
-
-    @ManyToOne()
+    @Column()
+    private boolean published;
+    @Column()
+    private Long clonedFromId;
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
 
-    @OneToMany(mappedBy = "configuration", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Rule> rules = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "config_id")
+    private List<Rule> rules;
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Configuration that = (Configuration) o;
+        return Objects.equals(id, that.id);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ApplicationUser getUser() {
-        return user;
-    }
-
-    public void setUser(ApplicationUser user) {
-        this.user = user;
-    }
-
-    public List<Rule> getRules() {
-        return rules;
-    }
-
-    public void setRules(List<Rule> rules) {
-        this.rules = rules;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

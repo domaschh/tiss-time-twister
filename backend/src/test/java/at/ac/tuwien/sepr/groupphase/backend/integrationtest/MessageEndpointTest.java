@@ -10,6 +10,8 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.Message;
 import at.ac.tuwien.sepr.groupphase.backend.repository.MessageRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,27 +22,46 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class MessageEndpointTest implements TestData {
+
+    public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void registerPgProperties(DynamicPropertyRegistry propertyRegistry) {
+        propertyRegistry.add("spring.datasource.url", postgres::getJdbcUrl);
+        propertyRegistry.add("spring.datasource.username", postgres::getUsername);
+        propertyRegistry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -82,7 +103,7 @@ class MessageEndpointTest implements TestData {
     void givenNothing_whenFindAll_thenEmptyList() throws Exception {
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -103,7 +124,7 @@ class MessageEndpointTest implements TestData {
 
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -129,7 +150,7 @@ class MessageEndpointTest implements TestData {
 
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI + "/{id}", message.getId())
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -150,7 +171,7 @@ class MessageEndpointTest implements TestData {
 
         MvcResult mvcResult = this.mockMvc.perform(get(MESSAGE_BASE_URI + "/{id}", -1)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -167,7 +188,7 @@ class MessageEndpointTest implements TestData {
                                                        .contentType(MediaType.APPLICATION_JSON)
                                                        .content(body)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -199,7 +220,7 @@ class MessageEndpointTest implements TestData {
                                                        .contentType(MediaType.APPLICATION_JSON)
                                                        .content(body)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();

@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": "http://tiss-time-twister.railway.internal/api/v1",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

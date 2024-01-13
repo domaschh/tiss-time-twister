@@ -1,17 +1,12 @@
 package at.ac.tuwien.sepr.groupphase.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "Sessions")
 public class Session {
     @Id
@@ -22,31 +17,7 @@ public class Session {
     @Column(name = "expiry_time")
     private LocalDateTime expiryTime;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public LocalDateTime getExpiryTime() {
-        return expiryTime;
-    }
-
-    public void setExpiryTime(LocalDateTime expiryTime) {
-        this.expiryTime = expiryTime;
-    }
 }

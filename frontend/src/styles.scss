@@ -1,10 +1,282 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.sc  ss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$sepr-group-phase-primary: mat.define-palette(mat.$indigo-palette);
+$sepr-group-phase-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$sepr-group-phase-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$sepr-group-phase-theme: mat.define-light-theme((
+  color: (
+    primary: $sepr-group-phase-primary,
+    accent: $sepr-group-phase-accent,
+    warn: $sepr-group-phase-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($sepr-group-phase-theme);
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import 'ngx-toastr/toastr';
 
-
+@import 'angular-calendar/scss/angular-calendar.scss';
+::-webkit-scrollbar {
+  width: 0px!important;
+}
+::ng-deep .modal {
+  padding: 0!important;
+}
+.modal-header{
+   padding-bottom: 0;
+  border:none!important;
+}
+ .modal-footer{
+  border:none!important;
+}
+ $secondary: blue;
+$font-col: #ADBAC7;
+$font-col-placeholder: rgba(134, 139, 148, 0.51);
+$weeknd-col: #0095ff;
+$day-col: rgba(154, 210, 255, 0.62);
 /* You can add global styles to this file, and also import other style files */
-body {
-  background-color: whitesmoke;
+
+.dark .container-fluid {
+  background-color: rgb(36, 41, 46);
+}
+.dark {
+  .modal-content {
+    background-color: rgb(36, 41, 46) !important;
+    color: $font-col;
+    border: 1px solid rgba(169, 169, 169, 0.16);;
+  }
+}
+ .cal-day-badge {
+   background-color: $day-col!important;
+}
+
+.dark .pagecontainer > * {
+  $bg-dark-primary: rgb(36, 41, 46);
+  $bg-dark-secondary: #394046;
+  $bg-active: #2c343a;
+  $text-color: #ADBAC7;
+  $border-color: rgba(169, 169, 169, 0.16);
+
+  // Call the calendar mixin with a sass color map of your theme. Every property is optional.
+  // For a list of all variables and how they are used,
+  // see https://github.com/mattlewis92/angular-calendar/tree/master/projects/angular-calendar/src/variables.scss
+  @include cal-theme(
+      (
+        bg-primary: $bg-dark-primary,
+        bg-secondary: $bg-dark-secondary,
+        weekend-color: $weeknd-col,
+        bg-active: $bg-active,
+        border-color: $border-color,
+        gray: $bg-dark-secondary,
+        today-bg: $bg-dark-secondary,
+        event-color-primary: $bg-dark-secondary,
+      )
+  );
+  color: $font-col;
+
+  button {
+    color: $font-col;
+  }
+
+  i {
+    color: rgba(227, 227, 227, 0.37);
+  }
+
+  i:hover {
+    color: $font-col;
+  }
+
+  app-delete-modal>*{
+
+  }
+
+  label[for="inputEmail"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+  label[for="password"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+  label[for="passwordConfirmation"] {
+    background-color: transparent !important;
+    color: transparent;
+  }
+
+
+
+  input {
+    color: $font-col;
+    background-color: #565656;
+  }
+
+  h2 {
+    color: rgb(250, 251, 252);
+  }
+
+  input::placeholder {
+    color: rgba(211, 211, 211, 0.48);
+  }
+
+  .public-cal-card {
+    background-color: rgb(36, 41, 46) !important;
+    color: $font-col;
+    border: 1px solid rgba(169, 169, 169, 0.16);
+  }
+
+  .card {
+    background-color: rgb(36, 41, 46);
+    color: $font-col;
+    border-radius: 10px !important;
+    border: 1px solid rgba(194, 194, 194, 0.37);
+  }
+  .form-control {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    background-color: rgb(36, 41, 46) !important;
+    color: $font-col;
+  }
+  app-delete-modal .modal-dialog{
+    background-color: rgb(36, 41, 46);
+    color: rgb(250, 251, 252);
+  }
+  .modal-bd {
+    background-color: rgb(36, 41, 46);
+    color: rgb(250, 251, 252);
+  }
+
+  h2 {
+    color: $font-col !important;
+  }
+
+  a.dropdown-item {
+    color: $font-col;
+  }
+
+  a.dropdown-item:hover {
+    background-color: rgb(36, 41, 46) !important;
+    text-decoration: underline;
+  }
+
+  select {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    background-color: rgb(36, 41, 46) !important;
+    color: $font-col;
+  }
+
+  ul.dropdown-menu.show {
+    color: $font-col;
+    background-color: rgb(36, 41, 46) !important;
+  }
+
+  .modal-content {
+    background-color: rgb(36, 41, 46) !important;
+    color: $font-col;
+  }
+
+  app-create-config {
+    background-color: rgb(36, 41, 46);
+  }
+
+  input {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    color: $font-col !important;
+
+    background-color: rgb(36, 41, 46) !important;
+  }
+}
+
+.pagecontainer {
+  height: 100%;
+}
+
+.cal-event {
+  color: black!important;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html, body {
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+
+
+body.dark {
+  .cal-event {
+    color: white!important;
+  }
+  .form-control {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    background-color: rgb(36, 41, 46) !important;
+    color: white;
+  }
+  background-color: rgb(36, 41, 46) !important;
+  select {
+    border: 1px solid rgba(194, 194, 194, 0.37) !important;
+    background-color: rgb(36, 41, 46) !important;
+    color: $font-col;
+  }
+
+  input::placeholder {
+    color: $font-col-placeholder;
+  }
+}
+
+body > * {
+  color: black;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var($font-col) var($font-col);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var($font-col);
+  border-radius: 14px;
+  border: 3px solid var($font-col);
 }

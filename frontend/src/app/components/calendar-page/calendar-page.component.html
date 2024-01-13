@@ -1,83 +1,109 @@
-<div class="mt-6 mb-6 mr-6 ml-6">
-  <div class="flex flex-row">
-
-    <div class="basis-3/12 mr-6 mt-20">
+<div class="max-h-[95%] h-full">
+  <div class="flex flex-row h-full ">
+    <div class="min-w-[12rem] w-1/10 h-full border-r border-popover p-6">
       <!-- Dropdown button -->
-      <div class="dropdown">
-        <button class="btn btn-tertiary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person"></i>Profil
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
-          <li><a class="dropdown-item" href="#">Darkmode</a></li>
-          <li><a class="dropdown-item" href="#">Passwort ändern</a></li>
-        </ul>
-      </div>
-
       <!--Buttons-->
-      <div class="flex flex-col">
-        <button type="button" class="btn btn-primary mt-2 mb-2">
-          <i class="bi bi-pencil"></i>
-          Bearbeiten</button>
-        <button type="button" (click)="createCustomEvent()" class="btn btn-primary mt-2 mb-2">
-          <i class="bi bi-plus-lg"></i>
-          Erstellen</button>
-        <button type="button" class="btn btn-primary mt-2 mb-6">
-          <i class="bi bi-box-arrow-down"></i>
-          Exportieren</button>
+      <div class="flex flex-col w-full max-h-full">
         <!--Buttons-->
         <!--Importierte Kalender-->
-        <p>Meine Kalender:</p>
-        <label class="form-check-label" [for]="1">
-          <input class="form-check-input" type="checkbox" [id]="1" [(ngModel)] = "allCalEnabled">
-          Alle anzeigen
-        </label>
-        <div *ngFor="let calendar of calendars">
-          <label class="form-check-label" [for]="'cal' + calendar.id">
-            <input class="form-check-input" type="checkbox" [id]="'cal' + calendar.id" [(ngModel)]="calendar.isActive"
-              [style.background-color]="calendar.isActive ? calendar.color : '#ffffff'"
-              [style.border-color]="calendar.color">
-            {{calendar.name}}
+        <div class="pb-4 border-b border-popover ">
+          <div class="flex gap-3 align-items-baseline">
+            <h5 class="">Calendars</h5>
+            <i matTooltip="Import a Calendar" class="bi bi-plus-square cursor-pointer" (click)="openModal('import')"></i>
+          </div>
+          <label class="form-check-label pb-2" [for]="1">
+            <input class="form-check-input" type="checkbox" [id]="1" [(ngModel)]="allCalEnabled">
+            Show all
           </label>
+          <div *ngFor="let calendar of calendars" class="text-center mt-3">
+            <div class="border-y border-x border-popover rounded p-2">
+              <h4 class="border-b border-popover pb-2" >{{calendar.name}}</h4>
+              <div matTooltip="Applied Configs" *ngFor="let config of calendar.configs" class="py-1 h-fit" style="line-height: 1rem">
+                {{config.title}}
+              </div>
+              <div class="flex flex-row justify-baseline items-center justify-between pt-2">
+                <input matTooltip="Show"  class="form-check-input cursor-pointer my-auto" type="checkbox" [id]="'cal' + calendar.id"
+                       [(ngModel)]="calendar.isActive"
+                       [style.background-color]="calendar.isActive ? calendar.color : '#ffffff'"
+                       [style.border-color]="calendar.color">
+                <a matTooltip="Delete" class="cursor-pointer" aria-label="Delete" (click)="openDeleteModal(calendar)">
+                  <i class="bi bi-trash" style="font-size: 1rem"></i>
+                </a>
+                <a  matTooltip="Edit"class="cursor-pointer" aria-label="Edit" (click)="openEditPage(calendar)">
+                  <i class="bi bi-pencil" style="font-size: 1rem;"></i>
+                </a>
+                <a matTooltip="Download as File" class="cursor-pointer" aria-label="Edit" (click)="downloadCalendar(calendar)">
+                  <i class="bi bi-download" style="font-size: 1rem;"></i>
+                </a>
+                <a matTooltip="Export" class="cursor-pointer" aria-label="Token" (click)="openTokenModal(calendar)">
+                  <i class="bi bi-rocket-takeoff" style="font-size: 1rem;"></i>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
+
         <!--Importierte Kalender-->
         <!--Neuen Kalender importieren-->
-        <button type="button" class="btn btn-primary mt-2 mb-6" (click)="openModal('importCalendar')">
-          <i class="bi bi-upload"></i>
-          Importieren
-        </button>
+
         <!--Neuen Kalender importieren-->
         <!--Konfigurationen Anzeigen-->
-        <p>Meine Konfigurationen:</p>
-        <div *ngFor="let conf of configurations">
-          <label class="form-check-label" [for]="'conf' + conf.id">
-            <input class="form-check-input" type="checkbox" [id]="'conf' + conf.id" [(ngModel)]="conf.isActive"
-              [style.background-color]="conf.isActive ? conf.color : '#ffffff'"
-              [style.border-color]="conf.color">
-            {{conf.name}}
-          </label>
-          <a class="btn" aria-label="Delete">
-            <i class="bi bi-x-lg" style="font-size: 1rem;"></i>
-          </a>
-          <a class="btn" aria-label="Edit">
-            <i class="bi bi-pencil" style="font-size: 1rem;"></i>
-          </a>
+        <div class="pt-4 flex  flex-col gap-3">
+          <div class="flex gap-3 align-items-baseline justify-between">
+            <h5 class="">Configs</h5>
+            <i matTooltip="Import a Configuration" class="bi bi-plus-square cursor-pointer " (click)="openConfigurationImportModal()"></i>
+          </div>
+          <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 flex flex-col text-center">
+            <label class="form-check-label border-b flex justify-between border-popover pb-2" [for]="'conf' + conf.id">
+              {{ conf.title }}
+              <i matTooltip="Published" *ngIf="conf.published" class="bi bi-rocket-takeoff "></i>
+            </label>
+            <div class="flex flex-row justify-baseline items-center justify-between p-2">
+              <a matTooltip="Delete" class="cursor-pointer" aria-label="Delete" (click)="removeConfiguraion(conf)">
+                <i class="bi bi-trash" style="font-size: 1rem"></i>
+              </a>
+              <a matTooltip="Edit" class="cursor-pointer" aria-label="Edit" (click)="openEditConfigModal(conf)">
+                <i class="bi bi-pencil" style="font-size: 1rem;"></i>
+              </a>
+              <a matTooltip="Download as File" class="cursor-pointer" aria-label="Download" (click)="downloadConfigFile(conf)">
+                <i class="bi bi-download" style="font-size: 1rem;"></i>
+              </a>
+            </div>
+
+          </div>
+          <div matTooltip="Add a Configuration" (click)="openModal('createConfig')" class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
+            <a class="cursor-pointer content-center" aria-label="Token">
+              <i class="bi bi-plus" style="font-size: 1rem;"></i>
+            </a>
+          </div>
         </div>
         <!--Konfigurationen Anzeigen-->
       </div>
     </div>
-    <div class="basis-9/12">
-      <div class="row text-left">
+    <div class="basis-11/12 pr-6 pl-6 pt-6 max-h-[90%]">
+      <div class="row text-left w-full">
         <!--Navigation-->
-        <div class="col-md-5">
+        <div class="col-md-7">
+          <button type="button" (click)="createCustomEvent()" class="border-x border-y rounded border-popover hover:border-popover-light p-2">
+            <i class="bi bi-plus-lg"></i>
+            Create Event
+          </button>
           <div class="btn" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-            (viewDateChange)="closeOpenMonthViewDay()">
+               (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
           </div>
-          <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+          <button class="border-popover border-x border-y p-2 rounded hover:border-popover-light" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
           <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-            (viewDateChange)="closeOpenMonthViewDay()">
+               (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-right-short" style="font-size: 2rem;"></i>
+          </div>
+          <div class="btn cursor-pointer" style="width: 131px!important; padding-left: 0!important;">
+            <select class="form-select h-[42px] border-x border-y cursor-pointer myselect"
+                    style="border-color: rgb(51,60,65)!important;" [(ngModel)]="view">
+              <option [value]="CalendarView.Day">Day</option>
+              <option [value]="CalendarView.Week">Week</option>
+              <option [value]="CalendarView.Month" selected>Month</option>
+            </select>
           </div>
         </div>
         <!--Navigation-->
@@ -87,30 +113,48 @@
         </div>
         <!--Datum Anzeige-->
         <!--Zeitfenster Auswahl-->
-        <div class="col-md-3 text-right">
-          <select class="form-select" [(ngModel)] = "view">
-            <option [value]="CalendarView.Day">Day</option>
-            <option [value]="CalendarView.Week">Week</option>
-            <option [value]="CalendarView.Month" selected>Month</option>
-          </select>
-        </div>
+
         <!--Zeitfenster Auswahl-->
       </div>
-      <br />
-      <div [ngSwitch]="view">
+      <br/>
+      <div class="flex flex-column align content-center">
+        <div class="flex flex-row">
+          <h5>Filter by tags</h5>
+        </div>
+        <div  class="flex flex-row justify-start align-items-center">
+          <label class="cursor-pointer rounded-2xl m-2 p-2 py-1 text-base"
+                 *ngFor="let tag of tags"
+                 (click)="tagClicked(tag)"
+                 [ngClass]="selectedTags.includes(tag) ? 'bg-added border-x border-y border-added text-white' : 'bg-transparent border-popover border-y border-x box-border text-popover-light'">{{ tag.tag }}
+            <i matTooltip="Delete tag" class="bi bi-trash text-white ml-2" (click)="openDeleteTagModal(tag)"></i>
+          </label>
+          <button type="button" *ngIf="showapplyFilters" (click)="applyFilters()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light">
+            Apply Filters
+          </button>
+          <button type="button" *ngIf="!showapplyFilters" (click)="resetFilter()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light ml-2">
+            Reset filters
+          </button>
+        </div>
+      </div>
+      <div [ngSwitch]="view" class="overflow-y-scroll h-[95%] pb-5 pt-2">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events | eventPipe"
-          [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-          (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+                                 [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                                 (dayClicked)="dayClicked($event.day)"
+                                 (eventClicked)="handleEvent('Clicked', $event.event)"
+                                 (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-month-view>
         <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events | eventPipe"
-          [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-          (eventTimesChanged)="eventTimesChanged($event)">
+                                [dayStartHour]="5"
+                                [weekStartsOn]="1"
+                                [dayEndHour]="24"
+                                [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                                (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-week-view>
         <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events | eventPipe"
-          [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-          (eventTimesChanged)="eventTimesChanged($event)">
+                               [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                               (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-day-view>
       </div>
-
     </div>
   </div>
+</div>

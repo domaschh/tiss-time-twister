@@ -1,0 +1,41 @@
+<div class="modal-bd">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ title }}</h5>
+  </div>
+  <div *ngIf="tags" class="flex flex-column align content-center ml-4">
+    <div class="flex flex-row align-items-baseline">
+      <h6>Filter by tags: </h6>
+    </div>
+    <div class="flex flex-row justify-start align-items-center">
+      <label class="cursor-pointer rounded-2xl m-2 px-3 py-1 text-white"
+             *ngFor="let tag of tags"
+             (click)="tagClicked(tag)"
+             [ngClass]="selectedTags.includes(tag) ? 'bg-added border-x border-y border-added' : 'bg-transparent border-popover border-x box-border border-y text-popover-light'">{{ tag.tag }}
+      </label>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p *ngIf="!isToken">{{ message }}</p>
+    <div *ngIf="isToken">
+      <div
+        class="flex border-x border-y border-popover hover:border-popover-light rounded cursor-pointer p-2">
+        <label matTooltip="Copy to clipboard" *ngIf="isToken" class="cursor-pointer"
+               (click)="copyMessage()"> {{ totalMessage }}</label>
+        <i class="bi bi-copy cursor-pointer" (click)="copyMessage()"></i>
+      </div>
+      <p class="text-center text-red">Generating a new token invalidates the old one!</p>
+      <div class="flex w-full items-center justify-content-center gap-4 mt-2">
+        <a class="p-1 " style="color: inherit; font-size: 1.5rem" target="_blank"
+           href="https://calendar.google.com/calendar/u/0/r/settings/addbyurl"><i class="bi-google"></i></a>
+        <a class="p-1 " style="color: inherit; font-size: 1.5rem" target="_blank"
+           href="https://outlook.live.com/calendar/0/addcalendar"><i class="bi-microsoft"></i></a>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" *ngIf="!isToken" class="btn btn-success" (click)="doConfirmAction()">Confirm</button>
+    <button type="button" *ngIf="isToken" class="btn btn-info" (click)="doConfirmAction()">Regenerate link</button>
+  </div>
+</div>

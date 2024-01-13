@@ -1,0 +1,164 @@
+<div
+  class="container h-full px-6 min-h-screen flex items-center justify-center"
+>
+  <div
+    class="flex h-full flex-wrap items-center justify-center lg:justify-between"
+  >
+    <!-- Left column container with background -->
+    <div
+      class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:h-full lg:flex lg:items-center lg:justify-center"
+    >
+      <img
+        src="assets/undraw_sign_up.svg"
+        class="scale-50 lg:scale-75"
+        alt="Picture of a person editing a calendar"
+      />
+    </div>
+
+    <!-- Right column container with form -->
+    <div class="w-full lg:w-1/2">
+      <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <!-- Logo and headline -->
+        <div class="mb-8 w-128 mx-auto">
+          <h1 class="text-2xl font-semibold">Registration</h1>
+          <h2 class="text-black">
+            The simple way to keep your schedule in check - with
+            <img src="assets/TTT_Blau_Big.svg" alt="Logo" class="inline h-10 max-w-full">
+          </h2>
+          <a href="login" class="text-blue hover:text-blue-dark">Back to login</a>
+        </div>
+
+        <form
+          class="form"
+          [formGroup]="registrationForm"
+          (ngSubmit)="registerUser()"
+        >
+          <div class="form-group space-y-6 mt-12">
+            <div
+              *ngIf="error"
+              class="alert alert-warning alert-dismissible fade show"
+              role="alert"
+            >
+              <strong>Athentication Failed!</strong> {{ errorMessage }}
+              <button
+                type="button"
+                (click)="vanishError()"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <!-- Email input -->
+            <div class="relative mx-auto w-128">
+              <input
+                type="email"
+                class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
+                formControlName="email"
+                id="inputEmail"
+                placeholder="E-Mail"
+                aria-describedby="emailHelp"
+              />
+              <label
+                for="inputEmail"
+                class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
+              >
+                E-Mail
+              </label>
+              <div *ngIf="submitted && registrationForm.controls.email.errors">
+                <small
+                  class="form-text error-text"
+                  *ngIf="registrationForm.controls.email.errors.required"
+                >An email address is required!</small
+                >
+                <small
+                  class="form-text error-text"
+                  *ngIf="registrationForm.controls.email.errors.email"
+                >A valid email address is required!</small
+                >
+                <small
+                  class="form-text error-text"
+                  *ngIf="registrationForm.controls.email.errors.exists"
+                >This email is already registered!</small
+                >
+              </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="from-group relative mx-auto w-128">
+              <input
+                type="password"
+                class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
+                formControlName="password"
+                id="password"
+                placeholder="Passwort"
+              />
+              <label
+                for="password"
+                class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
+              >
+                Passwort
+              </label>
+              <div
+                *ngIf="submitted && registrationForm.controls.password.errors"
+              >
+                <small
+                  class="form-text error-text"
+                  *ngIf="registrationForm.controls.password.errors.minlength"
+                >Passwords are required be be at least 8 characters long!</small
+                >
+                <small
+                  class="form-text error-text"
+                  *ngIf="registrationForm.controls.password.errors.required"
+                >A password is required!</small
+                >
+                <small
+                  class="form-text error-text"
+                  *ngIf="registrationForm.controls.password.errors.pattern"
+                >Passwords are required to include lower- and uppercase letters and numbers!</small
+                >
+              </div>
+            </div>
+            <div class="from-group relative mx-auto w-128">
+              <input
+                type="password"
+                class="form-control peer block bg-white p-4 h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-blue focus:ring-blue focus:outline-none focus:border-blue"
+                formControlName="passwordConfirmation"
+                id="passwordConfirmation"
+                placeholder="Passwort Confirmation"
+              />
+              <label
+                for="passwordConfirmation"
+                class="absolute left-0 -top-3.5 text-sm transition-all bg-white px-1 mx-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-blue-dark peer-placeholder-shown:top-2.5 peer-focus:-top-3.5 peer-focus:text-black peer-focus:text-sm"
+              >
+                Password Confirmation
+              </label>
+              <div
+                *ngIf="registrationForm.controls.password.value !== registrationForm.controls.passwordConfirmation.value"
+              >
+                <small
+                  class="form-text error-text"
+                >Passwords don't match!</small
+                >
+              </div>
+            </div>
+
+            <!-- Login button -->
+            <div class="relative mx-auto w-128">
+              <button
+                type="submit"
+                (click)="registerUser()"
+                class="inline-block rounded bg-blue px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-font-col shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-dark hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-dark focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-dark active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                [ngClass]="{ 'w-72': isMobileView, 'w-full': !isMobileView }"
+                data-te-ripple-init
+                data-te-ripple-color="light"
+              >
+                Register
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ image: registry.reset.inso-w.at/pub/docker/mvn-non-root-17
 variables:
   GIT_STRATEGY: "clone"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+  TC_CLOUD_TOKEN: "aj_tcc_svc_xYt8htykE6S7ITnkQd_PpY2HZy07KTbMxSMzHFv4_Me4R"
 
 cache:
   paths:
@@ -26,7 +27,9 @@ test-backend:
     DOCKER_TLS_CERTDIR: ""
     DOCKER_DRIVER: overlay2
   script:
+    - curl -fsSL https://app.testcontainers.cloud/bash | bash
     - cd backend
+    - mvn -B clean install
     - mvn -B test  # or 'mvn -B verify' if integration tests are separate
   cache:
     paths:

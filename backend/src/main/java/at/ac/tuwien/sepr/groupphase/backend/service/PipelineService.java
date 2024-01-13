@@ -1,12 +1,18 @@
 package at.ac.tuwien.sepr.groupphase.backend.service;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Tag;
+import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.UUID;
 
 public interface PipelineService {
-    Calendar pipeCalendar(CalendarReference calendarReference) throws ParserException, IOException, URISyntaxException;
+    Calendar pipeCalendar(UUID token, List<Tag> tags) throws ParserException, IOException, URISyntaxException;
+
+    Calendar previewConfiguration(long id, List<Configuration> configurations, String username) throws NotFoundException, ParserException, IOException, URISyntaxException;
 }

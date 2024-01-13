@@ -1,70 +1,39 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
+import java.util.List;
+import java.util.UUID;
+
+@Getter
+@Setter
 public class CalendarReferenceDto {
     private Long id;
+    private UUID token;
+
     @NotNull
     private String name;
     @URL
     private String link;
+    private String icalData;
+    private List<ConfigurationDto> configurations;
+    private Long enabledDefaultConfigurations;
+    private String color;
 
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "CalendarReferenceDto{"
+               + "id=" + id
+               + ", token=" + token
+               + ", name='" + name + '\''
+               + ", link='" + link + '\''
+               + ", icalData='" + icalData + '\''
+               + ", configurations=" + configurations
+               + ", enabledDefaultConfigurations=" + enabledDefaultConfigurations
+               + ", color='" + color + '\''
+               + '}';
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public static final class CalendarReferenceBuilder {
-        private Long id;
-        private String name;
-        private String link;
-
-        public CalendarReferenceBuilder() {
-            //
-        }
-
-        public CalendarReferenceBuilder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public CalendarReferenceBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public CalendarReferenceBuilder link(String link) {
-            this.link = link;
-            return this;
-        }
-
-        public CalendarReferenceDto build() {
-            CalendarReferenceDto calendarReferenceDto = new CalendarReferenceDto();
-            calendarReferenceDto.setId(id);
-            calendarReferenceDto.setName(name);
-            calendarReferenceDto.setLink(link);
-            return calendarReferenceDto;
-        }
-    }
-
 }

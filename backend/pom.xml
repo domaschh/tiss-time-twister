@@ -17,7 +17,6 @@
         <maven.compiler.plugin>3.11.0</maven.compiler.plugin>
         <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
         <spring.boot.version>3.1.5</spring.boot.version>
-        <h2.version>2.2.224</h2.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.version>0.12.3</jjwt.version>
         <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
@@ -45,6 +44,25 @@
             <artifactId>ical4j</artifactId>
             <version>4.0.0-rc1</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.5</version> <!-- Use the latest version -->
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -62,14 +80,13 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.8.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -78,8 +95,8 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc-openapi-ui.version}</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -114,10 +131,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -147,6 +160,11 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
@@ -227,7 +245,8 @@
                 <configuration>
                     <useNativeGit>true</useNativeGit>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
                     <verbose>true</verbose>
                 </configuration>
             </plugin>

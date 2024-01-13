@@ -1,0 +1,20 @@
+<div *ngIf="showNavbar()" class="flex w-full items-center justify-between border-b border-popover pl-6 py-2 pr-6">
+  <a class="cursor-pointer" (click)="showNavModal()">
+      <i class="bi bi-list"></i>
+  </a>
+  <img alt="" src="assets/logo.png" class="h-10 ml-6 cursor-pointer" (click)="navigateMyCalendars()"/>
+  <div class="flex-grow text-center">
+
+  </div>
+  <span class="">
+  {{username}}
+  </span>
+  <div class="right-align pr-7 ml-5">
+    <button matTooltip ="toggle light/dark mode" [class]="isDarkMode() ? 'bi-sun' : 'bi-moon'" (click)="toggleDarkMode()"></button>
+  </div>
+  <div class="dropdown">
+    <button class="" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="showNavRightModal()">
+      <i class="bi bi-person"></i>
+    </button>
+  </div>
+</div>
