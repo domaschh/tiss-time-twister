@@ -15,7 +15,7 @@ public class TissRoomConfig {
     private static final String filePath = "rooms.txt"; // replace with your file path
 
     @Bean
-    public Map<String, TissRoom> config() {
+    public Map<String, TissRoom> roomConfig() {
         Map<String, TissRoom> map = new HashMap<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
