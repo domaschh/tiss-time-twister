@@ -67,9 +67,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         }
 
         if (configuration.getId() != null) {
-            if (!configuration.isPublished()) {
-                publicConfigurationRepository.deletePublicConfigurationByInitialConfigurationId(configuration.getId());
-            }
             Configuration fetchDb = configurationRepository.findById(configuration.getId()).orElseThrow(() -> new EntityNotFoundException(
                 "Config not found"));
 
@@ -81,12 +78,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             fetchDb.setCalendarReference(calendarReference);
 
             if (!fetchDb.isPublished()) {
-                this.deletePublic(fetchDb.getClonedFromId(), username);
+                if (fetchDb.getClonedFromId() == null) {
+                    this.deletePublicByOriginalId(fetchDb.getId());
+                }
             }
             return configurationRepository.save(fetchDb);
         }
 
         return configurationRepository.save(configuration);
+    }
+
+    private void deletePublicByOriginalId(Long id) {
+        this.publicConfigurationRepository.deletePublicConfigurationByInitialConfigurationId(id);
     }
 
 
