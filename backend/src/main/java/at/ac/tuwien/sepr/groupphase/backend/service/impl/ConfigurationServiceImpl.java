@@ -47,30 +47,33 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
         LOGGER.debug("Update Configuration {}, user:{}", configuration, username);
 
-        // Retrieve the CalendarReference entity using calendarReferenceId
         CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
                                                                          .orElseThrow(() -> new EntityNotFoundException(
                                                                              "CalendarReference not found"));
 
-        // Set the CalendarReference in the Configuration entity
         configuration.setCalendarReference(calendarReference);
         if (configuration.getUser() == null) {
             configuration.setUser(applicationUserRepository.getApplicationUserByEmail(username));
+        } else if (configuration.getId() != null
+                   && !configurationRepository.findById(configuration.getId())
+                                              .orElseThrow(NotFoundException::new)
+                                              .getUser()
+                                              .getEmail()
+                                              .equals(username)) {
+            throw new AccessDeniedException("Can Not Create/Update Configurations that are not owned");
         }
 
-        // Save the Configuration entity
         return configurationRepository.save(configuration);
     }
 
 
-
     @Override
     public void delete(Long id, String username) {
+        LOGGER.debug("Delete Configuration by id {}", id);
 
         if (!configurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
-            throw new AccessDeniedException("you don't own that");
+            throw new AccessDeniedException("Can Not Delete Configurations that are not owned");
         }
-        LOGGER.debug("Delete Configuration by id {}", id);
         configurationRepository.deleteById(id);
     }
 
@@ -112,6 +115,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public boolean publish(Configuration configToPublish, String username) {
+        LOGGER.debug("Publishing Configuration: {}", configToPublish);
+        if (!configurationRepository.findById(configToPublish.getId()).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can Not Publish Configurations that are not owned");
+        }
+
         PublicConfiguration publicConfiguration = new PublicConfiguration();
 
         publicConfiguration.setTitle(configToPublish.getTitle());
@@ -150,10 +158,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     @Transactional
     public void deletePublic(Long id, String username) {
+        LOGGER.debug("Removing published Configuration withId:{}", id);
+        if (!publicConfigurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can Not remove published Configurations that are not owned");
+        }
         PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
         LOGGER.debug(publicConf.toString());
-        System.out.println("HALLO");
-        System.out.println(publicConf);
         var clonedFrom = configurationRepository.getReferenceById(publicConf.getInitialConfigurationId());
         if (clonedFrom != null) {
             clonedFrom.setPublished(false);
