@@ -21,7 +21,7 @@ import {TagService} from "../../services/tag.service";
 //preset colors since color should not be saved
 
 import {EventColor} from "calendar-utils";
-import {tr} from "date-fns/locale";
+import {ta, tr} from "date-fns/locale";
 
 @Component({
   selector: 'app-calendar-page',
@@ -445,4 +445,26 @@ export class CalendarPageComponent implements OnInit {
     this.loadCalendars();
   }
 
+  openDeleteTagModal(tag: TagDto) {
+    const modalRef = this.modalService.open(ConfirmationModal);
+    modalRef.componentInstance.title = 'Tag Deletion Confirmation';
+    modalRef.componentInstance.message = 'Do you really want to delete: tag \'' + tag.tag + '\'';
+    modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      this.tagService.deleteTag(tag.id).subscribe({
+        next: (configurations) => {
+          if (configurations.length === 0 ){
+            this.toastrService.success("Deleted tag");
+            this.tags = this.tags.filter(t => t.id != tag.id);
+            callback(true);
+          } else {
+           this.toastrService.error("Couldnt delte tag because it is usd in: " + configurations.map(config => config.title))
+          }
+        },
+        error: () => {
+          this.toastrService.error("Could not delete tag");
+          callback(false);
+        }
+      });
+    };
+  }
 }

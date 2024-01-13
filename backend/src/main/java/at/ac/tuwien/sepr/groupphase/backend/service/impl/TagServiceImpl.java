@@ -1,12 +1,16 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Tag;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
+import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.TagRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -18,11 +22,13 @@ public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     private final ApplicationUserRepository applicationUserRepository;
+    private final ConfigurationRepository configurationRepository;
 
-
-    public TagServiceImpl(TagRepository tagRepository, ApplicationUserRepository applicationUserRepository) {
+    public TagServiceImpl(TagRepository tagRepository, ApplicationUserRepository applicationUserRepository,
+                          ConfigurationRepository effectRepository) {
         this.tagRepository = tagRepository;
         this.applicationUserRepository = applicationUserRepository;
+        this.configurationRepository = effectRepository;
     }
 
     @Override
@@ -55,8 +61,42 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void delete(Long id) {
-        LOGGER.debug("Delete tag with id {}", id);
-        tagRepository.deleteById(id);
+    public List<Configuration> delete(Long id, String email) {
+        var user = applicationUserRepository.getApplicationUserByEmail(email);
+        if (user != null) {
+            LOGGER.debug("Delete tag with id {}", id);
+            var tag = tagRepository.getReferenceById(id);
+
+            if (tag != null) {
+                var configs = configurationRepository.findAllByUser(user);
+                var allUserTags = configs
+                    .stream()
+                    .flatMap(config -> config.getRules().stream())
+                    .filter(rule -> rule.getEffect().getEffectType().equals(
+                        EffectType.TAG))
+                    .map(rule -> rule.getEffect().getTag());
+
+                var userEffects = allUserTags
+                    .filter(tagName -> tagName.equals(tag.getTag()))
+                    .toList();
+                if (userEffects.isEmpty()) {
+                    tagRepository.deleteById(id);
+                    return List.of();
+                } else {
+                    return configs
+                        .stream()
+                        .filter(configuration -> !configuration
+                            .getRules()
+                            .stream()
+                            .filter(rule -> {
+                                if (rule.getEffect().getEffectType().equals(EffectType.TAG)) {
+                                    return rule.getEffect().getTag().equals(tag.getTag());
+                                }
+                                return false;
+                            }).toList().isEmpty()).toList();
+                }
+            }
+        }
+        throw new AccessDeniedException("Can't delete Tag");
     }
 }

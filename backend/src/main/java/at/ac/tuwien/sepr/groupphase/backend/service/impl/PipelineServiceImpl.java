@@ -106,6 +106,7 @@ public class PipelineServiceImpl implements PipelineService {
             .stream()
             .flatMap(config -> config.getRules().stream())
             .filter(rule -> rule.getEffect().getEffectType().equals(EffectType.TAG))
+            .filter(rule -> rule.getEffect().getTag() != null)
             .map(rule -> {
                 var tag  = new Tag();
                 tag.setTag(rule.getEffect().getTag());

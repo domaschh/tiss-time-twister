@@ -167,7 +167,7 @@
                       </div>
                     </div>
                     <div *ngIf="isTagEffect()">
-                      <div class="flex flex-row justify-start align-items-center flex-wrap">
+                      <div class="flex flex-row justify-start align-items-center flex-wrap text-white">
                         <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1"
                                *ngFor="let tag of tags"
                                (click)="tagClicked(tag)"
@@ -177,7 +177,7 @@
                         <input type="text" id="newTag" class="form-control w-3/5 mr-3"
                                placeholder="New Tag"
                                [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}">
-                        <button type="button" (click)="addTag()" class="btn btn-primary w-2/5">
+                        <button type="button" (click)="addTag()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light w-1/5">
                           <i class="bi bi-plus-lg"></i>
                           Add Tag
                         </button>
@@ -192,7 +192,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="flex pb-2">
               <button type="button" (click)="previewConfiguration()" [disabled]="!configurationForm.valid"

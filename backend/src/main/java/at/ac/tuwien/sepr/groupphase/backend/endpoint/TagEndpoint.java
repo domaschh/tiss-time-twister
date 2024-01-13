@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.TagDto;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.TagMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
@@ -31,12 +33,15 @@ public class TagEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final TagService tagService;
+    private final ConfigurationMapper configurationMapper;
     private final TagMapper tagMapper;
     private final ExtractUsernameService extractUsernameService;
     private final UserService userService;
 
-    public TagEndpoint(TagService tagService, TagMapper tagMapper, ExtractUsernameService extractUsernameService, UserService userService) {
+    public TagEndpoint(TagService tagService,
+                       ConfigurationMapper configurationMapper, TagMapper tagMapper, ExtractUsernameService extractUsernameService, UserService userService) {
         this.tagService = tagService;
+        this.configurationMapper = configurationMapper;
         this.tagMapper = tagMapper;
         this.extractUsernameService = extractUsernameService;
         this.userService = userService;
@@ -64,8 +69,9 @@ public class TagEndpoint {
     @Secured("ROLE_USER")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "Delete a tag by id", security = @SecurityRequirement(name = "apiKey"))
-    public void deleteTagById(@PathVariable Long id) {
+    public List<ConfigurationDto> deleteTagById(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("DELETE /api/v1/tag/{}", id);
-        tagService.delete(id);
+        String email = extractUsernameService.getUsername(request);
+        return tagService.delete(id, email).stream().map(configurationMapper::toDto).toList();
     }
 }

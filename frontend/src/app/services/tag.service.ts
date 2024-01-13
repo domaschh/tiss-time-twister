@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Globals} from "../global/globals";
 import {catchError, Observable, of} from "rxjs";
 import {TagDto} from "../dtos/tag-dto";
+import {ConfigurationDto} from "../dtos/configuration-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class TagService {
 
   createTag(tag: TagDto): Observable<TagDto> {
     return this.httpClient.post<TagDto>(this.messageBaseUri, tag);
+  }
+
+  deleteTag(tagId: number) {
+    return this.httpClient.delete<ConfigurationDto[]>(this.messageBaseUri + '/' + tagId);
   }
 }

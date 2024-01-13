@@ -1,4 +1,4 @@
-import {Component, effect, EventEmitter, Input, Output} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, effect, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EffectType, MatchType, RuleDto} from "../../../dtos/configuration-dto";
 import {CalendarView} from "angular-calendar";
 import {TagDto} from "../../../dtos/tag-dto";
@@ -10,11 +10,11 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './rule-fold-input.component.html',
   styleUrls: ['./rule-fold-input.component.scss']
 })
-export class RuleFoldInputComponent {
+export class RuleFoldInputComponent implements OnInit{
   @Input() rule: RuleDto
   @Output() deleteRuleEvent: EventEmitter<RuleDto> = new EventEmitter<RuleDto>();
 
-  @Input() tags: TagDto[] = [];
+  @Input() tags: TagDto[];
   selectedTag: TagDto = null;
   newTag: string;
 
@@ -22,11 +22,16 @@ export class RuleFoldInputComponent {
   infoOpen = false;
 
   constructor(private tagService: TagService,
-              private readonly toastrService: ToastrService) {
+              private readonly toastrService: ToastrService, private cdref: ChangeDetectorRef) {
+  }
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   ngOnInit(): void {
-    this.selectedTag = this.tags.find(t => t.tag === this.rule.effect.tag);
+    this.sleep(300).then(() => {
+      this.selectedTag = this.tags.find(t => t.tag === this.rule.effect.tag);
+    });
   }
 
   openRuleInfo() {

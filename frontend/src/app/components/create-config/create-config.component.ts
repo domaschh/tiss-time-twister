@@ -62,9 +62,8 @@ export class CreateConfigComponent {
 
 
   ngOnInit(): void {
-    console.log(this.prefilled)
-    this.loadCalendars();
     this.loadTags();
+    this.loadCalendars();
     this.setActiveNewRule();
   }
 
