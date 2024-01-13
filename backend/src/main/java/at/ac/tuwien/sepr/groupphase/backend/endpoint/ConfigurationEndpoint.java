@@ -58,6 +58,7 @@ public class ConfigurationEndpoint {
     public ConfigurationDto createConfiguration(@RequestBody ConfigurationDto configurationDto, HttpServletRequest request) {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
+
         Configuration created = configurationService.update(configurationMapper.toEntity(configurationDto), username, configurationDto.getCalendarReferenceId());
         ConfigurationDto createdDto = configurationMapper.toDto(
             created);
@@ -72,8 +73,10 @@ public class ConfigurationEndpoint {
     @Secured("ROLE_USER")
     @GetMapping("/{id}")
     @Operation(summary = "Get a stored Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public ResponseEntity<ConfigurationDto> getConfiguration(@PathVariable Long id) {
+    public ResponseEntity<ConfigurationDto> getConfiguration(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/configuration/{}", id);
+        String username = extractUsernameService.getUsername(request);
+
         try {
             return ResponseEntity.ok(configurationMapper.toDto(configurationService.getById(id)));
         } catch (NotFoundException e) {
@@ -85,17 +88,21 @@ public class ConfigurationEndpoint {
     @Secured("ROLE_USER")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletes a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public void deleteConfiguration(@PathVariable Long id) {
+    public void deleteConfiguration(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Deleting Configuration with id: {}", id);
-        configurationService.delete(id);
+        String username = extractUsernameService.getUsername(request);
+
+        configurationService.delete(id, username);
     }
 
     @Secured("ROLE_USER")
     @DeleteMapping("/public/{id}")
     @Operation(summary = "Deletes a Configuration", security = @SecurityRequirement(name = "apiKey"))
-    public void deletePublicConfiguration(@PathVariable Long id) {
+    public void deletePublicConfiguration(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Deleting Configuration with id: {}", id);
-        configurationService.deletePublic(id);
+        String username = extractUsernameService.getUsername(request);
+
+        configurationService.deletePublic(id, username);
     }
 
 

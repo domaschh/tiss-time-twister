@@ -1,6 +1,11 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.*;
+import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Effect;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
+import at.ac.tuwien.sepr.groupphase.backend.entity.PublicConfiguration;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
@@ -13,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -38,16 +44,20 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    @Transactional
     public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
         LOGGER.debug("Update Configuration {}", username);
 
         // Retrieve the CalendarReference entity using calendarReferenceId
         CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
-                                                                         .orElseThrow(() -> new EntityNotFoundException("CalendarReference not found"));
+                                                                         .orElseThrow(() -> new EntityNotFoundException(
+                                                                             "CalendarReference not found"));
 
         // Set the CalendarReference in the Configuration entity
         configuration.setCalendarReference(calendarReference);
+        if (configuration.getUser() == null) {
+            configuration.setUser(applicationUserRepository.getApplicationUserByEmail(username));
+        }
+        LOGGER.error("12345" + configuration.getUser().getEmail());
 
         // Save the Configuration entity
         return configurationRepository.save(configuration);
@@ -60,7 +70,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
+
+        if (!configurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("you don't own that");
+        }
         LOGGER.debug("Delete Configuration by id {}", id);
         configurationRepository.deleteById(id);
     }
@@ -140,7 +154,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     @Transactional
-    public void deletePublic(Long id) {
+    public void deletePublic(Long id, String username) {
         PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
         LOGGER.debug(publicConf.toString());
         System.out.println("HALLO");

@@ -12,7 +12,7 @@ public interface ConfigurationService {
 
     Configuration edit(Configuration configuration);
 
-    void delete(Long id);
+    void delete(Long id, String username);
 
     Configuration getById(Long id);
 
@@ -24,5 +24,5 @@ public interface ConfigurationService {
 
     boolean publish(Configuration configToPublish, String username);
 
-    void deletePublic(Long id);
+    void deletePublic(Long id, String username);
 }

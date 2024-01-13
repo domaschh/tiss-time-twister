@@ -5,12 +5,10 @@ import at.ac.tuwien.sepr.groupphase.backend.config.properties.SecurityProperties
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.MessageMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
 import org.junit.jupiter.api.*;
@@ -32,7 +30,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.io.StringReader;
 
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
-import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CALENDAR_REFERENCE_URL;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -100,7 +98,7 @@ class CalendarReferenceIntegrationTests {
     void deletingNotExistingThrows() throws Exception {
         MvcResult mvcResult = this.mockMvc.perform(delete(CALENDAR_REFERENCE_URL + "/{id}", 1L)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -120,19 +118,19 @@ class CalendarReferenceIntegrationTests {
 
         MvcResult mvcResult1 = this.mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/{id}", 1L)
                                                         .header(securityProperties.getAuthHeader(),
-                                                                jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                            .andDo(print())
                                            .andReturn();
         assertEquals(404, mvcResult1.getResponse().getStatus());
         MvcResult mvcResult2 = this.mockMvc.perform(delete(CALENDAR_REFERENCE_URL + "/{id}", 1L)
                                                         .header(securityProperties.getAuthHeader(),
-                                                                jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                            .andDo(print())
                                            .andReturn();
         assertEquals(200, mvcResult2.getResponse().getStatus());
         MvcResult mvcResult3 = this.mockMvc.perform(get(CALENDAR_REFERENCE_URL + "/{id}", 1L)
                                                         .header(securityProperties.getAuthHeader(),
-                                                                jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                            .andDo(print())
                                            .andReturn();
         assertEquals(404, mvcResult3.getResponse().getStatus());
@@ -149,7 +147,7 @@ class CalendarReferenceIntegrationTests {
                                                                           .contentType("application/json")
                                                                           .content(objectMapper.writeValueAsString(calendarReferenceDto))
                                                                           .header(securityProperties.getAuthHeader(),
-                                                                                  jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                                  jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                      .andExpect(status().isOk()).andReturn();
         CalendarReferenceDto createdCalendarReference = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
                                                                                CalendarReferenceDto.class);
@@ -161,7 +159,7 @@ class CalendarReferenceIntegrationTests {
                                                                                                                               .header(
                                                                                                                                   securityProperties.getAuthHeader(),
                                                                                                                                   jwtTokenizer.getAuthToken(
-                                                                                                                                      ADMIN_USER,
+                                                                                                                                      ADMIN_USER_EMAIL,
                                                                                                                                       ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
@@ -183,7 +181,7 @@ class CalendarReferenceIntegrationTests {
                                                                           .contentType("application/json")
                                                                           .content(objectMapper.writeValueAsString(calendarReferenceDto))
                                                                           .header(securityProperties.getAuthHeader(),
-                                                                                  jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                                  jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                      .andExpect(status().isOk()).andReturn();
         CalendarReferenceDto createdCalendarReference = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
                                                                                CalendarReferenceDto.class);
@@ -195,7 +193,7 @@ class CalendarReferenceIntegrationTests {
                                                                                                                               .header(
                                                                                                                                   securityProperties.getAuthHeader(),
                                                                                                                                   jwtTokenizer.getAuthToken(
-                                                                                                                                      ADMIN_USER,
+                                                                                                                                      ADMIN_USER_EMAIL,
                                                                                                                                       ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();

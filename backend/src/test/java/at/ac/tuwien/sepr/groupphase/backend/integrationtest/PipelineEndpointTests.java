@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
-import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CALENDAR_REFERENCE_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -128,7 +128,7 @@ class PipelineEndpointTests {
                                                          .contentType(MediaType.APPLICATION_JSON)
                                                          .header(securityProperties.getAuthHeader(),
                                                                  jwtTokenizer.getAuthToken(
-                                                                     ADMIN_USER,
+                                                                     ADMIN_USER_EMAIL,
                                                                      ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
@@ -170,7 +170,7 @@ class PipelineEndpointTests {
         MvcResult mvcResult2 = mockMvc.perform(post(path).contentType("application/json")
                                                          .content(configDto)
                                                          .header(securityProperties.getAuthHeader(),
-                                                                 jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                 jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL,
                                                                                            ADMIN_ROLES)))
                                       .andExpect(status().isOk()).andReturn();
         var reexportedCal = mvcResult2.getResponse().getContentAsString();
@@ -190,7 +190,7 @@ class PipelineEndpointTests {
         mockMvc.perform(get(path).contentType(MediaType.APPLICATION_JSON)
                                  .header(securityProperties.getAuthHeader(),
                                          jwtTokenizer.getAuthToken(
-                                             ADMIN_USER,
+                                             ADMIN_USER_EMAIL,
                                              ADMIN_ROLES)))
                .andExpect(status().isNotFound()).andReturn();
 
@@ -207,7 +207,7 @@ class PipelineEndpointTests {
         mockMvc.perform(post(path).contentType("application/json")
                                   .content(configDto)
                                   .header(securityProperties.getAuthHeader(),
-                                          jwtTokenizer.getAuthToken(ADMIN_USER,
+                                          jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL,
                                                                     ADMIN_ROLES)))
                .andExpect(status().isNotFound()).andReturn();
 

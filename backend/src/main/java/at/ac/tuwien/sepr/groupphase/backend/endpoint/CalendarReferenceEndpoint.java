@@ -68,8 +68,8 @@ public class CalendarReferenceEndpoint {
     @Operation(summary = "Import a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
     public CalendarReferenceDto importCalendarReference(@RequestBody CalendarReferenceDto calendarReferenceDto,
                                                         HttpServletRequest request) {
-        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/calendar/body:{}", calendarReferenceDto);
+        String username = extractUsernameService.getUsername(request);
         return calendarReferenceMapper.calendarReferenceToDto(
             calendarReferenceService.add(
                 calendarReferenceMapper.dtoToCalendarReference(calendarReferenceDto), username));
@@ -104,8 +104,9 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @GetMapping("/{id}")
     @Operation(summary = "Get a stored CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public ResponseEntity<CalendarReferenceDto> getCalendarReference(@PathVariable Long id) {
+    public ResponseEntity<CalendarReferenceDto> getCalendarReference(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/{}", id);
+        String username = extractUsernameService.getUsername(request);
         try {
             return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.getFromId(id)));
         } catch (NotFoundException e) {
@@ -117,24 +118,29 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a Calendar Reference for the user", security = @SecurityRequirement(name = "apiKey"))
-    public void deleteCalendarReference(@PathVariable Long id) {
+    public void deleteCalendarReference(@PathVariable Long id, HttpServletRequest request) {
+
         LOGGER.info("Deleting Calendar with id: {}", id);
+        String username = extractUsernameService.getUsername(request);
         calendarReferenceService.deleteCalendar(id);
     }
 
     @Secured("ROLE_USER")
     @PostMapping("/{calendarId}/{configId}")
     @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+    public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId, HttpServletRequest request) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
+        String username = extractUsernameService.getUsername(request);
+
         return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId));
     }
 
     @Secured("ROLE_USER")
     @DeleteMapping("/{calendarId}/{configId}")
     @Operation(summary = "Remove a public config from a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto removeConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+    public CalendarReferenceDto removeConfig(@PathVariable Long calendarId, @PathVariable Long configId, HttpServletRequest request) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
+        String username = extractUsernameService.getUsername(request);
         return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.removeConfig(configId, calendarId));
     }
 
@@ -151,8 +157,10 @@ public class CalendarReferenceEndpoint {
     @PermitAll
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token) {
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/get/export/{token}");
+        String username = extractUsernameService.getUsername(request);
+
         try {
             Calendar reExportedCalendar = pipelineService.pipeCalendar(token);
             byte[] fileContent = reExportedCalendar.toString().getBytes();
@@ -174,8 +182,10 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @PostMapping("/preview/{id}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable Long id, @RequestBody List<ConfigurationDto> configurationDtos) {
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable Long id, @RequestBody List<ConfigurationDto> configurationDtos, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurationDtos);
+        String username = extractUsernameService.getUsername(request);
+
         try {
             Calendar preview = pipelineService.previewConfiguration(id,
                                                                     configurationDtos.stream().map(configurationMapper::toEntity).toList());
