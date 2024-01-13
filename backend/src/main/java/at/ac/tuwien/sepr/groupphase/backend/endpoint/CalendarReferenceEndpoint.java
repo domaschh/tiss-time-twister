@@ -146,7 +146,7 @@ public class CalendarReferenceEndpoint {
 
 
     /**
-     * <p>  s the Calendar associated with the given token.</p>
+     * <p> Exports the Calendar associated with the given token as .ics file.</p>
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>
      * <br>
      * <p> unsecured to provide calendar synchronisation</p>
@@ -159,7 +159,6 @@ public class CalendarReferenceEndpoint {
     @Operation(summary = "Export a calender from its url")
     public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/get/export/{token}");
-        String username = extractUsernameService.getUsername(request);
 
         try {
             Calendar reExportedCalendar = pipelineService.pipeCalendar(token);
