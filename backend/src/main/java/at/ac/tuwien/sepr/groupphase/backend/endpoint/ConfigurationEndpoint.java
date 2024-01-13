@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +60,9 @@ public class ConfigurationEndpoint {
         String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/configuration/body:{}", configurationDto);
 
-        Configuration created = configurationService.update(configurationMapper.toEntity(configurationDto), username, configurationDto.getCalendarReferenceId());
+        Configuration created = configurationService.update(configurationMapper.toEntity(configurationDto),
+                                                            username,
+                                                            configurationDto.getCalendarReferenceId());
         ConfigurationDto createdDto = configurationMapper.toDto(
             created);
 
@@ -78,7 +81,9 @@ public class ConfigurationEndpoint {
         String username = extractUsernameService.getUsername(request);
 
         try {
-            return ResponseEntity.ok(configurationMapper.toDto(configurationService.getById(id)));
+            Configuration configuration = configurationService.getById(id);
+          
+            return ResponseEntity.ok(configurationMapper.toDto(configuration));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }

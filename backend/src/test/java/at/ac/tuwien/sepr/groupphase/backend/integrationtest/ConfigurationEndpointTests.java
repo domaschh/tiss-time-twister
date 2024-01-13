@@ -7,7 +7,7 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.EffectDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.MatchDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.PublicConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.RuleDto;
-import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.MatchType;
@@ -78,6 +78,8 @@ class ConfigurationEndpointTests {
     private CalendarReferenceRepository calendarReferenceRepository;
     @Autowired
     private SecurityProperties securityProperties;
+    @MockBean
+    private ApplicationUserRepository applicationUserRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -110,7 +112,10 @@ class ConfigurationEndpointTests {
         configurationRepository.deleteAll();
         CalendarReference value = new CalendarReference();
         value.setConfigurations(List.of());
+        value.setUser(ADMIN_USER);
         when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(value));
+        ADMIN_USER.setId(1L);
+        when(applicationUserRepository.getApplicationUserByEmail(any())).thenReturn(ADMIN_USER);
     }
 
     private ConfigurationDto generateConfigurationWithoutRules() {

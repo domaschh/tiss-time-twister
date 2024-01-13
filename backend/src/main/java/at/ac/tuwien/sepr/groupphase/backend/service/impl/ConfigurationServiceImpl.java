@@ -44,12 +44,16 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
+    @Transactional
     public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
-        LOGGER.debug("Update Configuration {}, user:{}", configuration, username);
+        LOGGER.debug("Update Configuration {}, user:{}", configuration.getTitle(), username);
 
         CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
                                                                          .orElseThrow(() -> new EntityNotFoundException(
                                                                              "CalendarReference not found"));
+        if (!calendarReference.getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can Not Assign Configuration to Calendar that is not owned.");
+        }
 
         configuration.setCalendarReference(calendarReference);
         if (configuration.getUser() == null) {
@@ -116,9 +120,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public boolean publish(Configuration configToPublish, String username) {
         LOGGER.debug("Publishing Configuration: {}", configToPublish);
-        if (!configurationRepository.findById(configToPublish.getId()).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
-            throw new AccessDeniedException("Can Not Publish Configurations that are not owned");
-        }
+        //        if (!configurationRepository.findById(configToPublish.getId())
+        //                                    .orElseThrow(NotFoundException::new)
+        //                                    .getUser()
+        //                                    .getEmail()
+        //                                    .equals(username)) {
+        //            throw new AccessDeniedException("Can Not Publish Configurations that are not owned");
+        //        }
 
         PublicConfiguration publicConfiguration = new PublicConfiguration();
 
