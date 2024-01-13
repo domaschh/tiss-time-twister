@@ -13,15 +13,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Configurations")
 @Setter
 @Getter
-@ToString
 public class Configuration {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "calendar_id")
@@ -40,6 +39,25 @@ public class Configuration {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
-    @OneToMany(mappedBy = "configuration", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "config_id")
     private List<Rule> rules;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Configuration that = (Configuration) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

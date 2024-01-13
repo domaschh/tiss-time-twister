@@ -1,17 +1,13 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Effect;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
-import at.ac.tuwien.sepr.groupphase.backend.entity.PublicConfiguration;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
+import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.PublicConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -31,6 +27,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final ApplicationUserRepository applicationUserRepository;
     private final PublicConfigurationRepository publicConfigurationRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     public ConfigurationServiceImpl(ConfigurationRepository configurationRepository,
@@ -65,6 +64,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                                               .getEmail()
                                               .equals(username)) {
             throw new AccessDeniedException("Can Not Create/Update Configurations that are not owned");
+        }
+
+        if (configuration.getId() != null) {
+            Configuration fetchDb = configurationRepository.findById(configuration.getId()).orElseThrow(() -> new EntityNotFoundException(
+                "Config not found"));
+            fetchDb.setTitle(configuration.getTitle());
+            fetchDb.setDescription(configuration.getDescription());
+            fetchDb.setPublished(configuration.isPublished());
+            fetchDb.setRules(configuration.getRules());
+            fetchDb.setClonedFromId(configuration.getClonedFromId());
+            fetchDb.setCalendarReference(calendarReference);
+            return configurationRepository.save(fetchDb);
         }
 
         return configurationRepository.save(configuration);
@@ -167,7 +178,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Transactional
     public void deletePublic(Long id, String username) {
         LOGGER.debug("Removing published Configuration withId:{}", id);
-        if (!publicConfigurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
+        if (!publicConfigurationRepository
+            .findById(id)
+            .orElseThrow(NotFoundException::new)
+            .getUser()
+            .getEmail()
+            .equals(username)) {
             throw new AccessDeniedException("Can Not remove published Configurations that are not owned");
         }
         PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);

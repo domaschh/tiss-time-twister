@@ -1,11 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
-import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
-import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Effect;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
-import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
+import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
@@ -44,7 +39,9 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     @Override
     public CalendarReference getFromId(long id, String username) {
         LOGGER.debug("Get CalendarReference from id {}", id);
-        CalendarReference calendarReference = calendarReferenceRepository.findById(id).orElseThrow(NotFoundException::new);
+        CalendarReference calendarReference = calendarReferenceRepository
+            .findById(id)
+            .orElseThrow(NotFoundException::new);
         if (!calendarReference.getUser().getEmail().equals(username)) {
             throw new AccessDeniedException("Can't fetch Calendars you don't own");
         }
@@ -67,7 +64,6 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         }
         LOGGER.debug("Adding CalendarReference {}", calendarReference);
         calendarReference.setToken(generateToken());
-        calendarReference.setEnabledDefaultConfigurations(0L);
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         calendarReference.setUser(user);
         return calendarReferenceRepository.save(calendarReference);

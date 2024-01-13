@@ -11,6 +11,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Entity
 @Data
 @Table(name = "Rules")
@@ -20,7 +22,7 @@ public class Rule {
     private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "config_id")
+    @JoinColumn(name = "config_id", nullable = false)
     private Configuration configuration;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -46,6 +46,7 @@ export interface EffectDto {
 
 export interface RuleDto {
   id?: number,
+  configId?: number,
   effect?: EffectDto,
   match?: MatchDto
 }

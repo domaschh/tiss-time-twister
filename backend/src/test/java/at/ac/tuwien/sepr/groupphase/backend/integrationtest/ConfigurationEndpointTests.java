@@ -104,7 +104,8 @@ class ConfigurationEndpointTests {
                                          MatchType.EQUALS, "dasd",
                                          MatchType.EQUALS, "dasd",
                                          MatchType.REGEX, "dasdas");
-        return new RuleDto(null, effectDto, matchDto);
+
+        return new RuleDto(null, null, effectDto, matchDto);
     }
 
     @BeforeEach
