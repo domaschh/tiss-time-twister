@@ -200,10 +200,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         }
         PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
         LOGGER.debug(publicConf.toString());
-        var clonedFrom = configurationRepository.getReferenceById(publicConf.getInitialConfigurationId());
-        if (clonedFrom != null) {
-            clonedFrom.setPublished(false);
-            configurationRepository.save(clonedFrom);
+        var clonedFrom = configurationRepository.findById(publicConf.getInitialConfigurationId());
+        if (clonedFrom.isPresent()) {
+            clonedFrom.get().setPublished(false);
+            configurationRepository.save(clonedFrom.get());
         }
 
         this.publicConfigurationRepository.delete(publicConf);
