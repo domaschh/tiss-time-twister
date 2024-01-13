@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-between align-items-center">
     <h3 class="modal-title">{{ config.title }}</h3>
     <label class="text-center rounded-2xl p-1 text-xs text-white ms-4 cursor-pointer"
-           [ngClass]="config.alreadyCloned ? 'bg-added' : 'bg-notadded'"
+           [ngClass]="config.alreadyCloned ? 'bg-added border-x border-y border-added' : 'bg-notadded border-x border-y border-notadded'"
     >{{ config.alreadyCloned ? 'Already Added' : 'Add to collection' }}</label>
   </div>
   <div class="flex gap-2">

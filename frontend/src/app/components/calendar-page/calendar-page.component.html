@@ -122,10 +122,10 @@
           <h5>Filter by tags</h5>
         </div>
         <div  class="flex flex-row justify-start align-items-center">
-          <label class="cursor-pointer rounded-2xl m-2 p-2 py-1 text-base text-white"
+          <label class="cursor-pointer rounded-2xl m-2 p-2 py-1 text-base"
                  *ngFor="let tag of tags"
                  (click)="tagClicked(tag)"
-                 [ngClass]="selectedTags.includes(tag) ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}
+                 [ngClass]="selectedTags.includes(tag) ? 'bg-added border-x border-y border-added text-white' : 'bg-transparent border-popover border-y border-x box-border text-popover-light'">{{ tag.tag }}
             <i matTooltip="Delete tag" class="bi bi-trash text-white ml-2" (click)="openDeleteTagModal(tag)"></i>
           </label>
           <button type="button" *ngIf="showapplyFilters" (click)="applyFilters()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light">

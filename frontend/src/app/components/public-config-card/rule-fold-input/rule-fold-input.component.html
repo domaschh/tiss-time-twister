@@ -100,7 +100,7 @@
       <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1 text-white"
              *ngFor="let tag of tags"
              (click)="tagClicked(tag)"
-             [ngClass]="selectedTag === tag ? 'bg-added' : 'bg-notadded'">{{ tag.tag }}</label>
+             [ngClass]="selectedTag === tag ? 'bg-added border-x border-y border-added text-white' : 'bg-transparent border-popover box-border border-x border-y text-popover-light'">{{ tag.tag }}</label>
     </div>
   </div>
 </div>
