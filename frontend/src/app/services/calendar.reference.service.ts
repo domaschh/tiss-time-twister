@@ -63,6 +63,7 @@ export class CalendarReferenceService {
   }
 
   getConfigurationPreview(calendarId: number, config: ConfigurationDto) {
+    console.log(config)
     return this.httpClient.post(this.messageBaseUri + "/preview/" + calendarId, [config], { responseType: 'text' });
   }
 
