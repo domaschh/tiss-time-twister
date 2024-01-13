@@ -8,6 +8,7 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceReposito
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.impl.CalendarReferenceServiceImpl;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -137,6 +138,7 @@ class CalendarReferenceServiceTest {
     }
 
     @Test
+    @Transactional
     void importCalendarFileCanBeFound() throws IOException {
         InputStream is = new ClassPathResource("domasch_fixed.ics").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("name", is);
