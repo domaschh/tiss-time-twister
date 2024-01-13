@@ -9,7 +9,7 @@ import org.mapstruct.Named;
 
 import java.util.List;
 
-@Mapper(uses = CalendarReferenceMapper.class)
+@Mapper(uses = {CalendarReferenceMapper.class, RuleMapper.class, MatchMapper.class, EffectMapper.class})
 public interface ConfigurationMapper {
     Configuration toEntity(ConfigurationDto configurationDto);
 

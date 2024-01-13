@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-01-12T18:30:47+0100",
+    date = "2024-01-13T15:35:39+0100",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -46,6 +46,7 @@ public class RuleMapperImpl implements RuleMapper {
 
         RuleDto ruleDto = new RuleDto();
 
+        ruleDto.setConfigId( configToId( rule.getConfiguration() ) );
         ruleDto.setId( rule.getId() );
         ruleDto.setEffect( effectToEffectDto( rule.getEffect() ) );
         ruleDto.setMatch( matchToMatchDto( rule.getMatch() ) );

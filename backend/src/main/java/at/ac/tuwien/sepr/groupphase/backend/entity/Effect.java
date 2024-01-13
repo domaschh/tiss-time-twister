@@ -12,6 +12,8 @@ import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.PropertyBuilder;
 import net.fortuna.ical4j.model.component.VEvent;
 
+import java.util.Objects;
+
 @Entity
 @Data
 @NoArgsConstructor
