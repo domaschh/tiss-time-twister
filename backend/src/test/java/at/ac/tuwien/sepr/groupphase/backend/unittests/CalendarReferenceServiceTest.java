@@ -46,14 +46,12 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "generateData"})
 class CalendarReferenceServiceTest {
 
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
     @Autowired
     CalendarReferenceRepository calendarReferenceRepository;
-    @Autowired
-    private ApplicationUserRepository applicationUserRepository;
     @Autowired
     private CalendarReferenceService service;
     @Mock
@@ -79,9 +77,6 @@ class CalendarReferenceServiceTest {
     @BeforeEach
     void beforeEach() {
         calendarReferenceRepository.deleteAll();
-        if (!applicationUserRepository.exists(Example.of(ADMIN_USER))) {
-            applicationUserRepository.save(ADMIN_USER);
-        }
     }
 
 

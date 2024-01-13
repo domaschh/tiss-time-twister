@@ -57,7 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "generateData"})
 @AutoConfigureMockMvc
 class PipelineEndpointTests {
     @Autowired
@@ -74,8 +74,6 @@ class PipelineEndpointTests {
     private SecurityProperties securityProperties;
     @LocalServerPort
     private int port;
-    @Autowired
-    ApplicationUserRepository applicationUserRepository;
 
 
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
@@ -100,9 +98,6 @@ class PipelineEndpointTests {
     @BeforeEach
     void beforeEach() {
         calendarReferenceRepository.deleteAll();
-        if (!applicationUserRepository.exists(Example.of(ADMIN_USER))) {
-            applicationUserRepository.save(ADMIN_USER);
-        }
     }
 
     @Test

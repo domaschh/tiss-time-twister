@@ -73,13 +73,9 @@ class ConfigurationEndpointTests {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private ConfigurationMapper configurationMapper;
-    @Autowired
     private JwtTokenizer jwtTokenizer;
     @MockBean
     private CalendarReferenceRepository calendarReferenceRepository;
-    @Autowired
-    private ApplicationUserRepository applicationUserRepository;
     @Autowired
     private SecurityProperties securityProperties;
 
@@ -115,9 +111,6 @@ class ConfigurationEndpointTests {
         CalendarReference value = new CalendarReference();
         value.setConfigurations(List.of());
         when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(value));
-        if (!applicationUserRepository.exists(Example.of(ADMIN_USER))) {
-            applicationUserRepository.save(ADMIN_USER);
-        }
     }
 
     private ConfigurationDto generateConfigurationWithoutRules() {
