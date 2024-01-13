@@ -42,9 +42,13 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    public CalendarReference getFromId(long id) {
+    public CalendarReference getFromId(long id, String username) {
         LOGGER.debug("Get CalendarReference from id {}", id);
-        return calendarReferenceRepository.findById(id).orElseThrow(NotFoundException::new);
+        CalendarReference calendarReference = calendarReferenceRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (!calendarReference.getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can't fetch Calendars you don't own");
+        }
+        return calendarReference;
     }
 
     @Override

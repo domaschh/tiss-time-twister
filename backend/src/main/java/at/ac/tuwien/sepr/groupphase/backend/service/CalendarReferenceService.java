@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface CalendarReferenceService {
 
-    CalendarReference getFromId(long id);
+    CalendarReference getFromId(long id, String username);
 
     CalendarReference add(CalendarReference calendarReference, String username);
 

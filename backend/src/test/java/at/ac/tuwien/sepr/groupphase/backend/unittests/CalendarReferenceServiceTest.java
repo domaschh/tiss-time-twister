@@ -3,6 +3,7 @@ package at.ac.tuwien.sepr.groupphase.backend.unittests;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
+import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Example;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -29,6 +31,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -46,6 +50,14 @@ import static org.mockito.Mockito.when;
 class CalendarReferenceServiceTest {
 
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+    @Autowired
+    CalendarReferenceRepository calendarReferenceRepository;
+    @Autowired
+    private ApplicationUserRepository applicationUserRepository;
+    @Autowired
+    private CalendarReferenceService service;
+    @Mock
+    private ConfigurationRepository configurationRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -64,18 +76,12 @@ class CalendarReferenceServiceTest {
         propertyRegistry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private CalendarReferenceService service;
-
-    @Autowired
-    CalendarReferenceRepository calendarReferenceRepository;
-
-    @Mock
-    private ConfigurationRepository configurationRepository;
-
     @BeforeEach
     void beforeEach() {
         calendarReferenceRepository.deleteAll();
+        if (!applicationUserRepository.exists(Example.of(ADMIN_USER))) {
+            applicationUserRepository.save(ADMIN_USER);
+        }
     }
 
 
@@ -140,9 +146,9 @@ class CalendarReferenceServiceTest {
     void importCalendarFileCanBeFound() throws IOException {
         InputStream is = new ClassPathResource("domasch_fixed.ics").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("name", is);
-        CalendarReference result = service.addFile("test file name", multipartFile, "test username", null);
+        CalendarReference result = service.addFile("test file name", multipartFile, ADMIN_USER_EMAIL, null);
 
-        CalendarReference resultFromId = service.getFromId(result.getId());
+        CalendarReference resultFromId = service.getFromId(result.getId(), ADMIN_USER_EMAIL);
         assertTrue(service.getFromToken(result.getToken()).isPresent());
         var resultFromToken = service.getFromToken(result.getToken()).get();
 
@@ -153,9 +159,4 @@ class CalendarReferenceServiceTest {
             () -> assertThat(resultFromId.getLink()).isNull(),
             () -> assertEquals(resultFromId, resultFromToken));
     }
-
-    //    @Test
-    //    void importCalendarWithIdThatDoesNotExistThrows() {
-    //        service.a
-    //    }
 }

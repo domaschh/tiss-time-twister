@@ -28,6 +28,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -99,7 +100,7 @@ class PipelineEndpointTests {
     @BeforeEach
     void beforeEach() {
         calendarReferenceRepository.deleteAll();
-        if (applicationUserRepository.getApplicationUserByEmail(ADMIN_USER_EMAIL) == null) {
+        if (!applicationUserRepository.exists(Example.of(ADMIN_USER))) {
             applicationUserRepository.save(ADMIN_USER);
         }
     }

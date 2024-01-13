@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -114,7 +115,7 @@ class ConfigurationEndpointTests {
         CalendarReference value = new CalendarReference();
         value.setConfigurations(List.of());
         when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(value));
-        if (applicationUserRepository.getApplicationUserByEmail(ADMIN_USER_EMAIL) == null) {
+        if (!applicationUserRepository.exists(Example.of(ADMIN_USER))) {
             applicationUserRepository.save(ADMIN_USER);
         }
     }

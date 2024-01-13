@@ -108,7 +108,7 @@ public class CalendarReferenceEndpoint {
         LOGGER.info("Get /api/v1/calendar/{}", id);
         String username = extractUsernameService.getUsername(request);
         try {
-            return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.getFromId(id)));
+            return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.getFromId(id, username)));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
