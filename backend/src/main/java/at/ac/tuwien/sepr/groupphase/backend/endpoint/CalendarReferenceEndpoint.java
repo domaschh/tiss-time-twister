@@ -79,9 +79,9 @@ public class CalendarReferenceEndpoint {
     @PutMapping("/file")
     @Operation(summary = "Import a CalendarReference with File", security = @SecurityRequirement(name = "apiKey"))
     public ResponseEntity<CalendarReferenceDto> uploadICalFile(@RequestParam("name") String name,
-                                            @RequestParam("file") MultipartFile file,
-                                            @RequestParam(required = false) UUID token,
-                                            HttpServletRequest request) {
+                                                               @RequestParam("file") MultipartFile file,
+                                                               @RequestParam(required = false) UUID token,
+                                                               HttpServletRequest request) {
         try {
             String username = extractUsernameService.getUsername(request);
             CalendarReference savedCalendarReference = calendarReferenceService.addFile(name, file, username, token);
@@ -182,13 +182,15 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @PostMapping("/preview/{id}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable Long id, @RequestBody List<ConfigurationDto> configurationDtos, HttpServletRequest request) {
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable Long id,
+                                                       @RequestBody List<ConfigurationDto> configurationDtos,
+                                                       HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurationDtos);
         String username = extractUsernameService.getUsername(request);
 
         try {
-            Calendar preview = pipelineService.previewConfiguration(id,
-                                                                    configurationDtos.stream().map(configurationMapper::toEntity).toList());
+            Calendar preview =
+                pipelineService.previewConfiguration(id, configurationDtos.stream().map(configurationMapper::toEntity).toList(), username);
             byte[] fileContent = preview.toString().getBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= preview[" + id + "].ics");

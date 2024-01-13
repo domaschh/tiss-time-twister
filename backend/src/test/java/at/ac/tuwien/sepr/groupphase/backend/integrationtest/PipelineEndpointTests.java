@@ -12,6 +12,7 @@ import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Match;
 import at.ac.tuwien.sepr.groupphase.backend.entity.MatchType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Rule;
+import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +43,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CALENDAR_REFERENCE_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -71,6 +73,8 @@ class PipelineEndpointTests {
     private SecurityProperties securityProperties;
     @LocalServerPort
     private int port;
+    @Autowired
+    ApplicationUserRepository applicationUserRepository;
 
 
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
@@ -95,6 +99,9 @@ class PipelineEndpointTests {
     @BeforeEach
     void beforeEach() {
         calendarReferenceRepository.deleteAll();
+        if (applicationUserRepository.getApplicationUserByEmail(ADMIN_USER_EMAIL) == null) {
+            applicationUserRepository.save(ADMIN_USER);
+        }
     }
 
     @Test
@@ -149,6 +156,7 @@ class PipelineEndpointTests {
         var customUUID = UUID.randomUUID();
         mockedCalReference.setToken(customUUID);
         mockedCalReference.setLink(customMockUrl);
+        mockedCalReference.setUser(ADMIN_USER);
         Configuration config = new Configuration();
         config.setId(1L);
         var rule = new Rule();
