@@ -88,9 +88,11 @@ public class RegistrationTest implements TestData {
 
     @Test
     public void whenEmailAlreadyExists_ThrowsException() {
-        userService.registerUser(newUserDto);
         assertThrows(EmailAlreadyExistsException.class, () -> {
-            userService.registerUser(newUserDto);
+            UserRegistrationDto anotherUserWithSameEmail = new UserRegistrationDto();
+            anotherUserWithSameEmail.setEmail(sampleEmail);
+            anotherUserWithSameEmail.setPassword("AnotherPassword1!");
+            userService.registerUser(anotherUserWithSameEmail);
         });
     }
 
