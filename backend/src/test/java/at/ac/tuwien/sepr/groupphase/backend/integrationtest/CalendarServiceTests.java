@@ -63,7 +63,7 @@ class CalendarServiceTests {
     @Test
     void fetchCalendarByUrl_InvalidUrl_Fails() {
         assertAll(
-            () -> assertThrows(IOException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
+            () -> assertThrows(ParserException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
             () -> assertThrows(URISyntaxException.class, () -> calendarService.fetchCalendarByUrl("not correct URI syntax")));
     }
 

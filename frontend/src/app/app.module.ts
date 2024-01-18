@@ -1,18 +1,18 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {AppRoutingModule} from './app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
-import {AppComponent} from './app.component';
-import {HeaderComponent} from './components/header/header.component';
-import {FooterComponent} from './components/footer/footer.component';
-import {HomeComponent} from './components/home/home.component';
-import {LoginComponent} from './components/login/login.component';
-import {MessageComponent} from './components/message/message.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {httpInterceptorProviders} from './interceptors';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { MessageComponent } from './components/message/message.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { httpInterceptorProviders } from './interceptors';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarPageComponent } from './components/calendar-page/calendar-page.component';
@@ -34,14 +34,15 @@ import { ConfigModalComponent } from './components/public-config-card/config-mod
 import { RuleFoldComponent } from './components/public-config-card/rule-fold/rule-fold.component';
 import { NavigationPopoverComponent } from './components/navbar/navigation-popover/navigation-popover.component';
 import { NavigationPopoverRightComponent } from './components/navbar/navigation-popover-right/navigation-popover-right.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RuleFoldInputComponent } from './components/public-config-card/rule-fold-input/rule-fold-input.component';
 import { PublicCardFakeComponent } from './components/public-config-card/public-card-fake/public-card-fake.component';
 import { DefaultConfigModalComponent } from './components/public-config-card/public-card-fake/default-config-modal/default-config-modal.component';
 import { LvaShorthandsComponent } from './components/public-config-card/public-card-fake/lva-shorthands/lva-shorthands.component';
 import { RoomMappingComponent } from './components/public-config-card/public-card-fake/room-mapping/room-mapping.component';
-import {ConfigImportComponent} from "./components/calendar-import/config-import.component";
-import {CdkDropList} from "@angular/cdk/drag-drop";
+import { ConfigImportComponent } from "./components/calendar-import/config-import.component";
+import { CdkDropList } from "@angular/cdk/drag-drop";
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {CdkDropList} from "@angular/cdk/drag-drop";
     NavbarComponent,
     ConfirmationModal,
     RegistrationComponent,
+    ResetPasswordComponent,
     PreviewConfigComponent,
     ConfigModalComponent,
     RuleFoldComponent,
@@ -82,10 +84,10 @@ import {CdkDropList} from "@angular/cdk/drag-drop";
     NgxFileDropModule,
     NgbModule,
     FormsModule,
-    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     EventPipePipe,
     BrowserAnimationsModule,
-    CalendarModule.forRoot({provide: DateAdapter, useFactory: adapterFactory}),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     ToastrModule.forRoot(),
     CdkDropList
   ],

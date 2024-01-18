@@ -3,18 +3,22 @@ package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserLoginDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserRegistrationDto;
 import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
+import at.ac.tuwien.sepr.groupphase.backend.entity.PasswordResetToken;
 import at.ac.tuwien.sepr.groupphase.backend.exception.EmailAlreadyExistsException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidEmailException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.InvalidPasswordException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.exception.PasswordDoesNotMatchEmailException;
+import at.ac.tuwien.sepr.groupphase.backend.repository.PasswordResetRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.UserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
+import at.ac.tuwien.sepr.groupphase.backend.service.EmailService;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -24,8 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,16 +37,16 @@ import java.util.regex.Pattern;
 public class CustomUserDetailService implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenizer jwtTokenizer;
-
     @Autowired
-    public CustomUserDetailService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenizer jwtTokenizer) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenizer = jwtTokenizer;
-    }
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private PasswordResetRepository passwordResetRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -135,6 +139,89 @@ public class CustomUserDetailService implements UserService {
         );
         userRepository.save(newUser);
         return jwtTokenizer.getAuthToken(userRegistrationDto.getEmail(), roles);
+    }
+
+    @Override
+    @Transactional
+    public void sendPasswordResetEmail(String email) {
+        ApplicationUser user = findApplicationUserByEmail(email);
+        if (user == null) {
+            LOGGER.error("User not found for email: {}", email);
+            throw new NotFoundException("User not found with email: " + email);
+        } else {
+            PasswordResetToken existingToken = passwordResetRepository.findByUser(user);
+            if (existingToken != null) {
+                existingToken.setToken(UUID.randomUUID().toString());
+                existingToken.setExpiryDate(calculateExpiryDate(180));
+            } else {
+                String token = UUID.randomUUID().toString();
+                existingToken = new PasswordResetToken(token, user, calculateExpiryDate(180));
+            }
+            passwordResetRepository.save(existingToken);
+            emailService.sendStyledPasswordResetEmail(user, existingToken.getToken());
+        }
+    }
+
+    @Override
+    public Optional<ApplicationUser> getUserByPasswordResetToken(String token) {
+        PasswordResetToken resetToken = getPasswordResetToken(token);
+        if (resetToken != null) {
+            return Optional.ofNullable(resetToken.getUser());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void changeUserPassword(ApplicationUser user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void createPasswordResetTokenForUser(final ApplicationUser user, final String token) {
+        ApplicationUser managedUser = userRepository.findUserByEmail(user.getEmail());
+        if (managedUser == null) {
+            throw new NotFoundException("User not found with email: " + user.getEmail());
+        }
+        final PasswordResetToken myToken = new PasswordResetToken(token, managedUser);
+        passwordResetRepository.save(myToken);
+    }
+
+    @Override
+    public PasswordResetToken getPasswordResetToken(final String token) {
+        return passwordResetRepository.findByToken(token);
+    }
+
+    @Override
+    public String validatePasswordResetToken(String token) {
+        final PasswordResetToken passToken = getPasswordResetToken(token);
+        if (passToken == null) {
+            return "invalidToken";
+        } else if (isTokenExpired(passToken)) {
+            return "expired";
+        }
+        return null;
+    }
+
+    /**
+     * Scheduled task to remove expired reset tokens once every hour from the database.
+     */
+    @Scheduled(cron = "0 0 * * * ?")
+    public void removeExpiredPasswordResetTokens() {
+        LOGGER.info("Running scheduled task to remove expired password reset tokens");
+        passwordResetRepository.deleteAllExpiredSince(Instant.now());
+    }
+
+    private Instant calculateExpiryDate(int expiryTimeInMinutes) {
+        return Instant.now().plusSeconds(60 * expiryTimeInMinutes);
+    }
+
+    private boolean isTokenExpired(PasswordResetToken token) {
+        if (token == null || token.getExpiryDate() == null) {
+            return true;
+        }
+        return token.getExpiryDate().isBefore(Instant.now());
     }
 
     public boolean isValidEmail(String email) {

@@ -21,8 +21,18 @@ spring:
     # follow this link: https://bit.ly/2LaX9ku
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-
+  mail:
+      default-encoding: UTF-8
+      host: smtp.gmail.com
+      port: 587
+      username: tisstimetwister@gmail.com
+      password: cwtatavdffxnrxdf
+      properties:
+          mail:
+            smtp:
+              auth: true
+              starttls:
+                enable: true
 security:
   auth:
     header: Authorization

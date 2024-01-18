@@ -3,9 +3,12 @@ package at.ac.tuwien.sepr.groupphase.backend.service;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserLoginDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.UserRegistrationDto;
 import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
+import at.ac.tuwien.sepr.groupphase.backend.entity.PasswordResetToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
@@ -52,4 +55,23 @@ public interface UserService extends UserDetailsService {
      * @throws org.springframework.security.authentication.BadCredentialsException if credentials are bad
      */
     String registerUser(UserRegistrationDto userRegistrationDto);
+
+    /**
+     * Sends an email to reset the password of the user.
+     *
+     * @param email the email to reset the password
+     */
+
+    void sendPasswordResetEmail(String email);
+
+    Optional<ApplicationUser> getUserByPasswordResetToken(String token);
+
+
+    void changeUserPassword(ApplicationUser user, String password);
+
+    void createPasswordResetTokenForUser(ApplicationUser user, String token);
+
+    PasswordResetToken getPasswordResetToken(String token);
+
+    String validatePasswordResetToken(String token);
 }

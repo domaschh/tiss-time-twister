@@ -1,3 +1,4 @@
+import { FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 import {
@@ -6,18 +7,39 @@ import {
   Ripple,
   initTE,
 } from "tw-elements";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthRequest } from 'src/app/dtos/auth-request';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import {ToastrService} from "ngx-toastr";
+
+export function MustMatch(controlName: string, matchingControlName: string): ValidatorFn {
+  return (formGroup: FormGroup): ValidationErrors | null => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+      // return if another validator has already found an error
+      return;
+    }
+
+    // Set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
+
 export class RegistrationComponent implements OnInit {
 
 
@@ -97,7 +119,5 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     initTE({ Validation, Input, Ripple });
   }
-
-
 
 }

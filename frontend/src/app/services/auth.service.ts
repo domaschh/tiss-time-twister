@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AuthRequest } from '../dtos/auth-request';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
 import { Globals } from '../global/globals';
-import { th } from 'date-fns/locale';
 
 @Injectable({
   providedIn: 'root'
@@ -86,12 +85,21 @@ export class AuthService {
     return 'UNDEFINED';
   }
 
+  requestPasswordReset(email: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const params = new HttpParams().set('email', email);
+    return this.httpClient.post(`${this.globals.backendUri}/forgotPassword?email=${encodeURIComponent(email)}`, {})
+  }
+
+  resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<any> {
+    return this.httpClient.post(`${this.globals.backendUri}/resetPassword`, { token, newPassword, confirmPassword });
+  }
+
   private setToken(authResponse: string) {
     localStorage.setItem('authToken', authResponse);
   }
 
   private getTokenExpirationDate(token: string): Date {
-
     const decoded: any = jwtDecode(token);
     if (decoded.exp === undefined) {
       return null;

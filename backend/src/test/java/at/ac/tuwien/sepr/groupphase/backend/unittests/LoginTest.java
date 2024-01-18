@@ -64,6 +64,7 @@ public class LoginTest implements TestData {
 
     @BeforeEach
     public void setUp() {
+        userRepository.deleteAll();
         userDataGenerator.generateUsers();
         userLoginDto = new UserLoginDto();
         userLoginDto.setEmail(sampleEmail);

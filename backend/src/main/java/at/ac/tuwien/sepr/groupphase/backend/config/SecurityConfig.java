@@ -38,8 +38,8 @@ public class SecurityConfig {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-                    .allowedOriginPatterns("http://localhost:4200", "https://*.apps.student.inso-w.at")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD").allowCredentials(true).allowedHeaders("*");
+                .allowedOriginPatterns("http://localhost:4200", "https://*.apps.student.inso-w.at")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD").allowCredentials(true).allowedHeaders("*");
         }
     }
 }
