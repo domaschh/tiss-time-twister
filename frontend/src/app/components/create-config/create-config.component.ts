@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {ConfigurationDto, EffectType, MatchType, RuleDto} from 'src/app/dtos/configuration-dto';
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
+import {TagDto} from "../../dtos/tag-dto";
+import {TagService} from "../../services/tag.service";
 
 @Component({
   selector: 'app-create-config',
@@ -13,6 +15,10 @@ import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 })
 export class CreateConfigComponent {
   calendars: CalendarReferenceDto[] = [];
+  tags: TagDto[] = [];
+  selectedTag: TagDto = null;
+  newTag: string;
+
 
   MatchType = MatchType;
   EffectType = EffectType;
@@ -40,7 +46,9 @@ export class CreateConfigComponent {
   prefilled: { calId: number, config: ConfigurationDto };
 
 
-  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
+  constructor(
+    private tagService: TagService,
+    private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private calendarReferenceService: CalendarReferenceService, private router: Router, private readonly toastrService: ToastrService) {
     this.configurationForm.patchValue({calendar: null});
     this.prefilled = this.router.getCurrentNavigation().extras.state as { calId: number, config: ConfigurationDto };
     if (this.prefilled) {
@@ -54,8 +62,18 @@ export class CreateConfigComponent {
 
 
   ngOnInit(): void {
-    this.loadCalendars()
+    this.loadTags();
+    this.loadCalendars();
     this.setActiveNewRule();
+  }
+
+  loadTags() {
+    this.tagService.getAll().subscribe({
+      next: tags => {
+        this.tags = tags;
+      },
+      error: () => {}
+    });
   }
 
   loadCalendars() {
@@ -142,11 +160,51 @@ export class CreateConfigComponent {
     });
   }
 
+  tagClicked(tag: TagDto) {
+    if (this.selectedTag === tag) {
+      this.selectedTag = null;
+      this.currentRule.effect.tag = null;
+    } else {
+      this.selectedTag = tag;
+      this.currentRule.effect.tag = tag.tag;
+    }
+  }
+
   isDeleteEffect() {
     return this.currentRule.effect.effectType === EffectType.DELETE;
   }
 
+  isModifyEffect() {
+    return this.currentRule.effect.effectType === EffectType.MODIFY;
+  }
+
+  isTagEffect() {
+    return this.currentRule.effect.effectType === EffectType.TAG;
+  }
+
   deleteRule($event: RuleDto) {
     this.allRules = this.allRules.filter(ruleToFind => ruleToFind.id !== $event.id)
+  }
+
+  addTag() {
+    if (!this.newTag || this.newTag == '') {
+      this.toastrService.error("Please enter a tag!");
+    } else if(this.tags.filter(t => t.tag == this.newTag).length !== 0) {
+      this.toastrService.error("Tag already exists!");
+    } else {
+      let newTag = new TagDto();
+      newTag.tag = this.newTag;
+      this.tagService.createTag(newTag).subscribe({
+        next: () => {
+          this.toastrService.success("Tag created successfully!");
+          this.newTag = '';
+          this.loadTags();
+        },
+        error: e => {
+          this.toastrService.error("Error creating tag!");
+          console.error("Error creating tag: ", e);
+        }
+      });
+    }
   }
 }

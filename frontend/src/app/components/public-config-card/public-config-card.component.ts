@@ -26,7 +26,7 @@ export class PublicConfigCardComponent{
 
   openConfigModal() {
       const modalRef = this.modalService.open(ConfigModalComponent);
-      console.log(this.config.alreadyCloned)
+    console.log(this.config)
       modalRef.componentInstance.config = this.config;
       modalRef.componentInstance.alreadyAdded = this.config.alreadyCloned;
       modalRef.componentInstance.removedFromPublicPage.subscribe({

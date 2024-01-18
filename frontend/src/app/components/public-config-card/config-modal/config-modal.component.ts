@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfigurationDto, PublicConfigurationDto} from "../../../dtos/configuration-dto";
+import {PublicConfigurationDto} from "../../../dtos/configuration-dto";
 import {CalendarReferenceService} from "../../../services/calendar.reference.service";
 import {CalendarReferenceDto} from "../../../dtos/calendar-reference-dto";
 import {ToastrService} from "ngx-toastr";
@@ -73,10 +73,8 @@ export class ConfigModalComponent implements OnInit {
     }
     this.calendarReferenceService.addToCalendar(this.selectedCal, this.config.id).subscribe({
       next: (cal) => {
-        this.toastrService.success("Added to calendar")
         this.activeModal.close()
         window.location.reload();
-
       }, error: () => {
       }
     })
@@ -99,7 +97,7 @@ export class ConfigModalComponent implements OnInit {
   removeFromPublicPage() {
     this.configurationService.removeFromPublicPage(this.config.id).subscribe({
       next: () => {
-      this.toastrService.success("Deleted public configuration")
+        this.toastrService.success("Deleted public configuration")
         this.removedFromPublicPage.emit(this.config.id);
         this.activeModal.dismiss()
       }

@@ -78,6 +78,16 @@ public class CustomUserDetailService implements UserService {
     }
 
     @Override
+    public ApplicationUser findApplicationUserById(Long id) {
+        LOGGER.debug("Find application user by id");
+        ApplicationUser applicationUser = userRepository.findUserById(id);
+        if (applicationUser != null) {
+            return applicationUser;
+        }
+        throw new NotFoundException(String.format("Could not find the user with the id %s", id));
+    }
+
+    @Override
     public String login(UserLoginDto userLoginDto) {
         try {
             UserDetails userDetails = loadUserByUsername(userLoginDto.getEmail());

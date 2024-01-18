@@ -5,6 +5,7 @@ import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
+import at.ac.tuwien.sepr.groupphase.backend.repository.TagRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,30 +27,46 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final ConfigurationRepository configurationRepository;
+    private final TagRepository tagRepository;
     private final ApplicationUserRepository applicationUserRepository;
 
     public CalendarReferenceServiceImpl(CalendarReferenceRepository calendarReferenceRepository,
-                                        ConfigurationRepository configurationRepository,
+                                        ConfigurationRepository configurationRepository, TagRepository tagRepository,
                                         ApplicationUserRepository applicationUserRepository) {
         this.calendarReferenceRepository = calendarReferenceRepository;
         this.configurationRepository = configurationRepository;
+        this.tagRepository = tagRepository;
         this.applicationUserRepository = applicationUserRepository;
     }
 
     @Override
-    public CalendarReference getFromId(long id) {
+    public CalendarReference getFromId(long id, String username) {
         LOGGER.debug("Get CalendarReference from id {}", id);
-        return calendarReferenceRepository.findById(id).orElseThrow(NotFoundException::new);
+        CalendarReference calendarReference = calendarReferenceRepository
+            .findById(id)
+            .orElseThrow(NotFoundException::new);
+        if (!calendarReference.getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can't fetch Calendars you don't own");
+        }
+        return calendarReference;
     }
 
     @Override
     public CalendarReference add(CalendarReference calendarReference, String username) {
+        if (calendarReference.getId() != null
+            && !calendarReferenceRepository.findById(calendarReference.getId())
+                                           .orElseThrow(NotFoundException::new)
+                                           .getUser()
+                                           .getEmail()
+                                           .equals(username)) {
+            throw new AccessDeniedException("Can't modify Calendars you don't own");
+        }
+
         if (calendarReference.getEnabledDefaultConfigurations() == null) {
             calendarReference.setEnabledDefaultConfigurations(0L);
         }
         LOGGER.debug("Adding CalendarReference {}", calendarReference);
         calendarReference.setToken(generateToken());
-        calendarReference.setEnabledDefaultConfigurations(0L);
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         calendarReference.setUser(user);
         return calendarReferenceRepository.save(calendarReference);
@@ -119,13 +136,31 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    public CalendarReference clonePublicConfig(Long configId, Long calendarId) {
-        Configuration configToAdd = configurationRepository.getReferenceById(configId);
+    public CalendarReference clonePublicConfig(Long configId, Long calendarId, String username) {
+        if (!calendarReferenceRepository.findById(calendarId)
+                                        .orElseThrow(NotFoundException::new)
+                                        .getUser()
+                                        .getEmail()
+                                        .equals(username)) {
+            throw new AccessDeniedException("Can Not assign public Configurations to Calendars you don't own.");
+        }
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
+
         if (configId < 0) { // negatives are default configs
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() | (-configId));
             return calendarReferenceRepository.save(calendarReference);
         }
+
+        var user  = applicationUserRepository.getApplicationUserByEmail(username);
+        Configuration configToAdd = configurationRepository.getReferenceById(configId);
+        configToAdd.getRules().forEach(rule -> {
+            if (rule.getEffect().getEffectType().equals(EffectType.TAG)) {
+                var newTag = new Tag();
+                newTag.setTag(rule.getEffect().getTag());
+                newTag.setUser(user);
+                tagRepository.save(newTag);
+            }
+        });
 
 
         if (configToAdd.isPublished()) {
@@ -136,6 +171,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             cloned.setCalendarReference(calendarReference);
             cloned.setDescription(configToAdd.getDescription());
             cloned.setPublished(false);
+            cloned.setUser(user);
 
             cloned.setRules(configToAdd.getRules().stream().map(rule -> {
                 var r = new Rule();
@@ -153,6 +189,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
                 e.setLocation(rule.getEffect().getLocation());
                 e.setChangedTitle(rule.getEffect().getChangedTitle());
                 e.setChangedDescription(rule.getEffect().getChangedDescription());
+                e.setTag(rule.getEffect().getTag());
 
                 r.setConfiguration(cloned);
                 r.setMatch(m);
@@ -170,12 +207,19 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
             return calendarReference;
         } else {
-            throw new AccessDeniedException("Can't add nto public Config");
+            throw new AccessDeniedException("Failed to add public Config.");
         }
     }
 
     @Override
-    public CalendarReference removeConfig(Long configId, Long calendarId) {
+    public CalendarReference removeConfig(Long configId, Long calendarId, String username) {
+        if (!calendarReferenceRepository.findById(calendarId)
+                                        .orElseThrow(NotFoundException::new)
+                                        .getUser()
+                                        .getEmail()
+                                        .equals(username)) {
+            throw new AccessDeniedException("Can Not Remove Configurations from Calendars you don't own.");
+        }
         CalendarReference calendarReference = calendarReferenceRepository.getReferenceById(calendarId);
         if (configId < 0) { // negatives are default configs
             calendarReference.setEnabledDefaultConfigurations(calendarReference.getEnabledDefaultConfigurations() & ~-configId);
@@ -190,8 +234,15 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
     }
 
     @Override
-    public void deleteCalendar(Long id) {
-        LOGGER.debug("Deleting CalendarReference {}", id);
+    public void deleteCalendar(Long id, String username) {
+        LOGGER.debug("Deleting CalendarReference with id: {}, as user: {}", id, username);
+        if (!calendarReferenceRepository.findById(id)
+                                        .orElseThrow(NotFoundException::new)
+                                        .getUser()
+                                        .getEmail()
+                                        .equals(username)) {
+            throw new AccessDeniedException("Can Not Delete Calendars you don't own.");
+        }
         calendarReferenceRepository.deleteById(id);
     }
 }

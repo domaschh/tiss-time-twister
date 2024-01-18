@@ -5,6 +5,7 @@ import lombok.Data;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.VEvent;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Entity

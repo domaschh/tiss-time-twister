@@ -7,7 +7,7 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.EffectDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.MatchDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.PublicConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.RuleDto;
-import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.EffectType;
 import at.ac.tuwien.sepr.groupphase.backend.entity.MatchType;
@@ -17,7 +17,6 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.security.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -45,6 +45,7 @@ import java.util.Optional;
 
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_ROLES;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
+import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.CONFIG_BASE_URI;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -72,15 +73,13 @@ class ConfigurationEndpointTests {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private ConfigurationMapper configurationMapper;
-    @Autowired
     private JwtTokenizer jwtTokenizer;
     @MockBean
     private CalendarReferenceRepository calendarReferenceRepository;
-    @MockBean
-    private ApplicationUserRepository applicationUserRepository;
     @Autowired
     private SecurityProperties securityProperties;
+    @MockBean
+    private ApplicationUserRepository applicationUserRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -100,12 +99,13 @@ class ConfigurationEndpointTests {
     }
 
     private static RuleDto generateDummyRule() {
-        EffectDto effectDto = new EffectDto(null, "Blabla", "Blabla", "blabla", EffectType.DELETE);
+        EffectDto effectDto = new EffectDto(null, "Blabla", "Blabla", "blabla", null, EffectType.DELETE);
         MatchDto matchDto = new MatchDto(null,
                                          MatchType.EQUALS, "dasd",
                                          MatchType.EQUALS, "dasd",
                                          MatchType.REGEX, "dasdas");
-        return new RuleDto(null, effectDto, matchDto);
+
+        return new RuleDto(null, null, effectDto, matchDto);
     }
 
     @BeforeEach
@@ -113,7 +113,10 @@ class ConfigurationEndpointTests {
         configurationRepository.deleteAll();
         CalendarReference value = new CalendarReference();
         value.setConfigurations(List.of());
+        value.setUser(ADMIN_USER);
         when(calendarReferenceRepository.findById(any())).thenReturn(Optional.of(value));
+        ADMIN_USER.setId(1L);
+        when(applicationUserRepository.getApplicationUserByEmail(any())).thenReturn(ADMIN_USER);
     }
 
     private ConfigurationDto generateConfigurationWithoutRules() {
@@ -158,7 +161,7 @@ class ConfigurationEndpointTests {
         ConfigurationDto generated = generateEmptyConfig(config);
         MvcResult mvcResult = this.mockMvc.perform(get(CONFIG_BASE_URI + "/" + generated.getId())
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -178,7 +181,7 @@ class ConfigurationEndpointTests {
         ConfigurationDto generated = generateEmptyConfig(config);
         MvcResult mvcResult = this.mockMvc.perform(get(CONFIG_BASE_URI + "/all/" + 123)//TODO
                                                                                        .header(securityProperties.getAuthHeader(),
-                                                                                               jwtTokenizer.getAuthToken(ADMIN_USER,
+                                                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL,
                                                                                                                          ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
@@ -199,7 +202,7 @@ class ConfigurationEndpointTests {
         ConfigurationDto generated = generateEmptyConfig(config);
         MvcResult mvcResult = this.mockMvc.perform(get(CONFIG_BASE_URI + "/allPublic")
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -228,7 +231,7 @@ class ConfigurationEndpointTests {
         ConfigurationDto generated = generateEmptyConfig(config);
         MvcResult mvcResult = this.mockMvc.perform(get(CONFIG_BASE_URI + "/" + generated.getId())
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
@@ -242,7 +245,7 @@ class ConfigurationEndpointTests {
 
         MvcResult mvcResultDelete = this.mockMvc.perform(delete(CONFIG_BASE_URI + "/" + generated.getId())
                                                              .header(securityProperties.getAuthHeader(),
-                                                                     jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                     jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                                 .andDo(print())
                                                 .andReturn();
         MockHttpServletResponse responseDelete = mvcResultDelete.getResponse();
@@ -250,7 +253,7 @@ class ConfigurationEndpointTests {
 
         MvcResult mvcResultGettingAfter = this.mockMvc.perform(get(CONFIG_BASE_URI + "/" + generated.getId())
                                                                    .header(securityProperties.getAuthHeader(),
-                                                                           jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                                           jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                                       .andDo(print())
                                                       .andReturn();
         MockHttpServletResponse responseAfter = mvcResultGettingAfter.getResponse();
@@ -264,7 +267,7 @@ class ConfigurationEndpointTests {
                                                        .contentType(MediaType.APPLICATION_JSON)
                                                        .content(body)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();

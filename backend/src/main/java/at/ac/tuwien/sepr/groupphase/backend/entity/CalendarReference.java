@@ -2,6 +2,7 @@ package at.ac.tuwien.sepr.groupphase.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -12,9 +13,10 @@ import java.util.UUID;
 
 @Entity
 @Data
+@ToString
 @Table(name = "Calendars")
 public class CalendarReference {
-    @OneToMany(mappedBy = "calendarReference", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "calendarReference", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Configuration> configurations;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

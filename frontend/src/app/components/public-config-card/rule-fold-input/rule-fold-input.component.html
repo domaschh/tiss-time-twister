@@ -1,5 +1,5 @@
 <div (click)="openRuleInfo()" class="w-full bg-popover p-2 rounded-md cursor-pointer flex justify-between">
-  <label class="cursor-pointer hover:underline">Rule {{ rule.id }}</label>
+  <label class="cursor-pointer hover:underline">Rule </label>
   <i class="bi bi-trash" (click)="deleteRule()"></i>
 </div>
 
@@ -21,20 +21,6 @@
              [(ngModel)]="rule.match.summary">
     </div>
     <div class="flex w-full gap-2 align-items-center">
-      <label style="width: 120px" class="">Location</label>
-      <select style="width: 120px!important;" class="form-select " [(ngModel)]="rule.match.locationMatchType">
-        <option [value]="MatchType.CONTAINS">contains</option>
-        <option [value]="MatchType.REGEX">regex</option>
-        <option [value]="MatchType.EQUALS">equals</option>
-        <option [value]="MatchType.STARTS_WITH">startswith</option>
-      </select>
-      <input type="text"
-             name="locationMatch"
-             class="form-control"
-             id="locationMatch"
-             [(ngModel)]="rule.match.location">
-    </div>
-    <div class="flex w-full gap-2 align-items-center">
       <label style="width: 120px" class="">Description</label>
       <select style="width: 120px!important;" class="form-select " [(ngModel)]="rule.match.descriptionMatchType">
         <option [value]="MatchType.CONTAINS">contains</option>
@@ -48,6 +34,21 @@
              id="desc"
              [(ngModel)]="rule.match.description">
     </div>
+    <div class="flex w-full gap-2 align-items-center">
+      <label style="width: 120px" class="">Location</label>
+      <select style="width: 120px!important;" class="form-select " [(ngModel)]="rule.match.locationMatchType">
+        <option [value]="MatchType.CONTAINS">contains</option>
+        <option [value]="MatchType.REGEX">regex</option>
+        <option [value]="MatchType.EQUALS">equals</option>
+        <option [value]="MatchType.STARTS_WITH">startswith</option>
+      </select>
+      <input type="text"
+             name="locationMatch"
+             class="form-control"
+             id="locationMatch"
+             [(ngModel)]="rule.match.location">
+    </div>
+
   </div>
   <div class="flex flex-row justify-between align-items-center">
     <a>
@@ -59,12 +60,15 @@
              [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
       <label class="cursor-pointer rounded-2xl p-1 text-xs text-white"
              (click)="rule.effect.effectType = EffectType.MODIFY"
-             [ngClass]="isDeleteEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+             [ngClass]="!isModifyEffect() ? 'bg-notaddedDeactivated': 'bg-notadded' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+      <label class="cursor-pointer rounded-2xl p-1 text-xs text-white"
+             (click)="rule.effect.effectType = EffectType.TAG"
+             [ngClass]="!isTagEffect() ? 'bg-infoDeactivated': 'bg-info' ">{{ isDeleteEffect() ? 'Tag' : 'Tag' }}</label>
     </div>
 
   </div>
   <div class="flex flex-col w-full p-2">
-    <div *ngIf="!isDeleteEffect()" class="flex flex-col gap-2">
+    <div *ngIf="isModifyEffect()" class="flex flex-col gap-2">
       <div class="flex w-full gap-2 align-items-center">
         <label style="width: 100px" class="">Location</label>
         <input type="text"
@@ -89,6 +93,14 @@
                id="descriptionChange"
                [(ngModel)]="rule.effect.changedDescription">
       </div>
+    </div>
+  </div>
+  <div *ngIf="isTagEffect()">
+    <div class="flex flex-row justify-start align-items-center flex-wrap ">
+      <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1 text-white"
+             *ngFor="let tag of tags"
+             (click)="tagClicked(tag)"
+             [ngClass]="selectedTag === tag ? 'bg-added border-x border-y border-added text-white' : 'bg-transparent border-popover box-border border-x border-y text-popover-light'">{{ tag.tag }}</label>
     </div>
   </div>
 </div>

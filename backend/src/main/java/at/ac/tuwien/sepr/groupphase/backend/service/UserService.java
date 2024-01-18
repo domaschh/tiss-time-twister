@@ -31,6 +31,14 @@ public interface UserService extends UserDetailsService {
     ApplicationUser findApplicationUserByEmail(String email);
 
     /**
+     * Find an application user based on the id.
+     *
+     * @param id the id
+     * @return an application user
+     */
+    ApplicationUser findApplicationUserById(Long id);
+
+    /**
      * Log in a user.
      *
      * @param userLoginDto login credentials

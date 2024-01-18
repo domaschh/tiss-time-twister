@@ -11,6 +11,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Entity
 @Data
 @Table(name = "Rules")

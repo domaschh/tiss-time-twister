@@ -6,7 +6,10 @@
   <div class="flex-grow text-center">
 
   </div>
-  <div class="right-align pr-7">
+  <span class="">
+  {{username}}
+  </span>
+  <div class="right-align pr-7 ml-5">
     <button matTooltip ="toggle light/dark mode" [class]="isDarkMode() ? 'bi-sun' : 'bi-moon'" (click)="toggleDarkMode()"></button>
   </div>
   <div class="dropdown">

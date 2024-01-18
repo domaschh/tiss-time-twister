@@ -78,12 +78,13 @@ export class ImportComponent implements OnInit {
   }
 
   initForm(): void {
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
     this.importForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       link: [''],
       importSource: ['url', [Validators.required]],
       file: [{ value: null, disabled: true }],
-      color: [''],
+      color: ['#' + randomColor],
     });
     this.updateFormValidators();
   }
@@ -164,10 +165,10 @@ export class ImportComponent implements OnInit {
         }
       });
     } else if (this.selectedFile) {
-
       const formData = new FormData();
       formData.append('name', this.importForm.controls.name.value);
       formData.append('file', this.selectedFile, this.selectedFile.name);
+      formData.append('color', this.importForm.controls.name.value);
       if (this.optionalToken) {
         formData.append('token', this.optionalToken);
       }

@@ -202,7 +202,7 @@ class SecurityTest implements TestData {
                                                        .contentType(MediaType.APPLICATION_JSON)
                                                        .content(body)
                                                        .header(securityProperties.getAuthHeader(),
-                                                               jwtTokenizer.getAuthToken(ADMIN_USER, ADMIN_ROLES)))
+                                                               jwtTokenizer.getAuthToken(ADMIN_USER_EMAIL, ADMIN_ROLES)))
                                           .andDo(print())
                                           .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();

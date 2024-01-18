@@ -4,11 +4,14 @@ import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.CalendarReferenceDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.ConfigurationDto;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.CalendarReferenceMapper;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.ConfigurationMapper;
+import at.ac.tuwien.sepr.groupphase.backend.endpoint.mapper.TagMapper;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
+import at.ac.tuwien.sepr.groupphase.backend.entity.Tag;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
 import at.ac.tuwien.sepr.groupphase.backend.service.ExtractUsernameService;
 import at.ac.tuwien.sepr.groupphase.backend.service.PipelineService;
+import at.ac.tuwien.sepr.groupphase.backend.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.PermitAll;
@@ -39,6 +42,7 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -51,16 +55,18 @@ public class CalendarReferenceEndpoint {
     private final PipelineService pipelineService;
     private final ExtractUsernameService extractUsernameService;
     private final ConfigurationMapper configurationMapper;
+    private final TagService tagService;
 
     @Autowired
     public CalendarReferenceEndpoint(CalendarReferenceService calendarReferenceService, CalendarReferenceMapper calendarReferenceMapper,
                                      PipelineService pipelineService, ExtractUsernameService extractUsernameService,
-                                     ConfigurationMapper configurationMapper) {
+                                     ConfigurationMapper configurationMapper, TagService tagService, TagMapper tagMapper) {
         this.calendarReferenceService = calendarReferenceService;
         this.calendarReferenceMapper = calendarReferenceMapper;
         this.pipelineService = pipelineService;
         this.extractUsernameService = extractUsernameService;
         this.configurationMapper = configurationMapper;
+        this.tagService = tagService;
     }
 
     @Secured("ROLE_USER")
@@ -68,8 +74,8 @@ public class CalendarReferenceEndpoint {
     @Operation(summary = "Import a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
     public CalendarReferenceDto importCalendarReference(@RequestBody CalendarReferenceDto calendarReferenceDto,
                                                         HttpServletRequest request) {
-        String username = extractUsernameService.getUsername(request);
         LOGGER.info("Put /api/v1/calendar/body:{}", calendarReferenceDto);
+        String username = extractUsernameService.getUsername(request);
         return calendarReferenceMapper.calendarReferenceToDto(
             calendarReferenceService.add(
                 calendarReferenceMapper.dtoToCalendarReference(calendarReferenceDto), username));
@@ -79,9 +85,9 @@ public class CalendarReferenceEndpoint {
     @PutMapping("/file")
     @Operation(summary = "Import a CalendarReference with File", security = @SecurityRequirement(name = "apiKey"))
     public ResponseEntity<CalendarReferenceDto> uploadICalFile(@RequestParam("name") String name,
-                                            @RequestParam("file") MultipartFile file,
-                                            @RequestParam(required = false) UUID token,
-                                            HttpServletRequest request) {
+                                                               @RequestParam("file") MultipartFile file,
+                                                               @RequestParam(required = false) UUID token,
+                                                               HttpServletRequest request) {
         try {
             String username = extractUsernameService.getUsername(request);
             CalendarReference savedCalendarReference = calendarReferenceService.addFile(name, file, username, token);
@@ -104,10 +110,11 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @GetMapping("/{id}")
     @Operation(summary = "Get a stored CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public ResponseEntity<CalendarReferenceDto> getCalendarReference(@PathVariable Long id) {
+    public ResponseEntity<CalendarReferenceDto> getCalendarReference(@PathVariable Long id, HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/{}", id);
+        String username = extractUsernameService.getUsername(request);
         try {
-            return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.getFromId(id)));
+            return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.getFromId(id, username)));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
@@ -117,30 +124,35 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a Calendar Reference for the user", security = @SecurityRequirement(name = "apiKey"))
-    public void deleteCalendarReference(@PathVariable Long id) {
+    public void deleteCalendarReference(@PathVariable Long id, HttpServletRequest request) {
+
         LOGGER.info("Deleting Calendar with id: {}", id);
-        calendarReferenceService.deleteCalendar(id);
+        String username = extractUsernameService.getUsername(request);
+        calendarReferenceService.deleteCalendar(id, username);
     }
 
     @Secured("ROLE_USER")
     @PostMapping("/{calendarId}/{configId}")
     @Operation(summary = "Add a public config to a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+    public CalendarReferenceDto addConfig(@PathVariable Long calendarId, @PathVariable Long configId, HttpServletRequest request) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
-        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId));
+        String username = extractUsernameService.getUsername(request);
+
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.clonePublicConfig(configId, calendarId, username));
     }
 
     @Secured("ROLE_USER")
     @DeleteMapping("/{calendarId}/{configId}")
     @Operation(summary = "Remove a public config from a CalendarReference", security = @SecurityRequirement(name = "apiKey"))
-    public CalendarReferenceDto removeConfig(@PathVariable Long calendarId, @PathVariable Long configId) {
+    public CalendarReferenceDto removeConfig(@PathVariable Long calendarId, @PathVariable Long configId, HttpServletRequest request) {
         LOGGER.info("Adding Config with id {} to Calendar with id: {}", configId, calendarId);
-        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.removeConfig(configId, calendarId));
+        String username = extractUsernameService.getUsername(request);
+        return calendarReferenceMapper.calendarReferenceToDto(calendarReferenceService.removeConfig(configId, calendarId, username));
     }
 
 
     /**
-     * <p>  s the Calendar associated with the given token.</p>
+     * <p> Exports the Calendar associated with the given token as .ics file.</p>
      * <p> Tokens are specific to a user or a tagged subset of their managed calendar. </p>
      * <br>
      * <p> unsecured to provide calendar synchronisation</p>
@@ -151,10 +163,15 @@ public class CalendarReferenceEndpoint {
     @PermitAll
     @GetMapping("/export/{token}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token) {
-        LOGGER.info("Get /api/v1/calendar/get/export/{token}");
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable UUID token,
+                                                       @RequestParam(value = "tag", required = false) List<Long> tagIds) {
+        LOGGER.info("Get /api/v1/calendar/export/{}, Params: {}}", token, tagIds);
         try {
-            Calendar reExportedCalendar = pipelineService.pipeCalendar(token);
+            List<Tag> tags = new java.util.ArrayList<>(List.of());
+            if (tagIds != null) {
+                tagIds.forEach(id -> tags.add(tagService.getTagById(id)));
+            }
+            Calendar reExportedCalendar = pipelineService.pipeCalendar(token, tags);
             byte[] fileContent = reExportedCalendar.toString().getBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + token + ".ics");
@@ -174,11 +191,15 @@ public class CalendarReferenceEndpoint {
     @Secured("ROLE_USER")
     @PostMapping("/preview/{id}")
     @Operation(summary = "Export a calender from its url")
-    public ResponseEntity<Resource> exportCalendarFile(@PathVariable Long id, @RequestBody List<ConfigurationDto> configurationDtos) {
+    public ResponseEntity<Resource> exportCalendarFile(@PathVariable Long id,
+                                                       @RequestBody List<ConfigurationDto> configurationDtos,
+                                                       HttpServletRequest request) {
         LOGGER.info("Get /api/v1/calendar/get/preview/{}, body: {}", id, configurationDtos);
+        String username = extractUsernameService.getUsername(request);
+
         try {
-            Calendar preview = pipelineService.previewConfiguration(id,
-                                                                    configurationDtos.stream().map(configurationMapper::toEntity).toList());
+            Calendar preview =
+                pipelineService.previewConfiguration(id, configurationDtos.stream().map(configurationMapper::toEntity).toList(), username);
             byte[] fileContent = preview.toString().getBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= preview[" + id + "].ics");

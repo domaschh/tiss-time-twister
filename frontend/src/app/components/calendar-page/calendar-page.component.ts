@@ -13,11 +13,12 @@ import {EventService} from "../../services/event.service";
 import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
 import {ToastrService} from "ngx-toastr";
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
-import {colors} from "../../global/constants";
 import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
-import {ca} from "date-fns/locale";
-import {EventColor} from "calendar-utils";
+import {TagDto} from "../../dtos/tag-dto";
+import {TagService} from "../../services/tag.service";
+
+//preset colors since color should not be saved
 
 @Component({
   selector: 'app-calendar-page',
@@ -30,7 +31,9 @@ export class CalendarPageComponent implements OnInit {
   myICAL: ICAL = ICAL;
   calendars: Calendar[] = [];
   configurations: ConfigurationDto[] = [];
-
+  tags: TagDto[] = [];
+  selectedTags: TagDto[] = [];
+  showapplyFilters: boolean = true;
   @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week;
@@ -73,11 +76,13 @@ export class CalendarPageComponent implements OnInit {
     private eventService: EventService,
     private router: Router,
     private modalService: NgbModal,
-    private readonly toastrService: ToastrService
+    private readonly toastrService: ToastrService,
+    private tagService: TagService,
   ) {
   }
 
   ngOnInit(): void {
+    this.loadTags();
     this.loadCalendars();
     this.loadConfigs();
 
@@ -89,6 +94,16 @@ export class CalendarPageComponent implements OnInit {
         events.length === 0);
       this.viewDate = date;
     }
+  }
+
+  loadTags() {
+    this.tagService.getAll().subscribe({
+      next: tags => {
+        this.tags = tags;
+      },
+      error: () => {
+      }
+    });
   }
 
   loadConfigs() {
@@ -161,17 +176,22 @@ export class CalendarPageComponent implements OnInit {
   }
 
   private mapEvent(event: MyCalendarEvent, calendar: Calendar, colorId: number): MyCalendarEvent {
+    const description = event.description ?? ''; //for some reason can't inline
+    const allDay = (event.start.getHours() - event.end.getHours()) === 0;
+    let time = allDay ? '' : event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8);
     return {
+      id: event.id,
       description: event.description,
       title: event.title
-        + '<br>' + event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8)
-        + '<br>' + event.description
+        + '<br>' + time
+        + '<br>' + description
         + '<br>' + event.categories ?? ''
         + '<br>' + event.location ?? '' + '<br>',
       start: event.start,
       end: event.end,
-      color: {primary: calendar.color, secondary:calendar.color},
+      color: {primary: calendar.color, secondary: calendar.color},
       draggable: false,
+      allDay,
       resizable: {
         beforeStart: false,
         afterEnd: false
@@ -189,13 +209,15 @@ export class CalendarPageComponent implements OnInit {
 
   loadCalendars() {
     let id = 0;
+    this.calendars = []
     this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
         cals.forEach((calRef) => {
-          this.calenderReferenceServie.getIcalFileFromToken(calRef.token).subscribe((icalString) => {
+          this.calenderReferenceServie.getIcalFileFromToken(calRef.token, this.selectedTags).subscribe((icalString) => {
             const calAsComponent = new this.myICAL.Component(this.myICAL.parse(icalString));
             const vEvents = <any[]>calAsComponent.getAllSubcomponents("vevent");
             const evs = vEvents.map(event => ({
+                id: event.getFirstPropertyValue("uid"),
                 start: new Date(event.getFirstPropertyValue("dtstart")),
                 end: new Date(event.getFirstPropertyValue("dtend")),
                 title: event.getFirstPropertyValue("summary"),
@@ -258,8 +280,9 @@ export class CalendarPageComponent implements OnInit {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
           this.toastrService.success("Deleted Calendar");
+          this.loadCalendars();
+          this.refresh.next()
           this.calendars = this.calendars.filter(obj => obj.id !== calendar.id);
-
           callback(true);
         },
         error: () => {
@@ -276,9 +299,11 @@ export class CalendarPageComponent implements OnInit {
 
   openTokenModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(calendar.token);
+    modalRef.componentInstance.message =
+      this.calenderReferenceServie.getIcalLinkFromToken(calendar.token, modalRef.componentInstance.selectedTags);
     modalRef.componentInstance.title = 'Export Calendar: ' + calendar.name;
     modalRef.componentInstance.isToken = true;
+    modalRef.componentInstance.tags = this.tags;
 
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
@@ -294,13 +319,20 @@ export class CalendarPageComponent implements OnInit {
           this.toastrService.success("Regenerated Token");
           var index = this.calendars.findIndex(obj => obj.id === response.id);
           this.calendars[index].token = response.token;
-          modalRef.componentInstance.message = this.calenderReferenceServie.getIcalLinkFromToken(response.token)
+          modalRef.componentInstance.message =
+            this.calenderReferenceServie.getIcalLinkFromToken(response.token, modalRef.componentInstance.selectedTags);
         },
         error: () => {
           this.toastrService.error("Could not generate token");
         }
       });
     };
+  }
+
+  openConfigurationPage(edit: boolean) {
+    this.router.navigate(['createConfig'], {
+      state: {calendars: this.calendars, edit: false}
+    });
   }
 
   removeConfiguraion(config: ConfigurationDto) {
@@ -375,7 +407,7 @@ export class CalendarPageComponent implements OnInit {
 
   //with config applied
   downloadCalendar(calendar: Calendar) {
-    this.calenderReferenceServie.getIcalFileFromToken(calendar.token).subscribe({
+    this.calenderReferenceServie.getIcalFileFromToken(calendar.token, this.tags).subscribe({
       next: (result) => {
         const blob = new Blob([result], {type: 'text/calendar'});
         const url = window.URL.createObjectURL(blob);
@@ -394,5 +426,47 @@ export class CalendarPageComponent implements OnInit {
     })
   }
 
-  protected readonly ca = ca;
+  tagClicked(tag: TagDto) {
+    if (this.selectedTags.includes(tag)) {
+      this.selectedTags = this.selectedTags.filter(t => t != tag);
+    } else {
+      this.selectedTags.push(tag);
+    }
+  }
+
+  applyFilters() {
+    this.showapplyFilters = false;
+    this.events = [];
+    this.calendars = [];
+    this.loadCalendars();
+  }
+
+  resetFilter() {
+    this.showapplyFilters = true;
+    this.selectedTags = [];
+    this.loadCalendars();
+  }
+
+  openDeleteTagModal(tag: TagDto) {
+    const modalRef = this.modalService.open(ConfirmationModal);
+    modalRef.componentInstance.title = 'Tag Deletion Confirmation';
+    modalRef.componentInstance.message = 'Do you really want to delete: tag \'' + tag.tag + '\'';
+    modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      this.tagService.deleteTag(tag.id).subscribe({
+        next: (configurations) => {
+          if (configurations.length === 0) {
+            this.toastrService.success("Deleted tag");
+            this.tags = this.tags.filter(t => t.id != tag.id);
+            callback(true);
+          } else {
+            this.toastrService.error("Couldn't delete tag because it is still used in: " + configurations.map(config => '\n' + config.title))
+          }
+        },
+        error: () => {
+          this.toastrService.error("Could not delete tag");
+          callback(false);
+        }
+      });
+    };
+  }
 }

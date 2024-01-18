@@ -184,6 +184,7 @@ export class PreviewConfigComponent {
   }
 
   saveConfiguration() {
+    console.log(this.config)
     this.configurationService.createConfiguration(this.calId, this.config).subscribe({
       next: (createdConfiguration) => {
         this.toastrService.success("Sucessfully created configuration")

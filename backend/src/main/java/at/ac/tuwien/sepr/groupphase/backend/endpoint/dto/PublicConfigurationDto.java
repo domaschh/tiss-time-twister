@@ -1,12 +1,11 @@
 package at.ac.tuwien.sepr.groupphase.backend.endpoint.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class PublicConfigurationDto extends ConfigurationDto {
     private Long initialConfigurationId;
     private boolean isMine;

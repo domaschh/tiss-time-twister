@@ -7,12 +7,14 @@ import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceReposito
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.PublicConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -25,6 +27,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final ApplicationUserRepository applicationUserRepository;
     private final PublicConfigurationRepository publicConfigurationRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     public ConfigurationServiceImpl(ConfigurationRepository configurationRepository,
@@ -40,28 +45,63 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     @Transactional
     public Configuration update(Configuration configuration, String username, Long calendarReferenceId) {
-        LOGGER.debug("Update Configuration {}", username);
+        LOGGER.debug("Update Configuration {}, user:{}", configuration.getTitle(), username);
 
-        // Retrieve the CalendarReference entity using calendarReferenceId
         CalendarReference calendarReference = calendarReferenceRepository.findById(calendarReferenceId)
-                                                                         .orElseThrow(() -> new EntityNotFoundException("CalendarReference not found"));
+                                                                         .orElseThrow(() -> new EntityNotFoundException(
+                                                                             "CalendarReference not found"));
+        if (!calendarReference.getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can Not Assign Configuration to Calendar that is not owned.");
+        }
 
-        // Set the CalendarReference in the Configuration entity
         configuration.setCalendarReference(calendarReference);
+        if (configuration.getUser() == null) {
+            configuration.setUser(applicationUserRepository.getApplicationUserByEmail(username));
+        } else if (configuration.getId() != null
+                   && !configurationRepository.findById(configuration.getId())
+                                              .orElseThrow(NotFoundException::new)
+                                              .getUser()
+                                              .getEmail()
+                                              .equals(username)) {
+            throw new AccessDeniedException("Can Not Create/Update Configurations that are not owned");
+        }
 
-        // Save the Configuration entity
+        if (configuration.getId() != null) {
+            Configuration fetchDb = configurationRepository.findById(configuration.getId()).orElseThrow(() -> new EntityNotFoundException(
+                "Config not found"));
+
+            fetchDb.setTitle(configuration.getTitle());
+            fetchDb.setDescription(configuration.getDescription());
+            fetchDb.setPublished(configuration.isPublished());
+            fetchDb.setRules(configuration.getRules());
+            fetchDb.setClonedFromId(configuration.getClonedFromId());
+            fetchDb.setCalendarReference(calendarReference);
+
+            if (!fetchDb.isPublished()) {
+                if (fetchDb.getClonedFromId() == null) {
+                    this.deletePublicByOriginalId(fetchDb.getId());
+                }
+            }
+            return configurationRepository.save(fetchDb);
+        }
+
         return configurationRepository.save(configuration);
     }
 
-    @Override
-    public Configuration edit(Configuration configuration) {
-        LOGGER.debug("Edit Configuration {}", configuration);
-        return configurationRepository.save(configuration);
+    private void deletePublicByOriginalId(Long id) {
+        this.publicConfigurationRepository.deletePublicConfigurationByInitialConfigurationId(id);
     }
 
+
     @Override
-    public void delete(Long id) {
+    @Transactional
+    public void delete(Long id, String username) {
         LOGGER.debug("Delete Configuration by id {}", id);
+
+        if (!configurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
+            throw new AccessDeniedException("Can Not Delete Configurations that are not owned");
+        }
+
         configurationRepository.deleteById(id);
     }
 
@@ -103,6 +143,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public boolean publish(Configuration configToPublish, String username) {
+        LOGGER.debug("Publishing Configuration: {}", configToPublish);
+        //        if (!configurationRepository.findById(configToPublish.getId())
+        //                                    .orElseThrow(NotFoundException::new)
+        //                                    .getUser()
+        //                                    .getEmail()
+        //                                    .equals(username)) {
+        //            throw new AccessDeniedException("Can Not Publish Configurations that are not owned");
+        //        }
+
         PublicConfiguration publicConfiguration = new PublicConfiguration();
 
         publicConfiguration.setTitle(configToPublish.getTitle());
@@ -125,6 +174,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             e.setLocation(rule.getEffect().getLocation());
             e.setChangedTitle(rule.getEffect().getChangedTitle());
             e.setChangedDescription(rule.getEffect().getChangedDescription());
+            e.setTag(rule.getEffect().getTag());
 
             r.setConfiguration(publicConfiguration);
             r.setMatch(m);
@@ -140,15 +190,21 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     @Transactional
-    public void deletePublic(Long id) {
+    public void deletePublic(Long id, String username) {
+        LOGGER.debug("Removing published Configuration withId:{}", id);
+        if (!publicConfigurationRepository
+            .findById(id)
+            .orElseThrow(NotFoundException::new)
+            .getOwningUser()
+            .equals(username)) {
+            throw new AccessDeniedException("Can Not remove published Configurations that are not owned");
+        }
         PublicConfiguration publicConf = publicConfigurationRepository.getReferenceById(id);
         LOGGER.debug(publicConf.toString());
-        System.out.println("HALLO");
-        System.out.println(publicConf);
-        var clonedFrom = configurationRepository.getReferenceById(publicConf.getInitialConfigurationId());
-        if (clonedFrom != null) {
-            clonedFrom.setPublished(false);
-            configurationRepository.save(clonedFrom);
+        var clonedFrom = configurationRepository.findById(publicConf.getInitialConfigurationId());
+        if (clonedFrom.isPresent()) {
+            clonedFrom.get().setPublished(false);
+            configurationRepository.save(clonedFrom.get());
         }
 
         this.publicConfigurationRepository.delete(publicConf);
