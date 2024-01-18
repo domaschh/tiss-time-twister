@@ -64,6 +64,7 @@ public class RegistrationTest implements TestData {
 
     @BeforeEach
     public void setUp() {
+        userRepository.deleteAll();
         userDataGenerator.generateUsers();
         newUserDto = new UserRegistrationDto();
         newUserDto.setEmail(sampleEmail);
