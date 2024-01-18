@@ -3,7 +3,7 @@ package at.ac.tuwien.sepr.groupphase.backend.endpoint;
 import at.ac.tuwien.sepr.groupphase.backend.endpoint.dto.PasswordResetDto;
 import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
 import at.ac.tuwien.sepr.groupphase.backend.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,32 +28,22 @@ public class PasswordResetEndpoint {
         this.userService = userService;
     }
 
+    @PermitAll
     @PostMapping("/forgotPassword")
-    public ResponseEntity<?> forgotPasswordProcess(@RequestParam("email") final String email, HttpServletRequest request) {
+    public ResponseEntity<?> forgotPasswordProcess(@RequestParam("email") final String email) {
         try {
-            userService.sendPasswordResetEmail(email, getAppUrl(request));
+            userService.sendPasswordResetEmail(email);
             LOGGER.info("Reset password email sent to: {}", email);
-            return ResponseEntity.ok("Reset password email sent.");
+            return ResponseEntity.ok(Map.of("message", "Reset password email sent."));
         } catch (Exception e) {
             LOGGER.error("Error sending email: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending email.");
         }
     }
 
-    @GetMapping("/resetPassword")
-    public ModelAndView showChangePasswordPage(@RequestParam("token") final String token) {
-        final String result = userService.validatePasswordResetToken(token);
-
-        if (result != null) {
-            LOGGER.error("Token validation error: {}", token);
-            return new ModelAndView("redirect:/login");
-        } else {
-            return new ModelAndView("updatePassword", "token", token);
-        }
-    }
-
-    @PostMapping("/savePassword")
-    public ResponseEntity<?> savePassword(@Valid @RequestBody PasswordResetDto passwordResetDto) {
+    @PermitAll
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody PasswordResetDto passwordResetDto) {
         final String result = userService.validatePasswordResetToken(passwordResetDto.getToken());
         if (result != null) {
             return ResponseEntity.badRequest().body("Error: " + result);
@@ -67,12 +57,7 @@ public class PasswordResetEndpoint {
         if (!passwordResetDto.getNewPassword().equals(passwordResetDto.getConfirmPassword())) {
             return ResponseEntity.badRequest().body("Error: Passwords do not match.");
         }
-
         userService.changeUserPassword(user.get(), passwordResetDto.getNewPassword());
-        return ResponseEntity.ok("Your password has been successfully reset.");
-    }
-
-    private String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        return ResponseEntity.ok(Map.of("message","Your password has been successfully reset."));
     }
 }

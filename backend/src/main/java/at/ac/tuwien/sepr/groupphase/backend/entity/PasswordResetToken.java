@@ -37,6 +37,12 @@ public class PasswordResetToken {
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
+    public PasswordResetToken(String token, ApplicationUser user, Instant instant) {
+        this.token = token;
+        this.user = user;
+        this.expiryDate = instant;
+    }
+
     private Instant calculateExpiryDate(int expiryTimeInMinutes) {
         return Instant.now().plus(expiryTimeInMinutes, ChronoUnit.MINUTES);
     }

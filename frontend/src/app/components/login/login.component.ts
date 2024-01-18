@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AuthRequest } from '../../dtos/auth-request';
 
@@ -10,7 +10,6 @@ import {
   Ripple,
   initTE,
 } from "tw-elements";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -37,8 +36,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private renderer: Renderer2,
     private el: ElementRef,
-    private modalService: NgbModal,
-    private activatedRoute: ActivatedRoute,
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -50,10 +47,13 @@ export class LoginComponent implements OnInit {
       this.isMobileView = window.innerWidth > 480;
 
       // Update button width based on the condition
-      if (this.isMobileView) {
-        this.renderer.addClass(this.el.nativeElement.querySelector('.login-button'), 'w-72');
-      } else {
-        this.renderer.removeClass(this.el.nativeElement.querySelector('.login-button'), 'w-72');
+      const loginButton = this.el.nativeElement.querySelector('.login-button');
+      if (loginButton) {
+        if (this.isMobileView) {
+          this.renderer.addClass(loginButton, 'w-72');
+        } else {
+          this.renderer.removeClass(loginButton, 'w-72');
+        }
       }
     });
   }
@@ -66,8 +66,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const authRequest: AuthRequest = new AuthRequest(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
       this.authenticateUser(authRequest);
-    } else {
-      console.log('invalid entry');
     }
   }
 
@@ -77,15 +75,11 @@ export class LoginComponent implements OnInit {
    * @param authRequest authentication data from the user login form
    */
   authenticateUser(authRequest: AuthRequest) {
-    console.log('attempting to authenticate: ' + authRequest.email);
     this.authService.loginUser(authRequest).subscribe({
       next: () => {
-        console.log('login successful ' + authRequest.email);
         this.router.navigate(['/calendar']);
       },
       error: error => {
-        console.log('login failed: ');
-        console.log(error);
         this.error = true;
         if (typeof error.error === 'object') {
           this.errors.auth = error.error.error || 'authentication failed';
@@ -110,5 +104,4 @@ export class LoginComponent implements OnInit {
     }
     initTE({ Validation, Input, Ripple });
   }
-
 }

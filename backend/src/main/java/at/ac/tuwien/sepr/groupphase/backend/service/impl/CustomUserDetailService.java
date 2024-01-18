@@ -143,15 +143,22 @@ public class CustomUserDetailService implements UserService {
 
     @Override
     @Transactional
-    public void sendPasswordResetEmail(String email, String appUrl) {
+    public void sendPasswordResetEmail(String email) {
         ApplicationUser user = findApplicationUserByEmail(email);
-        if (user != null) {
-            String token = UUID.randomUUID().toString();
-            createPasswordResetTokenForUser(user, token);
-            emailService.sendPasswordResetEmail(user, token, appUrl);
-        } else {
+        if (user == null) {
             LOGGER.error("User not found for email: {}", email);
             throw new NotFoundException("User not found with email: " + email);
+        } else {
+            PasswordResetToken existingToken = passwordResetRepository.findByUser(user);
+            if (existingToken != null) {
+                existingToken.setToken(UUID.randomUUID().toString());
+                existingToken.setExpiryDate(calculateExpiryDate(180));
+            } else {
+                String token = UUID.randomUUID().toString();
+                existingToken = new PasswordResetToken(token, user, calculateExpiryDate(180));
+            }
+            passwordResetRepository.save(existingToken);
+            emailService.sendStyledPasswordResetEmail(user, existingToken.getToken());
         }
     }
 
@@ -206,8 +213,8 @@ public class CustomUserDetailService implements UserService {
         passwordResetRepository.deleteAllExpiredSince(Instant.now());
     }
 
-    private boolean isValidToken(PasswordResetToken token) {
-        return token != null && !isTokenExpired(token);
+    private Instant calculateExpiryDate(int expiryTimeInMinutes) {
+        return Instant.now().plusSeconds(60 * expiryTimeInMinutes);
     }
 
     private boolean isTokenExpired(PasswordResetToken token) {

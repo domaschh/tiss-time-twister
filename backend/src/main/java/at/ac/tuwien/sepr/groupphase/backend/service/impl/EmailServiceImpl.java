@@ -1,8 +1,6 @@
 package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.ApplicationUser;
-import at.ac.tuwien.sepr.groupphase.backend.entity.PasswordResetToken;
-import at.ac.tuwien.sepr.groupphase.backend.repository.PasswordResetRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +14,17 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.lang.invoke.MethodHandles;
-import java.time.Instant;
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final JavaMailSender emailSender;
 
     @Autowired
-    private JavaMailSender emailSender;
-    @Autowired
-    private PasswordResetRepository passwordResetRepository;
+    public EmailServiceImpl(JavaMailSender emailSender) {
+        this.emailSender = emailSender;
+    }
 
     @Override
     @Async
@@ -41,9 +39,18 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendPasswordResetEmail(ApplicationUser user, String token, String appUrl) {
-        String url = appUrl + "/resetPassword?token=" + token;
-        String message = "<p>To reset your password, click the link below:</p><p><a href='" + url + "'>" + url + "</a></p><p>If you did not request a password reset, please ignore this email.</p>";
+    public void sendStyledPasswordResetEmail(ApplicationUser user, String token) {
+        String url = "http://localhost:4200/#/resetPassword?token=" + token;
+
+        String message = "<html>"
+            + "<body>"
+            + "<p>To reset your password, please click the button below:</p>"
+            + "<form action='" + url + "' method='get'>"
+            + "<button type='submit' style='background-color: #0095ff; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>Reset Password</button>"
+            + "</form>"
+            + "<p>If you did not request a password reset, please ignore this email.</p>"
+            + "</body>"
+            + "</html>";
 
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();

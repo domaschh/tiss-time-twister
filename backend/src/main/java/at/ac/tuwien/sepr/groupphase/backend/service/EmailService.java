@@ -16,7 +16,6 @@ public interface EmailService {
      *
      * @param user the user that wants to reset their password
      * @param token the reset token
-     * @param appUrl the url
      */
-    void sendPasswordResetEmail(ApplicationUser user, String token, String appUrl);
+    void sendStyledPasswordResetEmail(ApplicationUser user, String token);
 }

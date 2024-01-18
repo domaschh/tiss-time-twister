@@ -10,6 +10,7 @@ import { CreateConfigComponent } from "./components/create-config/create-config.
 import { PublicPageComponent } from "./components/public-page/public-page.component";
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ResetPasswordMode, ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PreviewConfigComponent } from './components/preview-config/preview-config.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,7 +19,7 @@ const routes: Routes = [
   { path: 'import', component: ImportComponent },
   { path: 'createConfig', component: CreateConfigComponent },
   { path: 'publicConfigs', component: PublicPageComponent },
- // { path: 'previewConfig', component: PreviewConfigComponent},
+  { path: 'previewConfig', component: PreviewConfigComponent },
   {
     path: 'event', children: [
       { path: '', redirectTo: 'create', pathMatch: 'full' },
@@ -27,12 +28,8 @@ const routes: Routes = [
     ]
   },
   { path: 'register', component: RegistrationComponent },
-  {
-    path: '', children: [
-      { path: '', redirectTo: 'forgotPassword', pathMatch: 'full' },
-      { path: 'forgotPassword', component: ResetPasswordComponent , data: {mode: ResetPasswordMode.Forgot }},
-      { path: 'resetPassword', component: ResetPasswordComponent , data: {mode: ResetPasswordMode.Reset }},
-    ]},
+  { path: 'forgotPassword', component: ResetPasswordComponent, data: { mode: ResetPasswordMode.Forgot } },
+  { path: 'resetPassword', component: ResetPasswordComponent, data: { mode: ResetPasswordMode.Reset } },
 ];
 
 @NgModule({

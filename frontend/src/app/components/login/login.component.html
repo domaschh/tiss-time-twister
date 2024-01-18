@@ -1,7 +1,11 @@
 <div class="container h-full min-h-screen flex items-center justify-center">
-  <div class="flex h-full flex-wrap items-center justify-center lg:justify-between">
+  <div
+    class="flex h-full flex-wrap items-center justify-center lg:justify-between"
+  >
     <!-- Left column container with background -->
-    <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:h-full lg:flex lg:items-center lg:justify-center">
+    <div
+      class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:h-full lg:flex lg:items-center lg:justify-center"
+    >
       <img
         src="assets/undraw_date_picker.svg"
         class="scale-50 lg:scale-75"
@@ -18,7 +22,11 @@
           <h1 class="text-2xl font-semibold">Login</h1>
           <h2 class="text-black">
             The simple way to keep your schedule in check - with
-            <img src="assets/TTT_Blau_Big.svg" alt="Logo" class="inline h-10 max-w-full">
+            <img
+              src="assets/TTT_Blau_Big.svg"
+              alt="Logo"
+              class="inline h-10 max-w-full"
+            />
           </h2>
           <p>
             You don't have an account yet?
@@ -69,12 +77,12 @@
                 <small
                   class="form-text error-text"
                   *ngIf="loginForm.controls.email.errors.required"
-                >An email address is required!</small
+                  >An email address is required!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="loginForm.controls.email.errors.email"
-                >A valid email address is required!</small
+                  >A valid email address is required!</small
                 >
               </div>
             </div>
@@ -98,12 +106,13 @@
                 <small
                   class="form-text error-text"
                   *ngIf="loginForm.controls.password.errors.minlength"
-                >Passwords are required be be at least 8 characters long!</small
+                  >Passwords are required be be at least 8 characters
+                  long!</small
                 >
                 <small
                   class="form-text error-text"
                   *ngIf="loginForm.controls.password.errors.required"
-                >A password is required!</small
+                  >A password is required!</small
                 >
               </div>
             </div>
@@ -121,12 +130,12 @@
             <div class="relative mx-auto w-128">
               <button
                 type="submit"
-                (click)="loginUser()"
                 class="inline-block rounded bg-blue px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-dark hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-dark focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-dark active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                 [ngClass]="{ 'w-72': isMobileView, 'w-full': !isMobileView }"
                 data-te-ripple-init
                 data-te-ripple-color="light"
-              > Login
+              >
+                Login
               </button>
             </div>
           </div>

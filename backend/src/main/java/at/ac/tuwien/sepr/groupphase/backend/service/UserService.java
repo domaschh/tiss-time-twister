@@ -60,10 +60,9 @@ public interface UserService extends UserDetailsService {
      * Sends an email to reset the password of the user.
      *
      * @param email the email to reset the password
-     * @param appUrl the url-Link to reset the password
      */
 
-    void sendPasswordResetEmail(String email, String appUrl);
+    void sendPasswordResetEmail(String email);
 
     Optional<ApplicationUser> getUserByPasswordResetToken(String token);
 
