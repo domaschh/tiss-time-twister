@@ -69,6 +69,7 @@ public class RegistrationTest implements TestData {
         newUserDto = new UserRegistrationDto();
         newUserDto.setEmail(sampleEmail);
         newUserDto.setPassword(samplePwd);
+        userService.registerUser(newUserDto);
     }
 
     @Test
