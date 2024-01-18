@@ -58,6 +58,6 @@ public class PasswordResetEndpoint {
             return ResponseEntity.badRequest().body("Error: Passwords do not match.");
         }
         userService.changeUserPassword(user.get(), passwordResetDto.getNewPassword());
-        return ResponseEntity.ok(Map.of("message","Your password has been successfully reset."));
+        return ResponseEntity.ok(Map.of("message", "Your password has been successfully reset."));
     }
 }

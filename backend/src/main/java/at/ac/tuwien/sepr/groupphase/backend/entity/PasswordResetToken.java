@@ -85,7 +85,9 @@ public class PasswordResetToken {
         }
         if (getUser() == null) {
             return other.getUser() == null;
-        } else return getUser().equals(other.getUser());
+        } else {
+            return getUser().equals(other.getUser());
+        }
     }
 
     @Override
