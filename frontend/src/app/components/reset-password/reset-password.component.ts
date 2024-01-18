@@ -73,7 +73,6 @@ export class ResetPasswordComponent implements OnInit {
         });
       }
     } else if (this.mode === ResetPasswordMode.Reset) {
-      console.log('Reset password');
       if (this.resetForm.valid) {
         this.authService.resetPassword(this.token, this.resetForm.controls.password.value, this.resetForm.controls.passwordConfirmation.value).subscribe({
           next: () => {
