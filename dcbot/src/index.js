@@ -92,7 +92,16 @@ client.on("interactionCreate", (interaction) => {
               ephemeral: true,
             });
           } catch (error) {
-            console.error(error);
+            storage = storage.filter((x) => {
+              return x != item;
+            });
+            interaction.user.send(
+              `Link for calendar ${item.name} turned invalid. \n Calendar was removed`
+            );
+            interaction.reply({
+              content: "Error sending Timetable ❌",
+              ephemeral: true,
+            });
           }
         })();
       });
@@ -173,7 +182,12 @@ function sendDailyTimetables() {
         finalMessage = finalMessage + messageBody;
         user.user.send(finalMessage);
       } catch (error) {
-        console.error(error);
+        storage = storage.filter((x) => {
+          return x != user;
+        });
+        user.user.send(
+          `Link for calendar ${item.name} turned invalid. \n Calendar was removed❌`
+        );
       }
     })();
   });
