@@ -14,8 +14,10 @@ const client = new Client({
 });
 
 var storage = [];
+var guild;
 
 client.on("ready", (c) => {
+  guild = client.guilds.fetch(process.env.GUILD_ID);
   console.log(`👍${c.user.tag} is online`);
 });
 
@@ -51,12 +53,12 @@ client.on("interactionCreate", (interaction) => {
         }
         if (
           storage.filter((item) => {
-            return item.user.id === interaction.user.id && item.link === link;
+            return item.userid === interaction.user.id && item.link === link;
           }).length == 0
         ) {
           storage.push({
             name: name,
-            user: interaction.user,
+            userid: interaction.user.id,
             link: link,
             reminders: false,
           });
@@ -75,7 +77,7 @@ client.on("interactionCreate", (interaction) => {
     case "timetable":
       var finalMessage = "⌚Deine Termine für heute:🎓\n";
       var items = storage.filter((e) => {
-        return e.user.id === interaction.user.id;
+        return e.userid === interaction.user.id;
       });
 
       items.forEach((item) => {
@@ -112,13 +114,13 @@ client.on("interactionCreate", (interaction) => {
       if (
         storage.filter((item) => {
           return (
-            item.user.id === interaction.user.id &&
+            item.userid === interaction.user.id &&
             item.name === interaction.options.get("calendar-name").value
           );
         }).length != 0
       ) {
         storage = storage.filter((item) => {
-          return !(item.user.id === interaction.user.id && item.name === name);
+          return !(item.userid === interaction.user.id && item.name === name);
         });
         interaction.reply({
           content: `Calendar ${name} removed`,
@@ -134,7 +136,7 @@ client.on("interactionCreate", (interaction) => {
     case "all-calendars":
       var allcalendars = "All Calendars you have added📅:\n";
       var x = storage.filter((item) => {
-        return item.user.id === interaction.user.id;
+        return item.userid === interaction.user.id;
       });
       if (x.length == 0) {
         interaction.user.send("You have not added any calendars yet 👀");
@@ -149,7 +151,7 @@ client.on("interactionCreate", (interaction) => {
     case "daily-timetable":
       let v = interaction.options.get("send-reminders").value;
       storage = storage.map((entry) => {
-        if (entry.user.id === interaction.user.id) {
+        if (entry.userid === interaction.user.id) {
           entry.reminders = v;
         }
         return entry;
@@ -171,7 +173,8 @@ function sendDailyTimetables() {
     return entry.reminders;
   });
 
-  users.forEach((user) => {
+  users.forEach(async (user) => {
+    let userObject  =  await client.users.fetch(user.userid);
     var finalMessage = "⌚Deine Termine für heute:🎓\n";
     finalMessage = finalMessage + `\n${user.name}:\n`;
     (async () => {
@@ -180,31 +183,34 @@ function sendDailyTimetables() {
         var result = ICalToObject.getTodaysEvents(iCalAsString);
         var messageBody = result.join("\n");
         finalMessage = finalMessage + messageBody;
-        user.user.send(finalMessage);
+        userObject.send(finalMessage);
       } catch (error) {
         storage = storage.filter((x) => {
           return x != user;
         });
-        user.user.send(
-          `Link for calendar ${item.name} turned invalid. \n Calendar was removed❌`
+        userObject.send(
+          `Link for calendar ${user.name} turned invalid. \n Calendar was removed❌`
         );
       }
     })();
   });
+
+  scheduleDailyTimetables();
 }
 
 function scheduleDailyTimetables() {
   const now = new Date();
   const targetTime = new Date(now);
   targetTime.setHours(8, 0, 0, 0);
+  targetTime.setMinutes(0);
+  targetTime.setSeconds(0);
 
   let timeUntilNext8AM = targetTime - now;
   if (timeUntilNext8AM < 0) {
     targetTime.setDate(targetTime.getDate() + 1);
     timeUntilNext8AM = targetTime - now;
   }
-
-  setInterval(sendDailyTimetables, timeUntilNext8AM);
+  setTimeout(sendDailyTimetables, timeUntilNext8AM);
 }
 
 scheduleDailyTimetables();
