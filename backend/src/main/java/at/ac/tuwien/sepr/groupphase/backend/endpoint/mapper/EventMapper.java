@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface EventMapper {
 
-    Event dtoToEvent(EventDto eventDto);
+    Event dtoToEvent(EventDto eventDto, String username);
 
     EventDto eventToDto(Event event);
 }

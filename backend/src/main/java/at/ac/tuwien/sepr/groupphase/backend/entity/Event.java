@@ -24,7 +24,7 @@ public class Event {
     @Column()
     private String location;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "calendar_id")
     private CalendarReference calendar;
 

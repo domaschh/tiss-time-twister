@@ -19,7 +19,7 @@ public class EventMapperImpl implements EventMapper {
     }
 
     @Override
-    public Event dtoToEvent(EventDto eventDto) {
+    public Event dtoToEvent(EventDto eventDto, String username) {
         if (eventDto == null) {
             return null;
         }
@@ -32,7 +32,7 @@ public class EventMapperImpl implements EventMapper {
         event.setEndTime(eventDto.endTime());
         event.setLocation(eventDto.location());
 
-        CalendarReference calendar = calendarRefService.getFromId(eventDto.calendarId(), "dasd");
+        CalendarReference calendar = calendarRefService.getFromId(eventDto.calendarId(), username);
         event.setCalendar(calendar);
 
         return event;
