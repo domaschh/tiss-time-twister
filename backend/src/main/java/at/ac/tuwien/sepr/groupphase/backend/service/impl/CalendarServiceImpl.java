@@ -35,11 +35,21 @@ public class CalendarServiceImpl implements CalendarService {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                data.append(line).append("\n");
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                if (line.startsWith("LAST-MODIFIED")) {
+                    continue;
+                }
+                if (line.startsWith("\t")) {
+                    data.append(line);
+                } else {
+                    data.append(line).append("\n");
+                }
             }
         }
 
-
-        return data.toString();
+        return data.toString().replace("\n\t", " ");
     }
 }
