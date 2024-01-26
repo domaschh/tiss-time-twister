@@ -20,7 +20,9 @@ import java.net.URLConnection;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     @Override
     public Calendar fetchCalendarByUrl(String url) throws ParserException, IOException, URISyntaxException {
         return new CalendarBuilder().build(new StringReader(fetchIcalData(url)));
