@@ -6,6 +6,9 @@ import {NgForm} from "@angular/forms";
 import {Observable} from "rxjs";
 import {EventCalendar} from "../../dtos/Calendar";
 import {ToastrService} from "ngx-toastr";
+import {TagDto} from "../../dtos/tag-dto";
+import {ConfirmationModal} from "../delete-modal/confirmation-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 export enum CreateEditMode{
   create,
@@ -64,6 +67,7 @@ export class CreateEditCustomEventComponent implements OnInit{
     private eventService: EventService,
     private router: Router,
     private route: ActivatedRoute,
+    private modalService: NgbModal,
     private readonly toastrService: ToastrService,
   ) {
     this.calendars = this.router.getCurrentNavigation().extras.state?.calendars;
@@ -164,4 +168,25 @@ export class CreateEditCustomEventComponent implements OnInit{
   onCancelClick() {
     this.router.navigate(['calendar']);
   }
+
+  openDeleteModal() {
+    const modalRef = this.modalService.open(ConfirmationModal);
+    modalRef.componentInstance.title = 'Deletion Confirmation';
+    modalRef.componentInstance.message = 'Do you really want to delete this event?';
+    modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
+      this.eventService.deleteEvent(this.event.id).subscribe({
+        next: () => {
+          this.toastrService.success("Deleted event");
+          this.router.navigate(['calendar']);
+          callback(true);
+        },
+        error: () => {
+          this.toastrService.error("Could not delete tag");
+          callback(false);
+        }
+      });
+    };
+  }
+
+  protected readonly CreateEditMode = CreateEditMode;
 }
