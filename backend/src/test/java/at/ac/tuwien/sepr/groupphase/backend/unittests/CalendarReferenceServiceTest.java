@@ -155,4 +155,5 @@ class CalendarReferenceServiceTest {
             () -> assertThat(resultFromId.getLink()).isNull(),
             () -> assertEquals(resultFromId, resultFromToken));
     }
+
 }

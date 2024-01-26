@@ -18,10 +18,13 @@ import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
@@ -40,6 +43,8 @@ import java.util.*;
 //END:VEVENT
 @Service
 public class PipelineServiceImpl implements PipelineService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final CalendarService calendarService;
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final TissService tissService;
@@ -72,6 +77,7 @@ public class PipelineServiceImpl implements PipelineService {
 
         if (calendarReference.getLink() != null && !calendarReference.getLink().isEmpty()) {
             calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
+            LOGGER.info(calendar.toString());
         } else if (calendarReference.getIcalData() != null) {
             calendar = new CalendarBuilder().build(new ByteArrayInputStream(calendarReference.getIcalData()));
         } else {
