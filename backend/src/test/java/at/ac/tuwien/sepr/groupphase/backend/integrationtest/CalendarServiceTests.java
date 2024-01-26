@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureMockMvc
 class CalendarServiceTests {
     private static final String TISS_URL = "https://tiss.tuwien.ac.at/events/rest/calendar/personal?locale=de&token=58e1c7c3-bcd9-4c0e-9b63-5a6aed29ab2a";
+    private static final String TUWEL_URL = "https://tuwel.tuwien.ac.at/calendar/export_execute.php?userid=159114&authtoken=90eac1be94543b058aaff7751c03bbf47bdcbd08&preset_what=all&preset_time=custom";
 
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
 
@@ -65,6 +66,16 @@ class CalendarServiceTests {
         assertAll(
             () -> assertThrows(ParserException.class, () -> calendarService.fetchCalendarByUrl("https://url.com")),
             () -> assertThrows(URISyntaxException.class, () -> calendarService.fetchCalendarByUrl("not correct URI syntax")));
+    }
+
+    @Test
+    void fetchTuwelCalendarWorks() throws ParserException, IOException, URISyntaxException {
+        Calendar calendar = calendarService.fetchCalendarByUrl(TUWEL_URL);
+
+        var list = calendar.getComponentList();
+        list.getAll().forEach(event -> System.out.println(event + "" + event.getClass()));
+        assertNotNull(calendar);
+
     }
 
 }
