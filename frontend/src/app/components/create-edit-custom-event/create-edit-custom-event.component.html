@@ -67,8 +67,16 @@
                 <option *ngFor="let item of calendars" [value]="item.id">{{ item.name }}</option>
               </select>
             </div>
-              <button type="submit" [disabled]="!form.valid" class="btn btn-success float-right">Save</button>
-            <button type="button" (click)="onCancelClick()" class="btn btn-danger float-right mr-3">Cancel</button>
+            <div class="flex justify-between">
+              <div>
+                <button type="submit" [disabled]="!form.valid" class="btn btn-success float-right">Save</button>
+                <button type="button" (click)="onCancelClick()" class="btn btn-danger float-right mr-3">Cancel</button>
+              </div>
+              <button *ngIf="this.mode === CreateEditMode.edit && this.event.id" type="button" (click)="openDeleteModal()" class="btn btn-danger float-right mr-3">
+                <i matTooltip="Delete tag" class="bi bi-trash text-white ml-2"></i>
+                Delete
+              </button>
+            </div>
           </form>
         </div>
 
