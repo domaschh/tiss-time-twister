@@ -21,4 +21,4 @@ COPY . .
 EXPOSE 4200
 
 # Start the Angular application
-CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check", "--prod"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
