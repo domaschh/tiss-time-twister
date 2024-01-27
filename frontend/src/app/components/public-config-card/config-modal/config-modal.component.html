@@ -5,26 +5,27 @@
            [ngClass]="config.alreadyCloned ? 'bg-added border-x border-y border-added' : 'bg-notadded border-x border-y border-notadded'"
     >{{ config.alreadyCloned ? 'Already Added' : 'Add to collection' }}</label>
   </div>
-  <div class="flex gap-2">
+  <p>Add this configuration to one of your calendars or (share/import) it via link:</p>
+  <div class="flex gap-2 text-center">
+    <label class="align-self-center"> Calendar:</label>
+    <select name="calendar"
+            class="selectiondropdown form-control"
+            id="calendar"
+            placeholder="Calendar"
+            [(ngModel)]="selectedCal"
+            (ngModelChange)="onCalendarChange($event)">
+
+      >
+      <option [value]="null">None</option>
+      <option *ngFor="let item of calendars" [value]="item.id">{{ item.name }}</option>
+    </select>
     <a matTooltip="Copy share link to clipboard"
        class="cursor-pointer text-white border-x border-y rounded border-popover-light p-2 w-[37px]" aria-label="Edit"
        (click)="copyLinkToClipboard()">
       <i class="bi bi-share" style="font-size: 1rem;"></i>
     </a>
-
   </div>
 
-  <select name="calendar"
-          class="selectiondropdown form-control"
-          id="calendar"
-          placeholder="Calendar"
-          [(ngModel)]="selectedCal"
-          (ngModelChange)="onCalendarChange($event)">
-
-    >
-    <option [value]="null">None</option>
-    <option *ngFor="let item of calendars" [value]="item.id">{{ item.name }}</option>
-  </select>
   <div class="overflow-y-scroll" style="max-height: calc(100vh - 470px);">
     <div class="flex flex-col">
       <h5>Description</h5>
