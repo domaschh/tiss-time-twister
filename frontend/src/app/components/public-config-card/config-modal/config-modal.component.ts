@@ -5,6 +5,7 @@ import {CalendarReferenceService} from "../../../services/calendar.reference.ser
 import {CalendarReferenceDto} from "../../../dtos/calendar-reference-dto";
 import {ToastrService} from "ngx-toastr";
 import {ConfigurationService} from "../../../services/configuration.service";
+import {environment} from "../../../../environments/environment";
 
 export type confirmAction = (callback: (result: boolean) => void) => boolean;
 
@@ -87,7 +88,7 @@ export class ConfigModalComponent implements OnInit {
   copyLinkToClipboard() {
     this.toastrService.success("Copied link to clipboard")
     document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', ("http://localhost:8080/api/v1/calendar/?/" + this.config.id));
+      e.clipboardData.setData('text/plain', ( environment.backendUrl + "/calendar/?/" + this.config.id));
       e.preventDefault();
       document.removeEventListener('copy', null);
     });

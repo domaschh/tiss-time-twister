@@ -77,4 +77,21 @@ public class Effect {
         }
         return tag.getTag().equals(this.tag);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Effect effect = (Effect) o;
+        return id == effect.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
