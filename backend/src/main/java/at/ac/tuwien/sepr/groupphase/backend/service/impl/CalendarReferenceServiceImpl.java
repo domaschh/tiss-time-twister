@@ -81,13 +81,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         }
     }
 
-    public CalendarReference addFile(String name, MultipartFile file, String username, UUID token) throws IOException {
+    public CalendarReference addCalendarByFile(String name, MultipartFile file, String username, UUID token, String color) throws IOException {
         LOGGER.debug("Adding File CalendarReference {}", name);
         ApplicationUser user = applicationUserRepository.getApplicationUserByEmail(username);
 
         CalendarReference calendarReference = token != null ? getFromToken(token).orElse(new CalendarReference()) : new CalendarReference();
         calendarReference.setName(name);
         calendarReference.setUser(user);
+        calendarReference.setColor(color);
         if (calendarReference.getToken() == null) {
             calendarReference.setToken(generateToken());
         }

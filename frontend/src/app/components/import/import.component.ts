@@ -168,7 +168,7 @@ export class ImportComponent implements OnInit {
       const formData = new FormData();
       formData.append('name', this.importForm.controls.name.value);
       formData.append('file', this.selectedFile, this.selectedFile.name);
-      formData.append('color', this.importForm.controls.name.value);
+      formData.append('color', this.importForm.controls.color.value);
       if (this.optionalToken) {
         formData.append('token', this.optionalToken);
       }
