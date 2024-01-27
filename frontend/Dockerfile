@@ -1,5 +1,5 @@
-# Use an official Node runtime as a parent image
-FROM node:18
+# Stage 1: Build the Angular application
+FROM node:18 as build-stage
 
 # Set the working directory to /app
 WORKDIR /app
@@ -13,12 +13,20 @@ RUN npm install -g @angular/cli
 # Install app dependencies
 RUN npm install
 
-
 # Bundle app source
 COPY . .
 
-# Expose port 4200
-EXPOSE 4200
+# Build the Angular application in production mode
+RUN ng build --configuration production
 
-# Start the Angular application
-CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
+# Stage 2: Serve the application using Nginx
+FROM nginx:alpine
+
+# Copy the build output from the build stage
+COPY --from=build-stage /app/dist/sepr-group-phase /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# When the container starts, Nginx will start as well
+CMD ["nginx", "-g", "daemon off;"]
