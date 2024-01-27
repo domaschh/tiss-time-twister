@@ -7,7 +7,7 @@
         <!--Buttons-->
         <!--Importierte Kalender-->
         <div class="pb-4 border-b border-popover ">
-          <div class="flex gap-3 align-items-baseline">
+          <div class="flex gap-3 align-items-baseline justify-between">
             <h5 class="">Calendars</h5>
             <i matTooltip="Import a Calendar" class="bi bi-plus-square cursor-pointer" (click)="openModal('import')"></i>
           </div>
@@ -84,7 +84,7 @@
       <div class="row text-left w-full">
         <!--Navigation-->
         <div class="col-md-7">
-          <button type="button" (click)="createCustomEvent()" class="border-x border-y rounded border-popover hover:border-popover-light p-2">
+          <button type="button" (click)="createCustomEvent()" *ngIf="calendars.length > 0" class="border-x border-y rounded border-popover hover:border-popover-light p-2">
             <i class="bi bi-plus-lg"></i>
             Create Event
           </button>
@@ -92,7 +92,7 @@
                (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
           </div>
-          <button class="border-popover border-x border-y p-2 rounded hover:border-popover-light" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
+          <button class="border-popover border-x border-y p-2 rounded hover:border-popover-light cursor-pointer" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
           <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
                (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-right-short" style="font-size: 2rem;"></i>
@@ -118,8 +118,9 @@
       </div>
       <br/>
       <div class="flex flex-column align content-center">
-        <div class="flex flex-row">
+        <div class="flex flex-row gap-2 content-center">
           <h5>Filter by tags</h5>
+          <i matTooltip="Tags can be deleted when they are not referenced in any configuration" class="bi bi-info-circle"></i>
         </div>
         <div  class="flex flex-row justify-start align-items-center">
           <label class="cursor-pointer rounded-2xl m-2 p-2 py-1 text-base"

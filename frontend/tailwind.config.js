@@ -9,6 +9,7 @@ module.exports = {
       popover: 'rgb(51,60,65)',
       'popover-light': 'rgba(95,103,107,0.55)',
       added: 'rgba(70,173,19,0.4)',
+      addedLight: 'rgba(70,173,19,0.86)',
       myinfo: 'rgba(19,173,155,0.4)',
       notadded: 'rgba(252,228,0,0.64)',
       notaddedDeactivated: 'rgba(121,112,16,0.4)',

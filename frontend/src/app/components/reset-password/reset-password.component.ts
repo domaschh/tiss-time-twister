@@ -37,7 +37,7 @@ export class ResetPasswordComponent implements OnInit {
     private router: Router
   ) {
     this.emailForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [this.authService.getEmail() ?? '', [Validators.required, Validators.email]],
     });
 
     this.resetForm = this.formBuilder.group({

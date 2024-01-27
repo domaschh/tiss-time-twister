@@ -17,6 +17,7 @@ import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
 import {TagDto} from "../../dtos/tag-dto";
 import {TagService} from "../../services/tag.service";
+import {AuthService} from "../../services/auth.service";
 
 //preset colors since color should not be saved
 
@@ -78,10 +79,15 @@ export class CalendarPageComponent implements OnInit {
     private modalService: NgbModal,
     private readonly toastrService: ToastrService,
     private tagService: TagService,
+    private readonly authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.authService.logoutUser();
+      this.router.navigate(['login'])
+    }
     this.loadTags();
     this.loadCalendars();
     this.loadConfigs();
@@ -245,7 +251,7 @@ export class CalendarPageComponent implements OnInit {
 
   openEditConfigModal(config: ConfigurationDto) {
     this.router.navigate(['createConfig'], {
-      state: {calId: null, config}
+      state: {calId: config.calendarReferenceId, config}
     })
   }
 
@@ -274,8 +280,9 @@ export class CalendarPageComponent implements OnInit {
 
   openDeleteModal(calendar: Calendar) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.title = 'Calendar Deletion Confirmation';
-    modalRef.componentInstance.message = 'Do you really want to delete: \'' + calendar.name + '\'';
+    this.configurations = this.configurations.filter(conf => calendar.configs.find(c => c.id === conf.id) == undefined)
+    modalRef.componentInstance.title = 'Do you really want to delete calendar: \"' + calendar.name + '\"';
+    modalRef.componentInstance.message = 'Deleting it will also remove all it\'s associated configurations. If one of the associated configuration is published it will not be unpublished and still be available for other people to use and import from the public configurations page.' ;
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
@@ -283,6 +290,7 @@ export class CalendarPageComponent implements OnInit {
           this.loadCalendars();
           this.refresh.next()
           this.calendars = this.calendars.filter(obj => obj.id !== calendar.id);
+          this.configurations = this.configurations.filter(conf => calendar.configs.find(c => c.id === conf.id) == undefined)
           callback(true);
         },
         error: () => {
@@ -337,8 +345,8 @@ export class CalendarPageComponent implements OnInit {
 
   removeConfiguraion(config: ConfigurationDto) {
     const modalRef = this.modalService.open(ConfirmationModal);
-    modalRef.componentInstance.title = 'Configuration Deletion Confirmation';
-    modalRef.componentInstance.message = 'Do you really want to delete: \'' + config.title + '\'';
+    modalRef.componentInstance.title = 'Do you really want to delete: \'' + config.title + '\'';
+    modalRef.componentInstance.message = "Deleting a configuration will remove the desired effect from the exported calendar when applied."
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       const calendarReferenceId = this.calendars.filter(c => c.configs.map(config => config.id).includes(config.id))
       calendarReferenceId.forEach(calendar => {
@@ -386,6 +394,7 @@ export class CalendarPageComponent implements OnInit {
 
   downloadConfigFile(conf: ConfigurationDto) {
     delete conf.id
+    delete conf.calendarReferenceId
     conf.rules.forEach(rule => {
       delete rule.id
       delete rule.effect.id

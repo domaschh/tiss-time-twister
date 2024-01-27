@@ -91,7 +91,7 @@ export class RegistrationComponent implements OnInit {
         next: () => {
           console.log('Successfully registered user.');
           this.toastrService.success("Registered")
-          this.router.navigate(['/calendar']);
+          this.router.navigate(['/help']);
         },
         error: (error) => {
           this.errorHandling(error);

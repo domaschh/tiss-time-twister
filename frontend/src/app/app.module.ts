@@ -43,6 +43,7 @@ import { RoomMappingComponent } from './components/public-config-card/public-car
 import { ConfigImportComponent } from "./components/calendar-import/config-import.component";
 import { CdkDropList } from "@angular/cdk/drag-drop";
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { HelpPageComponent } from './components/help-page/help-page.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     DefaultConfigModalComponent,
     LvaShorthandsComponent,
     RoomMappingComponent,
+    HelpPageComponent,
   ],
   imports: [
     BrowserModule,

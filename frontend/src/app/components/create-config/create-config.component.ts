@@ -7,6 +7,7 @@ import {ConfigurationDto, EffectType, MatchType, RuleDto} from 'src/app/dtos/con
 import {CalendarReferenceDto} from "../../dtos/calendar-reference-dto";
 import {TagDto} from "../../dtos/tag-dto";
 import {TagService} from "../../services/tag.service";
+import {ru} from "date-fns/locale";
 
 @Component({
   selector: 'app-create-config',
@@ -80,7 +81,7 @@ export class CreateConfigComponent {
     this.calendarReferenceService.getAll().subscribe({
       next: (calendars) => {
         this.calendars = calendars;
-        const calendar = calendars.find(cal => cal.id == this.prefilled.config.calendarReferenceId);
+        const calendar = calendars.find(cal => cal.id == this.prefilled.calId);
         this.configurationForm.controls.calendar.setValue(calendar.id)
       },
       error: () => {
@@ -93,13 +94,17 @@ export class CreateConfigComponent {
   }
 
   private ruleHasValues(rule: RuleDto) {
+    if(rule.effect.effectType === EffectType.TAG && rule.effect.tag == null) {
+      this.toastrService.error("You have a Tag rule with no tag selected");
+      return;
+    }
     if (
-      rule.match.description == null &&
-      rule.match.summary == null &&
-      rule.match.location == null &&
-      rule.effect.changedDescription == null &&
-      rule.effect.changedTitle == null &&
-      rule.effect.location == null
+      (rule.match.description == null || rule.match.description == '') &&
+      (rule.match.summary == null || rule.match.summary == '') &&
+      (rule.match.location == null || rule.match.location == '') &&
+        (rule.effect.changedDescription == null ||rule.effect.changedDescription == "") &&
+          (rule.effect.changedTitle == null || rule.effect.changedTitle == "") &&
+            (rule.effect.location == null || rule.effect.location == "")
     ) {
       return false;
     } else {
@@ -145,7 +150,9 @@ export class CreateConfigComponent {
 
   addRule() {
     if (this.ruleAddMode) {
-      this.allRules.push(this.currentRule);
+      if (this.ruleHasValues(this.currentRule)) {
+        this.allRules.push(this.currentRule);
+      }
     }
     this.setActiveNewRule();
   }
@@ -205,6 +212,18 @@ export class CreateConfigComponent {
           console.error("Error creating tag: ", e);
         }
       });
+    }
+  }
+
+  currentRuleValid() {
+    return this.ruleHasValues(this.currentRule)
+  }
+
+  configValid() {
+    if (this.allRules.length > 0) {
+      return true
+    } else {
+      return this.currentRuleValid();
     }
   }
 }

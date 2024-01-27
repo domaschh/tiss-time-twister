@@ -1,5 +1,16 @@
 <div (click)="openRuleInfo()" class="w-full bg-popover p-2 rounded-md cursor-pointer">
-  <label class="cursor-pointer hover:underline">Rule </label>
+  <div class="flex gap-2">
+    <label class="cursor-pointer hover:underline">Rule </label>
+    <label class="cursor-pointer rounded-2xl p-1 text-xs text-white float-left"
+           *ngIf="rule.effect.effectType === EffectType.DELETE"
+           [ngClass]="!isDeleteEffect() ? 'bg-redDeactivated' : 'bg-red'">{{ isDeleteEffect() ? 'Delete' : 'Delete' }}</label>
+    <label class="cursor-pointer rounded-2xl p-1 text-xs text-white float-left"
+           *ngIf="rule.effect.effectType === EffectType.MODIFY"
+           [ngClass]="'bg-notaddedDeactivated' ">{{ isDeleteEffect() ? 'Modify' : 'Modify' }}</label>
+    <label class="cursor-pointer rounded-2xl p-1 text-xs text-white float-left"
+           *ngIf="rule.effect.effectType === EffectType.TAG"
+           [ngClass]="!isTagEffect() ? 'bg-infoDeactivated': 'bg-info' ">{{ isDeleteEffect() ? 'Tag' : 'Tag' }}</label>
+  </div>
 </div>
 
 <div *ngIf="infoOpen" class="flex flex-col w-full p-2">

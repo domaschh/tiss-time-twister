@@ -23,6 +23,11 @@ export class NavigationPopoverRightComponent {
   }
 
   changePasswort() {
-    this.toastrService.info("Coming soon")
+    this.router.navigate(['resetPassword'])
+  }
+
+  navigateHelp() {
+    this.router.navigate(['help'])
+    this.modal.dismissAll()
   }
 }
