@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendStyledPasswordResetEmail(ApplicationUser user, String token) {
-        String url = "http://localhost:4200/#/resetPassword?token=" + token;
+        String url = "https://tiss-time-twister-frontend-production.up.railway.app/#/resetPassword?token=" + token;
 
         String message = "<html>"
             + "<body>"
