@@ -311,7 +311,7 @@ export class CalendarPageComponent implements OnInit {
       this.calenderReferenceServie.getIcalLinkFromToken(calendar.token, modalRef.componentInstance.selectedTags);
     modalRef.componentInstance.title = 'Export Calendar: ' + calendar.name;
     modalRef.componentInstance.isToken = true;
-    modalRef.componentInstance.tags = this.tags;
+    modalRef.componentInstance.tags = this.tags.filter(tag => calendar.configs.flatMap(config => config.rules).find(rule => rule.effect.tag === tag.tag) !== undefined);
 
     const toImport: CalendarReferenceDto = {
       id: calendar.id,
@@ -397,6 +397,7 @@ export class CalendarPageComponent implements OnInit {
     delete conf.calendarReferenceId
     conf.rules.forEach(rule => {
       delete rule.id
+      delete rule.configId
       delete rule.effect.id
       delete rule.match.id
     })

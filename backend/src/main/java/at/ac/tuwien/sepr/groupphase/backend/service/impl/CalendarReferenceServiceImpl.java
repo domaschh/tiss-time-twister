@@ -53,13 +53,15 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
 
     @Override
     public CalendarReference add(CalendarReference calendarReference, String username) {
-        if (calendarReference.getId() != null
-            && !calendarReferenceRepository.findById(calendarReference.getId())
-                                           .orElseThrow(NotFoundException::new)
-                                           .getUser()
-                                           .getEmail()
-                                           .equals(username)) {
-            throw new AccessDeniedException("Can't modify Calendars you don't own");
+        CalendarReference loadedCalref = null;
+        if (calendarReference.getId() != null) {
+            loadedCalref = calendarReferenceRepository.findById(calendarReference.getId()).orElseThrow(NotFoundException::new);
+            if (!loadedCalref
+                .getUser()
+                .getEmail()
+                .equals(username)) {
+                throw new AccessDeniedException("Can't modify Calendars you don't own");
+            }
         }
 
         if (calendarReference.getEnabledDefaultConfigurations() == null) {
@@ -69,7 +71,14 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
         calendarReference.setToken(generateToken());
         var user = applicationUserRepository.getApplicationUserByEmail(username);
         calendarReference.setUser(user);
-        return calendarReferenceRepository.save(calendarReference);
+        if (loadedCalref == null) {
+            return calendarReferenceRepository.save(calendarReference);
+        } else {
+            loadedCalref.setName(calendarReference.getName());
+            loadedCalref.setLink(calendarReference.getLink());
+            loadedCalref.setColor(calendarReference.getColor());
+            return calendarReferenceRepository.save(loadedCalref);
+        }
     }
 
     public CalendarReference addFile(String name, MultipartFile file, String username, UUID token) throws IOException {
@@ -151,7 +160,7 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             return calendarReferenceRepository.save(calendarReference);
         }
 
-        var user  = applicationUserRepository.getApplicationUserByEmail(username);
+        var user = applicationUserRepository.getApplicationUserByEmail(username);
         Configuration configToAdd = configurationRepository.getReferenceById(configId);
         configToAdd.getRules().forEach(rule -> {
             if (rule.getEffect().getEffectType().equals(EffectType.TAG)) {
