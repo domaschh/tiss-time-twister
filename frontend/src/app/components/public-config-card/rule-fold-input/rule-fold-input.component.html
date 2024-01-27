@@ -107,11 +107,20 @@
     </div>
   </div>
   <div *ngIf="isTagEffect()">
-    <div class="flex flex-row justify-start align-items-center flex-wrap ">
-      <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1 text-white"
+    <div class="flex flex-row justify-start align-items-center flex-wrap text-white">
+      <label class="cursor-pointer rounded-2xl px-3 py-1 mx-1 my-1"
              *ngFor="let tag of tags"
              (click)="tagClicked(tag)"
-             [ngClass]="selectedTag === tag ? 'bg-added border-x border-y border-added text-white' : 'bg-transparent border-popover box-border border-x border-y text-popover-light'">{{ tag.tag }}</label>
+             [ngClass]="selectedTag === tag ? 'bg-added border-x border-y border-added text-white' : 'bg-transparent border-popover border-x border-y box-border text-popover-light'">{{ tag.tag }}</label>
+    </div>
+    <div class="flex flex-row mt-3">
+      <input type="text" id="newTag" class="form-control w-3/5 mr-3"
+             placeholder="New Tag"
+             [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}">
+      <button type="button" (click)="addTag()" class="border-popover border-x border-y p-2 rounded hover:border-popover-light w-1/5">
+        <i class="bi bi-plus-lg"></i>
+        Add Tag
+      </button>
     </div>
   </div>
 </div>

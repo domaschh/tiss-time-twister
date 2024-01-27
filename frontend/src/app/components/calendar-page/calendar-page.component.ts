@@ -453,7 +453,7 @@ export class CalendarPageComponent implements OnInit {
   resetFilter() {
     this.showapplyFilters = true;
     this.selectedTags = [];
-    this.loadCalendars();
+    window.location.reload()
   }
 
   openDeleteTagModal(tag: TagDto) {
