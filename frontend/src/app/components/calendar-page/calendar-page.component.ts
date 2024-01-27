@@ -386,6 +386,7 @@ export class CalendarPageComponent implements OnInit {
 
   downloadConfigFile(conf: ConfigurationDto) {
     delete conf.id
+    delete conf.calendarReferenceId
     conf.rules.forEach(rule => {
       delete rule.id
       delete rule.effect.id

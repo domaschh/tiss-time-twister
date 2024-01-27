@@ -54,7 +54,6 @@ export class ConfigImportComponent implements OnInit {
       //return this.httpClient.post<CalendarReferenceDto>(this.messageBaseUri + "/" + selectedCal + "/" + configuration, null);
       return this.http.post<CalendarReferenceDto>(this.configUrl.replace("?", "" + this.selectedCal), null).subscribe({
         next: (created) => {
-          console.log(created)
           this.toastrService.success("Imported Configuration")
           this.addedConfiguration.emit(created.configurations[created.configurations.length - 1])
           this.modal.dismissAll()
@@ -64,6 +63,7 @@ export class ConfigImportComponent implements OnInit {
       })
     } else {
       if (this.selectedConfigurationDto && this.selectedCal) {
+
         return this.configService.createConfiguration(this.selectedCal, this.selectedConfigurationDto).subscribe({
           next: (created) => {
             this.selectedConfigurationDto.rules.filter(rule => rule.effect.tag !== null).forEach(tagInConfig => {
