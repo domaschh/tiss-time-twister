@@ -11,11 +11,13 @@ import { PublicPageComponent } from "./components/public-page/public-page.compon
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ResetPasswordMode, ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { PreviewConfigComponent } from './components/preview-config/preview-config.component';
+import {HelpPageComponent} from "./components/help-page/help-page.component";
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent },
   { path: 'calendar', component: CalendarPageComponent },
+  { path: 'help', component: HelpPageComponent },
   { path: 'import', component: ImportComponent },
   { path: 'createConfig', component: CreateConfigComponent },
   { path: 'publicConfigs', component: PublicPageComponent },

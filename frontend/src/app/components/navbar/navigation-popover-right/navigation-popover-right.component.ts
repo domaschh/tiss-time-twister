@@ -25,4 +25,9 @@ export class NavigationPopoverRightComponent {
   changePasswort() {
     this.toastrService.info("Coming soon")
   }
+
+  navigateHelp() {
+    this.router.navigate(['help'])
+    this.modal.dismissAll()
+  }
 }
