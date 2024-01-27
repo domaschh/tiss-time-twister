@@ -188,7 +188,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
         publicConfiguration.setOwningUser(username);
 
-        this.publicConfigurationRepository.save(publicConfiguration);
+        var createdPublic = this.publicConfigurationRepository.save(publicConfiguration);
+        createdPublic.getRules().forEach(r -> {
+            r.setConfiguration(createdPublic);
+            ruleRepository.save(r);
+        });
         return true;
     }
 

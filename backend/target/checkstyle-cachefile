@@ -1,4 +1,4 @@
-#Sat Jan 27 19:08:02 CET 2024
+#Sat Jan 27 19:17:30 CET 2024
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/BackendApplication.java=1704535616432
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/LVADetail.java=1706273380534
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/Registration.java=1706273380534
@@ -98,9 +98,9 @@
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/TagService.java=1706273380544
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/TissService.java=1706273380544
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/UserService.java=1706273380544
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CalendarReferenceServiceImpl.java=1706273380545
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CalendarReferenceServiceImpl.java=1706379387909
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CalendarServiceImpl.java=1706275224726
-/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/ConfigurationServiceImpl.java=1706378879053
+/Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/ConfigurationServiceImpl.java=1706379445048
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/CustomUserDetailService.java=1706273380545
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/EmailServiceImpl.java=1706373199722
 /Users/thomasmages/23ws-se-pr-qse-09/backend/src/main/java/at/ac/tuwien/sepr/groupphase/backend/service/impl/EventServiceImp.java=1703167265215

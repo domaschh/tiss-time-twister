@@ -204,7 +204,6 @@ public class CalendarReferenceServiceImpl implements CalendarReferenceService {
             }
 
             calendarReferenceRepository.save(calendarReference);
-
             return calendarReference;
         } else {
             throw new AccessDeniedException("Failed to add public Config.");
