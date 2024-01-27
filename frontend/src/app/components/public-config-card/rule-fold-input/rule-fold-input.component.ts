@@ -67,4 +67,37 @@ export class RuleFoldInputComponent implements OnInit{
       this.rule.effect.tag = tag.tag;
     }
   }
+
+  loadTags() {
+    this.tagService.getAll().subscribe({
+      next: tags => {
+        this.tags = tags;
+      },
+      error: () => {
+      }
+    });
+  }
+
+  addTag() {
+    if (!this.newTag || this.newTag == '') {
+      this.toastrService.error("Please enter a tag!");
+    } else if(this.tags.filter(t => t.tag == this.newTag).length !== 0) {
+      this.toastrService.error("Tag already exists!");
+    } else {
+      let newTag = new TagDto();
+      newTag.tag = this.newTag;
+      this.tagService.createTag(newTag).subscribe({
+        next: () => {
+          this.toastrService.success("Tag created successfully!");
+          this.newTag = '';
+          this.loadTags();
+        },
+        error: e => {
+          this.toastrService.error("Error creating tag!");
+          console.error("Error creating tag: ", e);
+        }
+      });
+    }
+  }
+
 }

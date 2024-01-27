@@ -76,6 +76,22 @@ public class Match {
             case EQUALS -> propertyValue.equals(matchValue);
             case REGEX -> propertyValue.matches(matchValue);
         };
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Match match = (Match) o;
+        return id == match.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

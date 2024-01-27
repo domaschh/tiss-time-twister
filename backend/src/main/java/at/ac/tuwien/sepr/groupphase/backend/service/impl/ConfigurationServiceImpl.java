@@ -2,10 +2,7 @@ package at.ac.tuwien.sepr.groupphase.backend.service.impl;
 
 import at.ac.tuwien.sepr.groupphase.backend.entity.*;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
-import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
-import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
-import at.ac.tuwien.sepr.groupphase.backend.repository.PublicConfigurationRepository;
+import at.ac.tuwien.sepr.groupphase.backend.repository.*;
 import at.ac.tuwien.sepr.groupphase.backend.service.ConfigurationService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +24,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private final CalendarReferenceRepository calendarReferenceRepository;
     private final ApplicationUserRepository applicationUserRepository;
     private final PublicConfigurationRepository publicConfigurationRepository;
+    private final RuleRepository ruleRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -35,11 +33,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public ConfigurationServiceImpl(ConfigurationRepository configurationRepository,
                                     CalendarReferenceRepository calendarReferenceRepository,
                                     ApplicationUserRepository applicationUserRepository,
-                                    PublicConfigurationRepository publicConfigurationRepository) {
+                                    PublicConfigurationRepository publicConfigurationRepository,
+                                    RuleRepository ruleRepository) {
         this.configurationRepository = configurationRepository;
         this.calendarReferenceRepository = calendarReferenceRepository;
         this.applicationUserRepository = applicationUserRepository;
         this.publicConfigurationRepository = publicConfigurationRepository;
+        this.ruleRepository = ruleRepository;
     }
 
     @Override
@@ -84,6 +84,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             }
             return configurationRepository.save(fetchDb);
         }
+        configuration.getRules().forEach(r -> {
+            r.setConfiguration(configuration);
+            ruleRepository.save(r);
+        });
 
         return configurationRepository.save(configuration);
     }
@@ -184,7 +188,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
         publicConfiguration.setOwningUser(username);
 
-        this.publicConfigurationRepository.save(publicConfiguration);
+        var createdPublic = this.publicConfigurationRepository.save(publicConfiguration);
+        createdPublic.getRules().forEach(r -> {
+            r.setConfiguration(createdPublic);
+            ruleRepository.save(r);
+        });
         return true;
     }
 

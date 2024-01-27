@@ -216,14 +216,36 @@ export class CreateConfigComponent {
   }
 
   currentRuleValid() {
-    return this.ruleHasValues(this.currentRule)
+    if (
+      (this.currentRule.match.description == null || this.currentRule.match.description == '') &&
+      (this.currentRule.match.summary == null || this.currentRule.match.summary == '') &&
+      (this.currentRule.match.location == null || this.currentRule.match.location == '') &&
+      (this.currentRule.effect.changedDescription == null ||this.currentRule.effect.changedDescription == "") &&
+      (this.currentRule.effect.changedTitle == null || this.currentRule.effect.changedTitle == "") &&
+      (this.currentRule.effect.location == null || this.currentRule.effect.location == "")
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   configValid() {
     if (this.allRules.length > 0) {
       return true
     } else {
-      return this.currentRuleValid();
+      if (
+        (this.currentRule.match.description == null || this.currentRule.match.description == '') &&
+        (this.currentRule.match.summary == null || this.currentRule.match.summary == '') &&
+        (this.currentRule.match.location == null || this.currentRule.match.location == '') &&
+        (this.currentRule.effect.changedDescription == null ||this.currentRule.effect.changedDescription == "") &&
+        (this.currentRule.effect.changedTitle == null || this.currentRule.effect.changedTitle == "") &&
+        (this.currentRule.effect.location == null || this.currentRule.effect.location == "")
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 }

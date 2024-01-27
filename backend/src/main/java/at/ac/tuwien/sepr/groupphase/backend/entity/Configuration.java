@@ -41,7 +41,7 @@ public class Configuration {
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "config_id")
     private List<Rule> rules;
 

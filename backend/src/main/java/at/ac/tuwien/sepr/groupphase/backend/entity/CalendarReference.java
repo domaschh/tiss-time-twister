@@ -48,21 +48,11 @@ public class CalendarReference {
             return false;
         }
         CalendarReference that = (CalendarReference) o;
-        return new HashSet<>(configurations).containsAll(that.configurations)
-               && configurations.size() == that.configurations.size()
-               && Objects.equals(id, that.id)
-               && Objects.equals(token, that.token)
-               && Objects.equals(name, that.name)
-               && Objects.equals(link, that.link)
-               && Arrays.equals(icalData, that.icalData)
-               && Objects.equals(enabledDefaultConfigurations, that.enabledDefaultConfigurations)
-               && Objects.equals(user, that.user);
+        return that.id.equals(this.id);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(configurations, id, token, name, link, enabledDefaultConfigurations, user);
-        result = 31 * result + Arrays.hashCode(icalData);
-        return result;
+        return Objects.hash(id);
     }
 }

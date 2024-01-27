@@ -24,6 +24,7 @@ export class NavigationPopoverRightComponent {
 
   changePasswort() {
     this.router.navigate(['resetPassword'])
+    this.modal.dismissAll()
   }
 
   navigateHelp() {

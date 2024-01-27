@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -86,11 +85,12 @@ public class CalendarReferenceEndpoint {
     @Operation(summary = "Import a CalendarReference with File", security = @SecurityRequirement(name = "apiKey"))
     public ResponseEntity<CalendarReferenceDto> uploadICalFile(@RequestParam("name") String name,
                                                                @RequestParam("file") MultipartFile file,
+                                                               @RequestParam("color") String color,
                                                                @RequestParam(required = false) UUID token,
                                                                HttpServletRequest request) {
         try {
             String username = extractUsernameService.getUsername(request);
-            CalendarReference savedCalendarReference = calendarReferenceService.addFile(name, file, username, token);
+            CalendarReference savedCalendarReference = calendarReferenceService.addCalendarByFile(name, file, username, token, color);
             return ResponseEntity.ok(calendarReferenceMapper.calendarReferenceToDto(savedCalendarReference));
         } catch (IOException e) {
             return ResponseEntity.internalServerError().build();

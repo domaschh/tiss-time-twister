@@ -3,7 +3,6 @@ package at.ac.tuwien.sepr.groupphase.backend.unittests;
 import at.ac.tuwien.sepr.groupphase.backend.entity.CalendarReference;
 import at.ac.tuwien.sepr.groupphase.backend.entity.Configuration;
 import at.ac.tuwien.sepr.groupphase.backend.exception.NotFoundException;
-import at.ac.tuwien.sepr.groupphase.backend.repository.ApplicationUserRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.CalendarReferenceRepository;
 import at.ac.tuwien.sepr.groupphase.backend.repository.ConfigurationRepository;
 import at.ac.tuwien.sepr.groupphase.backend.service.CalendarReferenceService;
@@ -31,7 +30,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER;
 import static at.ac.tuwien.sepr.groupphase.backend.basetest.TestData.ADMIN_USER_EMAIL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -127,7 +125,7 @@ class CalendarReferenceServiceTest {
     void importCalendarFileWorks() throws IOException {
         InputStream is = new ClassPathResource("domasch_fixed.ics").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("name", is);
-        CalendarReference result = service.addFile("test file name", multipartFile, "test username", null);
+        CalendarReference result = service.addCalendarByFile("test file name", multipartFile, "test username", null, "#12345");
 
         assertNotNull(result);
         assertAll(
@@ -142,7 +140,7 @@ class CalendarReferenceServiceTest {
     void importCalendarFileCanBeFound() throws IOException {
         InputStream is = new ClassPathResource("domasch_fixed.ics").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("name", is);
-        CalendarReference result = service.addFile("test file name", multipartFile, ADMIN_USER_EMAIL, null);
+        CalendarReference result = service.addCalendarByFile("test file name", multipartFile, ADMIN_USER_EMAIL, null, "#12345");
 
         CalendarReference resultFromId = service.getFromId(result.getId(), ADMIN_USER_EMAIL);
         assertTrue(service.getFromToken(result.getToken()).isPresent());
