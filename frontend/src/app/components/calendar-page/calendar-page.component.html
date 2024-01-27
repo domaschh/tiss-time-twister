@@ -84,7 +84,7 @@
       <div class="row text-left w-full">
         <!--Navigation-->
         <div class="col-md-7">
-          <button type="button" (click)="createCustomEvent()" class="border-x border-y rounded border-popover hover:border-popover-light p-2">
+          <button type="button" (click)="createCustomEvent()" *ngIf="calendars.length > 0" class="border-x border-y rounded border-popover hover:border-popover-light p-2">
             <i class="bi bi-plus-lg"></i>
             Create Event
           </button>
@@ -92,7 +92,7 @@
                (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-left-short" style="font-size: 2rem;"></i>
           </div>
-          <button class="border-popover border-x border-y p-2 rounded hover:border-popover-light" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
+          <button class="border-popover border-x border-y p-2 rounded hover:border-popover-light cursor-pointer" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
           <div class="btn" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
                (viewDateChange)="closeOpenMonthViewDay()">
             <i class="bi bi-arrow-right-short" style="font-size: 2rem;"></i>

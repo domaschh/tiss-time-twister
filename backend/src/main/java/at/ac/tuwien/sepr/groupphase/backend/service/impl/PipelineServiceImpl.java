@@ -77,7 +77,6 @@ public class PipelineServiceImpl implements PipelineService {
 
         if (calendarReference.getLink() != null && !calendarReference.getLink().isEmpty()) {
             calendar = calendarService.fetchCalendarByUrl(calendarReference.getLink());
-            LOGGER.info(calendar.toString());
         } else if (calendarReference.getIcalData() != null) {
             calendar = new CalendarBuilder().build(new ByteArrayInputStream(calendarReference.getIcalData()));
         } else {

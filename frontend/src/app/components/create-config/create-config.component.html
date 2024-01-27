@@ -45,10 +45,11 @@
                 You have to select a calendar!
               </small>
             </div>
-            <div class="form-check mt-2" *ngIf="prefilled !== null">
-              <input class="form-check-input" type="checkbox" name="public" id="public" formControlName="public">
-              <label class="form-check-label" for="public">
-                Public
+            <div class="mt-2" *ngIf="prefilled !== null">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input class="form-check-input sr-only peer" type="checkbox" name="public" id="public" formControlName="public">
+                <div class="w-11 h-6 bg-popover-light peer-focus:outline-none peer-focus:ring-4 peer-focus:border-info dark:peer-focus:ring-border-info rounded-full peer dark:bg-border-info peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-border-info after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-info peer-checked:bg-addedLight"></div>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ configurationForm.controls['public'].value === false ? 'Private' : 'Public' }}</span>
               </label>
             </div>
             <div class="card">
@@ -63,7 +64,7 @@
                   </div>
                 </div>
                 <!--Display Current Rule-->
-                <h5 class="mt-2">New Rule</h5>
+                <h5  class="mt-2 flex gap-2 items-baseline">New Rule <i matTooltip="Current Rule is added automatically when previewing" class="bi bi-info-circle"></i></h5>
                 <div class="px-2 py-2 border-x border-y border-popover-light rounded">
                   <p class="font-bold">Match by:</p>
                   <div class="row">
@@ -183,7 +184,7 @@
                         </button>
                       </div>
                     </div>
-                    <div matTooltip="Add Rule" (click)="addRule()"
+                    <div matTooltip="Add Rule" *ngIf="currentRuleValid()" (click)="addRule()"
                          class="w-full border-y flex justify-center border-x border-popover rounded mt-3 hover:text-white cursor-pointer hover:border-popover-light">
                       <a class="cursor-pointer content-center" aria-label="Token">
                         <i class="bi bi-plus-lg" style="font-size: 1rem;"></i>
@@ -193,8 +194,8 @@
                 </div>
               </div>
             </div>
-            <div class="flex pb-2">
-              <button type="button" (click)="previewConfiguration()" [disabled]="!configurationForm.valid"
+            <div class="flex pb-2" [matTooltip]="(!configurationForm.valid || !configValid()) ? 'Add a Rule first' : null" type="button">
+              <button (click)="previewConfiguration()" [disabled]="!configurationForm.valid || !configValid()"
                       class="btn btn-success w-full">Preview
               </button>
             </div>
