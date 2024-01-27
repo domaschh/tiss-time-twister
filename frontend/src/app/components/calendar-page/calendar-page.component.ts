@@ -245,7 +245,7 @@ export class CalendarPageComponent implements OnInit {
 
   openEditConfigModal(config: ConfigurationDto) {
     this.router.navigate(['createConfig'], {
-      state: {calId: null, config}
+      state: {calId: config.calendarReferenceId, config}
     })
   }
 
