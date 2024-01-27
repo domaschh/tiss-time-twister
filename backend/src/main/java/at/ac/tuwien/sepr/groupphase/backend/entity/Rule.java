@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Rule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "config_id")
@@ -40,7 +40,7 @@ public class Rule {
             return false;
         }
         Rule rule = (Rule) o;
-        return id == rule.id;
+        return id.equals(rule.id);
     }
 
     @Override
