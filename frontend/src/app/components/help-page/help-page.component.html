@@ -1,1 +1,26 @@
-<p>help-page works!</p>
+<div class="p-10 flex flex-col content-center w-auto items-center">
+  <div class="flex-col flex sm:w-[1000px] md:w-[1000px] w-full">
+    <h2>How does Tiss Time Twister work?</h2>
+    <p>You can manage your TISS (or other) calendars by importing them via file or link.</p>
+    <p>After that you can build your own configurations that override the calendar by creating one or more
+      configurations that have certain rules</p>
+    <p>Rules can either delete, modify or tag an event in the calendar.</p>
+    <p>If you're confident that your configuration will also help others. Feel free to publish it. Others can now clone
+      this configuration and add it to their calendars.
+      Imported configurations are cloned so making changes will NOT affect the initial configuration. Additionally there
+      is also a set of default configurations provided
+      for the TISS calendar specifically. You can find them on the public Configurations page as well together with
+      their description.
+    </p>
+    <p>After you have imported and modified a calendar you can either export it via file (.ics) or generate a new link
+      that you can simply use in your calendar app of choice.
+      Beware that deleting configurations after you have imported the modified calendar into your app WILL have effects,
+      meaning that when e.g Google Calendar fetches the
+      new improved calendar via URL again the deleted configuration will NOT be used/
+    </p>
+    <p>Below you will find an illustration that shows the whole workflow/pipeline</p>
+    <img *ngIf="isDarkMode()" alt="" src="assets/helpdarkmode.png" class=""/>
+    <img *ngIf="!isDarkMode()" alt="" src="assets/helplightmode.png" class=""/>
+    <h2>Use-cases?</h2>
+  </div>
+</div>

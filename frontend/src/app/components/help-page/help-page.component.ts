@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./help-page.component.scss']
 })
 export class HelpPageComponent {
-
+  isDarkMode(): boolean {
+    return document.body.classList.contains('dark');
+  }
 }
