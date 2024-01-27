@@ -17,6 +17,7 @@ import {ConfigurationDto} from "../../dtos/configuration-dto";
 import {ConfigImportComponent} from "../calendar-import/config-import.component";
 import {TagDto} from "../../dtos/tag-dto";
 import {TagService} from "../../services/tag.service";
+import {AuthService} from "../../services/auth.service";
 
 //preset colors since color should not be saved
 
@@ -78,10 +79,15 @@ export class CalendarPageComponent implements OnInit {
     private modalService: NgbModal,
     private readonly toastrService: ToastrService,
     private tagService: TagService,
+    private readonly authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.authService.logoutUser();
+      this.router.navigate(['login'])
+    }
     this.loadTags();
     this.loadCalendars();
     this.loadConfigs();
