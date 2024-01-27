@@ -27,6 +27,3 @@ COPY --from=build-stage /app/dist/sepr-group-phase /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
-
-# When the container starts, Nginx will start as well
-CMD ["nginx", "-g", "daemon off;"]
