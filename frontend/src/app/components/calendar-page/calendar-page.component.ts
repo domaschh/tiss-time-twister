@@ -182,14 +182,16 @@ export class CalendarPageComponent implements OnInit {
     const description = event.description ?? ''; //for some reason can't inline
     const allDay = (event.start.getHours() - event.end.getHours()) === 0;
     let time = allDay ? '' : event.start.toLocaleTimeString().substring(0, 8) + ' - ' + event.end.toLocaleTimeString().substring(0, 8);
+    let categories = event.categories ?? '';
+    let location = event.location  ?? '';
     return {
       id: event.id,
-      description: event.description,
+      description: description,
       title: event.title
         + '<br>' + time
         + '<br>' + description
-        + '<br>' + event.categories ?? ''
-        + '<br>' + event.location ?? '' + '<br>',
+        + '<br>' + categories
+        + '<br>' + location,
       start: event.start,
       end: event.end,
       color: {primary: calendar.color, secondary: calendar.color},
