@@ -74,7 +74,7 @@ export class ConfigImportComponent implements OnInit {
                   tag: tagInConfig.effect.tag
                 }).subscribe({
                   next: () => {
-                    console.log("added tag")
+                    this.toastrService.success("Tag created")
                   }
                 })
               }

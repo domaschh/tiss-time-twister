@@ -149,7 +149,6 @@ export class CalendarPageComponent implements OnInit {
     let myEvent: MyCalendarEvent = this.events.find(ev => ev.id === event.id);
     if (action === 'Clicked' || action === 'Edited') {
       if (!myEvent) {
-        console.error("Error while handling event", event);
       } else if (!myEvent.categories.includes('customEvent')) {
         //TODO: handle edit of calendar event
       } else {
@@ -162,17 +161,14 @@ export class CalendarPageComponent implements OnInit {
       }
     } else if (action == 'Deleted') {
       if (!myEvent) {
-        console.error("Error while handling event", event);
       } else if (!myEvent.categories.includes('customEvent')) {
         //TODO: handle edit of calendar event
       } else {
         this.eventService.deleteEvent(myEvent.id).subscribe({
           next: _ => {
-            console.log("Deleted successfully");
             this.loadCalendars();
           },
           error: error => {
-            console.error('error deleting event', error);
           }
         })
       }

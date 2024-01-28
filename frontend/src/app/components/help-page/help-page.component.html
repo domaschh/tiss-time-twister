@@ -57,16 +57,36 @@
     <h2>What are Configurations?</h2>
     <p>Configurations are collections of Rules.</p>
     <p>A Rule is a pair of a single Match and a single Effect.</p>
+    <h5>Match</h5>
     <p>The Match determines when a Rule's Effect is used. Blank fields are ignored. When all non-blank fields match with
       an Event, the Effect is applied to it.</p>
+    <dl>
+      <dt>summary:</dt>
+      <dd>The summary or title of an event.(e.g. "191.002 VU Betriebssysteme")</dd>
+      <dt>description:</dt>
+      <dd>The details field of of an event.(e.g. "Abgabegespräch 3")</dd>
+      <dt>location:</dt>
+      <dd>The location field of of an event.(e.g. "191.002 VU Betriebssysteme")</dd>
+    </dl>
+    <p>The calendar view page displays events using this format:</p>
+    <ul>
+      <div class="p-2 flex-col w-fit border border-popover rounded">
+        <li>summary</li>
+        <li>time</li>
+        <li>desciption</li>
+        <li>category</li>
+        <li>location</li>
+      </div>
+    </ul>
+    <h5>Effect</h5>
     <p>The Effect is what the Rule does. It can either delete an Event outright, modify it, or tag it.</p>
     <dl>
       <dt>delete:</dt>
-      <dd>the event is not a part of the calendar anymore</dd>
+      <dd>The event is not a part of the calendar anymore.</dd>
       <dt>modify:</dt>
-      <dd>replace title, description, or location - blank fields are ignored</dd>
+      <dd>replace title, description, or location - blank fields are ignored.</dd>
       <dt>tag:</dt>
-      <dd>apply a tag for filtering</dd>
+      <dd>Apply a tag for filtering.</dd>
     </dl>
     <p>If you are proud of one of your configurations and wish for others to enjoy it as well, you can set it to be
       public. After which, it shows up in the public configurations list, and others may add it to their calendars.</p>
