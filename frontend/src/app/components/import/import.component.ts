@@ -15,7 +15,7 @@ export class ImportComponent implements OnInit {
   importForm: FormGroup;
   isURLImport = true;
   selectedFile: File | null = null;
-
+  sourceError = false;
   submitted = false;
   // Error flag
   error = false;
@@ -31,6 +31,7 @@ export class ImportComponent implements OnInit {
     const data = router.getCurrentNavigation().extras.state;
     this.editMode = data?.editMode ?? false;
     this.optionalEditId = data?.id ?? null;
+    this.sourceError = data?.sourceError;
   }
 
   ngOnInit(): void {

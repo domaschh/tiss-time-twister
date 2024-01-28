@@ -18,6 +18,7 @@ import {ConfigImportComponent} from "../calendar-import/config-import.component"
 import {TagDto} from "../../dtos/tag-dto";
 import {TagService} from "../../services/tag.service";
 import {AuthService} from "../../services/auth.service";
+import {ca} from "date-fns/locale";
 
 //preset colors since color should not be saved
 
@@ -219,30 +220,47 @@ export class CalendarPageComponent implements OnInit {
     this.calenderReferenceServie.getAll().subscribe({
       next: cals => {
         cals.forEach((calRef) => {
-          this.calenderReferenceServie.getIcalFileFromToken(calRef.token, this.selectedTags).subscribe((icalString) => {
-            const calAsComponent = new this.myICAL.Component(this.myICAL.parse(icalString));
-            const vEvents = <any[]>calAsComponent.getAllSubcomponents("vevent");
-            const evs = vEvents.map(event => ({
-                id: event.getFirstPropertyValue("uid"),
-                start: new Date(event.getFirstPropertyValue("dtstart")),
-                end: new Date(event.getFirstPropertyValue("dtend")),
-                title: event.getFirstPropertyValue("summary"),
-                location: event.getFirstPropertyValue("location"),
-                categories: event.getFirstPropertyValue("categories"),
-                description: event.getFirstPropertyValue('description')
-              })
-            )
-            this.calendars.push({
-              isActive: true,
-              token: calRef.token,
-              link: calRef.link,
-              name: calRef.name,
-              configs: calRef.configurations,
-              color: calRef.color + '90', //only n preset colors are stored
-              events: evs,
-              id: calRef.id //id needed for frontend
-            });
-            this.events = this.calendars.flatMap(cal => cal.events.map(e => this.mapEvent(e, cal, cal.id)))
+          this.calenderReferenceServie.getIcalFileFromToken(calRef.token, this.selectedTags).pipe().subscribe({
+            next: (icalString) => {
+              const calAsComponent = new this.myICAL.Component(this.myICAL.parse(icalString));
+              const vEvents = <any[]>calAsComponent.getAllSubcomponents("vevent");
+              const evs = vEvents.map(event => ({
+                  id: event.getFirstPropertyValue("uid"),
+                  start: new Date(event.getFirstPropertyValue("dtstart")),
+                  end: new Date(event.getFirstPropertyValue("dtend")),
+                  title: event.getFirstPropertyValue("summary"),
+                  location: event.getFirstPropertyValue("location"),
+                  categories: event.getFirstPropertyValue("categories"),
+                  description: event.getFirstPropertyValue('description')
+                })
+              )
+              this.calendars.push({
+                isActive: true,
+                token: calRef.token,
+                link: calRef.link,
+                name: calRef.name,
+                configs: calRef.configurations,
+                color: calRef.color + '90', //only n preset colors are stored
+                events: evs,
+                sourceError: false,
+                id: calRef.id //id needed for frontend
+              });
+              this.events = this.calendars.flatMap(cal => cal.events.map(e => this.mapEvent(e, cal, cal.id)))
+            },
+            error: (e) => {
+              this.calendars.push({
+                isActive: true,
+                token: calRef.token,
+                link: calRef.link,
+                name: calRef.name,
+                configs: calRef.configurations,
+                color: calRef.color + '90', //only n preset colors are stored
+                events: [],
+                id: calRef.id, //id needed for frontend
+                sourceError: true
+              });
+              this.toastrService.error("Couldn't find source for calendar: " + calRef.name)
+            }
           })
         })
       }
@@ -282,7 +300,7 @@ export class CalendarPageComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmationModal);
     this.configurations = this.configurations.filter(conf => calendar.configs.find(c => c.id === conf.id) == undefined)
     modalRef.componentInstance.title = 'Do you really want to delete calendar: \"' + calendar.name + '\"';
-    modalRef.componentInstance.message = 'Deleting it will also remove all it\'s associated configurations. If one of the associated configuration is published it will not be unpublished and still be available for other people to use and import from the public configurations page.' ;
+    modalRef.componentInstance.message = 'Deleting it will also remove all it\'s associated configurations. If one of the associated configuration is published it will not be unpublished and still be available for other people to use and import from the public configurations page.';
     modalRef.componentInstance.confirmAction = (callback: (result: boolean) => void) => {
       this.calenderReferenceServie.deleteCalendar(calendar.id).subscribe({
         next: () => {
@@ -302,7 +320,7 @@ export class CalendarPageComponent implements OnInit {
   }
 
   openEditPage(calendar: Calendar) {
-    this.router.navigate(['import'], {state: {editMode: true, id: calendar.id}})
+    this.router.navigate(['import'], {state: {editMode: true, id: calendar.id, sourceError: calendar.sourceError}})
   }
 
   openTokenModal(calendar: Calendar) {
@@ -335,12 +353,6 @@ export class CalendarPageComponent implements OnInit {
         }
       });
     };
-  }
-
-  openConfigurationPage(edit: boolean) {
-    this.router.navigate(['createConfig'], {
-      state: {calendars: this.calendars, edit: false}
-    });
   }
 
   removeConfiguraion(config: ConfigurationDto) {

@@ -89,8 +89,10 @@
             </div>
 
             <div *ngIf="isURLImport" class="form-group">
-              <div class="form-group">
+              <div class="form-group"
+                   [ngClass]="sourceError ? 'border-red border-x border-y rounded p-2' : ''">
                 <label for="inputLink">Calendar Import URL</label>
+                <label for="inputLink" class="text-red ml-2">{{sourceError ? 'Please provide a correct source' : ''}}</label>
                 <input
                   type="url"
                   name="link"

@@ -10,7 +10,8 @@ export class Calendar{
     public color: string,
     public isActive: boolean,
     public events?: MyCalendarEvent[],
-    public configs?: ConfigurationDto[]
+    public configs?: ConfigurationDto[],
+    public sourceError?: boolean
   ) {}
 }
 

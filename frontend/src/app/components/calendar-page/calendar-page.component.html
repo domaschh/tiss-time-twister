@@ -16,8 +16,8 @@
             Show all
           </label>
           <div *ngFor="let calendar of calendars" class="text-center mt-3">
-            <div class="border-y border-x border-popover rounded p-2">
-              <h4 class="border-b border-popover pb-2 truncate" >{{calendar.name}}</h4>
+            <div class="border-y border-x border-popover rounded p-2" [ngClass]="calendar.sourceError ? 'border-red' : ''">
+              <h4 class="border-b border-popover pb-2 truncate" [ngClass]="calendar.sourceError ? 'border-red' : ''">{{calendar.name}} <i matTooltip="Check the source for the calendar!" *ngIf="calendar.sourceError" class="bi bi-exclamation-triangle"></i></h4>
               <div matTooltip="Applied Configs" *ngFor="let config of calendar.configs" class="py-1 h-fit truncate" style="line-height: 1rem">
                 {{config.title}}
               </div>
@@ -54,9 +54,9 @@
             <i matTooltip="Import a Configuration" class="bi bi-plus-square cursor-pointer " (click)="openConfigurationImportModal()"></i>
           </div>
           <div *ngFor="let conf of configurations" class="border-1 border-popover rounded-xl p-2 flex flex-col text-center">
-            <label [matTooltip]="conf.title" class="form-check-label border-b flex justify-between border-popover pb-2 truncate" [for]="'conf' + conf.id">
+            <label [matTooltip]="conf.title" class="form-check-label w-auto border-b flex justify-between border-popover pb-2 truncate" [for]="'conf' + conf.id">
               {{ conf.title }}
-              <i matTooltip="Published" *ngIf="conf.published" class="bi bi-rocket-takeoff "></i>
+              <i matTooltip="Published" *ngIf="conf.published" class="bi bi-rocket-takeoff ml-2"></i>
             </label>
             <div class="flex flex-row justify-baseline items-center justify-between p-2">
               <a matTooltip="Delete" class="cursor-pointer" aria-label="Delete" (click)="removeConfiguraion(conf)">
