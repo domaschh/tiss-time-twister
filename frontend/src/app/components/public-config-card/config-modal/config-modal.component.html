@@ -1,6 +1,6 @@
 <div class="flex flex-col p-3 gap-3">
   <div class="flex flex-row justify-between align-items-center">
-    <h3 class="modal-title">{{ config.title }}</h3>
+    <h3 class="modal-title truncate">{{ config.title }}</h3>
     <label class="text-center rounded-2xl p-1 text-xs text-white ms-4 cursor-pointer"
            [ngClass]="config.alreadyCloned ? 'bg-added border-x border-y border-added' : 'bg-notadded border-x border-y border-notadded'"
     >{{ config.alreadyCloned ? 'Already Added' : 'Add to collection' }}</label>
@@ -29,7 +29,7 @@
   <div class="overflow-y-scroll" style="max-height: calc(100vh - 470px);">
     <div class="flex flex-col">
       <h5>Description</h5>
-      <p>{{ config.description }}</p>
+      <p class="break-words">{{ config.description }}</p>
     </div>
   </div>
   <h5>Rules</h5>
