@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface PublicConfigurationRepository extends JpaRepository<PublicConfiguration, Long> {
     void deletePublicConfigurationByInitialConfigurationId(Long id);
+
+    PublicConfiguration findPublicConfigurationByInitialConfigurationId(Long initialConfigurationId);
 }

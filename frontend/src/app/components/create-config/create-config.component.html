@@ -46,10 +46,11 @@
               </small>
             </div>
             <div class="mt-2" *ngIf="prefilled !== null">
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label class="relative inline-flex items-center cursor-pointer gap-2">
                 <input class="form-check-input sr-only peer" type="checkbox" name="public" id="public" formControlName="public">
                 <div class="w-11 h-6 bg-popover-light peer-focus:outline-none peer-focus:ring-4 peer-focus:border-info dark:peer-focus:ring-border-info rounded-full peer dark:bg-border-info peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-border-info after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-info peer-checked:bg-addedLight"></div>
                 <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ configurationForm.controls['public'].value === false ? 'Private' : 'Public' }}</span>
+                <i matTooltip="Making changes to a published configuration will change the published one aswell." class="bi bi-info-circle"></i>
               </label>
             </div>
             <div class="card">

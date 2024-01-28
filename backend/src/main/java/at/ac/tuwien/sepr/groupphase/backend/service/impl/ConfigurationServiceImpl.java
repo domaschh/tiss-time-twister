@@ -67,8 +67,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         }
 
         if (configuration.getId() != null) {
-            Configuration fetchDb = configurationRepository.findById(configuration.getId()).orElseThrow(() -> new EntityNotFoundException(
-                "Config not found"));
+            Configuration fetchDb = configurationRepository
+                .findById(configuration.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                    "Config not found"));
 
             fetchDb.setTitle(configuration.getTitle());
             fetchDb.setDescription(configuration.getDescription());
@@ -102,7 +104,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public void delete(Long id, String username) {
         LOGGER.debug("Delete Configuration by id {}", id);
 
-        if (!configurationRepository.findById(id).orElseThrow(NotFoundException::new).getUser().getEmail().equals(username)) {
+        if (!configurationRepository
+            .findById(id)
+            .orElseThrow(NotFoundException::new)
+            .getUser()
+            .getEmail()
+            .equals(username)) {
             throw new AccessDeniedException("Can Not Delete Configurations that are not owned");
         }
 
@@ -148,6 +155,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public boolean publish(Configuration configToPublish, String username) {
         LOGGER.debug("Publishing Configuration: {}", configToPublish);
+
+
         //        if (!configurationRepository.findById(configToPublish.getId())
         //                                    .orElseThrow(NotFoundException::new)
         //                                    .getUser()
@@ -156,7 +165,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         //            throw new AccessDeniedException("Can Not Publish Configurations that are not owned");
         //        }
 
-        PublicConfiguration publicConfiguration = new PublicConfiguration();
+        PublicConfiguration fetched = publicConfigurationRepository.findPublicConfigurationByInitialConfigurationId(
+            configToPublish.getId());
+
+        PublicConfiguration publicConfiguration = fetched == null ? new PublicConfiguration() : fetched;
 
         publicConfiguration.setTitle(configToPublish.getTitle());
         publicConfiguration.setInitialConfigurationId(configToPublish.getId());
