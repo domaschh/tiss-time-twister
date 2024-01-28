@@ -18,7 +18,7 @@ export class NavigationPopoverRightComponent {
   logout(): void {
     window.localStorage.removeItem('authToken');
     this.toastrService.info("signed out")
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
     this.modal.dismissAll()
   }
 
