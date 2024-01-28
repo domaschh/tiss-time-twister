@@ -1,27 +1,95 @@
-<div class="p-10 flex flex-col content-center w-auto items-center">
+<div class="p-10 flex flex-col content-center w-auto items-center max-h-screen overscroll-y-auto"
+     style="overflow: scroll">
   <div class="flex-col flex sm:w-[1000px] md:w-[1000px] w-full">
     <h2>How does Tiss Time Twister work?</h2>
-    <a href="calendar">Let's get started</a>
+    <a href="#/calendar">Let's get started</a>
     <p>You can manage your TISS (or other) calendars by importing them via file or link.</p>
-    <p>After that you can build your own configurations that override the calendar by creating one or more
-      configurations that have certain rules</p>
-    <p>Rules can either delete, modify or tag an event in the calendar.</p>
-    <p>If you're confident that your configuration will also help others. Feel free to publish it. Others can now clone
-      this configuration and add it to their calendars.
-      Imported configurations are cloned so making changes will NOT affect the initial configuration. Additionally there
-      is also a set of default configurations provided
-      for the TISS calendar specifically. You can find them on the public configurations page as well together with
-      their description.
-    </p>
-    <p>After you have imported and modified a calendar you can either export it via file (.ics) or generate a new link
-      that you can simply use in your calendar app of choice.
-      Beware that deleting configurations after you have imported the modified calendar into your app WILL have effects,
-      meaning that when e.g Google Calendar fetches the
-      new improved calendar via URL again the deleted configuration will NOT be used/
-    </p>
-    <p>Below you will find an illustration that shows the whole workflow/pipeline</ p>
+    <p>After that, you can build your own configurations that override the calendar by creating one or more
+      configurations that have certain rules.</p>
+    <p>Rules can either delete, modify, or tag an event in the calendar.</p>
+    <p>If you're confident that your configuration will also help others, feel free to publish it. Others can now clone
+      this configuration and add it to their calendars. Imported configurations are cloned, so making changes will NOT
+      affect the initial configuration. Additionally, there is also a set of default configurations provided for the
+      TISS calendar specifically. You can find them on the public configurations page as well, together with their
+      description.</p>
+    <p>After you have imported and modified a calendar, you can either export it via file (.ics) or generate a new link
+      that you can simply use in your calendar app of choice. Beware that deleting configurations after you have
+      imported the modified calendar into your app WILL have effects, meaning that when e.g. Google Calendar fetches the
+      new improved calendar via URL again, the deleted configuration will NOT be used.</p>
+    <p>Below you will find an illustration that shows the whole workflow/pipeline followed by further explanations.</p>
     <img *ngIf="isDarkMode()" alt="" src="assets/helpdarkmode.png" class=""/>
     <img *ngIf="!isDarkMode()" alt="" src="assets/helplightmode.png" class=""/>
-    <h2>Use-cases?</h2>
+
+    <h2>Why does this exist?</h2>
+    <p>The TU Wien provides access to a calendar filled with lectures, exercises, exams, holidays, and more without any
+      filters or regard to the event in question even existing. There is too much of it. Tiss Time Twister was created
+      to fix that.</p>
+    <h2>How do I use it?</h2>
+    <p>The basic outline goes roughly like this:</p>
+    <p>import a calendar
+      <i class="bi-arrow-right"></i>
+      export the modified Calendar
+      <i class="bi-arrow-right"></i>
+      create/add Configurations
+      <i class="bi-arrow-right"></i>
+      enjoy less clutter
+    </p>
+    <p>After that, you may find yourself occasionally returning to create new configurations or modify existing
+      ones.</p>
+
+    <h5><i class="bi-plus-square"></i> Importing a Calendar</h5>
+    <p>Add a calendar to your Tiss Time Twister account to expose it to the modification pipeline.</p>
+    <p>You can add either a static file you wish to modify or a link to a calendar from some other source online.</p>
+    <ul>
+      <li><a href="https://tiss.tuwien.ac.at/events/personSchedule.xhtml">TISS calendar</a></li>
+      <li><a href="https://tuwel.tuwien.ac.at/calendar/export.php">TUWEL calendar</a></li>
+    </ul>
+
+    <h5><i class="bi-rocket-takeoff"></i> Exporting a Calendar</h5>
+    <p>Take your calendar, as it is after undergoing modifications, and export that as a URL in your calendar platform
+      of choice to access it anywhere.</p>
+    <p>If you have created tags, you can select them, and the exported calendar will be filtered to include only events
+      with that tag.</p>
+
+    <h5><i class="bi-plus"></i> Creating a Configuration</h5>
+    <p>Create a new configuration and apply it to a calendar.</p>
+    <br>
+    <h2>What are Configurations?</h2>
+    <p>Configurations are collections of Rules.</p>
+    <p>A Rule is a pair of a single Match and a single Effect.</p>
+    <p>The Match determines when a Rule's Effect is used. Blank fields are ignored. When all non-blank fields match with
+      an Event, the Effect is applied to it.</p>
+    <p>The Effect is what the Rule does. It can either delete an Event outright, modify it, or tag it.</p>
+    <dl>
+      <dt>delete:</dt>
+      <dd>the event is not a part of the calendar anymore</dd>
+      <dt>modify:</dt>
+      <dd>replace title, description, or location - blank fields are ignored</dd>
+      <dt>tag:</dt>
+      <dd>apply a tag for filtering</dd>
+    </dl>
+    <p>If you are proud of one of your configurations and wish for others to enjoy it as well, you can set it to be
+      public. After which, it shows up in the public configurations list, and others may add it to their calendars.</p>
+
+    <h2>What are tags?</h2>
+    <p>Tags are dynamic filters. When viewing calendars within Tiss Time Twister with tags selected or after exporting
+      them with tags selected, the resulting calendar will only include events matching any of the tags.</p>
+    <p>Should you desire to export different courses separately, tags are a simple way of achieving exactly that.</p>
+
+    <h2>Does the Tiss Time Twister only support calendars from TISS?</h2>
+    <p>No. In theory, any .ics file or URL pointing at one should work. That said, .ics files may come with non-standard
+      additions or formats that are not supported. Testing has only been done on calendars sourced from TISS and TUWEL,
+      which are the intended use-case. Calendars from other sources might or might not work.</p>
+
+    <h2>Can I import a calendar from Tiss Timer Twister?</h2>
+    <p>Yes, as long as you do not create any circular references.</p>
+    <p>This can be useful if you want to change the order of operations. The default order of operations is:</p>
+    <p>default configurations <i class="bi-arrow-right"></i> delete/modify <i class="bi-arrow-right"></i> tags</p>
+    <p>Should you want to apply tags at the first step, simply import the calendar, set up your tagging, export the
+      calendar, and import that URL for further modifications.</p>
+
+    <h2>What does the Discord bot do?</h2>
+    <p>It sends you regular reminders for deadlines or exam registration windows. All of its functions can be found by
+      starting a message with a slash ("/") in the bot's Discord server and looking through the suggestions.</p>
   </div>
 </div>
