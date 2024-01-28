@@ -120,4 +120,7 @@ export class RegistrationComponent implements OnInit {
     initTE({ Validation, Input, Ripple });
   }
 
+  navigateLogin() {
+    this.router.navigate(['login'])
+  }
 }
