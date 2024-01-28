@@ -244,6 +244,7 @@ export class CalendarPageComponent implements OnInit {
                 id: calRef.id //id needed for frontend
               });
               this.events = this.calendars.flatMap(cal => cal.events.map(e => this.mapEvent(e, cal, cal.id)))
+              this.refresh.next()
             },
             error: (e) => {
               this.calendars.push({
@@ -258,6 +259,7 @@ export class CalendarPageComponent implements OnInit {
                 sourceError: true
               });
               this.toastrService.error("Couldn't find source for calendar: " + calRef.name)
+              this.refresh.next()
             }
           })
         })
@@ -369,6 +371,7 @@ export class CalendarPageComponent implements OnInit {
                 cal.configs = cal.configs.filter(c => c.id != config.id)
               }
             })
+            this.loadCalendars()
             callback(true)
           }, error: () => {
             this.toastrService.error("Could not delete. Consider removing in the public page")
