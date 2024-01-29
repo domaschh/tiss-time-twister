@@ -39,9 +39,6 @@ export class AuthService {
    */
   loginUser(authRequest: AuthRequest): Observable<string> {
     return this.httpClient.post(this.authBaseUri, authRequest, { responseType: 'text' })
-      .pipe(
-        tap((authResponse: string) => this.setToken(authResponse))
-      );
   }
 
 
@@ -70,6 +67,7 @@ export class AuthService {
   }
 
   getEmail() {
+    if (this.getToken() === null) return null;
     return jwtDecode(this.getToken())["sub"];
   }
 

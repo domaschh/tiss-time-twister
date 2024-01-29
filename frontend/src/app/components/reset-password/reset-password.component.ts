@@ -54,6 +54,10 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  isLoggedIn() {
+    return localStorage.getItem('authToken') !== null;
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.mode === ResetPasswordMode.Forgot) {
@@ -108,4 +112,7 @@ export class ResetPasswordComponent implements OnInit {
     this.errors.auth = '';
   }
 
+  navigateLogin() {
+    this.router.navigate([''])
+  }
 }

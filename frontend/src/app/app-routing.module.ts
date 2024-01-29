@@ -16,7 +16,7 @@ import {HelpPageComponent} from "./components/help-page/help-page.component";
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'message', canActivate: mapToCanActivate([AuthGuard]), component: MessageComponent },
-  { path: 'calendar', component: CalendarPageComponent },
+  { path: 'calendar', component: CalendarPageComponent,canActivate: mapToCanActivate([AuthGuard])},
   { path: 'help', component: HelpPageComponent },
   { path: 'import', component: ImportComponent },
   { path: 'createConfig', component: CreateConfigComponent },

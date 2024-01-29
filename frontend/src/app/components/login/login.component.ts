@@ -76,7 +76,8 @@ export class LoginComponent implements OnInit {
    */
   authenticateUser(authRequest: AuthRequest) {
     this.authService.loginUser(authRequest).subscribe({
-      next: () => {
+      next: (authResponse) => {
+        localStorage.setItem('authToken', authResponse);
         this.router.navigate(['/calendar']);
       },
       error: error => {

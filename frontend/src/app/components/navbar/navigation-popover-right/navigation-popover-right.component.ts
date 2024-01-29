@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
+import {ResetPasswordMode} from "../../reset-password/reset-password.component";
+import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-navigation-popover-right',

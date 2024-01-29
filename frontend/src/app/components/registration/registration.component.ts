@@ -121,6 +121,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   navigateLogin() {
-    this.router.navigate(['login'])
+    this.router.navigate(['/'])
   }
 }

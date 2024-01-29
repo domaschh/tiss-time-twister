@@ -85,10 +85,6 @@ export class CalendarPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authService.isLoggedIn()) {
-      this.authService.logoutUser();
-      this.router.navigate(['login'])
-    }
     this.loadTags();
     this.loadCalendars();
     this.loadConfigs();
